@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/usr/bin/env -S bash -e
 
 #
 # Ensures that the 'bazel' launcher command is on the current path, creating

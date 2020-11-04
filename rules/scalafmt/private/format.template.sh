@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/usr/bin/env -S bash -e
 RUNPATH="${TEST_SRCDIR-$0.runfiles}"/%workspace%
 WORKSPACE_ROOT="${1:-$BUILD_WORKSPACE_DIRECTORY}"
 

@@ -13,7 +13,7 @@ import scala.util.control.NonFatal
 
 trait WorkerMain[S] {
 
-  private[this] final case class ExitTrapped(code: Int) extends Throwable
+  final private[this] case class ExitTrapped(code: Int) extends Throwable
 
   protected[this] def init(args: Option[Array[String]]): S
 
@@ -30,8 +30,10 @@ trait WorkerMain[S] {
           val Exit = raw"exitVM\.(-?\d+)".r
           override def checkPermission(permission: Permission): Unit = {
             permission.getName match {
-              case Exit(code) => throw new ExitTrapped(code.toInt)
-              case _          =>
+              case Exit(code) =>
+                stderr.println(s"ScalaCompile worker startup failure: permission=$permission, args=${args.mkString("[", ", ", "]")}")
+                throw new ExitTrapped(code.toInt)
+              case _ =>
             }
           }
         })

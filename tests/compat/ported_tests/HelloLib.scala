@@ -9,11 +9,11 @@ object HelloLib {
     println(Exported.message)
   }
 
-  def getOtherLibMessage(arg: String) : String = {
+  def getOtherLibMessage(arg: String): String = {
     arg + " " + OtherLib.getMessage()
   }
 
-  def getOtherJavaLibMessage(arg: String) : String = {
+  def getOtherJavaLibMessage(arg: String): String = {
     arg + " " + OtherJavaLib.getMessage()
   }
 }

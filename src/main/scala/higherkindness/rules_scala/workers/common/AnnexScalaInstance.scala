@@ -2,13 +2,13 @@ package higherkindness.rules_scala
 package workers.common
 
 import xsbti.compile.ScalaInstance
+import sbt.internal.inc.InvalidScalaProvider
 
 import java.io.File
 import java.net.URLClassLoader
 import java.util.Properties
 
 final class AnnexScalaInstance(val allJars: Array[File]) extends ScalaInstance {
-
   override def version: String = actualVersion
   override lazy val actualVersion: String = {
     val stream = loader.getResourceAsStream("compiler.properties")
@@ -19,12 +19,21 @@ final class AnnexScalaInstance(val allJars: Array[File]) extends ScalaInstance {
     } finally stream.close()
   }
 
-  override def compilerJar: File = null
-  override lazy val libraryJars: Array[File] = allJars
-    .filter(f => new URLClassLoader(Array(f.toURI.toURL)).findResource("library.properties") != null)
+  override val compilerJar: File = allJars
+    .collectFirst { case jar if AnnexScalaInstance.CompilerRegEx.findFirstMatchIn(jar.getName).nonEmpty => jar }
+    .getOrElse(throw new InvalidScalaProvider(s"Couldn't find 'scala-compiler.jar'"))
 
-  override def otherJars: Array[File] = Array.empty[File]
+  override lazy val libraryJars: Array[File] = allJars
+    .collect { case jar if AnnexScalaInstance.LibraryRegEx.findFirstMatchIn(jar.getName).nonEmpty => jar }
+
+  override def otherJars: Array[File] = allJars.filterNot(f => compilerJar == f || libraryJars.contains(f))
+
   override lazy val loader: ClassLoader =
     new URLClassLoader(allJars.map(_.toURI.toURL), null)
   override def loaderLibraryOnly: ClassLoader = null
+}
+
+object AnnexScalaInstance {
+  val CompilerRegEx = "scala-compiler.*.jar".r
+  val LibraryRegEx = "scala-library.*.jar".r
 }

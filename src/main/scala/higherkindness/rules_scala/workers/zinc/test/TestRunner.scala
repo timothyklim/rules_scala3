@@ -20,8 +20,8 @@ import net.sourceforge.argparse4j.ArgumentParsers
 import net.sourceforge.argparse4j.impl.Arguments
 import org.scalatools.testing.Framework
 import sbt.internal.inc.binary.converters.ProtobufReaders
-import sbt.internal.inc.schema
-import scala.collection.JavaConverters._
+import sbt.internal.inc.Schema
+import scala.jdk.CollectionConverters._
 import scala.util.control.NonFatal
 import xsbti.compile.analysis.ReadMapper
 
@@ -115,6 +115,7 @@ object TestRunner {
       .getList[File]("classpath")
       .asScala
       .map(file => runPath.resolve(file.toPath))
+      .to(Seq)
     val sharedClasspath = testNamespace
       .getList[File]("shared_classpath")
       .asScala
@@ -130,9 +131,9 @@ object TestRunner {
     val apis =
       try {
         val raw =
-          try schema.APIs.parseFrom(new GZIPInputStream(apisStream))
+          try Schema.APIs.parseFrom(new GZIPInputStream(apisStream))
           finally apisStream.close()
-        new ProtobufReaders(ReadMapper.getEmptyMapper, schema.Version.V1).fromApis(shouldStoreApis = true)(raw)
+        new ProtobufReaders(ReadMapper.getEmptyMapper, Schema.Version.V1_1).fromApis(shouldStoreApis = true)(raw)
       } catch {
         case NonFatal(e) => throw new Exception(s"Failed to load APIs from $apisFile", e)
       }
@@ -171,7 +172,7 @@ object TestRunner {
             new ClassLoaderTestRunner(framework, classLoaderProvider, logger)
           case "process" =>
             val executable = runPath.resolve(testNamespace.get[File]("subprocess_exec").toPath)
-            val arguments = Option(namespace.getList[String]("subprocess_arg")).fold[Seq[String]](Nil)(_.asScala)
+            val arguments = Option(namespace.getList[String]("subprocess_arg")).fold[Seq[String]](Nil)(_.asScala.to(Seq))
             new ProcessTestRunner(framework, classpath, new ProcessCommand(executable.toString, arguments), logger)
           case "none" => new BasicTestRunner(framework, classLoader, logger)
         }

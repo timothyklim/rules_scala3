@@ -1,24 +1,24 @@
 package higherkindness.rules_scala
 package workers.zinc.test
 
-import common.sbt_testing.TestAnnotatedFingerprint
-import common.sbt_testing.TestDefinition
-import common.sbt_testing.TestSubclassFingerprint
+import common.sbt_testing.{TestAnnotatedFingerprint, TestDefinition, TestSubclassFingerprint}
 
 import sbt.testing.{AnnotatedFingerprint, Fingerprint, Framework, SubclassFingerprint, SuiteSelector}
-import scala.collection.{breakOut, mutable}
+import scala.collection.mutable
 import xsbt.api.Discovery
 import xsbti.api.{AnalyzedClass, ClassLike, Definition}
 
-class TestDiscovery(framework: Framework) {
-  private[this] val (annotatedPrints, subclassPrints) = {
-    val annotatedPrints = mutable.ArrayBuffer.empty[TestAnnotatedFingerprint]
-    val subclassPrints = mutable.ArrayBuffer.empty[TestSubclassFingerprint]
+final class TestDiscovery(framework: Framework) {
+  private val (annotatedPrints, subclassPrints) = {
+    val annotatedSet = mutable.HashSet.empty[TestAnnotatedFingerprint]
+    val subclassSet = mutable.HashSet.empty[TestSubclassFingerprint]
+
     framework.fingerprints.foreach {
-      case fingerprint: AnnotatedFingerprint => annotatedPrints += TestAnnotatedFingerprint(fingerprint)
-      case fingerprint: SubclassFingerprint  => subclassPrints += TestSubclassFingerprint(fingerprint)
+      case fingerprint: AnnotatedFingerprint => annotatedSet += TestAnnotatedFingerprint(fingerprint)
+      case fingerprint: SubclassFingerprint  => subclassSet += TestSubclassFingerprint(fingerprint)
     }
-    (annotatedPrints.toSet, subclassPrints.toSet)
+
+    (annotatedSet.toSet, subclassSet.toSet)
   }
 
   private[this] def definitions(classes: Set[AnalyzedClass]) = {
@@ -29,18 +29,17 @@ class TestDiscovery(framework: Framework) {
   }
 
   private[this] def discover(definitions: Seq[Definition]) =
-    Discovery(subclassPrints.map(_.superclassName)(breakOut), annotatedPrints.map(_.annotationName)(breakOut))(
-      definitions
-    )
+    Discovery(subclassPrints.map(_.superclassName), annotatedPrints.map(_.annotationName))(definitions)
 
   def apply(classes: Set[AnalyzedClass]) =
     for {
       (definition, discovered) <- discover(definitions(classes))
-      fingerprint <- subclassPrints.collect {
-        case print if discovered.baseClasses(print.superclassName) && discovered.isModule == print.isModule => print
-      } ++
-        annotatedPrints.collect {
-          case print if discovered.annotations(print.annotationName) && discovered.isModule == print.isModule => print
-        }
+      fingerprint <-
+        subclassPrints.collect {
+          case print if discovered.baseClasses(print.superclassName) && discovered.isModule == print.isModule => print
+        } ++
+          annotatedPrints.collect {
+            case print if discovered.annotations(print.annotationName) && discovered.isModule == print.isModule => print
+          }
     } yield new TestDefinition(definition.name, fingerprint)
 }

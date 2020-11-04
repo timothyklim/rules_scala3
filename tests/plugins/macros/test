@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/usr/bin/env -S bash -e
 . "$(dirname "$0")"/../../common.sh
 
 bazel build :bad_compile 2>&1 | grep 'You may be missing a `macro = True` attribute.'

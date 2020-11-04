@@ -17,7 +17,7 @@ import net.sourceforge.argparse4j.impl.Arguments
 import net.sourceforge.argparse4j.inf.Namespace
 import sbt.internal.inc.classpath.ClassLoaderCache
 import sbt.internal.inc.{LoggedReporter, ZincUtil}
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import xsbti.Logger
 
 object DocRunner extends WorkerMain[Unit] {

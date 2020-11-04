@@ -5,9 +5,7 @@ import sbt.testing.{AnnotatedFingerprint, SubclassFingerprint}
 
 sealed trait TestFingerprint extends Serializable
 
-class TestAnnotatedFingerprint(val annotationName: String, val isModule: Boolean)
-    extends AnnotatedFingerprint
-    with TestFingerprint
+class TestAnnotatedFingerprint(val annotationName: String, val isModule: Boolean) extends AnnotatedFingerprint with TestFingerprint
 
 object TestAnnotatedFingerprint {
   def apply(fingerprint: AnnotatedFingerprint) =

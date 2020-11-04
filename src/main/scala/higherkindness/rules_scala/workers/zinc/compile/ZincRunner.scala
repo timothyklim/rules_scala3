@@ -18,16 +18,17 @@ import net.sourceforge.argparse4j.ArgumentParsers
 import net.sourceforge.argparse4j.impl.{Arguments => Arg}
 import net.sourceforge.argparse4j.inf.Namespace
 import sbt.internal.inc.classpath.ClassLoaderCache
-import sbt.internal.inc.{Analysis, CompileFailed, IncrementalCompilerImpl, Locate, ZincUtil}
+import sbt.internal.inc.{Analysis, CompileFailed, IncrementalCompilerImpl, Locate, PlainVirtualFile, ZincUtil}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.util.Try
 import scala.util.control.NonFatal
-import xsbti.Logger
+import xsbti.{Logger, PathBasedFile, VirtualFile}
 import xsbti.compile.AnalysisContents
 import xsbti.compile.ClasspathOptionsUtil
 import xsbti.compile.CompileAnalysis
 import xsbti.compile.CompileOptions
+import xsbti.compile.CompileProgress
 import xsbti.compile.CompilerCache
 import xsbti.compile.DefinesClass
 import xsbti.compile.IncOptions
@@ -35,26 +36,27 @@ import xsbti.compile.Inputs
 import xsbti.compile.PerClasspathEntryLookup
 import xsbti.compile.PreviousResult
 import xsbti.compile.Setup
+import xsbti.compile.MiniSetup
 
 /**
- * <strong>Caching</strong>
- *
- * Zinc has two caches:
- *  1. a ClassLoaderCache which is a soft reference cache for classloaders of Scala compilers.
- *  2. a CompilerCache which is a hard reference cache for (I think) Scala compiler instances.
- *
- * The CompilerCache has reproducibility issues, so it needs to be a no-op.
- * The ClassLoaderCache needs to be reused else JIT reuse (i.e. the point of the worker strategy) doesn't happen.
- *
- * There are two sensible strategies for Bazel workers
- *  A. Each worker compiles multiple Scala versions. Trust the ClassLoaderCache's timestamp check. Maintain a hard
- *     reference to the classloader for the last version, and allow previous versions to be GC'ed subject to
- *     free memory and -XX:SoftRefLRUPolicyMSPerMB.
- *  B. Each worker compiles a single Scala version. Probably still use ClassLoaderCache + hard reference since
- *     ClassLoaderCache is hard to remove. The compiler classpath is passed via the initial flags to the worker
- *     (rather than the per-request arg file). Bazel worker management cycles out Scala compiler versions.
- * Currently, this runner follows strategy A.
- */
+  * <strong>Caching</strong>
+  *
+  * Zinc has two caches:
+  *  1. a ClassLoaderCache which is a soft reference cache for classloaders of Scala compilers.
+  *  2. a CompilerCache which is a hard reference cache for (I think) Scala compiler instances.
+  *
+  * The CompilerCache has reproducibility issues, so it needs to be a no-op.
+  * The ClassLoaderCache needs to be reused else JIT reuse (i.e. the point of the worker strategy) doesn't happen.
+  *
+  * There are two sensible strategies for Bazel workers
+  *  A. Each worker compiles multiple Scala versions. Trust the ClassLoaderCache's timestamp check. Maintain a hard
+  *     reference to the classloader for the last version, and allow previous versions to be GC'ed subject to
+  *     free memory and -XX:SoftRefLRUPolicyMSPerMB.
+  *  B. Each worker compiles a single Scala version. Probably still use ClassLoaderCache + hard reference since
+  *     ClassLoaderCache is hard to remove. The compiler classpath is passed via the initial flags to the worker
+  *     (rather than the per-request arg file). Bazel worker management cycles out Scala compiler versions.
+  * Currently, this runner follows strategy A.
+  */
 object ZincRunner extends WorkerMain[Namespace] {
 
   private[this] val classloaderCache = new ClassLoaderCache(new URLClassLoader(Array()))
@@ -76,9 +78,10 @@ object ZincRunner extends WorkerMain[Namespace] {
     parser.parseArgsOrFail(args.getOrElse(Array.empty))
   }
 
-  private def pathFrom(args: Namespace, name: String): Option[Path] = Option(args.getString(name)).map { dir =>
-    Paths.get(dir.replace("~", sys.props.getOrElse("user.home", "")))
-  }
+  private def pathFrom(args: Namespace, name: String): Option[Path] =
+    Option(args.getString(name)).map { dir =>
+      Paths.get(dir.replace("~", sys.props.getOrElse("user.home", "")))
+    }
 
   protected[this] def work(worker: Namespace, args: Array[String]) = {
     val usePersistence: Boolean = worker.getBoolean("use_persistence") match {
@@ -123,15 +126,13 @@ object ZincRunner extends WorkerMain[Namespace] {
         namespace
           .getList[JList[String]]("analysis")
       ).filter(_ => usePersistence)
-        .fold[Seq[JList[String]]](Nil)(_.asScala)
+        .fold[collection.Seq[JList[String]]](Nil)(_.asScala)
         .flatMap { value =>
           val prefixedLabel +: apis +: relations +: jars = value.asScala.toList
           val label = prefixedLabel.stripPrefix("_")
-          jars
-            .map(jar =>
-              Paths.get(jar) -> (classesDir
-                .resolve(labelToPath(label)), DepAnalysisFiles(Paths.get(apis), Paths.get(relations)))
-            )
+          jars.map { jar =>
+            Paths.get(jar) -> (classesDir.resolve(labelToPath(label)), DepAnalysisFiles(Paths.get(apis), Paths.get(relations)))
+          }
         }
         .toMap
       val originalClasspath = namespace.getList[File]("classpath").asScala.map(_.toPath)
@@ -181,28 +182,29 @@ object ZincRunner extends WorkerMain[Namespace] {
     Files.createDirectories(classesOutputDir)
 
     val previousResult = Try(analysisStore.get())
-      .fold({ e =>
-        logger.warn(() => s"Failed to load previous analysis: $e")
-        Optional.empty[AnalysisContents]()
-      }, identity)
-      .map[PreviousResult](contents =>
-        PreviousResult.of(Optional.of(contents.getAnalysis), Optional.of(contents.getMiniSetup))
+      .fold(
+        { e =>
+          logger.warn(() => s"Failed to load previous analysis: $e")
+          Optional.empty[AnalysisContents]()
+        },
+        identity
       )
-      .orElseGet(() => PreviousResult.of(Optional.empty(), Optional.empty()))
+      .map[PreviousResult](contents => PreviousResult.of(Optional.of(contents.getAnalysis), Optional.of(contents.getMiniSetup)))
+      .orElseGet(() => PreviousResult.of(Optional.empty[CompileAnalysis](), Optional.empty[MiniSetup]()))
 
     // setup compiler
     val scalaInstance = new AnnexScalaInstance(namespace.getList[File]("compiler_classpath").asScala.toArray)
 
     val compileOptions =
       CompileOptions.create
-        .withSources(sources.map(_.getAbsoluteFile).toArray)
-        .withClasspath((classesOutputDir +: deps.map(_.classpath)).map(_.toFile).toArray)
-        .withClassesDirectory(classesOutputDir.toFile)
+        .withSources(sources.map(f => PlainVirtualFile(f.toPath())).toArray)
+        .withClasspath((classesOutputDir +: deps.map(_.classpath)).map(PlainVirtualFile(_)).toArray)
+        .withClassesDirectory(classesOutputDir)
         .withJavacOptions(namespace.getList[String]("java_compiler_option").asScala.toArray)
         .withScalacOptions(
           Array.concat(
             namespace.getList[File]("plugins").asScala.map(p => s"-Xplugin:$p").toArray,
-            Option(namespace.getList[String]("compiler_option")).fold[Seq[String]](Nil)(_.asScala).toArray
+            Option(namespace.getList[String]("compiler_option")).fold[collection.Seq[String]](Nil)(_.asScala).toArray
           )
         )
 
@@ -234,7 +236,17 @@ object ZincRunner extends WorkerMain[Namespace] {
       val incOptions = IncOptions.create()
       val reporter = new LoggedReporter(logger)
       val skip = false
-      Setup.create(lookup, skip, null, compilerCache, incOptions, reporter, Optional.empty(), Array.empty)
+
+      Setup.create(
+        lookup,
+        skip,
+        null: Path,
+        compilerCache,
+        incOptions,
+        reporter,
+        Optional.empty[CompileProgress](),
+        Array.empty[xsbti.T2[String, String]]
+      )
     }
 
     val inputs = Inputs.of(compilers, compileOptions, setup, previousResult)
@@ -256,6 +268,7 @@ object ZincRunner extends WorkerMain[Namespace] {
 
     // create used deps
     val analysis = compileResult.analysis.asInstanceOf[Analysis]
+
     val usedDeps =
       deps.filter(Dep.used(deps, analysis.relations, lookup)).filter(_.file != scalaInstance.libraryJar.toPath)
     Files.write(namespace.get[File]("output_used").toPath, usedDeps.map(_.file.toString).sorted.asJava)
@@ -299,8 +312,13 @@ object ZincRunner extends WorkerMain[Namespace] {
 }
 
 final class AnxPerClasspathEntryLookup(analyses: Path => Option[CompileAnalysis]) extends PerClasspathEntryLookup {
-  override def analysis(classpathEntry: File): Optional[CompileAnalysis] =
-    analyses(classpathEntry.toPath).fold(Optional.empty[CompileAnalysis])(Optional.of(_))
-  override def definesClass(classpathEntry: File): DefinesClass =
+  private val Empty = Optional.empty[CompileAnalysis]
+
+  override def analysis(classpathEntry: VirtualFile): Optional[CompileAnalysis] =
+    classpathEntry match {
+      case file: PathBasedFile => analyses(file.toPath()).fold(Empty)(Optional.of(_))
+      case _                   => Empty
+    }
+  override def definesClass(classpathEntry: VirtualFile): DefinesClass =
     Locate.definesClass(classpathEntry)
 }

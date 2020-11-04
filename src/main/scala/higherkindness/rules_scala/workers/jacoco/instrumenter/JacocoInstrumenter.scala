@@ -22,7 +22,7 @@ import net.sourceforge.argparse4j.ArgumentParsers
 import net.sourceforge.argparse4j.impl.Arguments
 import org.jacoco.core.instr.Instrumenter
 import org.jacoco.core.runtime.OfflineInstrumentationAccessGenerator
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 object JacocoInstrumenter extends WorkerMain[Unit] {
   private[this] val argParser = {

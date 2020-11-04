@@ -9,7 +9,7 @@ import net.sourceforge.argparse4j.ArgumentParsers
 import net.sourceforge.argparse4j.impl.Arguments
 import net.sourceforge.argparse4j.inf.ArgumentParser
 import protocbridge.ProtocBridge
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scalapb.ScalaPbCodeGenerator
 
 object ScalaProtoWorker extends WorkerMain[Unit] {
@@ -45,7 +45,8 @@ object ScalaProtoWorker extends WorkerMain[Unit] {
     ProtocBridge.runWithGenerators(
       protoc = a => com.github.os72.protocjar.Protoc.runProtoc(a.toArray),
       namedGenerators = List("scala" -> ScalaPbCodeGenerator),
-      params = params)
+      params = params
+    )
   }
 
 }

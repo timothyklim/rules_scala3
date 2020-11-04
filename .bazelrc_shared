@@ -2,7 +2,7 @@ common --announce_rc
 common --color=yes
 
 build --experimental_strict_action_env
-build --javacopt="-source 8 -target 8"
+build --javacopt="-source 11 -target 11"
 
 build --strategy=ScalaCompile=worker
 build --worker_max_instances=4

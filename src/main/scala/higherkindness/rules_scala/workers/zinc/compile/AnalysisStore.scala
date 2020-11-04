@@ -2,40 +2,45 @@ package higherkindness.rules_scala
 package workers.zinc.compile
 
 import com.google.devtools.build.buildjar.jarhelper.JarHelper
-import com.trueaccord.lenses.{Lens, Mutation}
-import com.trueaccord.scalapb.{GeneratedMessage, GeneratedMessageCompanion, Message}
+// import scalapb.lenses.{Lens, Mutation}
+// import scalapb.{GeneratedMessage, GeneratedMessageCompanion, Message}
 import java.io.{File, InputStream, OutputStream, OutputStreamWriter}
 import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, NoSuchFileException, Path, Paths}
 import java.nio.file.attribute.FileTime
 import java.util.zip.{GZIPInputStream, GZIPOutputStream}
-import java.util.Optional
+import java.util.{Optional, Map => JMap}
+import scala.jdk.CollectionConverters._
+import sbt.internal.shaded.com.google.protobuf.{GeneratedMessageV3, Parser}
 import sbt.internal.inc.binary.converters.{ProtobufReaders, ProtobufWriters}
-import sbt.internal.inc.{APIs, Analysis, Relations, SourceInfos, Stamper, Stamps, schema, Stamp => StampImpl}
-import sbt.io.IO
+import sbt.internal.inc.text.Mapper
+import sbt.internal.inc.{APIs, Analysis, Relations, SourceInfos, Stamper, Stamps, Schema, Stamp => StampImpl, PlainVirtualFile}
 import xsbti.compile.analysis.{GenericMapper, ReadMapper, ReadWriteMappers, Stamp, WriteMapper}
 import xsbti.compile.{AnalysisContents, AnalysisStore, MiniSetup}
+import xsbti.{PathBasedFile, VirtualFileRef}
 
-case class AnalysisFiles(apis: Path, miniSetup: Path, relations: Path, sourceInfos: Path, stamps: Path)
+final case class AnalysisFiles(apis: Path, miniSetup: Path, relations: Path, sourceInfos: Path, stamps: Path)
 
 object AnxAnalysisStore {
   trait Format {
-    def read[A <: GeneratedMessage with Message[A]](message: GeneratedMessageCompanion[A], inputStream: InputStream): A
-    def write(message: GeneratedMessage, stream: OutputStream)
+    def read[A <: GeneratedMessageV3](parser: Parser[A], inputStream: InputStream): A
+    def write(message: GeneratedMessageV3, stream: OutputStream)
   }
+
   object BinaryFormat extends Format {
-    def read[A <: GeneratedMessage with Message[A]](companion: GeneratedMessageCompanion[A], stream: InputStream) =
-      companion.parseFrom(new GZIPInputStream(stream))
-    def write(message: GeneratedMessage, stream: OutputStream) = {
+    def read[A <: GeneratedMessageV3](parser: Parser[A], stream: InputStream) =
+      parser.parseFrom(new GZIPInputStream(stream))
+    def write(message: GeneratedMessageV3, stream: OutputStream) = {
       val gzip = new GZIPOutputStream(stream, true)
       message.writeTo(gzip)
       gzip.finish()
     }
   }
+
   object TextFormat extends Format {
-    def read[A <: GeneratedMessage with Message[A]](companion: GeneratedMessageCompanion[A], stream: InputStream) =
-      companion.fromAscii(IO.readStream(stream, StandardCharsets.US_ASCII))
-    def write(message: GeneratedMessage, stream: OutputStream) = {
+    def read[A <: GeneratedMessageV3](parser: Parser[A], stream: InputStream) =
+      parser.parseFrom(stream)
+    def write(message: GeneratedMessageV3, stream: OutputStream) = {
       val writer = new OutputStreamWriter(stream, StandardCharsets.US_ASCII)
       try writer.write(message.toString)
       finally writer.close()
@@ -51,29 +56,23 @@ trait Writeable[A] {
   def write(file: Path, value: A)
 }
 
-class Store[A](readStream: InputStream => A, writeStream: (OutputStream, A) => Unit)
-    extends Readable[A]
-    with Writeable[A] {
+final class Store[A](readStream: InputStream => A, writeStream: (OutputStream, A) => Unit) extends Readable[A] with Writeable[A] {
   def read(file: Path) = {
     val stream = Files.newInputStream(file)
-    try {
-      readStream(stream)
-    } finally {
-      stream.close()
-    }
+    try readStream(stream)
+    finally stream.close()
   }
   def write(file: Path, value: A) = {
     val stream = Files.newOutputStream(file)
-    try {
-      writeStream(stream, value)
-    } finally {
-      stream.close()
-    }
+    try writeStream(stream, value)
+    finally stream.close()
   }
 }
 
-class AnxAnalysisStore(files: AnalysisFiles, analyses: AnxAnalyses) extends AnalysisStore {
-  def get() = {
+final class AnxAnalysisStore(files: AnalysisFiles, analyses: AnxAnalyses) extends AnalysisStore {
+  final val Empty = Optional.empty[AnalysisContents]
+
+  override def get: Optional[AnalysisContents] =
     try {
       val analysis = Analysis.Empty.copy(
         apis = analyses.apis.read(files.apis),
@@ -84,11 +83,12 @@ class AnxAnalysisStore(files: AnalysisFiles, analyses: AnxAnalyses) extends Anal
       val miniSetup = analyses.miniSetup.read(files.miniSetup)
       Optional.of(AnalysisContents.create(analysis, miniSetup))
     } catch {
-      case e: NoSuchFileException => Optional.empty()
+      case e: NoSuchFileException => Empty
     }
-  }
 
-  def set(analysisContents: AnalysisContents) = {
+  override def unsafeGet: AnalysisContents = get.get
+
+  override def set(analysisContents: AnalysisContents): Unit = {
     val analysis = analysisContents.getAnalysis.asInstanceOf[Analysis]
     analyses.apis.write(files.apis, analysis.apis)
     analyses.relations.write(files.relations, analysis.relations)
@@ -97,129 +97,168 @@ class AnxAnalysisStore(files: AnalysisFiles, analyses: AnxAnalyses) extends Anal
     val miniSetup = analysisContents.getMiniSetup
     analyses.miniSetup.write(files.miniSetup, miniSetup)
   }
-
 }
 
-class AnxAnalyses(format: AnxAnalysisStore.Format) {
+final class AnxAnalyses(format: AnxAnalysisStore.Format) {
   private[this] val mappers = AnxMapper.mappers(Paths.get(""))
-  private[this] val reader = new ProtobufReaders(mappers.getReadMapper, schema.Version.V1)
+  private[this] val reader = new ProtobufReaders(mappers.getReadMapper, Schema.Version.V1_1)
   private[this] val writer = new ProtobufWriters(mappers.getWriteMapper)
 
-  def apis = new Store[APIs](
-    stream => reader.fromApis(shouldStoreApis = true)(format.read(schema.APIs, stream)),
-    (stream, value) => format.write(writer.toApis(value, shouldStoreApis = true).update(apiFileWrite), stream)
-  )
-
-  def miniSetup = new Store[MiniSetup](
-    stream => reader.fromMiniSetup(format.read(schema.MiniSetup, stream)),
-    (stream, value) => format.write(writer.toMiniSetup(value), stream)
-  )
-
-  def relations = new Store[Relations](
-    stream =>
-      reader.fromRelations(format.read(schema.Relations, stream).update(relationsMapper(mappers.getReadMapper))),
-    (stream, value) => format.write(writer.toRelations(value).update(relationsMapper(mappers.getWriteMapper)), stream)
-  )
-
-  def sourceInfos = new Store[SourceInfos](
-    stream => reader.fromSourceInfos(format.read(schema.SourceInfos, stream)),
-    (stream, value) => format.write(writer.toSourceInfos(value), stream)
-  )
-
-  def stamps = new Store[Stamps](
-    stream => reader.fromStamps(format.read(schema.Stamps, stream)),
-    (stream, value) => format.write(writer.toStamps(value), stream)
-  )
-
-  private[this] val apiFileWrite: Lens[schema.APIs, schema.APIs] => Mutation[schema.APIs] =
-    _.update(
-      _.internal.foreachValue(_.compilationTimestamp := JarHelper.DEFAULT_TIMESTAMP),
-      _.external.foreachValue(_.compilationTimestamp := JarHelper.DEFAULT_TIMESTAMP)
+  def apis =
+    new Store[APIs](
+      stream => reader.fromApis(shouldStoreApis = true)(format.read[Schema.APIs](Schema.APIs.parser, stream)),
+      (stream, value) => format.write(update(writer.toApis(value, shouldStoreApis = true)), stream)
     )
+
+  def miniSetup =
+    new Store[MiniSetup](
+      stream => reader.fromMiniSetup(format.read[Schema.MiniSetup](Schema.MiniSetup.parser, stream)),
+      (stream, value) => format.write(writer.toMiniSetup(value), stream)
+    )
+
+  def relations =
+    new Store[Relations](
+      stream => reader.fromRelations(update(mappers.getReadMapper, format.read[Schema.Relations](Schema.Relations.parser, stream))),
+      (stream, value) => format.write(update(mappers.getWriteMapper, writer.toRelations(value)), stream)
+    )
+
+  def sourceInfos =
+    new Store[SourceInfos](
+      stream => reader.fromSourceInfos(format.read[Schema.SourceInfos](Schema.SourceInfos.parser, stream)),
+      (stream, value) => format.write(writer.toSourceInfos(value), stream)
+    )
+
+  def stamps =
+    new Store[Stamps](
+      stream => reader.fromStamps(format.read[Schema.Stamps](Schema.Stamps.parser, stream)),
+      (stream, value) => format.write(writer.toStamps(value), stream)
+    )
+
+  private[this] def updateAnalyzedMap(map: JMap[String, Schema.AnalyzedClass]): JMap[String, Schema.AnalyzedClass] =
+    map.asScala.map {
+      case (key, cls) => key -> cls.toBuilder().setCompilationTimestamp(JarHelper.DEFAULT_TIMESTAMP).build()
+    }.asJava
+
+  private[this] def update(api: Schema.APIs): Schema.APIs =
+    api
+      .toBuilder()
+      .putAllInternal(updateAnalyzedMap(api.getInternalMap))
+      .putAllExternal(updateAnalyzedMap(api.getExternalMap))
+      .build()
 
   // Workaround for https://github.com/sbt/zinc/pull/532
-  private[this] def relationsMapper(
-    mapper: GenericMapper
-  ): Lens[schema.Relations, schema.Relations] => Mutation[schema.Relations] =
-    _.update(
-      _.srcProd.foreach(_.modify {
-        case (source, products) =>
-          mapper.mapSourceFile(new File(source)).toString ->
-            products.update(_.values.foreach(_.modify(path => mapper.mapProductFile(new File(path)).toString)))
-      }),
-      _.libraryDep.foreach(_.modify {
-        case (source, binaries) =>
-          mapper.mapSourceFile(new File(source)).toString ->
-            binaries.update(_.values.foreach(_.modify(path => mapper.mapBinaryFile(new File(path)).toString)))
-      }),
-      _.libraryDep.foreach(_.modify {
-        case (binary, values) => mapper.mapBinaryFile(new File(binary)).toString -> values
-      }),
-      _.classes.foreach(_.modify {
-        case (source, values) => mapper.mapSourceFile(new File(source)).toString -> values
-      })
-    )
+  private[this] def update(
+      mapper: GenericMapper,
+      relations: Schema.Relations
+  ): Schema.Relations = {
+    val updatedSrcProd = relations.getSrcProdMap.asScala.map {
+      case (source, products) =>
+        val values = products.getValuesList().asScala.map(path => mapper.mapProductFile(Mapper.forFileV.read(path)).toString)
+        mapper.mapSourceFile(Mapper.forFileV.read(source)).toString -> Schema.Values.newBuilder().addAllValues(values.asJava).build()
+    }
+    val updatedLibraryDep = relations.getLibraryDepMap.asScala.map {
+      case (source, binaries) =>
+        val values = binaries.getValuesList().asScala.map(path => mapper.mapBinaryFile(Mapper.forFileV.read(path)).toString)
+        mapper
+          .mapBinaryFile(mapper.mapSourceFile(Mapper.forFileV.read(source)))
+          .toString -> Schema.Values.newBuilder().addAllValues(values.asJava).build()
+    }
+    val updatedClasses = relations.getClassesMap.asScala.map {
+      case (source, values) =>
+        mapper.mapSourceFile(Mapper.forFileV.read(source)).toString -> values
+    }
+    relations.toBuilder().putAllSrcProd(updatedSrcProd.asJava).putAllLibraryDep(updatedLibraryDep.asJava).putAllClasses(updatedClasses.asJava).build()
+  }
 }
 
 object AnxMapper {
   val rootPlaceholder = Paths.get("_ROOT_")
+
   def mappers(root: Path) = new ReadWriteMappers(new AnxReadMapper(root), new AnxWriteMapper(root))
-  private[this] val stampCache = new scala.collection.mutable.HashMap[Path, (FileTime, Stamp)]
+
   def hashStamp(file: Path) = {
     val newTime = Files.getLastModifiedTime(file)
     stampCache.get(file) match {
       case Some((time, stamp)) if newTime.compareTo(time) <= 0 => stamp
       case _ =>
-        val stamp = Stamper.forHash(file.toFile)
+        val stamp = Stamper.forFarmHashP(file)
         stampCache += (file -> (newTime, stamp))
         stamp
     }
   }
+
+  private[this] val stampCache = new scala.collection.mutable.HashMap[Path, (FileTime, Stamp)]
 }
 
 final class AnxWriteMapper(root: Path) extends WriteMapper {
   private[this] val rootAbs = root.toAbsolutePath
 
-  private[this] def mapFile(file: File) = {
-    val path = file.toPath
-    if (path.startsWith(rootAbs)) AnxMapper.rootPlaceholder.resolve(rootAbs.relativize(path)).toFile else file
-  }
+  private[this] def mapFile(file: Path): Path =
+    if (file.startsWith(rootAbs)) AnxMapper.rootPlaceholder.resolve(rootAbs.relativize(file))
+    else file
 
-  def mapBinaryFile(binaryFile: File) = mapFile(binaryFile)
-  def mapBinaryStamp(file: File, binaryStamp: Stamp) = AnxMapper.hashStamp(file.toPath)
-  def mapClasspathEntry(classpathEntry: File) = mapFile(classpathEntry)
-  def mapJavacOption(javacOption: String) = javacOption
-  def mapMiniSetup(miniSetup: MiniSetup) = miniSetup
-  def mapProductFile(productFile: File) = mapFile(productFile)
-  def mapProductStamp(file: File, productStamp: Stamp) =
+  private[this] def mapFile(file: VirtualFileRef): VirtualFileRef =
+    file match {
+      case file: PathBasedFile => PlainVirtualFile(mapFile(file.toPath))
+      case _                   => file
+    }
+
+  override def mapSourceFile(sourceFile: VirtualFileRef): VirtualFileRef = mapFile(sourceFile)
+  override def mapBinaryFile(binaryFile: VirtualFileRef): VirtualFileRef = mapFile(binaryFile)
+  override def mapProductFile(productFile: VirtualFileRef): VirtualFileRef = mapFile(productFile)
+
+  override def mapClasspathEntry(classpathEntry: Path): Path = mapFile(classpathEntry)
+  override def mapJavacOption(javacOption: String): String = javacOption
+  override def mapScalacOption(scalacOption: String): String = scalacOption
+
+  override def mapOutputDir(outputDir: Path): Path = mapFile(outputDir)
+  override def mapSourceDir(sourceDir: Path): Path = mapFile(sourceDir)
+
+  override def mapProductStamp(file: VirtualFileRef, productStamp: Stamp) =
     StampImpl.fromString(s"lastModified(${JarHelper.DEFAULT_TIMESTAMP})")
-  def mapScalacOption(scalacOption: String) = scalacOption
-  def mapSourceDir(sourceDir: File) = mapFile(sourceDir)
-  def mapSourceFile(sourceFile: File) = mapFile(sourceFile)
-  def mapSourceStamp(file: File, sourceStamp: Stamp) = sourceStamp
-  def mapOutputDir(outputDir: File) = mapFile(outputDir)
+  override def mapSourceStamp(file: VirtualFileRef, sourceStamp: Stamp): Stamp = sourceStamp
+  override def mapBinaryStamp(file: VirtualFileRef, binaryStamp: Stamp) = binaryStamp
+
+  override def mapMiniSetup(miniSetup: MiniSetup): MiniSetup = miniSetup
 }
 
 final class AnxReadMapper(root: Path) extends ReadMapper {
   private[this] val rootAbs = root.toAbsolutePath
 
-  private[this] def mapFile(file: File) = {
-    val path = file.toPath
-    if (path.startsWith(AnxMapper.rootPlaceholder)) rootAbs.resolve(AnxMapper.rootPlaceholder.relativize(path)).toFile
+  private[this] def mapFile(file: Path): Path =
+    if (file.startsWith(AnxMapper.rootPlaceholder)) rootAbs.resolve(AnxMapper.rootPlaceholder.relativize(file))
     else file
-  }
 
-  def mapBinaryFile(file: File) = mapFile(file)
-  def mapBinaryStamp(file: File, stamp: Stamp) =
-    if (AnxMapper.hashStamp(file.toPath) == stamp) Stamper.forLastModified(file) else stamp
-  def mapClasspathEntry(classpathEntry: File) = mapFile(classpathEntry)
-  def mapJavacOption(javacOption: String) = javacOption
-  def mapOutputDir(dir: File) = mapFile(dir)
-  def mapMiniSetup(miniSetup: MiniSetup) = miniSetup
-  def mapProductFile(file: File) = mapFile(file)
-  def mapProductStamp(file: File, productStamp: Stamp) = Stamper.forLastModified(file)
-  def mapScalacOption(scalacOption: String) = scalacOption
-  def mapSourceDir(sourceDir: File) = mapFile(sourceDir)
-  def mapSourceFile(sourceFile: File) = mapFile(sourceFile)
-  def mapSourceStamp(file: File, sourceStamp: Stamp) = sourceStamp
+  private[this] def mapFile(file: VirtualFileRef): VirtualFileRef =
+    file match {
+      case file: PathBasedFile => PlainVirtualFile(mapFile(file.toPath))
+      case _                   => file
+    }
+
+  override def mapSourceFile(sourceFile: VirtualFileRef): VirtualFileRef = mapFile(sourceFile)
+  override def mapBinaryFile(binaryFile: VirtualFileRef): VirtualFileRef = mapFile(binaryFile)
+  override def mapProductFile(productFile: VirtualFileRef): VirtualFileRef = mapFile(productFile)
+
+  override def mapClasspathEntry(classpathEntry: Path): Path = mapFile(classpathEntry)
+  override def mapJavacOption(javacOption: String): String = javacOption
+  override def mapScalacOption(scalacOption: String): String = scalacOption
+
+  override def mapOutputDir(outputDir: Path): Path = mapFile(outputDir)
+  override def mapSourceDir(sourceDir: Path): Path = mapFile(sourceDir)
+
+  override def mapProductStamp(file: VirtualFileRef, productStamp: Stamp): Stamp =
+    file match {
+      case file: PathBasedFile => Stamper.forLastModifiedP(file.toPath())
+      case _                   => productStamp
+    }
+  override def mapSourceStamp(file: VirtualFileRef, sourceStamp: Stamp): Stamp = sourceStamp
+  override def mapBinaryStamp(file: VirtualFileRef, binaryStamp: Stamp): Stamp =
+    file match {
+      case file: PathBasedFile =>
+        val filePath = file.toPath()
+        if (AnxMapper.hashStamp(filePath) == binaryStamp) Stamper.forLastModifiedP(filePath) else binaryStamp
+      case _ => binaryStamp
+    }
+
+  override def mapMiniSetup(miniSetup: MiniSetup): MiniSetup = miniSetup
 }

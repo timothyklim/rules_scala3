@@ -6,10 +6,11 @@ import common.worker.WorkerMain
 
 import java.io.File
 import java.nio.file.{FileAlreadyExistsException, Files}
-import java.util.Collections
+import java.util.{Collections, List => JList}
 import net.sourceforge.argparse4j.ArgumentParsers
 import net.sourceforge.argparse4j.impl.Arguments
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
+import scala.collection.mutable
 
 object DepsRunner extends WorkerMain[Unit] {
   private[this] val argParser = {
@@ -53,15 +54,30 @@ object DepsRunner extends WorkerMain[Unit] {
 
     val label = namespace.getString("label").tail
     val directLabels = namespace.getList[String]("direct").asScala.map(_.tail)
-    val groups = Option(namespace.getList[java.util.List[String]]("group"))
-      .fold[Seq[List[String]]](Nil)(_.asScala.toSeq.map(_.asScala.toList))
-      .map { case label +: jars => label.tail -> jars.toSet }
-    val labelToPaths = groups.toMap
+    val (depLabelToPaths, pathToLabel) = namespace.getList[JList[String]]("group") match {
+      case xs: JList[JList[String]] =>
+        val depLabelsMap = new mutable.HashMap[String, collection.Set[String]](initialCapacity = xs.size, loadFactor = 2.0)
+        val pathsMap = new mutable.HashMap[String, String](initialCapacity = xs.size, loadFactor = 0.75)
+
+        xs.forEach(_.asScala match {
+          case mutable.Buffer(key, xs @ _*) =>
+            val depLabel = key.tail
+
+            depLabelsMap.put(depLabel, xs.toSet)
+
+            for (path <- xs) pathsMap.put(path, depLabel)
+        })
+
+        (depLabelsMap, pathsMap)
+      case _ => (EmptyLabelsMap, EmptyPathsMap)
+    }
     val usedPaths = Files.readAllLines(namespace.get[File]("used").toPath).asScala.toSet
 
     val remove = if (namespace.getBoolean("check_used") == true) {
       val usedWhitelist = namespace.getList[String]("used_whitelist").asScala.map(_.tail)
-      (directLabels -- usedWhitelist).filterNot(labelToPaths(_).exists(usedPaths))
+      directLabels.diff(usedWhitelist).filterNot { depLabel =>
+        depLabelToPaths(depLabel).exists(usedPaths)
+      }
     } else Nil
     remove.foreach { depLabel =>
       println(s"Target '$depLabel' not used, please remove it from the deps.")
@@ -71,13 +87,16 @@ object DepsRunner extends WorkerMain[Unit] {
 
     val add = if (namespace.getBoolean("check_direct") == true) {
       val unusedWhitelist = namespace.getList[String]("unused_whitelist").asScala.map(_.tail)
-      (usedPaths -- (directLabels ++ unusedWhitelist).flatMap(labelToPaths))
-        .flatMap(path =>
-          groups.collectFirst { case (label, paths) if paths(path) => label }.orElse {
-            System.err.println(s"Warning: There is a reference to $path, but no dependency of $label provides it")
-            None
+      usedPaths
+        .diff(Set.concat(directLabels, unusedWhitelist).flatMap(depLabelToPaths))
+        .flatMap { path =>
+          pathToLabel.get(path) match {
+            case res @ None =>
+              System.err.println(s"Warning: There is a reference to $path, but no dependency of $label provides it")
+              res
+            case res => res
           }
-        )
+        }
     } else Nil
     add.foreach { depLabel =>
       println(s"Target '$depLabel' is used but isn't explicitly declared, please add it to the deps.")
@@ -89,6 +108,8 @@ object DepsRunner extends WorkerMain[Unit] {
       try Files.createFile(namespace.get[File]("success").toPath)
       catch { case _: FileAlreadyExistsException => }
     }
-
   }
+
+  private val EmptyLabelsMap = Map.empty[String, collection.Set[String]]
+  private val EmptyPathsMap = Map.empty[String, String]
 }

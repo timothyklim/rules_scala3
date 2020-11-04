@@ -8,10 +8,11 @@ import scala.collection.mutable.ListBuffer
 import scala.xml.{Elem, Utility, XML}
 
 class JUnitXmlReporter(tasksAndEvents: ListBuffer[(String, ListBuffer[Event])]) {
-  private def escape(info: String): String = info match {
-    case str: String => Utility.escape(str)
-    case _           => ""
-  }
+  private def escape(info: String): String =
+    info match {
+      case str: String => Utility.escape(str)
+      case _           => ""
+    }
 
   def result: Elem =
     XML.loadString(s"""<testsuites>

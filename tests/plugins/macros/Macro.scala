@@ -12,8 +12,8 @@ object Macro {
 
     val evals = ListBuffer[ValDef]()
 
-    val paramsStack = Stack[Tree]((params map (_.tree)): _*)
-    val refs = s_format.split("(?<=%[\\w%])|(?=%[\\w%])") map {
+    val paramsStack = Stack[Tree](params.map(_.tree): _*)
+    val refs = s_format.split("(?<=%[\\w%])|(?=%[\\w%])").map {
       case "%d" => MacroUtil.precompute(c)(evals, paramsStack.pop, typeOf[Int])
       case "%s" => MacroUtil.precompute(c)(evals, paramsStack.pop, typeOf[String])
       case "%%" => Literal(Constant("%"))

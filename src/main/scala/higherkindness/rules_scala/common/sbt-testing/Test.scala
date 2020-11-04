@@ -26,7 +26,7 @@ class TestFrameworkLoader(loader: ClassLoader, logger: Logger) {
 
 object TestHelper {
   def withRunner[A](framework: Framework, scopeAndTestName: String, classLoader: ClassLoader, arguments: Seq[String])(
-    f: Runner => A
+      f: Runner => A
   ) = {
     val options =
       if (framework.name == "specs2") Array("-ex", scopeAndTestName.replaceAll(".*::", "")) else Array.empty[String]
@@ -45,11 +45,12 @@ object TestHelper {
 }
 
 class TestReporter(logger: Logger) {
-  def post(failures: Traversable[String]) = if (failures.nonEmpty) {
-    logger.error(s"${failures.size} ${if (failures.size == 1) "failure" else "failures"}:")
-    failures.toSeq.sorted.foreach(name => logger.error(s"    $name"))
-    logger.error("")
-  }
+  def post(failures: Traversable[String]) =
+    if (failures.nonEmpty) {
+      logger.error(s"${failures.size} ${if (failures.size == 1) "failure" else "failures"}:")
+      failures.toSeq.sorted.foreach(name => logger.error(s"    $name"))
+      logger.error("")
+    }
 
   def postTask() = logger.info("")
 

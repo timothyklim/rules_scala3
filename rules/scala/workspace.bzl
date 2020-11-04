@@ -7,28 +7,32 @@ filegroup(
     name = "src",
     srcs = glob(["**/*.scala", "**/*.java"]),
     visibility = ["//visibility:public"]
-)"""
+)
+
+filegroup(
+    name = "meta",
+    srcs = glob(["META-INF/**"], allow_empty = False),
+    visibility = ["//visibility:public"]
+)
+"""
 
 def scala_artifacts():
     return [
-        "org.scala-lang:scala-compiler:2.12.10",
-        "org.scala-lang:scala-library:2.12.10",
-        "org.scala-lang:scala-reflect:2.12.10",
+        "org.scala-lang:scala-compiler:2.13.3",
+        "org.scala-lang:scala-library:2.13.3",
+        "org.scala-lang:scala-reflect:2.13.3",
         "net.sourceforge.argparse4j:argparse4j:0.8.1",
         "org.jacoco:org.jacoco.core:0.7.5.201505241946",
-        "com.lihaoyi:sourcecode_2.12:0.1.4,",
+        "com.lihaoyi:sourcecode_2.13:0.2.1,",
         "org.scala-sbt:test-interface:1.0",
-        "org.scala-sbt:util-interface:1.3.0",
-        "org.scala-sbt:util-logging_2.12:1.3.0",
-        "org.scala-sbt:compiler-interface:1.3.4",
-        "org.scala-sbt:zinc-compile-core_2.12:1.3.4",
-        "org.scala-sbt:zinc_2.12:1.3.4",
-        "org.scala-sbt:zinc-persist_2.12:1.3.4",
-        "org.scala-sbt:zinc-core_2.12:1.3.4",
-        "org.scala-sbt:zinc-apiinfo_2.12:1.3.4",
-        "org.scala-sbt:zinc-classpath_2.12:1.3.4",
-        "ch.epfl.scala:bloop-frontend_2.12:1.0.0",
-        "com.thesamet.scalapb:scalapb-runtime_2.12:0.9.0",
+        "org.scala-sbt:util-interface:1.4.2",
+        "org.scala-sbt:util-logging_2.13:1.4.2",
+        "org.scala-sbt:compiler-interface:1.4.2",
+        "org.scala-sbt:zinc_2.13:1.4.2",
+        "org.scala-sbt:zinc-persist_2.13:1.4.2",
+        "org.scala-sbt:zinc-core_2.13:1.4.2",
+        "org.scala-sbt:zinc-apiinfo_2.13:1.4.2",
+        "org.scala-sbt:zinc-classpath_2.13:1.4.2",
     ]
 
 def scala_repositories(java_launcher_version = "0.29.1"):
@@ -61,17 +65,10 @@ def scala_repositories(java_launcher_version = "0.29.1"):
     )
 
     http_archive(
-        name = "compiler_bridge_2_11",
+        name = "compiler_bridge_2_13",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
-        sha256 = "b124911194dfcb850df7cdd5d2d7cc3280a21045832a9a90499e73934fb8504d",
-        url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.11/1.3.4/compiler-bridge_2.11-1.3.4-sources.jar",
-    )
-
-    http_archive(
-        name = "compiler_bridge_2_12",
-        build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
-        sha256 = "24cd30dcb37c2b24f962118f49489c98a66b49600cfd7fbb9eab68475ddd56a2",
-        url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.12/1.3.4/compiler-bridge_2.12-1.3.4-sources.jar",
+        sha256 = "a7feefe9f32d95ece54dfb479b2a48cc60a016ef840d21ed1fc31df86ca35e43",
+        url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/1.4.2/compiler-bridge_2.13-1.4.2-sources.jar",
     )
 
 def scala_register_toolchains():

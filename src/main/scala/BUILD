@@ -7,53 +7,55 @@ load(
 
 alias(
     name = "bootstrap",
-    actual = ":bootstrap_2_12_10",
+    actual = ":bootstrap_2_13_3",
     visibility = ["//visibility:public"],
 )
 
 alias(
     name = "zinc",
-    actual = ":zinc_2_12_10",
+    actual = ":zinc_2_13",
     visibility = ["//visibility:public"],
 )
 
-compiler_classpath_2_12_10 = [
+compiler_classpath_2_13_3 = [
     "@annex//:org_scala_lang_scala_compiler",
     "@annex//:org_scala_lang_scala_library",
     "@annex//:org_scala_lang_scala_reflect",
 ]
 
-runtime_classpath_2_12_10 = [
+runtime_classpath_2_13_3 = [
     "@annex//:org_scala_lang_scala_library",
 ]
 
 configure_bootstrap_scala(
-    name = "bootstrap_2_12_10",
-    compiler_classpath = compiler_classpath_2_12_10,
-    runtime_classpath = runtime_classpath_2_12_10,
-    version = "2.12.8",
+    name = "bootstrap_2_13_3",
+    compiler_classpath = compiler_classpath_2_13_3,
+    runtime_classpath = runtime_classpath_2_13_3,
+    version = "2.13.3",
     visibility = ["//visibility:public"],
 )
 
 scala_library(
-    name = "compiler_bridge_2_12_10",
+    name = "compiler_bridge_2_13_3",
     srcs = [
-        "@compiler_bridge_2_12//:src",
+        "@compiler_bridge_2_13//:src",
     ],
-    scala = ":bootstrap_2_12_10",
+    scala = ":bootstrap_2_13_3",
+    resources = ["@compiler_bridge_2_13//:meta"],
+    resource_strip_prefix = "../compiler_bridge_2_13",
     visibility = ["//visibility:public"],
-    deps = compiler_classpath_2_12_10 + [
+    deps = compiler_classpath_2_13_3 + [
         "@annex//:org_scala_sbt_compiler_interface",
         "@annex//:org_scala_sbt_util_interface",
     ],
 )
 
 configure_zinc_scala(
-    name = "zinc_2_12_10",
-    compiler_bridge = ":compiler_bridge_2_12_10",
-    compiler_classpath = compiler_classpath_2_12_10,
-    runtime_classpath = runtime_classpath_2_12_10,
-    version = "2.12.8",
+    name = "zinc_2_13",
+    compiler_bridge = ":compiler_bridge_2_13_3",
+    compiler_classpath = compiler_classpath_2_13_3,
+    runtime_classpath = runtime_classpath_2_13_3,
+    version = "2.13.3",
     visibility = ["//visibility:public"],
 )
 

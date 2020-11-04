@@ -11,7 +11,7 @@ trait ZincPersistence {
   def save(): Unit
 }
 
-class FilePersistence(cacheDir: Path, analysisFiles: AnalysisFiles, jar: Path) extends ZincPersistence {
+final class FilePersistence(cacheDir: Path, analysisFiles: AnalysisFiles, jar: Path) extends ZincPersistence {
   private[this] val cacheAnalysisFiles =
     AnalysisFiles(
       apis = cacheDir.resolve("apis.gz"),
@@ -23,8 +23,8 @@ class FilePersistence(cacheDir: Path, analysisFiles: AnalysisFiles, jar: Path) e
   private[this] val cacheJar = cacheDir.resolve("classes.jar")
 
   /**
-   * Existance indicates that files are incomplete.
-   */
+    * Existance indicates that files are incomplete.
+    */
   private[this] val tmpMarker = cacheDir.resolve(".tmp")
 
   def load() = {

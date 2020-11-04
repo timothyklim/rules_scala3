@@ -1,9 +1,9 @@
 import mockutil.MockLib
 
 /**
- * A Scaladoc
- */
+  * A Scaladoc
+  */
 object A {
-    def a = B
-    def addOne(i: Int) = MockLib.add(i, 1)
+  def a = B
+  def addOne(i: Int) = MockLib.add(i, 1)
 }

@@ -13,7 +13,7 @@ import java.util.Collections
 import net.sourceforge.argparse4j.ArgumentParsers
 import net.sourceforge.argparse4j.impl.Arguments
 import sbt.internal.inc.ZincUtil
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import xsbti.Logger
 
 object ReplRunner {

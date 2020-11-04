@@ -13,44 +13,6 @@ http_archive(
     url = "https://github.com/bazelbuild/skydoc/archive/{}.zip".format(skydoc_tag),
 )
 
-# com_github_bazelbuild_buildtools
-
-buildtools_tag = "0.29.0"
-
-buildtools_sha256 = "05eb52437fb250c7591dd6cbcfd1f9b5b61d85d6b20f04b041e0830dd1ab39b3"
-
-http_archive(
-    name = "com_github_bazelbuild_buildtools",
-    sha256 = buildtools_sha256,
-    strip_prefix = "buildtools-{}".format(buildtools_tag),
-    url = "https://github.com/bazelbuild/buildtools/archive/{}.zip".format(buildtools_tag),
-)
-
-load("@com_github_bazelbuild_buildtools//buildifier:deps.bzl", "buildifier_dependencies")
-
-buildifier_dependencies()
-
-# io_bazel_rules_go
-
-rules_go_tag = "v0.20.2"
-
-rules_go_sha256 = "b9aa86ec08a292b97ec4591cf578e020b35f98e12173bbd4a921f84f583aebd9"
-
-http_archive(
-    name = "io_bazel_rules_go",
-    sha256 = rules_go_sha256,
-    urls = [
-        "https://storage.googleapis.com/bazel-mirror/github.com/bazelbuild/rules_go/releases/download/{tag}/rules_go-{tag}.tar.gz".format(tag = rules_go_tag),
-        "https://github.com/bazelbuild/rules_go/releases/download/{tag}/rules_go-{tag}.tar.gz".format(tag = rules_go_tag),
-    ],
-)
-
-load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
-
-go_rules_dependencies()
-
-go_register_toolchains()
-
 bazel_skylib_tag = "1.0.2"
 
 bazel_skylib_sha256 = "97e70364e9249702246c0e9444bccdc4b847bed1eb03c5a3ece4f83dfe6abc44"

@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/usr/bin/env -S bash -e
 
 #
 # Reformats various files (.bzl, .scala) throughout the project
