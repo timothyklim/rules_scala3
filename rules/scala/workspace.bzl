@@ -33,6 +33,8 @@ def scala_artifacts():
         "org.scala-sbt:zinc-core_2.13:1.4.2",
         "org.scala-sbt:zinc-apiinfo_2.13:1.4.2",
         "org.scala-sbt:zinc-classpath_2.13:1.4.2",
+        "org.scala-lang:scala3-compiler_3.0.0-M1:3.0.0-M1",
+        "org.scala-lang:scala3-sbt-bridge:3.0.0-M1",
     ]
 
 def scala_repositories(java_launcher_version = "0.29.1"):
@@ -69,6 +71,13 @@ def scala_repositories(java_launcher_version = "0.29.1"):
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
         sha256 = "a7feefe9f32d95ece54dfb479b2a48cc60a016ef840d21ed1fc31df86ca35e43",
         url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/1.4.2/compiler-bridge_2.13-1.4.2-sources.jar",
+    )
+
+    http_archive(
+        name = "compiler_bridge_3_0",
+        build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
+        sha256 = "f1717ed0e35e1eb86f24902d001a30254c0db14e37fc82ca6bf67bc8f6a18b7d",
+        url = "https://repo1.maven.org/maven2/org/scala-lang/scala3-sbt-bridge/3.0.0-M1/scala3-sbt-bridge-3.0.0-M1-sources.jar",
     )
 
 def scala_register_toolchains():

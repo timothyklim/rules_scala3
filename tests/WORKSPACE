@@ -143,22 +143,6 @@ load("@annex_test//:defs.bzl", annex_test_pinned_maven_install = "pinned_maven_i
 annex_test_pinned_maven_install()
 
 jvm_maven_import_external(
-    name = "kind_projector_2_13",
-    artifact = "org.spire-math:kind-projector_2.13:0.9.6",
-    artifact_sha256 = "ed1d7c50b2bfdc404eacf086202399612c8109ecac59bac107540e817f9c8fcf",
-    licenses = ["notice"],
-    server_urls = ["https://repo.maven.apache.org/maven2"],
-)
-
-jvm_maven_import_external(
-    name = "org_scalacheck_scalacheck_2_11",
-    artifact = "org.scalacheck:scalacheck_2.11:1.14.0",
-    artifact_sha256 = "9ccf3a85a3396fb172a4c028cfaf9f4a699a144806eeeb0bf2e9c3510ba5b276",
-    licenses = ["notice"],
-    server_urls = ["https://repo.maven.apache.org/maven2"],
-)
-
-jvm_maven_import_external(
     name = "junit",
     artifact = "junit:junit:4.12",
     artifact_sha256 = "59721f0805e223d84b90677887d9ff567dc534d7c502ca903c0c2b17f05c116a",
@@ -178,30 +162,6 @@ jvm_maven_import_external(
     name = "junit_interface",
     artifact = "com.novocode:junit-interface:jar:0.11",
     artifact_sha256 = "29e923226a0d10e9142bbd81073ef52f601277001fcf9014389bf0af3dc33dc3",
-    licenses = ["notice"],
-    server_urls = ["https://repo.maven.apache.org/maven2"],
-)
-
-jvm_maven_import_external(
-    name = "scala_compiler_2_11_12",
-    artifact = "org.scala-lang:scala-compiler:2.11.12",
-    artifact_sha256 = "3e892546b72ab547cb77de4d840bcfd05c853e73390fed7370a8f19acb0735a0",
-    licenses = ["notice"],
-    server_urls = ["https://repo.maven.apache.org/maven2"],
-)
-
-jvm_maven_import_external(
-    name = "scala_library_2_11_12",
-    artifact = "org.scala-lang:scala-library:2.11.12",
-    artifact_sha256 = "0b3d6fd42958ee98715ba2ec5fe221f4ca1e694d7c981b0ae0cd68e97baf6dce",
-    licenses = ["notice"],
-    server_urls = ["https://repo.maven.apache.org/maven2"],
-)
-
-jvm_maven_import_external(
-    name = "scala_reflect_2_11_12",
-    artifact = "org.scala-lang:scala-reflect:2.11.12",
-    artifact_sha256 = "6ba385b450a6311a15c918cf8688b9af9327c6104f0ecbd35933cfcd3095fe04",
     licenses = ["notice"],
     server_urls = ["https://repo.maven.apache.org/maven2"],
 )
@@ -254,21 +214,57 @@ jvm_maven_import_external(
     server_urls = ["https://repo.maven.apache.org/maven2"],
 )
 
+scala3_version = "3.0.0-M1-bin-20201029-1f433d5-NIGHTLY"
+
+jvm_maven_import_external(
+    name = "scala_compiler_3_0_0_M1",
+    artifact = "org.scala-lang:scala3-compiler_3.0.0-M1:" + scala3_version,
+    artifact_sha256 = "2c0affbfb61be70ba69c603ac84368409441e8e33cf8662c5803e428f7413abc",
+    licenses = ["notice"],
+    server_urls = ["https://repo.maven.apache.org/maven2"],
+)
+
+jvm_maven_import_external(
+    name = "scala_library_3_0_0_M1",
+    artifact = "org.scala-lang:scala3-library_3.0.0-M1:" + scala3_version,
+    artifact_sha256 = "2b76bf6d10620629459323039fc2157ace48a6476dffb125709ae059241eca1f",
+    licenses = ["notice"],
+    server_urls = ["https://repo.maven.apache.org/maven2"],
+)
+
+jvm_maven_import_external(
+    name = "scala_tasty_core_3_0_0_M1",
+    artifact = "org.scala-lang:tasty-core_3.0.0-M1:" + scala3_version,
+    artifact_sha256 = "384de9ac6d2d10bad82e2624f32fef964e96ca2524c0eec9b9544d5333b2cc14",
+    licenses = ["notice"],
+    server_urls = ["https://repo.maven.apache.org/maven2"],
+)
+
+jvm_maven_import_external(
+    name = "scala_interfaces_3_0_0_M1",
+    artifact = "org.scala-lang:scala3-interfaces:3.0.0-M1",
+    artifact_sha256 = "1f7b6025c59c57c21f2adff72e2950089096605c70d04fa266b93d706536cc48",
+    licenses = ["notice"],
+    server_urls = ["https://repo.maven.apache.org/maven2"],
+)
+
+jvm_maven_import_external(
+    name = "scala_asm_7_3_1",
+    artifact = "org.scala-lang.modules:scala-asm:7.3.1-scala-1",
+    artifact_sha256 = "558cc266d288347d77cb6e47ba5c07eee4df59f89820e2eb44dc9734c5022599",
+    licenses = ["notice"],
+    server_urls = ["https://repo.maven.apache.org/maven2"],
+)
+
+jvm_maven_import_external(
+    name = "scala_sbt_bridge_3_0_0_M1",
+    artifact = "org.scala-lang:scala3-sbt-bridge:3.0.0-M1",
+    artifact_sha256 = "ddab581a0f7bff4df429ba248f456001f30d2c3a16ce96a532da86bd50d4d211",
+    licenses = ["notice"],
+    server_urls = ["https://repo.maven.apache.org/maven2"],
+)
+
 bind(
     name = "default_scala",
     actual = "//scala:zinc_2_13",
-)
-
-http_file(
-    name = "shapeless_jar",
-    downloaded_file_path = "shapeless.jar",
-    sha256 = "75926d9dd4688710ca16d852b58746dcfc013a2a1a58d1e817a27f95b2d42303",
-    urls = ["https://repo.maven.apache.org/maven2/com/chuusai/shapeless_2.13/2.3.2/shapeless_2.13-2.3.2.jar"],
-)
-
-http_file(
-    name = "shapeless_srcjar",
-    downloaded_file_path = "shapeless-sources.jar",
-    sha256 = "6c00f4454ee1250fb2385e01e02d5751bdf6594e847befab5dbe417c95dbd2b9",
-    urls = ["https://repo.maven.apache.org/maven2/com/chuusai/shapeless_2.13/2.3.2/shapeless_2.13-2.3.2-sources.jar"],
 )

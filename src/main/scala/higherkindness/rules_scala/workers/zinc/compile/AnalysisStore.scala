@@ -2,8 +2,6 @@ package higherkindness.rules_scala
 package workers.zinc.compile
 
 import com.google.devtools.build.buildjar.jarhelper.JarHelper
-// import scalapb.lenses.{Lens, Mutation}
-// import scalapb.{GeneratedMessage, GeneratedMessageCompanion, Message}
 import java.io.{File, InputStream, OutputStream, OutputStreamWriter}
 import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, NoSuchFileException, Path, Paths}

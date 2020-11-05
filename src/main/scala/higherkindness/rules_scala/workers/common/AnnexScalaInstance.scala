@@ -34,6 +34,6 @@ final class AnnexScalaInstance(val allJars: Array[File]) extends ScalaInstance {
 }
 
 object AnnexScalaInstance {
-  val CompilerRegEx = "scala-compiler.*.jar".r
-  val LibraryRegEx = "scala-library.*.jar".r
+  val CompilerRegEx = """scala3?-compiler.*\.jar""".r
+  val LibraryRegEx = """scala3?-library.*\.jar""".r
 }
