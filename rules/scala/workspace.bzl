@@ -33,8 +33,6 @@ def scala_artifacts():
         "org.scala-sbt:zinc-core_2.13:1.4.2",
         "org.scala-sbt:zinc-apiinfo_2.13:1.4.2",
         "org.scala-sbt:zinc-classpath_2.13:1.4.2",
-        "org.scala-lang:scala3-compiler_3.0.0-M1:3.0.0-M1",
-        "org.scala-lang:scala3-sbt-bridge:3.0.0-M1",
     ]
 
 def scala_repositories(java_launcher_version = "0.29.1"):

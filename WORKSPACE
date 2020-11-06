@@ -13,22 +13,16 @@ http_archive(
     url = "https://github.com/bazelbuild/skydoc/archive/{}.zip".format(skydoc_tag),
 )
 
-bazel_skylib_tag = "1.0.2"
-
-bazel_skylib_sha256 = "97e70364e9249702246c0e9444bccdc4b847bed1eb03c5a3ece4f83dfe6abc44"
-
-http_archive(
+git_repository(
     name = "bazel_skylib",
-    sha256 = bazel_skylib_sha256,
-    urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/bazel-skylib/releases/download/{tag}/bazel-skylib-{tag}.tar.gz".format(tag = bazel_skylib_tag),
-        "https://github.com/bazelbuild/bazel-skylib/releases/download/{tag}/bazel-skylib-{tag}.tar.gz".format(tag = bazel_skylib_tag),
-    ],
+    commit = "d35e8d7bc6ad7a3a53e9a1d2ec8d3a904cc54ff7",
+    remote = "https://github.com/bazelbuild/bazel-skylib",
+    shallow_since = "1593183852 +0200",
 )
 
-protobuf_tag = "3.10.1"
+protobuf_tag = "3.12.3"
 
-protobuf_sha256 = "678d91d8a939a1ef9cb268e1f20c14cd55e40361dc397bb5881e4e1e532679b1"
+protobuf_sha256 = "e5265d552e12c1f39c72842fa91d84941726026fa056d914ea6a25cd58d7bbf8"
 
 http_archive(
     name = "com_google_protobuf",
@@ -71,9 +65,9 @@ http_archive(
     url = "https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u212-b03/OpenJDK8U-jdk_x64_mac_hotspot_8u212b03.tar.gz",
 )
 
-rules_jvm_external_tag = "2.9"
+rules_jvm_external_tag = "3.3"
 
-rules_jvm_external_sha256 = "e5b97a31a3e8feed91636f42e19b11c49487b85e5de2f387c999ea14d77c7f45"
+rules_jvm_external_sha256 = "d85951a92c0908c80bd8551002d66cb23c3434409c814179c0ff026b53544dab"
 
 http_archive(
     name = "rules_jvm_external",
