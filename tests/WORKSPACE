@@ -16,9 +16,9 @@ http_archive(
     ],
 )
 
-protobuf_tag = "3.10.1"
+protobuf_tag = "3.12.3"
 
-protobuf_sha256 = "678d91d8a939a1ef9cb268e1f20c14cd55e40361dc397bb5881e4e1e532679b1"
+protobuf_sha256 = "e5265d552e12c1f39c72842fa91d84941726026fa056d914ea6a25cd58d7bbf8"
 
 http_archive(
     name = "com_google_protobuf",
@@ -190,60 +190,36 @@ jvm_maven_import_external(
     server_urls = ["https://repo.maven.apache.org/maven2"],
 )
 
+scala3_version = "3.0.0-M2-bin-20201108-3938388-NIGHTLY"
+
 jvm_maven_import_external(
-    name = "scala_compiler_typelevel_2_13_1",
-    artifact = "org.typelevel:scala-compiler:2.12.1",
-    artifact_sha256 = "804373bb9209a8bc66741789ea14c61784e26a73d29c4ef9b7f851b625d6316d",
+    name = "scala_compiler_3_0_0_M2",
+    artifact = "org.scala-lang:scala3-compiler_3.0.0-M2:" + scala3_version,
+    artifact_sha256 = "0f67bf88b2319e128f644a2c3bf5e92b888be7b6c9e5b1634adeb28a15a6b2dc",
     licenses = ["notice"],
     server_urls = ["https://repo.maven.apache.org/maven2"],
 )
 
 jvm_maven_import_external(
-    name = "scala_library_typelevel_2_13_1",
-    artifact = "org.typelevel:scala-library:2.12.1",
-    artifact_sha256 = "50e82cd9439fd41c7c98b90048ed8be864f58e56c694761123011adc53d8558d",
+    name = "scala_library_3_0_0_M2",
+    artifact = "org.scala-lang:scala3-library_3.0.0-M2:" + scala3_version,
+    artifact_sha256 = "46b1d69cc99bee7c66e4902d87ed8fdfb3b23a676b57c365b437097b02efd666",
     licenses = ["notice"],
     server_urls = ["https://repo.maven.apache.org/maven2"],
 )
 
 jvm_maven_import_external(
-    name = "scala_reflect_typelevel_2_13_1",
-    artifact = "org.typelevel:scala-reflect:2.12.1",
-    artifact_sha256 = "7b43a5040425e2eeeb1ff5e9aeb9cba623f0ddfcc959d048f4c26e4346155b29",
-    licenses = ["notice"],
-    server_urls = ["https://repo.maven.apache.org/maven2"],
-)
-
-scala3_version = "3.0.0-M1-bin-20201029-1f433d5-NIGHTLY"
-
-jvm_maven_import_external(
-    name = "scala_compiler_3_0_0_M1",
-    artifact = "org.scala-lang:scala3-compiler_3.0.0-M1:" + scala3_version,
-    artifact_sha256 = "2c0affbfb61be70ba69c603ac84368409441e8e33cf8662c5803e428f7413abc",
+    name = "scala_tasty_core_3_0_0_M2",
+    artifact = "org.scala-lang:tasty-core_3.0.0-M2:" + scala3_version,
+    artifact_sha256 = "2455c20741b4ad19f5a31515e71fe526b1996814131ff526e3f3ce486c6c2a3d",
     licenses = ["notice"],
     server_urls = ["https://repo.maven.apache.org/maven2"],
 )
 
 jvm_maven_import_external(
-    name = "scala_library_3_0_0_M1",
-    artifact = "org.scala-lang:scala3-library_3.0.0-M1:" + scala3_version,
-    artifact_sha256 = "2b76bf6d10620629459323039fc2157ace48a6476dffb125709ae059241eca1f",
-    licenses = ["notice"],
-    server_urls = ["https://repo.maven.apache.org/maven2"],
-)
-
-jvm_maven_import_external(
-    name = "scala_tasty_core_3_0_0_M1",
-    artifact = "org.scala-lang:tasty-core_3.0.0-M1:" + scala3_version,
-    artifact_sha256 = "384de9ac6d2d10bad82e2624f32fef964e96ca2524c0eec9b9544d5333b2cc14",
-    licenses = ["notice"],
-    server_urls = ["https://repo.maven.apache.org/maven2"],
-)
-
-jvm_maven_import_external(
-    name = "scala_interfaces_3_0_0_M1",
-    artifact = "org.scala-lang:scala3-interfaces:3.0.0-M1",
-    artifact_sha256 = "1f7b6025c59c57c21f2adff72e2950089096605c70d04fa266b93d706536cc48",
+    name = "scala_interfaces_3_0_0_M2",
+    artifact = "org.scala-lang:scala3-interfaces:" + scala3_version,
+    artifact_sha256 = "7bef3970fd52652f98c77f8a42a009a08fba7705d0575fc94e11c57d0280d0f9",
     licenses = ["notice"],
     server_urls = ["https://repo.maven.apache.org/maven2"],
 )
@@ -257,9 +233,9 @@ jvm_maven_import_external(
 )
 
 jvm_maven_import_external(
-    name = "scala_sbt_bridge_3_0_0_M1",
-    artifact = "org.scala-lang:scala3-sbt-bridge:3.0.0-M1",
-    artifact_sha256 = "ddab581a0f7bff4df429ba248f456001f30d2c3a16ce96a532da86bd50d4d211",
+    name = "scala_sbt_bridge_3_0_0_M2",
+    artifact = "org.scala-lang:scala3-sbt-bridge:" + scala3_version,
+    artifact_sha256 = "018d8052877eb56eb2be543b8ab1eec180b7121e313c1bbbbfad06e14b39ac46",
     licenses = ["notice"],
     server_urls = ["https://repo.maven.apache.org/maven2"],
 )

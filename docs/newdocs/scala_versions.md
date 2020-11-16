@@ -2,12 +2,12 @@
 
 The scala version used by a buildable target is specified via the `ScalaConfiguration` passed in to the rule's `scala` attribute.
 
-This attribute defaults to using the `default_scala` specified via `bind` in the `WORKSPACE` file of the repo. For example, suppose the `ScalaConfiguration` you wish to default to is defined by `//scala:2_13_12`. In your `WORKSPACE`, you would include:
+This attribute defaults to using the `default_scala` specified via `bind` in the `WORKSPACE` file of the repo. For example, suppose the `ScalaConfiguration` you wish to default to is defined by `//scala:2_13`. In your `WORKSPACE`, you would include:
 
 ```python
 bind(
     name = "default_scala",
-    actual = "//scala:2_13_12",
+    actual = "//scala:2_13",
 )
 ```
 

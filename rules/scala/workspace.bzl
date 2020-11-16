@@ -25,14 +25,14 @@ def scala_artifacts():
         "org.jacoco:org.jacoco.core:0.7.5.201505241946",
         "com.lihaoyi:sourcecode_2.13:0.2.1,",
         "org.scala-sbt:test-interface:1.0",
-        "org.scala-sbt:util-interface:1.4.2",
-        "org.scala-sbt:util-logging_2.13:1.4.2",
-        "org.scala-sbt:compiler-interface:1.4.2",
-        "org.scala-sbt:zinc_2.13:1.4.2",
-        "org.scala-sbt:zinc-persist_2.13:1.4.2",
-        "org.scala-sbt:zinc-core_2.13:1.4.2",
-        "org.scala-sbt:zinc-apiinfo_2.13:1.4.2",
-        "org.scala-sbt:zinc-classpath_2.13:1.4.2",
+        "org.scala-sbt:util-interface:1.4.3",
+        "org.scala-sbt:util-logging_2.13:1.4.3",
+        "org.scala-sbt:compiler-interface:1.4.3",
+        "org.scala-sbt:zinc_2.13:1.4.3",
+        "org.scala-sbt:zinc-persist_2.13:1.4.3",
+        "org.scala-sbt:zinc-core_2.13:1.4.3",
+        "org.scala-sbt:zinc-apiinfo_2.13:1.4.3",
+        "org.scala-sbt:zinc-classpath_2.13:1.4.3",
     ]
 
 def scala_repositories(java_launcher_version = "0.29.1"):
@@ -68,14 +68,14 @@ def scala_repositories(java_launcher_version = "0.29.1"):
         name = "compiler_bridge_2_13",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
         sha256 = "a7feefe9f32d95ece54dfb479b2a48cc60a016ef840d21ed1fc31df86ca35e43",
-        url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/1.4.2/compiler-bridge_2.13-1.4.2-sources.jar",
+        url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/1.4.3/compiler-bridge_2.13-1.4.3-sources.jar",
     )
 
     http_archive(
         name = "compiler_bridge_3_0",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
-        sha256 = "f1717ed0e35e1eb86f24902d001a30254c0db14e37fc82ca6bf67bc8f6a18b7d",
-        url = "https://repo1.maven.org/maven2/org/scala-lang/scala3-sbt-bridge/3.0.0-M1/scala3-sbt-bridge-3.0.0-M1-sources.jar",
+        sha256 = "018d8052877eb56eb2be543b8ab1eec180b7121e313c1bbbbfad06e14b39ac46",
+        url = "https://repo1.maven.org/maven2/org/scala-lang/scala3-sbt-bridge/3.0.0-M2/scala3-sbt-bridge-3.0.0-M2-bin-20201108-3938388-NIGHTLY-sources.jar",
     )
 
 def scala_register_toolchains():
