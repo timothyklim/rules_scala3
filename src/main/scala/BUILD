@@ -7,7 +7,7 @@ load(
 
 alias(
     name = "bootstrap",
-    actual = ":bootstrap_2_13_3",
+    actual = ":bootstrap_2_13_4",
     visibility = ["//visibility:public"],
 )
 
@@ -23,34 +23,34 @@ alias(
     visibility = ["//visibility:public"],
 )
 
-compiler_classpath_2_13_3 = [
+compiler_classpath_2_13_4 = [
     "@annex//:org_scala_lang_scala_compiler",
     "@annex//:org_scala_lang_scala_library",
     "@annex//:org_scala_lang_scala_reflect",
 ]
 
-runtime_classpath_2_13_3 = [
+runtime_classpath_2_13_4 = [
     "@annex//:org_scala_lang_scala_library",
 ]
 
 configure_bootstrap_scala(
-    name = "bootstrap_2_13_3",
-    compiler_classpath = compiler_classpath_2_13_3,
-    runtime_classpath = runtime_classpath_2_13_3,
-    version = "2.13.3",
+    name = "bootstrap_2_13_4",
+    compiler_classpath = compiler_classpath_2_13_4,
+    runtime_classpath = runtime_classpath_2_13_4,
+    version = "2.13.4",
     visibility = ["//visibility:public"],
 )
 
 scala_library(
-    name = "compiler_bridge_2_13_3",
+    name = "compiler_bridge_2_13_4",
     srcs = [
         "@compiler_bridge_2_13//:src",
     ],
-    scala = ":bootstrap_2_13_3",
+    scala = ":bootstrap_2_13_4",
     resources = ["@compiler_bridge_2_13//:meta"],
     resource_strip_prefix = "../compiler_bridge_2_13",
     visibility = ["//visibility:public"],
-    deps = compiler_classpath_2_13_3 + [
+    deps = compiler_classpath_2_13_4 + [
         "@annex//:org_scala_sbt_compiler_interface",
         "@annex//:org_scala_sbt_util_interface",
     ],
@@ -58,10 +58,10 @@ scala_library(
 
 configure_zinc_scala(
     name = "zinc_2_13",
-    compiler_bridge = ":compiler_bridge_2_13_3",
-    compiler_classpath = compiler_classpath_2_13_3,
-    runtime_classpath = runtime_classpath_2_13_3,
-    version = "2.13.3",
+    compiler_bridge = ":compiler_bridge_2_13_4",
+    compiler_classpath = compiler_classpath_2_13_4,
+    runtime_classpath = runtime_classpath_2_13_4,
+    version = "2.13.4",
     visibility = ["//visibility:public"],
 )
 
@@ -89,7 +89,7 @@ alias(
 
 runtime_classpath_3_0 = [
     "@scala_library_3_0_0_M2//jar",
-    "@scala_library_2_13_3//jar",
+    "@scala_library_2_13_4//jar",
 ]
 
 compiler_classpath_3_0 = runtime_classpath_3_0 + [

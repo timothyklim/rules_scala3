@@ -10,25 +10,25 @@ scala_library(
 )
 
 configure_zinc_scala(
-    name = "scala_2_13_3_with_kind_projector",
-    compiler_bridge = "//scala:compiler_bridge_2_13_3",
+    name = "scala_2_13_4_with_kind_projector",
+    compiler_bridge = "//scala:compiler_bridge_2_13_4",
     compiler_classpath = [
-        "@scala_compiler_2_13_3//jar",
-        "@scala_reflect_2_13_3//jar",
-        "@scala_library_2_13_3//jar",
+        "@scala_compiler_2_13_4//jar",
+        "@scala_reflect_2_13_4//jar",
+        "@scala_library_2_13_4//jar",
     ],
     global_plugins = [
         "@kind_projector_2_13//jar",
     ],
     runtime_classpath = [
-        "@scala_library_2_13_3//jar",
+        "@scala_library_2_13_4//jar",
     ],
-    version = "2.13.3",
+    version = "2.13.4",
 )
 
 scala_library(
     name = "kind-projector-via-global-plugins",
     srcs = ["KindProjector.scala"],
-    scala = ":scala_2_13_3_with_kind_projector",
+    scala = ":scala_2_13_4_with_kind_projector",
     tags = ["manual"],
 )

@@ -18,9 +18,9 @@ filegroup(
 
 def scala_artifacts():
     return [
-        "org.scala-lang:scala-compiler:2.13.3",
-        "org.scala-lang:scala-library:2.13.3",
-        "org.scala-lang:scala-reflect:2.13.3",
+        "org.scala-lang:scala-compiler:2.13.4",
+        "org.scala-lang:scala-library:2.13.4",
+        "org.scala-lang:scala-reflect:2.13.4",
         "net.sourceforge.argparse4j:argparse4j:0.8.1",
         "org.jacoco:org.jacoco.core:0.7.5.201505241946",
         "com.lihaoyi:sourcecode_2.13:0.2.1,",
