@@ -87,7 +87,7 @@ object ReplRunner {
       .map(file => runPath.resolve(file.toPath).toFile)
       .toSeq
 
-    val options = Option(replNamespace.getList[String]("compiler_option")).fold[Seq[String]](Nil)(_.asScala).toSeq
-    scalaCompiler.console(compilerClasspath ++ classpath, options, "", "", logger)()
+    val options = Option(replNamespace.getList[String]("compiler_option")).fold[Seq[String]](Nil)(_.asScala.to(Seq))
+    scalaCompiler.console(compilerClasspath ++ classpath, null, options, "", "", logger)()
   }
 }

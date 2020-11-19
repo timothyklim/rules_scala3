@@ -16,23 +16,26 @@ filegroup(
 )
 """
 
+scala2_version = "2.13.4"
+zinc_version = "1.4.3"
+
 def scala_artifacts():
     return [
-        "org.scala-lang:scala-compiler:2.13.4",
-        "org.scala-lang:scala-library:2.13.4",
-        "org.scala-lang:scala-reflect:2.13.4",
+        "org.scala-lang:scala-compiler:" + scala2_version,
+        "org.scala-lang:scala-library:" + scala2_version,
+        "org.scala-lang:scala-reflect:" + scala2_version,
         "net.sourceforge.argparse4j:argparse4j:0.8.1",
         "org.jacoco:org.jacoco.core:0.7.5.201505241946",
         "com.lihaoyi:sourcecode_2.13:0.2.1,",
         "org.scala-sbt:test-interface:1.0",
-        "org.scala-sbt:util-interface:1.4.3",
-        "org.scala-sbt:util-logging_2.13:1.4.3",
-        "org.scala-sbt:compiler-interface:1.4.3",
-        "org.scala-sbt:zinc_2.13:1.4.3",
-        "org.scala-sbt:zinc-persist_2.13:1.4.3",
-        "org.scala-sbt:zinc-core_2.13:1.4.3",
-        "org.scala-sbt:zinc-apiinfo_2.13:1.4.3",
-        "org.scala-sbt:zinc-classpath_2.13:1.4.3",
+        "org.scala-sbt:util-interface:" + zinc_version,
+        "org.scala-sbt:util-logging_2.13:" + zinc_version,
+        "org.scala-sbt:compiler-interface:" + zinc_version,
+        "org.scala-sbt:zinc_2.13:" + zinc_version,
+        "org.scala-sbt:zinc-persist_2.13:" + zinc_version,
+        "org.scala-sbt:zinc-core_2.13:" + zinc_version,
+        "org.scala-sbt:zinc-apiinfo_2.13:" + zinc_version,
+        "org.scala-sbt:zinc-classpath_2.13:" + zinc_version,
     ]
 
 def scala_repositories(java_launcher_version = "0.29.1"):
@@ -67,8 +70,8 @@ def scala_repositories(java_launcher_version = "0.29.1"):
     http_archive(
         name = "compiler_bridge_2_13",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
-        sha256 = "a7feefe9f32d95ece54dfb479b2a48cc60a016ef840d21ed1fc31df86ca35e43",
-        url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/1.4.3/compiler-bridge_2.13-1.4.3-sources.jar",
+        sha256 = "dbc8ac87c67086b69cc2320b41d241f53bd5bb36bb722778f5d7b6b75c33a2ee",
+        url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/" + zinc_version +"/compiler-bridge_2.13-" + zinc_version +"-sources.jar",
     )
 
     http_archive(
