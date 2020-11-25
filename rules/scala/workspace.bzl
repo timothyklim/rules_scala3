@@ -77,8 +77,8 @@ def scala_repositories(java_launcher_version = "0.29.1"):
     http_archive(
         name = "compiler_bridge_3_0",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
-        sha256 = "018d8052877eb56eb2be543b8ab1eec180b7121e313c1bbbbfad06e14b39ac46",
-        url = "https://repo1.maven.org/maven2/org/scala-lang/scala3-sbt-bridge/3.0.0-M2/scala3-sbt-bridge-3.0.0-M2-bin-20201119-97a6f30-NIGHTLY-sources.jar",
+        sha256 = "bf19ab10028936662c8bb502cb22c4cb7f4184a4903ade156f13fa7102b600df",
+        url = "https://repo1.maven.org/maven2/org/scala-lang/scala3-sbt-bridge/3.0.0-M2/scala3-sbt-bridge-3.0.0-M2-sources.jar",
     )
 
 def scala_register_toolchains():

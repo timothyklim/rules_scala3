@@ -19,7 +19,7 @@ object Main {
 
     runExample("Type Lambda")(TypeLambdas.test)
 
-    runExample("Multiversal Equality")(MultiversalEquality.test)
+    // runExample("Multiversal Equality")(MultiversalEquality.test)
 
     runExample("Auto Param Tupling")(AutoParamTupling.test)
 
