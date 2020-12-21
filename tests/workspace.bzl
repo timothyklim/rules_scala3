@@ -2,7 +2,7 @@ load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 def test_artifacts():
     return [
-        "org.scala-sbt:compiler-interface:1.4.3",
+        "org.scala-sbt:compiler-interface:1.4.4",
         "org.scala-lang.modules:scala-xml_2.13:1.3.0",
         "org.scalacheck:scalacheck_2.13:1.15.0",
         "org.specs2:specs2-matcher_2.13:4.10.5",

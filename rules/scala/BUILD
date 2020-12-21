@@ -3,3 +3,4 @@ filegroup(
     srcs = glob(["**/*.bzl"]),
     visibility = ["//rules:__pkg__"],
 )
+

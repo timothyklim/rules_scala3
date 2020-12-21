@@ -17,7 +17,7 @@ filegroup(
 """
 
 scala2_version = "2.13.4"
-zinc_version = "1.4.3"
+zinc_version = "1.4.4"
 
 def scala_artifacts():
     return [
@@ -38,7 +38,7 @@ def scala_artifacts():
         "org.scala-sbt:zinc-classpath_2.13:" + zinc_version,
     ]
 
-def scala_repositories(java_launcher_version = "0.29.1"):
+def scala_repositories(java_launcher_version = "3.7.2"):
     maven_install(
         name = "annex",
         artifacts = scala_artifacts(),
@@ -71,14 +71,14 @@ def scala_repositories(java_launcher_version = "0.29.1"):
         name = "compiler_bridge_2_13",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
         sha256 = "dbc8ac87c67086b69cc2320b41d241f53bd5bb36bb722778f5d7b6b75c33a2ee",
-        url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/" + zinc_version +"/compiler-bridge_2.13-" + zinc_version +"-sources.jar",
+        url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/" + zinc_version + "/compiler-bridge_2.13-" + zinc_version + "-sources.jar",
     )
 
     http_archive(
         name = "compiler_bridge_3_0",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
-        sha256 = "bf19ab10028936662c8bb502cb22c4cb7f4184a4903ade156f13fa7102b600df",
-        url = "https://repo1.maven.org/maven2/org/scala-lang/scala3-sbt-bridge/3.0.0-M2/scala3-sbt-bridge-3.0.0-M2-sources.jar",
+        sha256 = "e2f1f9be622735ecbd4d0d12af17e60d009a7b6539ae48689625d0e4cd7ec606",
+        url = "https://repo1.maven.org/maven2/org/scala-lang/scala3-sbt-bridge/3.0.0-M3/scala3-sbt-bridge-3.0.0-M3-sources.jar",
     )
 
 def scala_register_toolchains():

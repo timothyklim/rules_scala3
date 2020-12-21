@@ -24,19 +24,7 @@ import scala.jdk.CollectionConverters._
 import scala.util.Try
 import scala.util.control.NonFatal
 import xsbti.{Logger, PathBasedFile, VirtualFile}
-import xsbti.compile.AnalysisContents
-import xsbti.compile.ClasspathOptionsUtil
-import xsbti.compile.CompileAnalysis
-import xsbti.compile.CompileOptions
-import xsbti.compile.CompileProgress
-import xsbti.compile.CompilerCache
-import xsbti.compile.DefinesClass
-import xsbti.compile.IncOptions
-import xsbti.compile.Inputs
-import xsbti.compile.PerClasspathEntryLookup
-import xsbti.compile.PreviousResult
-import xsbti.compile.Setup
-import xsbti.compile.MiniSetup
+import xsbti.compile.{AnalysisContents, ClasspathOptionsUtil, CompileAnalysis, CompileOptions, CompileProgress, CompilerCache, DefinesClass, IncOptions, Inputs, MiniSetup, PerClasspathEntryLookup, PreviousResult, Setup}
 
 /**
   * <strong>Caching</strong>

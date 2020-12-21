@@ -2,6 +2,6 @@
 . "$(dirname "$0")"/../common.sh
 
 rm -fr "$(bazel info execution_root)/.bazel-zinc"
-bazel build --noworker_sandboxing --worker_extra_flag=ScalaCompile=--persistence_dir=.bazel-zinc :app
+bazel build --noworker_sandboxing --worker_extra_flag=ScalaCompile=--persistence_dir=.bazel-zinc --sandbox_debug --verbose_failures :app
 # TODO: figure out breakage
 #[ "$(unzip -l "$(bazel info execution_root)/.bazel-zinc/compile/zinc_inc_lib/classes.jar" | grep '\.class' | wc -l | xargs echo)" = 1 ]
