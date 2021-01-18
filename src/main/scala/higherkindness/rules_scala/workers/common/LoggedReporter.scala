@@ -10,12 +10,9 @@ import scala.jdk.OptionConverters._
 final class LoggedReporter(logger: Logger) extends SbtLoggedReporter(0, logger) {
   import LoggedReporter.pretty
 
-  override protected def logError(problem: Problem): Unit =
-    logger.error(() => problem.rendered.asScala.fold(Color.Error(pretty(problem)))(Color.Error(_)))
-  override protected def logInfo(problem: Problem): Unit =
-    logger.info(() => problem.rendered.asScala.fold(Color.Info(pretty(problem)))(Color.Info(_)))
-  override protected def logWarning(problem: Problem): Unit =
-    logger.warn(() => problem.rendered.asScala.fold(Color.Warning(pretty(problem)))(Color.Warning(_)))
+  override protected def logError(problem: Problem): Unit = logger.error(() => Color.Error(pretty(problem)))
+  override protected def logInfo(problem: Problem): Unit = logger.info(() => Color.Info(pretty(problem)))
+  override protected def logWarning(problem: Problem): Unit = logger.warn(() => Color.Warning(pretty(problem)))
 }
 object LoggedReporter {
   def pretty(p: Problem): String = p.rendered.asScala.getOrElse(pretty0(p))
