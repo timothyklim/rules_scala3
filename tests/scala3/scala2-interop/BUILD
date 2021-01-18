@@ -6,18 +6,22 @@ scala_library(
     scala = "//scala:zinc_3_0",
     macro = True, # TODO
     scalacopts = [
+      "-version",
       "-deprecation",
       "-encoding",
       "UTF-8",
       "-feature",
-      "-unchecked"
+      "-unchecked",
+      "-source:3.0",
+      "-rewrite",
+      "-indent",
     ]
 )
 
 scala_binary(
     name = "app",
     srcs = ["Scala2.scala"],
-    scala = "//scala:zinc_2_13",
+    scala = "//scala:zinc_2_13_5",
     deps = [
       ":lib3",
     ],

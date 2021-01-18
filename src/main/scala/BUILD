@@ -92,12 +92,12 @@ runtime_classpath_3_0 = [
     "@scala_library_2_13_4//jar",
 ]
 
-compiler_classpath_3_0 = runtime_classpath_3_0 + [
+compiler_classpath_3_0 = [
     "@scala_compiler_3_0_0//jar",
     "@scala_interfaces_3_0_0//jar",
     "@scala_tasty_core_3_0_0//jar",
     "@scala_asm_7_3_1//jar",
-]
+] + runtime_classpath_3_0
 
 configure_zinc_scala(
     name = "zinc_3_0",

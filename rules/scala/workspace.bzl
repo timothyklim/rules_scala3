@@ -16,26 +16,17 @@ filegroup(
 )
 """
 
-scala2_version = "2.13.4"
 zinc_version = "1.5.0-M3"
 
 def scala_artifacts():
     return [
-        "org.scala-lang:scala-compiler:" + scala2_version,
-        "org.scala-lang:scala-library:" + scala2_version,
-        "org.scala-lang:scala-reflect:" + scala2_version,
         "net.sourceforge.argparse4j:argparse4j:0.8.1",
         "org.jacoco:org.jacoco.core:0.7.5.201505241946",
         "com.lihaoyi:sourcecode_2.13:0.2.1,",
         "org.scala-sbt:test-interface:1.0",
         "org.scala-sbt:util-interface:1.4.6",
         "org.scala-sbt:util-logging_2.13:1.4.6",
-        "org.scala-sbt:compiler-interface:1.5.0-M2",
         "org.scala-sbt:zinc_2.13:" + zinc_version,
-        "org.scala-sbt:zinc-persist_2.13:" + zinc_version,
-        "org.scala-sbt:zinc-core_2.13:" + zinc_version,
-        "org.scala-sbt:zinc-apiinfo_2.13:" + zinc_version,
-        "org.scala-sbt:zinc-classpath_2.13:" + zinc_version,
     ]
 
 def scala_repositories(java_launcher_version = "3.7.2"):
@@ -77,8 +68,8 @@ def scala_repositories(java_launcher_version = "3.7.2"):
     http_archive(
         name = "compiler_bridge_3_0",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
-        sha256 = "997a14753a1da3b9a5c478fa8a68699468608b270cb0d66a31994fddae2a8f91",
-        url = "https://repo1.maven.org/maven2/org/scala-lang/scala3-sbt-bridge/3.0.0-RC1-bin-20210116-a20276a-NIGHTLY/scala3-sbt-bridge-3.0.0-RC1-bin-20210116-a20276a-NIGHTLY-sources.jar",
+        sha256 = "10be1811a236a2e0109ba6db99988748038f62a7abb166f73e440870bcd5d1d4",
+        url = "https://repo1.maven.org/maven2/org/scala-lang/scala3-sbt-bridge/3.0.0-RC1-bin-20201230-0a8bb4b-NIGHTLY/scala3-sbt-bridge-3.0.0-RC1-bin-20201230-0a8bb4b-NIGHTLY-sources.jar",
     )
 
 def scala_register_toolchains():

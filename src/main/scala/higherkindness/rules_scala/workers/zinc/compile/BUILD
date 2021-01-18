@@ -14,7 +14,6 @@ scala_binary(
         "//src/main/scala/higherkindness/rules_scala/common/worker",
         "//src/main/scala/higherkindness/rules_scala/workers/common",
         "//third_party/bazel/src/java_tools/buildjar/java/com/google/devtools/build/buildjar/jarhelper",
-        "@annex//:org_scala_sbt_test_interface",
         "@annex//:org_scala_sbt_zinc_2_13",
     ],
 )

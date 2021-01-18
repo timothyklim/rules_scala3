@@ -1,12 +1,9 @@
 package higherkindness.rules_scala
 package workers.zinc.compile
 
-import workers.common.AnnexLogger
-import workers.common.AnnexScalaInstance
-import workers.common.CommonArguments
-import workers.common.FileUtil
-import workers.common.LoggedReporter
+import workers.common._
 import common.worker.WorkerMain
+
 import com.google.devtools.build.buildjar.jarhelper.JarCreator
 import java.io.{File, PrintWriter}
 import java.net.URLClassLoader
@@ -24,7 +21,21 @@ import scala.jdk.CollectionConverters._
 import scala.util.Try
 import scala.util.control.NonFatal
 import xsbti.{Logger, PathBasedFile, VirtualFile}
-import xsbti.compile.{AnalysisContents, ClasspathOptionsUtil, CompileAnalysis, CompileOptions, CompileProgress, CompilerCache, DefinesClass, IncOptions, Inputs, MiniSetup, PerClasspathEntryLookup, PreviousResult, Setup}
+import xsbti.compile.{
+  AnalysisContents,
+  ClasspathOptionsUtil,
+  CompileAnalysis,
+  CompileOptions,
+  CompileProgress,
+  CompilerCache,
+  DefinesClass,
+  IncOptions,
+  Inputs,
+  MiniSetup,
+  PerClasspathEntryLookup,
+  PreviousResult,
+  Setup
+}
 
 /**
   * <strong>Caching</strong>
@@ -47,6 +58,7 @@ import xsbti.compile.{AnalysisContents, ClasspathOptionsUtil, CompileAnalysis, C
   */
 object ZincRunner extends WorkerMain[Namespace] {
 
+  private[this] val topLoader = new TopClassLoader(getClass().getClassLoader())
   private[this] val classloaderCache = new ClassLoaderCache(new URLClassLoader(Array()))
 
   private[this] val compilerCache = CompilerCache.fresh
@@ -181,7 +193,7 @@ object ZincRunner extends WorkerMain[Namespace] {
       .orElseGet(() => PreviousResult.of(Optional.empty[CompileAnalysis](), Optional.empty[MiniSetup]()))
 
     // setup compiler
-    val scalaInstance = new AnnexScalaInstance(namespace.getList[File]("compiler_classpath").asScala.toArray)
+    val scalaInstance = new AnnexScalaInstance(topLoader, classloaderCache, namespace.getList[File]("compiler_classpath").asScala.toArray)
 
     val compileOptions =
       CompileOptions.create
@@ -196,13 +208,12 @@ object ZincRunner extends WorkerMain[Namespace] {
           )
         )
 
-    val compilers = {
-      val scalaCompiler = ZincUtil
-        .scalaCompiler(scalaInstance, namespace.get[File]("compiler_bridge"))
-        .withClassLoaderCache(classloaderCache)
-      lastCompiler = scalaCompiler
+    val scalaCompiler = ZincUtil
+      .scalaCompiler(scalaInstance, namespace.get[File]("compiler_bridge"))
+      .withClassLoaderCache(classloaderCache)
+    lastCompiler = scalaCompiler
+    val compilers =
       ZincUtil.compilers(scalaInstance, ClasspathOptionsUtil.boot, None, scalaCompiler)
-    }
 
     val lookup = {
       val depMap = deps.collect {
@@ -224,11 +235,12 @@ object ZincRunner extends WorkerMain[Namespace] {
       val incOptions = IncOptions.create()
       val reporter = new LoggedReporter(logger)
       val skip = false
+      val zincFile: Path = null
 
       Setup.create(
         lookup,
         skip,
-        null: Path,
+        zincFile,
         compilerCache,
         incOptions,
         reporter,
