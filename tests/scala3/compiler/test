@@ -1,5 +1,5 @@
 #!/usr/bin/env -S bash -e
-. "$(dirname "$0")"/../common.sh
+. "$(dirname "$0")"/../../common.sh
 
 rm -fr "$(bazel info execution_root)/.bazel-zinc"
 bazel build --noworker_sandboxing --worker_extra_flag=ScalaCompile=--persistence_dir=.bazel-zinc --sandbox_debug --verbose_failures :app

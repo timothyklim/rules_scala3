@@ -245,6 +245,10 @@ object ZincRunner extends WorkerMain[Namespace] {
       try incrementalCompiler.compile(inputs, logger)
       catch {
         case _: CompileFailed => sys.exit(-1)
+        case e: MatchError =>
+          e.printStackTrace()
+          System.err.println(e)
+          sys.exit(1)
         case e: ClassFormatError =>
           System.err.println(e)
           println("You may be missing a `macro = True` attribute.")

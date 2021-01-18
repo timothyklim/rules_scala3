@@ -7,9 +7,15 @@ import sbt.internal.inc.InvalidScalaProvider
 import java.io.File
 import java.net.URLClassLoader
 import java.util.Properties
+import scala.util.matching.Regex
 
-final class AnnexScalaInstance(val allJars: Array[File]) extends ScalaInstance {
-  override def version: String = actualVersion
+final class AnnexScalaInstance(
+  override val allJars: Array[File],
+  topLoader: ClassLoader = ClassLoader.getSystemClassLoader
+) extends ScalaInstance {
+  import AnnexScalaInstance._
+
+  override lazy val version: String = actualVersion
   override lazy val actualVersion: String = {
     val stream = loader.getResourceAsStream("compiler.properties")
     try {
@@ -20,20 +26,31 @@ final class AnnexScalaInstance(val allJars: Array[File]) extends ScalaInstance {
   }
 
   override val compilerJar: File = allJars
-    .collectFirst { case jar if AnnexScalaInstance.CompilerRegEx.findFirstMatchIn(jar.getName).nonEmpty => jar }
+    .collectFirst { case jar if isCompiler(jar) => jar }
     .getOrElse(throw new InvalidScalaProvider(s"Couldn't find 'scala-compiler.jar'"))
+  override val compilerJars = Array(compilerJar)
 
-  override lazy val libraryJars: Array[File] = allJars
-    .collect { case jar if AnnexScalaInstance.LibraryRegEx.findFirstMatchIn(jar.getName).nonEmpty => jar }
+  override val libraryJars: Array[File] = allJars
+    .collect { case jar if isLibraryJar(jar) => jar }
+    .distinct
 
-  override def otherJars: Array[File] = allJars.filterNot(f => compilerJar == f || libraryJars.contains(f))
+  override def otherJars: Array[File] =
+    allJars.filterNot(f => compilerJars.contains(f) || libraryJars.contains(f)).distinct
 
+  override lazy val loaderLibraryOnly: ClassLoader =
+    new URLClassLoader(libraryJars.map(_.toURI.toURL), topLoader)
+  override lazy val loaderCompilerOnly: ClassLoader =
+    new URLClassLoader(compilerJars.map(_.toURI.toURL), loaderLibraryOnly)
   override lazy val loader: ClassLoader =
-    new URLClassLoader(allJars.map(_.toURI.toURL), null)
-  override def loaderLibraryOnly: ClassLoader = null
+    new URLClassLoader(allJars.map(_.toURI.toURL), loaderLibraryOnly)
 }
 
 object AnnexScalaInstance {
-  val CompilerRegEx = """scala3?-compiler.*\.jar""".r
-  val LibraryRegEx = """scala3?-library.*\.jar""".r
+  def isCompiler(file: File): Boolean = check(CompilerRE, file)
+  def isLibraryJar(file: File): Boolean = check(LibraryRE, file)
+
+  private def check(re: Regex, file: File): Boolean = re.findFirstIn(file.getName()).nonEmpty
+  
+  private val CompilerRE = """scala3?-compiler.*\.jar""".r
+  private val LibraryRE = """scala3?-library.*\.jar""".r
 }

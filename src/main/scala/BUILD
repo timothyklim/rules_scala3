@@ -79,7 +79,7 @@ config_setting(
     },
 )
 
-# Scala 3.0.0-M3
+# Scala 3.0.0-RC1
 
 alias(
     name = "3_0",
@@ -88,22 +88,22 @@ alias(
 )
 
 runtime_classpath_3_0 = [
-    "@scala_library_3_0_0_M3//jar",
+    "@scala_library_3_0_0//jar",
     "@scala_library_2_13_4//jar",
 ]
 
 compiler_classpath_3_0 = runtime_classpath_3_0 + [
-    "@scala_compiler_3_0_0_M3//jar",
-    "@scala_interfaces_3_0_0_M3//jar",
-    "@scala_tasty_core_3_0_0_M3//jar",
+    "@scala_compiler_3_0_0//jar",
+    "@scala_interfaces_3_0_0//jar",
+    "@scala_tasty_core_3_0_0//jar",
     "@scala_asm_7_3_1//jar",
 ]
 
 configure_zinc_scala(
     name = "zinc_3_0",
-    compiler_bridge = "@scala_sbt_bridge_3_0_0_M3//jar",
+    compiler_bridge = "@scala_sbt_bridge_3_0_0//jar",
     compiler_classpath = compiler_classpath_3_0,
     runtime_classpath = runtime_classpath_3_0,
-    version = "3.0.0-M3",
+    version = "3.0.0-RC1",
     visibility = ["//visibility:public"],
 )

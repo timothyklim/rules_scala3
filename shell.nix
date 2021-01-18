@@ -1,12 +1,12 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  nixpkgsPinned = import (fetchTarball {
-    # url = "https://github.com/NixOS/nixpkgs/archive/0592e0dcda648d6b54980dbcf244cc80ff3b7856.tar.gz";
-    # sha256 = "1bb4jfdx401yjc7kyl4cmn90i8sadj3c623lgjanffya95c23kdz";
-    url = "https://github.com/NixOS/nixpkgs/archive/7c349f2698781540fde71a5766d90d7d621b6109.tar.gz";
-    sha256 = "1zmvnrnbcb2d6cajcsy600mfm57smyf076ixmjmn3i4kw97cv913";
-  }) {};
+  nixpkgsPinned = import
+    (fetchTarball {
+      url = "https://github.com/NixOS/nixpkgs/archive/6a2dd6cf4688a5be5f03e34a7c86c02133f6c8a7.tar.gz";
+      sha256 = "09s6jjq5hl06lrmamd43k6i1ayg0fc8ajfx8kr9qh53gyzirslhf";
+    })
+    { };
 in
 with pkgs; pkgs.mkShell {
   name = "rules_scala-env";
