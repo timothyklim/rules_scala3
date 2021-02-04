@@ -142,6 +142,29 @@ compiler_classpath_3_0 = [
     "@scala_asm_7_3_1//jar",
 ] + runtime_classpath_3_0
 
+# configure_bootstrap_scala(
+#     name = "bootstrap_3_0",
+#     compiler_classpath = compiler_classpath_3_0,
+#     runtime_classpath = runtime_classpath_3_0,
+#     version = "3.0.0-RC1",
+#     visibility = ["//visibility:public"],
+# )
+
+# scala_library(
+#     name = "compiler_bridge_3_0",
+#     srcs = [
+#         "@compiler_bridge_2_13//:src",
+#     ],
+#     resource_strip_prefix = "../compiler_bridge_2_13",
+#     resources = ["@compiler_bridge_2_13//:meta"],
+#     visibility = ["//visibility:public"],
+#     deps = compiler_classpath_3_0 + [
+#         "@annex//:org_scala_sbt_compiler_interface",
+#         "@annex//:org_scala_sbt_util_interface",
+#         "@scala_sbt_bridge_3_0_0",
+#     ],
+# )
+
 configure_zinc_scala(
     name = "zinc_3_0",
     compiler_bridge = "@scala_sbt_bridge_3_0_0//jar",

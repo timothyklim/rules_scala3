@@ -42,19 +42,11 @@ def scala_repositories(java_launcher_version = "3.7.2"):
         maven_install_json = "@rules_scala_annex//:annex_install.json",
     )
 
-    java_stub_template_url = (
-        "raw.githubusercontent.com/bazelbuild/bazel/" +
-        java_launcher_version +
-        "/src/main/java/com/google/devtools/build/lib/bazel/rules/java/" +
-        "java_stub_template.txt"
-    )
-
     http_file(
         name = "anx_java_stub_template",
         sha256 = "e6531a6539ec1e38fec5e20523ff4bfc883e1cc0209eb658fe82eb918eb49657",
         urls = [
-            "https://mirror.bazel.build/%s" % java_stub_template_url,
-            "https://%s" % java_stub_template_url,
+            "https://raw.githubusercontent.com/bazelbuild/bazel/" + java_launcher_version + "/src/main/java/com/google/devtools/build/lib/bazel/rules/java/java_stub_template.txt"
         ],
     )
 
@@ -63,13 +55,6 @@ def scala_repositories(java_launcher_version = "3.7.2"):
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
         sha256 = "cd47360da60269bf44b68cf0069c8101119814f8f5b1c9c1961e9c8c7533289e",
         url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/" + zinc_version + "/compiler-bridge_2.13-" + zinc_version + "-sources.jar",
-    )
-
-    http_archive(
-        name = "compiler_bridge_3_0",
-        build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
-        sha256 = "10be1811a236a2e0109ba6db99988748038f62a7abb166f73e440870bcd5d1d4",
-        url = "https://repo1.maven.org/maven2/org/scala-lang/scala3-sbt-bridge/3.0.0-RC1-bin-20201230-0a8bb4b-NIGHTLY/scala3-sbt-bridge-3.0.0-RC1-bin-20201230-0a8bb4b-NIGHTLY-sources.jar",
     )
 
 def scala_register_toolchains():
