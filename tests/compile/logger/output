@@ -1,0 +1,30 @@
+[32mINFO: [0mInvocation ID: 35df6bb4-4489-40f4-bff1-e1010e35a75a
+[32mINFO: [0mReading 'startup' options from /nix/store/dkbr5a1ii1fmysikp26v0ir0xpf2h2ka-bazel-rc: --server_javabase=/nix/store/damcqfa5sq4pyizkjlxgbz7p7k1ij1cs-openjdk-headless-11.0.9+11
+[32mINFO: [0mOptions provided by the client:
+  Inherited 'common' options: --isatty=0 --terminal_columns=80
+[32mINFO: [0mReading rc options for 'run' from /data/home/johndoe/Development/rules_scala/tests/.bazelrc:
+  Inherited 'common' options: --config=tests
+[32mINFO: [0mReading rc options for 'run' from /data/home/johndoe/Development/rules_scala/.bazelrc_shared:
+  Inherited 'common' options: --announce_rc --color=yes
+[32mINFO: [0mReading rc options for 'run' from /nix/store/dkbr5a1ii1fmysikp26v0ir0xpf2h2ka-bazel-rc:
+  Inherited 'build' options: --distdir=/nix/store/7gxmk8447037vlxy72cnkzqphi52pmca-bazel-deps --override_repository=remote_java_tools_linux=/nix/store/kx8s9zyxcngd2q0jf6l98yzqcr1sal3h-remote_java_tools_linux --host_javabase=@local_jdk//:jdk
+[32mINFO: [0mReading rc options for 'run' from /data/home/johndoe/Development/rules_scala/.bazelrc_shared:
+  Inherited 'build' options: --experimental_strict_action_env --javacopt=-source 11 -target 11 --strategy=ScalaCompile=worker --worker_max_instances=4 --worker_sandboxing --verbose_failures
+[32mINFO: [0mFound applicable config definition common:tests in file /data/home/johndoe/Development/rules_scala/.bazelrc_shared: --config=noop
+[32mINFO: [0mFound applicable config definition common:noop in file /data/home/johndoe/Development/rules_scala/.bazelrc_shared: --logging=3
+[32mINFO: [0mFound applicable config definition build:tests in file /data/home/johndoe/Development/rules_scala/.bazelrc_shared: --disk_cache=../.bazel_cache
+[32mLoading:[0m 
+[32mLoading:[0m 0 packages loaded
+[32mAnalyzing:[0m target //compile/logger:lib (0 packages loaded, 0 targets configured)
+[31m[1mERROR: [0mTraceback (most recent call last):
+	File "/data/home/johndoe/Development/rules_scala/tests/scala/BUILD", line 68, column 26, in <toplevel>
+		configure_bootstrap_scala(
+Error in configure_bootstrap_scala: configure_bootstrap_scala rule 'bootstrap_2_13_5' in package 'scala' conflicts with existing configure_bootstrap_scala rule, defined at /data/home/johndoe/Development/rules_scala/tests/scala/BUILD:25:26
+[31m[1mERROR: [0m/data/home/johndoe/Development/rules_scala/tests/WORKSPACE:247:5: Target '//scala:zinc_2_13' contains an error and its package is in error and referenced by '//external:default_scala'
+[31m[1mERROR: [0mAnalysis of target '//compile/logger:lib' failed; build aborted: Analysis failed
+[32mINFO: [0mElapsed time: 0.066s
+[32mINFO: [0m0 processes.
+[31m[1mFAILED:[0m Build did NOT complete successfully (0 packages loaded, 0 targets configured)
+[31m[1mERROR: [0mBuild failed. Not running target
+[31m[1mFAILED:[0m Build did NOT complete successfully (0 packages loaded, 0 targets configured)
+[0m

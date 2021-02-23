@@ -21,7 +21,7 @@ scala_library(
 scala_binary(
     name = "app",
     srcs = ["Scala2.scala"],
-    scala = "//scala:zinc_2_13_5",
+    scala = "//scala:zinc_2_13",
     deps = [
       ":lib3",
     ],

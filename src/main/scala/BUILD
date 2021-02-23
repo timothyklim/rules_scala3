@@ -7,7 +7,7 @@ load(
 
 alias(
     name = "bootstrap",
-    actual = ":bootstrap_2_13_4",
+    actual = ":bootstrap_2_13_5",
     visibility = ["//visibility:public"],
 )
 
@@ -23,34 +23,34 @@ alias(
     visibility = ["//visibility:public"],
 )
 
-compiler_classpath_2_13_4 = [
+compiler_classpath_2_13_5 = [
     "@annex//:org_scala_lang_scala_compiler",
     "@annex//:org_scala_lang_scala_library",
     "@annex//:org_scala_lang_scala_reflect",
 ]
 
-runtime_classpath_2_13_4 = [
+runtime_classpath_2_13_5 = [
     "@annex//:org_scala_lang_scala_library",
 ]
 
 configure_bootstrap_scala(
-    name = "bootstrap_2_13_4",
-    compiler_classpath = compiler_classpath_2_13_4,
-    runtime_classpath = runtime_classpath_2_13_4,
-    version = "2.13.4",
+    name = "bootstrap_2_13_5",
+    compiler_classpath = compiler_classpath_2_13_5,
+    runtime_classpath = runtime_classpath_2_13_5,
+    version = "2.13.5",
     visibility = ["//visibility:public"],
 )
 
 scala_library(
-    name = "compiler_bridge_2_13_4",
+    name = "compiler_bridge_2_13_5",
     srcs = [
         "@compiler_bridge_2_13//:src",
     ],
-    scala = ":bootstrap_2_13_4",
+    scala = ":bootstrap_2_13_5",
     resources = ["@compiler_bridge_2_13//:meta"],
     resource_strip_prefix = "../compiler_bridge_2_13",
     visibility = ["//visibility:public"],
-    deps = compiler_classpath_2_13_4 + [
+    deps = compiler_classpath_2_13_5 + [
         "@annex//:org_scala_sbt_compiler_interface",
         "@annex//:org_scala_sbt_util_interface",
     ],
@@ -58,10 +58,10 @@ scala_library(
 
 configure_zinc_scala(
     name = "zinc_2_13",
-    compiler_bridge = ":compiler_bridge_2_13_4",
-    compiler_classpath = compiler_classpath_2_13_4,
-    runtime_classpath = runtime_classpath_2_13_4,
-    version = "2.13.4",
+    compiler_bridge = ":compiler_bridge_2_13_5",
+    compiler_classpath = compiler_classpath_2_13_5,
+    runtime_classpath = runtime_classpath_2_13_5,
+    version = "2.13.5",
     visibility = ["//visibility:public"],
 )
 
@@ -89,14 +89,14 @@ alias(
 
 runtime_classpath_3_0 = [
     "@scala_library_3_0_0//jar",
-    "@scala_library_2_13_4//jar",
+    "@scala_library_2_13_5//jar",
 ]
 
 compiler_classpath_3_0 = [
     "@scala_compiler_3_0_0//jar",
     "@scala_interfaces_3_0_0//jar",
     "@scala_tasty_core_3_0_0//jar",
-    "@scala_asm_7_3_1//jar",
+    "@scala_asm_9_1_0//jar",
 ] + runtime_classpath_3_0
 
 configure_zinc_scala(

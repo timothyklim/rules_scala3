@@ -3,6 +3,6 @@ load("@rules_scala_annex//rules:scala.bzl", "scala_binary")
 scala_binary(
     name = "lib",
     srcs = ["Example.scala"],
-    scala = "//scala:zinc_2_13_4_log_level_debug",
+    scala = "//scala:zinc_2_13_5_log_level_debug",
     deps = [],
 )
