@@ -49,6 +49,7 @@ def scala_proto_library_implementation(ctx):
         tools = compiler_inputs,
         execution_requirements = _resolve_execution_reqs(ctx, {"supports-workers": supports_workers}),
         arguments = [args],
+        use_default_shell_env = True,
     )
 
     ctx.actions.run_shell(
@@ -59,4 +60,5 @@ def scala_proto_library_implementation(ctx):
         progress_message = "Bundling compiled Scala into srcjar",
         tools = [ctx.executable._zipper],
         execution_requirements = _resolve_execution_reqs(ctx, {}),
+        use_default_shell_env = True,
     )

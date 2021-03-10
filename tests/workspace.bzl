@@ -2,16 +2,16 @@ load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 def test_artifacts():
     return [
-        "org.scala-sbt:compiler-interface:1.5.0-M3",
+        "com.google.protobuf:protobuf-java:3.13.0",
+        "com.thesamet.scalapb:lenses_2.13:0.11.0-M7",
+        "com.thesamet.scalapb:scalapb-runtime_2.13:0.11.0-M7",
         "org.scala-lang.modules:scala-xml_2.13:1.3.0",
+        "org.scala-sbt:compiler-interface:1.5.0-M3",
         "org.scalacheck:scalacheck_2.13:1.15.0",
-        "org.specs2:specs2-matcher_2.13:4.10.5",
-        "org.specs2:specs2-core_2.13:4.10.5",
-        "com.thesamet.scalapb:scalapb-runtime_2.13:0.10.11",
-        "com.thesamet.scalapb:lenses_2.13:0.10.11",
-        "com.google.protobuf:protobuf-java:3.9.0",
-        "org.scalatest:scalatest_2.13:3.1.4",
         "org.scalactic:scalactic_2.13:3.1.4",
+        "org.scalatest:scalatest_2.13:3.1.4",
+        "org.specs2:specs2-core_2.13:4.10.5",
+        "org.specs2:specs2-matcher_2.13:4.10.5",
     ]
 
 def test_dependencies():
