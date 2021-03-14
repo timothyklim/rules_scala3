@@ -1,7 +1,6 @@
 package higherkindness.rules_scala
 package workers.jacoco.instrumenter
 
-import common.args.implicits._
 import common.worker.WorkerMain
 
 import java.io.BufferedInputStream

@@ -1,19 +1,18 @@
 package higherkindness.rules_scala
 package workers.deps
 
-import common.args.implicits._
 import common.worker.WorkerMain
 
 import java.io.File
 import java.nio.file.{FileAlreadyExistsException, Files}
-import java.util.{Collections, List => JList}
+import java.util.{Collections, List as JList}
 import net.sourceforge.argparse4j.ArgumentParsers
 import net.sourceforge.argparse4j.impl.Arguments
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 import scala.collection.mutable
 
 object DepsRunner extends WorkerMain[Unit] {
-  private[this] val argParser = {
+  private val argParser = {
     val parser = ArgumentParsers.newFor("deps").addHelp(true).fromFilePrefix("@").build
     parser.addArgument("--check_direct").`type`(Arguments.booleanType)
     parser.addArgument("--check_used").`type`(Arguments.booleanType)
@@ -22,7 +21,7 @@ object DepsRunner extends WorkerMain[Unit] {
       .help("Labels of direct deps")
       .metavar("label")
       .nargs("*")
-      .setDefault_(Collections.emptyList())
+      .setDefault(Collections.emptyList())
     parser
       .addArgument("--group")
       .action(Arguments.append)
@@ -35,13 +34,13 @@ object DepsRunner extends WorkerMain[Unit] {
       .help("Whitelist of labels to ignore for unused deps")
       .metavar("label")
       .nargs("*")
-      .setDefault_(Collections.emptyList)
+      .setDefault(Collections.emptyList)
     parser
       .addArgument("--unused_whitelist")
       .help("Whitelist of labels to ignore for direct deps")
       .metavar("label")
       .nargs("*")
-      .setDefault_(Collections.emptyList)
+      .setDefault(Collections.emptyList)
     parser.addArgument("used").help("Manifest of used").`type`(Arguments.fileType.verifyCanRead().verifyIsFile())
     parser.addArgument("success").help("Success file").`type`(Arguments.fileType.verifyCanCreate())
     parser
@@ -69,7 +68,7 @@ object DepsRunner extends WorkerMain[Unit] {
         })
 
         (depLabelsMap, pathsMap)
-      case _ => (EmptyLabelsMap, EmptyPathsMap)
+      case null => (EmptyLabelsMap, EmptyPathsMap)
     }
     val usedPaths = Files.readAllLines(namespace.get[File]("used").toPath).asScala.toSet
 

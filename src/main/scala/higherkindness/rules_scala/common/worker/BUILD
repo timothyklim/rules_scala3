@@ -4,11 +4,11 @@ load("//rules:scala.bzl", "scala_library")
 scala_library(
     name = "worker",
     srcs = glob(["**/*.scala"]),
-    scala = "//src/main/scala:bootstrap",
-    visibility = ["//visibility:public"],
+    scala = "//src/main/scala:bootstrap_3_0_0",
     deps = [
         "//third_party/bazel/src/main/protobuf:worker_protocol_java_proto",
     ],
+    visibility = ["//visibility:public"],
 )
 
 scala_format_test(

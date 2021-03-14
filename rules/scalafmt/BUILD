@@ -17,7 +17,7 @@ scala_binary(
     name = "scalafmt",
     srcs = glob(["scalafmt/**/*.scala"]),
     main_class = "annex.scalafmt.ScalafmtRunner",
-    scala = "//src/main/scala:bootstrap",
+    scala = "//src/main/scala:bootstrap_3_0_0",
     visibility = ["//visibility:public"],
     deps = [
         "//src/main/scala/higherkindness/rules_scala/common/worker",

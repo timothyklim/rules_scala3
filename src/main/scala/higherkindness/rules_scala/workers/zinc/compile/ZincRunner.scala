@@ -86,7 +86,7 @@ object ZincRunner extends WorkerMain[Namespace] {
   protected[this] def work(worker: Namespace, args: Array[String]) = {
     val usePersistence: Boolean = worker.getBoolean("use_persistence") match {
       case p: java.lang.Boolean => p
-      case _                    => true
+      case null                 => true
     }
 
     val parser = ArgumentParsers.newFor("zinc").addHelp(true).defaultFormatWidth(80).fromFilePrefix("@").build()
@@ -120,6 +120,7 @@ object ZincRunner extends WorkerMain[Namespace] {
     // extract upstream classes
     val classesDir = tmpDir.resolve("classes")
     val outputJar = namespace.get[File]("output_jar").toPath
+    println(s"classesDir:$classesDir")
 
     val deps = {
       val analyses = Option(
@@ -263,7 +264,6 @@ object ZincRunner extends WorkerMain[Namespace] {
           sys.exit(1)
         case e: ClassFormatError =>
           System.err.println(e)
-          println("You may be missing a `macro = True` attribute.")
           sys.exit(1)
       }
 

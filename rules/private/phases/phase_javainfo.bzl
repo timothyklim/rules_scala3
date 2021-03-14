@@ -6,6 +6,7 @@ load(
 load(
     "@rules_scala_annex//rules:providers.bzl",
     _ScalaInfo = "ScalaInfo",
+    _ScalaConfiguration = "ScalaConfiguration",
 )
 load(
     "//rules/common:private/utils.bzl",
@@ -24,15 +25,20 @@ def phase_javainfo(ctx, g):
     sexports = java_common.merge(_collect(JavaInfo, getattr(ctx.attr, "exports", [])))
     scala_configuration_runtime_deps = _collect(JavaInfo, g.init.scala_configuration.runtime_classpath)
 
+    scala = getattr(ctx.attr, "scala", [])
+    macro = getattr(ctx.attr, "macro", False) or (_ScalaConfiguration in scala and scala[_ScalaConfiguration].version.startswith("3.0"))
+
     if len(ctx.attr.srcs) == 0 and len(ctx.attr.resources) == 0:
         java_info = java_common.merge([g.classpaths.sdeps, sexports])
     else:
-        compile_jar = java_common.run_ijar(
-            ctx.actions,
-            jar = ctx.outputs.jar,
-            target_label = ctx.label,
-            java_toolchain = find_java_toolchain(ctx, ctx.attr._java_toolchain),
-        )
+        compile_jar = ctx.outputs.jar
+        if not macro:
+            compile_jar = java_common.run_ijar(
+                ctx.actions,
+                jar = ctx.outputs.jar,
+                target_label = ctx.label,
+                java_toolchain = find_java_toolchain(ctx, ctx.attr._java_toolchain),
+            )
 
         source_jar = java_common.pack_sources(
             ctx.actions,
@@ -53,7 +59,7 @@ def phase_javainfo(ctx, g):
         )
 
     scala_info = _ScalaInfo(
-        macro = getattr(ctx.attr, "macro", False),
+        macro = macro,
         scala_configuration = g.init.scala_configuration,
     )
 

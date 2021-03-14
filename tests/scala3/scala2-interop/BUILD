@@ -4,7 +4,6 @@ scala_library(
     name = "lib3",
     srcs = ["Scala3.scala"],
     scala = "//scala:zinc_3_0",
-    macro = True, # TODO
     scalacopts = [
       "-version",
       "-deprecation",

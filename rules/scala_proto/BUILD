@@ -16,10 +16,9 @@ scala_binary(
     name = "worker",
     srcs = glob(["private/ScalaProtoWorker.scala"]),
     main_class = "annex.scala.proto.ScalaProtoWorker",
-    scala = "//src/main/scala:zinc",
+    scala = "//src/main/scala:zinc_3_0",
     visibility = ["//visibility:public"],
     deps = [
-        "//src/main/scala/higherkindness/rules_scala/common/args",
         "//src/main/scala/higherkindness/rules_scala/common/worker",
         "@annex//:net_sourceforge_argparse4j_argparse4j",
         "@annex_proto//:com_thesamet_scalapb_compilerplugin_2_13",

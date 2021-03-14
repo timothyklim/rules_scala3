@@ -1,23 +1,21 @@
 package higherkindness.rules_scala
 package common.worker
 
-import com.google.devtools.build.lib.worker.WorkerProtocol
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.InputStream
-import java.io.PrintStream
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream, InputStream, PrintStream}
 import java.lang.SecurityManager
 import java.security.Permission
+
 import scala.annotation.tailrec
 import scala.util.control.NonFatal
 
+import com.google.devtools.build.lib.worker.WorkerProtocol
+
+final case class ExitTrapped(code: Int) extends Throwable
+
 trait WorkerMain[S] {
+  protected def init(args: Option[Array[String]]): S
 
-  final private[this] case class ExitTrapped(code: Int) extends Throwable
-
-  protected[this] def init(args: Option[Array[String]]): S
-
-  protected[this] def work(ctx: S, args: Array[String]): Unit
+  protected def work(ctx: S, args: Array[String]): Unit
 
   final def main(args: Array[String]): Unit = {
     args.toList match {
@@ -83,5 +81,4 @@ trait WorkerMain[S] {
       case args => work(init(None), args.toArray)
     }
   }
-
 }

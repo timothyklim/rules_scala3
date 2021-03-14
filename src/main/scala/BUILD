@@ -81,6 +81,26 @@ config_setting(
 
 # Scala 3.0.0-RC1
 
+scala3_version = "3.0.0-RC1"
+
+scala3_global_scalacopts = [
+    "-feature",
+    "-explain",
+    "-explain-types",
+    "-rewrite",
+    "-indent",
+    # "-new-syntax",
+    "-source:future",
+    # "-language:strictEquality",
+    "-language:existentials",
+    "-language:experimental.macros",
+    "-language:higherKinds",
+    "-language:implicitConversions",
+    "-Ycheck-init",
+    # "-Yexplicit-nulls",
+    "-Xfatal-warnings"
+]
+
 alias(
     name = "3_0",
     actual = ":zinc_3_0",
@@ -99,11 +119,21 @@ compiler_classpath_3_0 = [
     "@scala_asm_9_1_0//jar",
 ] + runtime_classpath_3_0
 
+configure_bootstrap_scala(
+    name = "bootstrap_3_0_0",
+    compiler_classpath = compiler_classpath_3_0,
+    runtime_classpath = runtime_classpath_3_0,
+    version = scala3_version,
+    global_scalacopts = scala3_global_scalacopts,
+    visibility = ["//visibility:public"],
+)
+
 configure_zinc_scala(
     name = "zinc_3_0",
     compiler_bridge = "@scala_sbt_bridge_3_0_0//jar",
     compiler_classpath = compiler_classpath_3_0,
     runtime_classpath = runtime_classpath_3_0,
-    version = "3.0.0-RC1",
+    version = scala3_version,
+    global_scalacopts = scala3_global_scalacopts,
     visibility = ["//visibility:public"],
 )

@@ -1,6 +1,7 @@
 load(
     "@rules_scala_annex//rules:providers.bzl",
     _ScalaInfo = "ScalaInfo",
+    _ScalaConfiguration = "ScalaConfiguration",
 )
 load(
     "//rules/common:private/utils.bzl",
@@ -41,7 +42,7 @@ def phase_classpaths(ctx, g):
 
     plugin_classpath = depset(actual_plugins)
 
-    macro_classpath = [
+    sdep_classpath = [
         dep[JavaInfo].transitive_runtime_jars
         for dep in ctx.attr.deps
         if _ScalaInfo in dep and dep[_ScalaInfo].macro
@@ -51,7 +52,7 @@ def phase_classpaths(ctx, g):
     )
     compile_classpath = depset(
         order = "preorder",
-        transitive = macro_classpath + [sdeps.transitive_compile_time_jars],
+        transitive = sdep_classpath + [sdeps.transitive_compile_time_jars],
     )
     compiler_classpath = java_common.merge(
         _collect(JavaInfo, g.init.scala_configuration.compiler_classpath),

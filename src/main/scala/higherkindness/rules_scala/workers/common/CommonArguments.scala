@@ -6,8 +6,6 @@ import net.sourceforge.argparse4j.inf.ArgumentParser
 
 import java.util.Collections
 
-import common.args.implicits._
-
 object CommonArguments {
 
   object LogLevel {
@@ -37,7 +35,7 @@ object CommonArguments {
       .metavar("path")
       .nargs("*")
       .`type`(ArgumentsImpl.fileType.verifyCanRead().verifyIsFile())
-      .setDefault_(Collections.emptyList)
+      .setDefault(Collections.emptyList)
     parser
       .addArgument("--compiler_option")
       .help("Compiler option")
@@ -49,12 +47,12 @@ object CommonArguments {
       .metavar("path")
       .nargs("*")
       .`type`(ArgumentsImpl.fileType.verifyCanRead.verifyIsFile)
-      .setDefault_(Collections.emptyList)
+      .setDefault(Collections.emptyList)
     parser
       .addArgument("--debug")
       .metavar("debug")
       .`type`(ArgumentsImpl.booleanType)
-      .setDefault_(false)
+      .setDefault(false)
     parser
       .addArgument("--java_compiler_option")
       .help("Java compiler option")
@@ -68,7 +66,7 @@ object CommonArguments {
       .addArgument("--log_level")
       .help("Log level")
       .choices(LogLevel.Debug, LogLevel.Error, LogLevel.Info, LogLevel.None, LogLevel.Warn)
-      .setDefault_(LogLevel.Warn)
+      .setDefault(LogLevel.Warn)
     parser
       .addArgument("--main_manifest")
       .help("List of main entry points")
@@ -123,14 +121,14 @@ object CommonArguments {
       .metavar("path")
       .nargs("*")
       .`type`(ArgumentsImpl.fileType.verifyCanRead)
-      .setDefault_(Collections.emptyList)
+      .setDefault(Collections.emptyList)
     parser
       .addArgument("--source_jars")
       .help("Source jars")
       .metavar("path")
       .nargs("*")
       .`type`(ArgumentsImpl.fileType.verifyCanRead().verifyIsFile())
-      .setDefault_(Collections.emptyList)
+      .setDefault(Collections.emptyList)
     parser
       .addArgument("--tmp")
       .help("Temporary directory")
@@ -143,7 +141,7 @@ object CommonArguments {
       .metavar("source")
       .nargs("*")
       .`type`(ArgumentsImpl.fileType.verifyCanRead.verifyIsFile)
-      .setDefault_(Collections.emptyList)
+      .setDefault(Collections.emptyList)
   }
 
 }

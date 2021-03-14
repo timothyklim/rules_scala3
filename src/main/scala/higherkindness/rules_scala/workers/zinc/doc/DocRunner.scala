@@ -1,7 +1,6 @@
 package higherkindness.rules_scala
 package workers.zinc.doc
 
-import common.args.implicits._
 import common.worker.WorkerMain
 import workers.common.AnnexLogger
 import workers.common.AnnexScalaInstance
@@ -32,7 +31,7 @@ object DocRunner extends WorkerMain[Unit] {
     .metavar("path")
     .nargs("*")
     .`type`(Arguments.fileType.verifyCanRead.verifyIsFile)
-    .setDefault_(Collections.emptyList)
+    .setDefault(Collections.emptyList)
   parser
     .addArgument("--compiler_bridge")
     .help("Compiler bridge")
@@ -45,7 +44,7 @@ object DocRunner extends WorkerMain[Unit] {
     .metavar("path")
     .nargs("*")
     .`type`(Arguments.fileType.verifyCanRead().verifyIsFile())
-    .setDefault_(Collections.emptyList)
+    .setDefault(Collections.emptyList)
   parser
     .addArgument("--option")
     .help("option")
@@ -55,14 +54,14 @@ object DocRunner extends WorkerMain[Unit] {
     .addArgument("--log_level")
     .help("Log level")
     .choices(LogLevel.Debug, LogLevel.Error, LogLevel.Info, LogLevel.None, LogLevel.Warn)
-    .setDefault_(LogLevel.Warn)
+    .setDefault(LogLevel.Warn)
   parser
     .addArgument("--source_jars")
     .help("Source jars")
     .metavar("path")
     .nargs("*")
     .`type`(Arguments.fileType.verifyCanRead().verifyIsFile())
-    .setDefault_(Collections.emptyList)
+    .setDefault(Collections.emptyList)
   parser
     .addArgument("--tmp")
     .help("Temporary directory")
@@ -81,7 +80,7 @@ object DocRunner extends WorkerMain[Unit] {
     .metavar("source")
     .nargs("*")
     .`type`(Arguments.fileType.verifyCanRead.verifyIsFile)
-    .setDefault_(Collections.emptyList)
+    .setDefault(Collections.emptyList)
 
   override def init(args: Option[Array[String]]): Unit = ()
 

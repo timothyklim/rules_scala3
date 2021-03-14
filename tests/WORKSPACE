@@ -150,6 +150,15 @@ jvm_maven_import_external(
     server_urls = ["https://repo.maven.apache.org/maven2"],
 )
 
+bazel_commit = "5d6e59a6da7a74ddc5d9733c9c7e6de6382af1e1"
+
+http_archive(
+    name = "bazel_src",
+    sha256 = "997bfede9fe04c2cf804c63e1bd3ddfe8c80486690fcc5203d8fffdcb4f3e471",
+    strip_prefix = ("bazel-{}").format(bazel_commit),
+    url = ("https://github.com/TimothyKlim/bazel/archive/{}.tar.gz").format(bazel_commit),
+)
+
 scala2_version = "2.13.5"
 
 server_urls = [

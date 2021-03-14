@@ -76,7 +76,7 @@ _compile_private_attributes = {
         cfg = "host",
     ),
     "_jar_creator": attr.label(
-        default = Label("@rules_scala_annex//third_party/bazel/src/java_tools/buildjar/java/com/google/devtools/build/buildjar/jarhelper:jarcreator_bin"),
+        default = Label("@bazel_tools//tools/jdk:ijar"),
         executable = True,
         cfg = "host",
     ),

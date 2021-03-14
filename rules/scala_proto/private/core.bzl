@@ -32,10 +32,12 @@ def scala_proto_library_implementation(ctx):
 
     args = ctx.actions.args()
     args.add("--output_dir", gendir.path)
-    args.add("--protoc", ctx.executable.protoc)
+    args.add("--protoc", ctx.executable.protoc.path)
     args.add_all("--", transitive_sources)
     args.set_param_file_format("multiline")
     args.use_param_file("@%s", use_always = True)
+
+    compiler_inputs.append(ctx.executable.protoc)
 
     if compiler.compiler_supports_workers:
         supports_workers = "1"

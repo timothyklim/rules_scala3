@@ -7,7 +7,6 @@ scala_binary(
     scala = "//src/main/scala:zinc",
     visibility = ["//visibility:public"],
     deps = [
-        "//src/main/scala/higherkindness/rules_scala/common/args",
         "//src/main/scala/higherkindness/rules_scala/workers/common",
         "@annex//:net_sourceforge_argparse4j_argparse4j",
         "@annex//:org_scala_sbt_compiler_interface",

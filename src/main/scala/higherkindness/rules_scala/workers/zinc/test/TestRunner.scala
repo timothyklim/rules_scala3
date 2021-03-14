@@ -1,7 +1,6 @@
 package higherkindness.rules_scala
 package workers.zinc.test
 
-import common.args.implicits._
 import common.sbt_testing.AnnexTestingLogger
 import common.sbt_testing.ClassLoaders
 import common.sbt_testing.TestDefinition
@@ -35,7 +34,7 @@ object TestRunner {
       .help("ANSI color")
       .metavar("class")
       .`type`(Arguments.booleanType)
-      .setDefault_(true)
+      .setDefault(true)
     parser
       .addArgument("--subprocess_arg")
       .action(Arguments.append)
@@ -44,7 +43,7 @@ object TestRunner {
       .addArgument("--verbosity")
       .help("Verbosity")
       .choices("HIGH", "MEDIUM", "LOW")
-      .setDefault_("MEDIUM")
+      .setDefault("MEDIUM")
     parser
       .addArgument("--framework_args")
       .help("Additional arguments for testing framework")
@@ -67,27 +66,27 @@ object TestRunner {
       .addArgument("--isolation")
       .choices("classloader", "none", "process")
       .help("Test isolation")
-      .setDefault_("none")
+      .setDefault("none")
     parser
       .addArgument("--frameworks")
       .help("Class names of sbt.testing.Framework implementations")
       .metavar("class")
       .nargs("*")
-      .setDefault_(Collections.emptyList)
+      .setDefault(Collections.emptyList)
     parser
       .addArgument("--shared_classpath")
       .help("Classpath to share between tests")
       .metavar("path")
       .nargs("*")
       .`type`(Arguments.fileType)
-      .setDefault_(Collections.emptyList)
+      .setDefault(Collections.emptyList)
     parser
       .addArgument("classpath")
       .help("Testing classpath")
       .metavar("path")
       .nargs("*")
       .`type`(Arguments.fileType.verifyCanRead().verifyExists())
-      .setDefault_(Collections.emptyList)
+      .setDefault(Collections.emptyList)
     parser
   }
 

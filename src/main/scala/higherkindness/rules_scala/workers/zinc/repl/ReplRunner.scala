@@ -1,7 +1,6 @@
 package higherkindness.rules_scala
 package workers.zinc.repl
 
-import common.args.implicits._
 import workers.common.CommonArguments.LogLevel
 import workers.common.AnnexLogger
 import workers.common.AnnexScalaInstance
@@ -24,7 +23,7 @@ object ReplRunner {
     .addArgument("--log_level")
     .help("Log level")
     .choices(LogLevel.Debug, LogLevel.Error, LogLevel.Info, LogLevel.None, LogLevel.Warn)
-    .setDefault_(LogLevel.Warn)
+    .setDefault(LogLevel.Warn)
 
   private[this] val replArgParser =
     ArgumentParsers.newFor("repl-args").addHelp(true).defaultFormatWidth(80).fromFilePrefix("@").build()
@@ -34,7 +33,7 @@ object ReplRunner {
     .metavar("path")
     .nargs("*")
     .`type`(Arguments.fileType)
-    .setDefault_(Collections.emptyList)
+    .setDefault(Collections.emptyList)
   replArgParser
     .addArgument("--compiler_bridge")
     .help("Compiler bridge")
@@ -47,7 +46,7 @@ object ReplRunner {
     .metavar("path")
     .nargs("*")
     .`type`(Arguments.fileType)
-    .setDefault_(Collections.emptyList)
+    .setDefault(Collections.emptyList)
   replArgParser
     .addArgument("--compiler_option")
     .help("Compiler option")

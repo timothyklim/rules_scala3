@@ -22,13 +22,13 @@ final case class AnalysisFiles(apis: Path, miniSetup: Path, relations: Path, sou
 object AnxAnalysisStore {
   trait Format {
     def read[A <: GeneratedMessageV3](parser: Parser[A], inputStream: InputStream): A
-    def write(message: GeneratedMessageV3, stream: OutputStream)
+    def write(message: GeneratedMessageV3, stream: OutputStream): Unit
   }
 
   object BinaryFormat extends Format {
     def read[A <: GeneratedMessageV3](parser: Parser[A], stream: InputStream) =
       parser.parseFrom(new GZIPInputStream(stream))
-    def write(message: GeneratedMessageV3, stream: OutputStream) = {
+    def write(message: GeneratedMessageV3, stream: OutputStream): Unit = {
       val gzip = new GZIPOutputStream(stream, true)
       message.writeTo(gzip)
       gzip.finish()
@@ -38,7 +38,7 @@ object AnxAnalysisStore {
   object TextFormat extends Format {
     def read[A <: GeneratedMessageV3](parser: Parser[A], stream: InputStream) =
       parser.parseFrom(stream)
-    def write(message: GeneratedMessageV3, stream: OutputStream) = {
+    def write(message: GeneratedMessageV3, stream: OutputStream): Unit = {
       val writer = new OutputStreamWriter(stream, StandardCharsets.US_ASCII)
       try writer.write(message.toString)
       finally writer.close()
@@ -51,16 +51,16 @@ trait Readable[A] {
 }
 
 trait Writeable[A] {
-  def write(file: Path, value: A)
+  def write(file: Path, value: A): Unit
 }
 
 final class Store[A](readStream: InputStream => A, writeStream: (OutputStream, A) => Unit) extends Readable[A] with Writeable[A] {
-  def read(file: Path) = {
+  def read(file: Path): A = {
     val stream = Files.newInputStream(file)
     try readStream(stream)
     finally stream.close()
   }
-  def write(file: Path, value: A) = {
+  def write(file: Path, value: A): Unit = {
     val stream = Files.newOutputStream(file)
     try writeStream(stream, value)
     finally stream.close()
@@ -174,7 +174,7 @@ object AnxMapper {
 
   def mappers(root: Path) = new ReadWriteMappers(new AnxReadMapper(root), new AnxWriteMapper(root))
 
-  def hashStamp(file: Path) = {
+  def hashStamp(file: Path): Stamp = {
     val newTime = Files.getLastModifiedTime(file)
     stampCache.get(file) match {
       case Some((time, stamp)) if newTime.compareTo(time) <= 0 => stamp
