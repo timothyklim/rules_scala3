@@ -22,7 +22,6 @@ scala_binary(
         "//src/main/scala/higherkindness/rules_scala/common/args",
         "//src/main/scala/higherkindness/rules_scala/common/worker",
         "@annex//:net_sourceforge_argparse4j_argparse4j",
-        "@annex_proto//:com_github_os72_protoc_jar",
         "@annex_proto//:com_thesamet_scalapb_compilerplugin_2_13",
         "@annex_proto//:com_thesamet_scalapb_protoc_bridge_2_13",
     ],

@@ -61,8 +61,10 @@ http_archive(
     url = "https://github.com/higherkindness/rules_scala/archive/{}.zip".format(rules_scala_annex_version),
 )
 
-rules_jvm_external_tag = "2.9"
-rules_jvm_external_sha256 = "e5b97a31a3e8feed91636f42e19b11c49487b85e5de2f387c999ea14d77c7f45"
+rules_jvm_external_tag = "4.0"
+
+rules_jvm_external_sha256 = "31701ad93dbfe544d597dbe62c9a1fdd76d81d8a9150c2bf1ecf928ecdf97169"
+
 http_archive(
     name = "rules_jvm_external",
     sha256 = rules_jvm_external_sha256,

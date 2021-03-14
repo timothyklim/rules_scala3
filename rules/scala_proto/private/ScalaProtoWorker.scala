@@ -8,12 +8,11 @@ import java.util.Collections
 import net.sourceforge.argparse4j.ArgumentParsers
 import net.sourceforge.argparse4j.impl.Arguments
 import net.sourceforge.argparse4j.inf.ArgumentParser
-import protocbridge.ProtocBridge
+import protocbridge.{ProtocBridge, ProtocRunner}
 import scala.jdk.CollectionConverters._
 import scalapb.ScalaPbCodeGenerator
 
 object ScalaProtoWorker extends WorkerMain[Unit] {
-
   private[this] val argParser: ArgumentParser = {
     val parser = ArgumentParsers.newFor("proto").addHelp(true).fromFilePrefix("@").build
     parser
@@ -21,6 +20,13 @@ object ScalaProtoWorker extends WorkerMain[Unit] {
       .help("Output dir")
       .metavar("output_dir")
       .`type`(Arguments.fileType.verifyCanCreate)
+      .required(true)
+    parser
+      .addArgument("--protoc")
+      .help("Path to protoc")
+      .metavar("protoc")
+      .`type`(Arguments.fileType.verifyCanRead().verifyExists())
+      .required(true)
     parser
       .addArgument("sources")
       .help("Source files")
@@ -43,10 +49,9 @@ object ScalaProtoWorker extends WorkerMain[Unit] {
     val params = s"--scala_out=$scalaOut" :: sources.map(_.getPath)
 
     ProtocBridge.runWithGenerators(
-      protoc = a => com.github.os72.protocjar.Protoc.runProtoc(a.toArray),
-      namedGenerators = List("scala" -> ScalaPbCodeGenerator),
-      params = params
+      ProtocRunner(namespace.get[File]("protoc").toString),
+      List("scala" -> ScalaPbCodeGenerator),
+      params
     )
   }
-
 }

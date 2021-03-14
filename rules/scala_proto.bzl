@@ -12,6 +12,13 @@ scala_proto_library = rule(
             "deps": attr.label_list(
                 doc = "The proto_library targets you wish to generate Scala from",
             ),
+            "protoc": attr.label(
+                doc = "protoc compiler",
+                default = "@com_google_protobuf//:protoc",
+                cfg = "host",
+                allow_single_file = True,
+                executable = True,
+            ),
             "_zipper": attr.label(cfg = "host", default = "@bazel_tools//tools/zip:zipper", executable = True),
         },
     ),

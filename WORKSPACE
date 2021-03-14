@@ -21,9 +21,9 @@ git_repository(
     shallow_since = "1593183852 +0200",
 )
 
-protobuf_tag = "3.12.3"
+protobuf_tag = "3.15.6"
 
-protobuf_sha256 = "e5265d552e12c1f39c72842fa91d84941726026fa056d914ea6a25cd58d7bbf8"
+protobuf_sha256 = "985bb1ca491f0815daad825ef1857b684e0844dc68123626a08351686e8d30c9"
 
 http_archive(
     name = "com_google_protobuf",
@@ -50,25 +50,9 @@ filegroup(
 )
 """
 
-http_archive(
-    name = "jdk8-linux",
-    build_file_content = jdk_build_file_content,
-    sha256 = "dd28d6d2cde2b931caf94ac2422a2ad082ea62f0beee3bf7057317c53093de93",
-    strip_prefix = "jdk8u212-b03",
-    url = "https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u212-b03/OpenJDK8U-jdk_x64_linux_hotspot_8u212b03.tar.gz",
-)
+rules_jvm_external_tag = "4.0"
 
-http_archive(
-    name = "jdk8-osx",
-    build_file_content = jdk_build_file_content,
-    sha256 = "3d80857e1bb44bf4abe6d70ba3bb2aae412794d335abe46b26eb904ab6226fe0",
-    strip_prefix = "jdk8u212-b03",
-    url = "https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u212-b03/OpenJDK8U-jdk_x64_mac_hotspot_8u212b03.tar.gz",
-)
-
-rules_jvm_external_tag = "3.3"
-
-rules_jvm_external_sha256 = "d85951a92c0908c80bd8551002d66cb23c3434409c814179c0ff026b53544dab"
+rules_jvm_external_sha256 = "31701ad93dbfe544d597dbe62c9a1fdd76d81d8a9150c2bf1ecf928ecdf97169"
 
 http_archive(
     name = "rules_jvm_external",
