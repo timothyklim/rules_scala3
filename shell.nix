@@ -18,7 +18,7 @@ in
 mkShell {
   name = "rules_scala-env";
   nativeBuildInputs = [ bash bazel_4 bazel-buildtools ];
-  buildInputs = [ python2 gnumake ];
+  buildInputs = [ python2 gnumake fd ];
 
   shellHook = ''
     export PATH=${python2}/bin:$PATH

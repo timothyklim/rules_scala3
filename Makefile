@@ -13,10 +13,10 @@ deps-install:
 	cd tests && bazel run @unpinned_annex_test//:pin
 
 bzl-lint:
-	find . -type f -iname "*.bazel" -o -iname "*.bzl" -o -iname BUILD -o -iname WORKSPACE | xargs buildifier --lint=warn --warnings=all
+	fd -E bazel/deps -E 3rdparty -E cargo "^(.*BUILD|WORKSPACE|.*\\.bzl)" . -x buildifier --lint=warn --warnings=all \;
 
 bzl-fmt:
-	find . -type f -iname "*.bazel" -o -iname "*.bzl" -o -iname BUILD -o -iname WORKSPACE xargs buildifier
+	fd -E bazel/deps -E 3rdparty -E cargo "^(.*BUILD|WORKSPACE|.*\\.bzl)" . -x buildifier
 
 nix-fmt:
 	find . -name "*.nix" | xargs nixpkgs-fmt

@@ -16,20 +16,22 @@ filegroup(
 )
 """
 
+scala3_version = "3.0.0-RC1"
+sbt_version = "1.5.0-RC1"
 zinc_version = "1.5.0-M4"
 
 def scala_artifacts():
     return [
-        "net.sourceforge.argparse4j:argparse4j:0.8.1",
-        "org.jacoco:org.jacoco.core:0.7.5.201505241946",
-        "com.lihaoyi:sourcecode_2.13:0.2.1,",
+        "com.github.julien-truffaut:monocle-core_{}:3.0.0-M3".format(scala3_version),
+        "com.github.scopt:scopt_{}:4.0.1".format(scala3_version),
+        "org.jacoco:org.jacoco.core:0.8.6",
         "org.scala-sbt:test-interface:1.0",
-        "org.scala-sbt:util-interface:1.5.0-M2",
-        "org.scala-sbt:util-logging_2.13:1.5.0-M2",
+        "org.scala-sbt:util-interface:" + sbt_version,
+        "org.scala-sbt:util-logging_2.13:" + sbt_version,
         "org.scala-sbt:zinc_2.13:" + zinc_version,
     ]
 
-def scala_repositories(java_launcher_version = "3.7.2"):
+def scala_repositories(java_launcher_version = "4.0.0"):
     maven_install(
         name = "annex",
         artifacts = scala_artifacts(),
@@ -44,17 +46,17 @@ def scala_repositories(java_launcher_version = "3.7.2"):
 
     http_file(
         name = "anx_java_stub_template",
-        sha256 = "a618e746e743f3119a9939e60645a02de40149aae9d63201c3cd05706010f6eb",
+        sha256 = "3bead51d19b11eff5d20840022d106f5af93811731f009f88bfeb48990d6b492",
         urls = [
-            "https://raw.githubusercontent.com/bazelbuild/bazel/" + java_launcher_version + "/src/main/java/com/google/devtools/build/lib/bazel/rules/java/java_stub_template.txt"
+            "https://raw.githubusercontent.com/bazelbuild/bazel/{}/src/main/java/com/google/devtools/build/lib/bazel/rules/java/java_stub_template.txt".format(java_launcher_version),
         ],
     )
 
     http_archive(
         name = "compiler_bridge_2_13",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
-        sha256 = "cd47360da60269bf44b68cf0069c8101119814f8f5b1c9c1961e9c8c7533289e",
-        url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/" + zinc_version + "/compiler-bridge_2.13-" + zinc_version + "-sources.jar",
+        sha256 = "3bae8c0e72aac827e7ac93eca55bcad0d573540c15931182cd67a163fca32600",
+        url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{}/compiler-bridge_2.13-{}-sources.jar".format(zinc_version, zinc_version),
     )
 
 def scala_register_toolchains():

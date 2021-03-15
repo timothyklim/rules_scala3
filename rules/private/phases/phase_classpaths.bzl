@@ -1,7 +1,7 @@
 load(
     "@rules_scala//rules:providers.bzl",
-    _ScalaInfo = "ScalaInfo",
     _ScalaConfiguration = "ScalaConfiguration",
+    _ScalaInfo = "ScalaInfo",
 )
 load(
     "//rules/common:private/utils.bzl",

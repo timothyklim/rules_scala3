@@ -46,9 +46,9 @@ scala_library(
     srcs = [
         "@compiler_bridge_2_13//:src",
     ],
-    scala = ":bootstrap_2_13_5",
-    resources = ["@compiler_bridge_2_13//:meta"],
     resource_strip_prefix = "../compiler_bridge_2_13",
+    resources = ["@compiler_bridge_2_13//:meta"],
+    scala = ":bootstrap_2_13_5",
     visibility = ["//visibility:public"],
     deps = compiler_classpath_2_13_5 + [
         "@annex//:org_scala_sbt_compiler_interface",
@@ -98,7 +98,7 @@ scala3_global_scalacopts = [
     "-language:implicitConversions",
     "-Ycheck-init",
     # "-Yexplicit-nulls",
-    "-Xfatal-warnings"
+    "-Xfatal-warnings",
 ]
 
 alias(
@@ -122,9 +122,9 @@ compiler_classpath_3_0 = [
 configure_bootstrap_scala(
     name = "bootstrap_3_0_0",
     compiler_classpath = compiler_classpath_3_0,
+    global_scalacopts = scala3_global_scalacopts,
     runtime_classpath = runtime_classpath_3_0,
     version = scala3_version,
-    global_scalacopts = scala3_global_scalacopts,
     visibility = ["//visibility:public"],
 )
 
@@ -132,8 +132,8 @@ configure_zinc_scala(
     name = "zinc_3_0_0",
     compiler_bridge = "@scala_sbt_bridge_3_0_0//jar",
     compiler_classpath = compiler_classpath_3_0,
+    global_scalacopts = scala3_global_scalacopts,
     runtime_classpath = runtime_classpath_3_0,
     version = scala3_version,
-    global_scalacopts = scala3_global_scalacopts,
     visibility = ["//visibility:public"],
 )

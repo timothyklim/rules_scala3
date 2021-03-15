@@ -1,25 +1,22 @@
 package rules_scala
 package workers.zinc.compile
 
-import workers.common.*
-import common.worker.WorkerMain
 
-import com.google.devtools.build.buildjar.jarhelper.JarCreator
 import java.io.{File, PrintWriter}
 import java.net.URLClassLoader
 import java.nio.file.{Files, NoSuchFileException, Path, Paths}
 import java.text.SimpleDateFormat
 import java.util.{Date, Optional, Properties, List as JList}
 
-import net.sourceforge.argparse4j.ArgumentParsers
-import net.sourceforge.argparse4j.impl.{Arguments as Arg}
-import net.sourceforge.argparse4j.inf.Namespace
-import sbt.internal.inc.classpath.ClassLoaderCache
-import sbt.internal.inc.{Analysis, CompileFailed, IncrementalCompilerImpl, Locate, PlainVirtualFile, ZincUtil}
-
 import scala.jdk.CollectionConverters.*
 import scala.util.Try
 import scala.util.control.NonFatal
+
+import com.google.devtools.build.buildjar.jarhelper.JarCreator
+import monocle.syntax.all.*
+import sbt.internal.inc.{Analysis, CompileFailed, IncrementalCompilerImpl, Locate, PlainVirtualFile, ZincUtil}
+import sbt.internal.inc.classpath.ClassLoaderCache
+import scopt.OParser
 import xsbti.{Logger, PathBasedFile, VirtualFile}
 import xsbti.compile.{
   AnalysisContents,
@@ -36,6 +33,166 @@ import xsbti.compile.{
   PreviousResult,
   Setup
 }
+
+import rules_scala.common.worker.WorkerMain
+import rules_scala.workers.common.*
+
+final case class ZincRunnerArguments(
+  usePersistence: Boolean = true,
+  depsCache: Option[Path] = None,
+  persistenceDir: Option[Path] = None,
+)
+object ZincRunnerArguments:
+  private val builder = OParser.builder[ZincRunnerArguments]
+  import builder.*
+
+  private val parser = OParser.sequence(
+    opt[Boolean]("use_persistence").action((p, c) => c.focus(_.usePersistence).replace(p)),
+    opt[String]("extracted_file_cache").optional().action((p, c) => c.focus(_.depsCache).replace(Some(pathFrom(p)))),
+    opt[String]("persistence_dir").optional().action((p, c) => c.focus(_.persistenceDir).replace(Some(pathFrom(p)))),
+  )
+
+  def apply(args: collection.Seq[String]): Option[ZincRunnerArguments] =
+    OParser.parse(parser, args, ZincRunnerArguments())
+
+  private def pathFrom(path: String): Path = Paths.get(path.replace("~", sys.props.getOrElse("user.home", "")))
+
+final case class AnalysisArgument(label: String, apis: Path, relations: Path, jars: Vector[Path])
+object AnalysisArgument:
+  def from(value: String): AnalysisArgument = value.split(',') match
+    case Array(prefixedLabel, apis, relations, jars @ _*) =>
+      AnalysisArgument(prefixedLabel.stripPrefix("_"), Paths.get(apis), Paths.get(relations), jars.map(Paths.get(_)).toVector)
+
+
+trait PrettyProduct extends Product:
+  final override def toString: String =
+    this.productElementNames
+      .zip(this.productIterator)
+      .map((name, value) => s"$name=$value")
+      .mkString(this.productPrefix + "(", ",\n", ")")
+
+final case class ZincWorkArguments(
+  analysis: Vector[AnalysisArgument] = Vector.empty,
+  classpath: Vector[Path] = Vector.empty,
+  compilerBridge: File = new File("."),
+  compilerClasspath: Vector[File] = Vector.empty,
+  compilerOption: Vector[String] = Vector.empty,
+  debug: Boolean = false,
+  javaCompilerOption: Vector[String] = Vector.empty,
+  label: String = "",
+  logLevel: LogLevel = LogLevel.Warn,
+  mainManifest: File = new File("."),
+  outputApis: Path = Paths.get("."),
+  outputInfos: Path = Paths.get("."),
+  outputJar: Path = Paths.get("."),
+  outputRelations: Path = Paths.get("."),
+  outputSetup: Path = Paths.get("."),
+  outputStamps: Path = Paths.get("."),
+  outputUsed: Path = Paths.get("."),
+  plugins: Vector[File] = Vector.empty,
+  sourceJars: Vector[Path] = Vector.empty,
+  sources: Vector[File] = Vector.empty,
+  tmpDir: Path = Paths.get("."),
+) extends PrettyProduct
+object ZincWorkArguments:
+  private val builder = OParser.builder[ZincWorkArguments]
+  import builder.*
+
+  private val parser = OParser.sequence(
+    opt[LogLevel]("log_level")
+      .optional()
+      .action((lvl, c) => c.focus(_.logLevel).replace(lvl))
+      .text("Log level"),
+    opt[File]("source_jar")
+      .unbounded()
+      .optional()
+      .action((s, c) => c.focus(_.sourceJars).modify(_ :+ s.toPath()))
+      .text("Source jars"),
+    opt[File]("tmp")
+      .required()
+      .action((tmp, c) => c.focus(_.tmpDir).replace(tmp.toPath))
+      .text("Temporary directory"),
+    opt[File]("output_jar")
+      .required()
+      .action((jar, c) => c.focus(_.outputJar).replace(jar.toPath))
+      .text("Output jar"),
+    opt[String]("analysis")
+      .unbounded()
+      .optional()
+      .valueName("args")
+      .action((arg, c) => c.focus(_.analysis).modify(_ :+ AnalysisArgument.from(arg)))
+      .text("Analysis, given as: label apis relations [jar ...]"),
+    opt[File]("cp")
+      .unbounded()
+      .optional()
+      .action((cp, c) => c.focus(_.classpath).modify(_ :+ cp.toPath))
+      .text("Compilation classpath"),
+    opt[File]("compiler_cp")
+      .unbounded()
+      .optional()
+      .action((cp, c) => c.focus(_.compilerClasspath).modify(_ :+ cp))
+      .text("Compiler classpath"),
+    opt[File]("output_apis")
+      .required()
+      .action((out, c) => c.focus(_.outputApis).replace(out.toPath))
+      .text("Output APIs"),
+    opt[File]("output_setup")
+      .required()
+      .action((out, c) => c.focus(_.outputSetup).replace(out.toPath))
+      .text("Output Zinc setup"),
+    opt[File]("output_relations")
+      .required()
+      .action((out, c) => c.focus(_.outputRelations).replace(out.toPath))
+      .text("Output Zinc relations"),
+    opt[File]("output_infos")
+      .required()
+      .action((out, c) => c.focus(_.outputInfos).replace(out.toPath))
+      .text("Output Zinc source infos"),
+    opt[File]("output_stamps")
+      .required()
+      .action((out, c) => c.focus(_.outputStamps).replace(out.toPath))
+      .text("Output Zinc source stamps"),
+    opt[Boolean]("debug").action((debug, c) => c.focus(_.debug).replace(debug)),
+    opt[String]("label")
+      .required()
+      .action((l, c) => c.focus(_.label).replace(l))
+      .text("Bazel label"),
+    opt[File]("compiler_bridge")
+      .required()
+      .action((bridge, c) => c.focus(_.compilerBridge).replace(bridge))
+      .text("Compiler bridge"),
+    opt[File]("main_manifest")
+      .required()
+      .action((manifest, c) => c.focus(_.mainManifest).replace(manifest))
+      .text("List of main entry points"),
+    opt[File]("output_used")
+      .required()
+      .action((out, c) => c.focus(_.outputUsed).replace(out.toPath))
+      .text("Output list of used jars"),
+    opt[String]("compiler_option")
+      .unbounded()
+      .optional()
+      .action((opt, c) => c.focus(_.compilerOption).modify(_ :+ opt))
+      .text("Compiler option"),
+    opt[String]("java_compiler_option")
+      .unbounded()
+      .optional()
+      .action((opt, c) => c.focus(_.javaCompilerOption).modify(_ :+ opt))
+      .text("Java compiler option"),
+    opt[File]("plugin")
+      .unbounded()
+      .optional()
+      .action((p, c) => c.focus(_.plugins).modify(_ :+ p))
+      .text("Compiler plugins"),
+    arg[File]("<source>...")
+      .unbounded()
+      .optional()
+      .action((s, c) => c.focus(_.sources).modify(_ :+ s))
+      .text("Source files"),
+  )
+
+  def apply(args: collection.Seq[String]): Option[ZincWorkArguments] =
+    OParser.parse(parser, args, ZincWorkArguments())
 
 /**
   * <strong>Caching</strong>
@@ -56,121 +213,76 @@ import xsbti.compile.{
   *     (rather than the per-request arg file). Bazel worker management cycles out Scala compiler versions.
   * Currently, this runner follows strategy A.
   */
-object ZincRunner extends WorkerMain[Namespace]:
-
-  private val topLoader = new TopClassLoader(getClass().getClassLoader())
-  private val classloaderCache = new ClassLoaderCache(new URLClassLoader(Array()))
+object ZincRunner extends WorkerMain[ZincRunnerArguments]:
+  private val topLoader = TopClassLoader(getClass().getClassLoader())
+  private val classloaderCache = ClassLoaderCache(URLClassLoader(Array.empty))
 
   private val compilerCache = CompilerCache.fresh
 
   // prevents GC of the soft reference in classloaderCache
   private var lastCompiler: AnyRef = null
 
-  private def labelToPath(label: String) = Paths.get(label.replaceAll("^/+", "").replaceAll(raw"[^\w/]", "_"))
+  private def labelToPath(label: String): Path =
+    Paths.get(label.replaceAll("^/+", "").replaceAll(raw"[^\w/]", "_"))
 
-  protected[this] def init(args: Option[Array[String]]) =
-    val parser = ArgumentParsers.newFor("zinc-worker").addHelp(true).build
-    parser.addArgument("--persistence_dir", /* deprecated */ "--persistenceDir").metavar("path")
-    parser.addArgument("--use_persistence").`type`(Arg.booleanType)
-    parser.addArgument("--extracted_file_cache").metavar("path")
-    // deprecated
-    parser.addArgument("--max_errors")
-    parser.parseArgsOrFail(args.getOrElse(Array.empty))
+  override def init(args: Option[Array[String]]) =
+    val xs = args.getOrElse(Array.empty[String])
+    ZincRunnerArguments(xs).getOrElse(throw IllegalArgumentException(s"init args is invalid: ${xs.mkString(" ")}"))
 
-  private def pathFrom(args: Namespace, name: String): Option[Path] =
-    Option(args.getString(name)).map { dir =>
-      Paths.get(dir.replace("~", sys.props.getOrElse("user.home", "")))
-    }
+  override def work(workerArgs: ZincRunnerArguments, args: Array[String]) =
+    val workArgs = ZincWorkArguments(args).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
 
-  protected[this] def work(worker: Namespace, args: Array[String]) =
-    val usePersistence: Boolean = worker.getBoolean("use_persistence") match
-      case p: java.lang.Boolean => p
-      case null                 => true
+    val logger = AnnexLogger(workArgs.logLevel)
 
-    val parser = ArgumentParsers.newFor("zinc").addHelp(true).defaultFormatWidth(80).fromFilePrefix("@").build()
-    CommonArguments.add(parser)
-    val namespace = parser.parseArgsOrFail(args)
-
-    val persistenceDir = pathFrom(worker, "persistence_dir")
-
-    val depsCache = pathFrom(worker, "extracted_file_cache")
-
-    val logger = new AnnexLogger(namespace.getString("log_level"))
-
-    val tmpDir = namespace.get[File]("tmp").toPath
-
+    val sourcesDir = workArgs.tmpDir.resolve("src")
     // extract srcjars
-    val sources =
-      val sourcesDir = tmpDir.resolve("src")
-      namespace.getList[File]("sources").asScala ++
-        namespace
-          .getList[File]("source_jars")
-          .asScala
-          .zipWithIndex
-          .flatMap {
-            case (jar, i) => {
-              FileUtil.extractZip(jar.toPath, sourcesDir.resolve(i.toString))
-            }
-          }
-          .map(_.toFile)
+    val sources: collection.Seq[File] = workArgs.sources ++ workArgs
+      .sourceJars
+      .zipWithIndex
+      .flatMap((jar, i) => FileUtil.extractZip(jar, sourcesDir.resolve(i.toString)))
+      .map(_.toFile)
 
     // extract upstream classes
-    val classesDir = tmpDir.resolve("classes")
-    val outputJar = namespace.get[File]("output_jar").toPath
+    val classesDir = workArgs.tmpDir.resolve("classes")
 
-    val deps =
-      val analyses = Option(
-        namespace
-          .getList[JList[String]]("analysis")
-      ).filter(_ => usePersistence)
-        .fold[collection.Seq[JList[String]]](Nil)(_.asScala)
-        .flatMap { value =>
-          val prefixedLabel +: apis +: relations +: jars = value.asScala.toList: @unchecked
-          val label = prefixedLabel.stripPrefix("_")
-          jars.map { jar =>
-            Paths.get(jar) -> (classesDir.resolve(labelToPath(label)), DepAnalysisFiles(Paths.get(apis), Paths.get(relations)))
-          }
-        }
-        .toMap
-      val originalClasspath = namespace.getList[File]("classpath").asScala.map(_.toPath)
-      Dep.create(depsCache, originalClasspath, analyses)
+    val analyses = workerArgs.usePersistence match
+      case true =>
+        workArgs
+          .analysis
+          .flatMap(arg => arg.jars.map(jar => jar -> (classesDir.resolve(labelToPath(arg.label)), DepAnalysisFiles(arg.apis, arg.relations))))
+          .toMap
+      case false => Map.empty
+    val deps = Dep.create(workerArgs.depsCache, workArgs.classpath, analyses)
 
     // load persisted files
     val analysisFiles = AnalysisFiles(
-      apis = namespace.get[File]("output_apis").toPath,
-      miniSetup = namespace.get[File]("output_setup").toPath,
-      relations = namespace.get[File]("output_relations").toPath,
-      sourceInfos = namespace.get[File]("output_infos").toPath,
-      stamps = namespace.get[File]("output_stamps").toPath
+      apis = workArgs.outputApis,
+      miniSetup = workArgs.outputSetup,
+      relations = workArgs.outputRelations,
+      sourceInfos = workArgs.outputInfos,
+      stamps = workArgs.outputStamps
     )
-    val analysesFormat =
-      val debug = namespace.getBoolean("debug")
-      val format = if (debug) AnxAnalysisStore.TextFormat else AnxAnalysisStore.BinaryFormat
-      new AnxAnalyses(format)
-    val analysisStore = new AnxAnalysisStore(analysisFiles, analysesFormat)
+    val analysesFormat = AnxAnalyses(if (workArgs.debug) AnxAnalysisStore.TextFormat else AnxAnalysisStore.BinaryFormat)
+    val analysisStore = AnxAnalysisStore(analysisFiles, analysesFormat)
 
-    val persistence = persistenceDir.fold[ZincPersistence](NullPersistence) { rootDir =>
-      val path = namespace.getString("label").replaceAll("^/+", "").replaceAll(raw"[^\w/]", "_")
-      new FilePersistence(rootDir.resolve(path), analysisFiles, outputJar)
+    val persistence = workerArgs.persistenceDir.fold[ZincPersistence](NullPersistence) { rootDir =>
+      val path = workArgs.label.replaceAll("^/+", "").replaceAll(raw"[^\w/]", "_")
+      FilePersistence(rootDir.resolve(path), analysisFiles, workArgs.outputJar)
     }
 
-    val classesOutputDir = classesDir.resolve(labelToPath(namespace.getString("label")))
+    val classesOutputDir = classesDir.resolve(labelToPath(workArgs.label))
     try
       persistence.load()
-      if (Files.exists(outputJar))
-        try FileUtil.extractZip(outputJar, classesOutputDir)
-        catch
-          case NonFatal(e) =>
-            FileUtil.delete(classesOutputDir)
-            throw e
-    catch
-      case NonFatal(e) =>
-        logger.warn(() => s"Failed to load cached analysis: $e")
-        Files.delete(analysisFiles.apis)
-        Files.delete(analysisFiles.miniSetup)
-        Files.delete(analysisFiles.relations)
-        Files.delete(analysisFiles.sourceInfos)
-        Files.delete(analysisFiles.stamps)
+      if (Files.exists(workArgs.outputJar))
+        try FileUtil.extractZip(workArgs.outputJar, classesOutputDir)
+        finally FileUtil.delete(classesOutputDir)
+    catch case NonFatal(e) =>
+      logger.warn(() => s"Failed to load cached analysis: $e")
+      Files.delete(analysisFiles.apis)
+      Files.delete(analysisFiles.miniSetup)
+      Files.delete(analysisFiles.relations)
+      Files.delete(analysisFiles.sourceInfos)
+      Files.delete(analysisFiles.stamps)
     Files.createDirectories(classesOutputDir)
 
     val previousResult = Try(analysisStore.get())
@@ -185,46 +297,37 @@ object ZincRunner extends WorkerMain[Namespace]:
       .orElseGet(() => PreviousResult.of(Optional.empty[CompileAnalysis](), Optional.empty[MiniSetup]()))
 
     // setup compiler
-    val scalaInstance = new AnnexScalaInstance(topLoader, classloaderCache, namespace.getList[File]("compiler_classpath").asScala.toArray)
+    val scalaInstance = AnnexScalaInstance(topLoader, classloaderCache, workArgs.compilerClasspath.toArray)
 
-    val compileOptions =
-      CompileOptions.create
-        .withSources(sources.map(f => PlainVirtualFile(f.toPath())).toArray)
-        .withClasspath((classesOutputDir +: deps.map(_.classpath)).map(PlainVirtualFile(_)).toArray)
-        .withClassesDirectory(classesOutputDir)
-        .withJavacOptions(namespace.getList[String]("java_compiler_option").asScala.toArray)
-        .withScalacOptions(
-          Array.concat(
-            namespace.getList[File]("plugins").asScala.map(p => s"-Xplugin:$p").toArray,
-            Option(namespace.getList[String]("compiler_option")).fold[collection.Seq[String]](Nil)(_.asScala).toArray
-          )
-        )
+    val compileOptions = CompileOptions.create
+      .withSources(sources.map(f => PlainVirtualFile(f.toPath())).toArray)
+      .withClasspath((classesOutputDir +: deps.map(_.classpath)).map(PlainVirtualFile(_)).toArray)
+      .withClassesDirectory(classesOutputDir)
+      .withJavacOptions(workArgs.javaCompilerOption.toArray)
+      .withScalacOptions((workArgs.plugins.map(p => s"-Xplugin:$p") ++ workArgs.compilerOption).toArray)
 
     val scalaCompiler = ZincUtil
-      .scalaCompiler(scalaInstance, namespace.get[File]("compiler_bridge"))
+      .scalaCompiler(scalaInstance, workArgs.compilerBridge)
       .withClassLoaderCache(classloaderCache)
     lastCompiler = scalaCompiler
     val compilers =
       ZincUtil.compilers(scalaInstance, ClasspathOptionsUtil.boot, None, scalaCompiler)
 
-    val lookup =
-      val depMap = deps.collect {
-        case ExternalDep(_, classpath, files) => classpath -> files
-      }.toMap
-      new AnxPerClasspathEntryLookup(file => {
-        depMap
-          .get(file)
-          .map(files =>
-            Analysis.Empty.copy(
-              apis = analysesFormat.apis.read(files.apis),
-              relations = analysesFormat.relations.read(files.relations)
-            )
+    val depMap = deps.collect { case ExternalDep(_, classpath, files) => classpath -> files }.toMap
+    val lookup = AnxPerClasspathEntryLookup(file =>
+      depMap
+        .get(file)
+        .map(files =>
+          Analysis.Empty.copy(
+            apis = analysesFormat.apis.read(files.apis),
+            relations = analysesFormat.relations.read(files.relations)
           )
-      })
+        )
+     )
 
     val setup =
       val incOptions = IncOptions.create()
-      val reporter = new LoggedReporter(logger)
+      val reporter = LoggedReporter(logger)
       val skip = false
       val zincFile: Path = null
 
@@ -242,7 +345,7 @@ object ZincRunner extends WorkerMain[Namespace]:
     val inputs = Inputs.of(compilers, compileOptions, setup, previousResult)
 
     // compile
-    val incrementalCompiler = new IncrementalCompilerImpl()
+    val incrementalCompiler = IncrementalCompilerImpl()
     val compileResult =
       try incrementalCompiler.compile(inputs, logger)
       catch
@@ -254,6 +357,11 @@ object ZincRunner extends WorkerMain[Namespace]:
         case e: ClassFormatError =>
           System.err.println(e)
           sys.exit(1)
+        case e: NoClassDefFoundError =>
+          System.err.println(s"workArgs:$workArgs")
+          println(s"work args:${args.mkString(" ")}")
+          System.err.println(e)
+          sys.exit(1)
 
     // create analyses
     analysisStore.set(AnalysisContents.create(compileResult.analysis, compileResult.setup))
@@ -263,40 +371,33 @@ object ZincRunner extends WorkerMain[Namespace]:
 
     val usedDeps =
       deps.filter(Dep.used(deps, analysis.relations, lookup)).filter(_.file != scalaInstance.libraryJar.toPath)
-    Files.write(namespace.get[File]("output_used").toPath, usedDeps.map(_.file.toString).sorted.asJava)
+    Files.write(workArgs.outputUsed, usedDeps.map(_.file.toString).sorted.asJava)
 
     // create jar
-    val mains =
-      analysis.infos.allInfos.values.toList
-        .flatMap(_.getMainClasses.toList)
-        .sorted
+    val mains = analysis.infos.allInfos.values.toList
+      .flatMap(_.getMainClasses.toList)
+      .sorted
 
-    val pw = new PrintWriter(namespace.get[File]("main_manifest"))
+    val pw = PrintWriter(workArgs.mainManifest)
     try mains.foreach(pw.println)
     finally pw.close()
 
-    val jarCreator = new JarCreator(outputJar)
+    val jarCreator = JarCreator(workArgs.outputJar)
     jarCreator.addDirectory(classesOutputDir)
     jarCreator.setCompression(true)
     jarCreator.setNormalize(true)
     jarCreator.setVerbose(false)
-
-    mains match
-      case main :: Nil =>
-        jarCreator.setMainClass(main)
-      case _ =>
-
+    for main <- mains.headOption do jarCreator.setMainClass(main)
     jarCreator.execute()
 
     // save persisted files
-    if (usePersistence)
+    if (workerArgs.usePersistence)
       try persistence.save()
-      catch
-        case NonFatal(e) => logger.warn(() => s"Failed to save cached analysis: $e")
+      catch case NonFatal(e) => logger.warn(() => s"Failed to save cached analysis: $e")
 
     // clear temporary files
-    FileUtil.delete(tmpDir)
-    Files.createDirectory(tmpDir)
+    FileUtil.delete(workArgs.tmpDir)
+    Files.createDirectory(workArgs.tmpDir)
 
 final class AnxPerClasspathEntryLookup(analyses: Path => Option[CompileAnalysis]) extends PerClasspathEntryLookup:
   private val Empty = Optional.empty[CompileAnalysis]

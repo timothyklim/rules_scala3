@@ -45,8 +45,8 @@ def phase_zinc_compile(ctx, g):
     args = ctx.actions.args()
     args.add_all(depset(transitive = [zinc.deps for zinc in zincs]), map_each = _compile_analysis)
     args.add("--compiler_bridge", zinc_configuration.compiler_bridge)
-    args.add_all("--compiler_classpath", g.classpaths.compiler)
-    args.add_all("--classpath", g.classpaths.compile)
+    args.add_all(g.classpaths.compiler, format_each = "--compiler_cp=%s")
+    args.add_all(g.classpaths.compile, format_each = "--cp=%s")
     args.add_all(scala_configuration.global_scalacopts, format_each = "--compiler_option=%s")
     args.add_all(ctx.attr.scalacopts, format_each = "--compiler_option=%s")
     args.add_all(javacopts, format_each = "--java_compiler_option=%s")
@@ -59,11 +59,11 @@ def phase_zinc_compile(ctx, g):
     args.add("--output_setup", setup)
     args.add("--output_stamps", stamps)
     args.add("--output_used", used)
-    args.add_all("--plugins", g.classpaths.plugin)
-    args.add_all("--source_jars", g.classpaths.src_jars)
+    args.add_all(g.classpaths.plugin, format_each = "--plugin=%s")
+    args.add_all(g.classpaths.src_jars, format_each = "--source_jar=%s")
     args.add("--tmp", tmp.path)
     args.add("--log_level", zinc_configuration.log_level)
-    args.add_all("--", g.classpaths.srcs)
+    args.add_all(g.classpaths.srcs)
     args.set_param_file_format("multiline")
     args.use_param_file("@%s", use_always = True)
 
@@ -124,7 +124,9 @@ def phase_zinc_compile(ctx, g):
 def _compile_analysis(analysis):
     return [
         "--analysis",
-        "_{}".format(analysis.label),
-        analysis.apis.path,
-        analysis.relations.path,
-    ] + [jar.path for jar in analysis.jars]
+        ",".join([
+            "_{}".format(analysis.label),
+            analysis.apis.path,
+            analysis.relations.path,
+        ] + [jar.path for jar in analysis.jars])
+    ]

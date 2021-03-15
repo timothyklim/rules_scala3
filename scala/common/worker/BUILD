@@ -5,10 +5,10 @@ scala_library(
     name = "worker",
     srcs = glob(["**/*.scala"]),
     scala = "//scala:bootstrap_3_0_0",
+    visibility = ["//visibility:public"],
     deps = [
         "//third_party/bazel/src/main/protobuf:worker_protocol_java_proto",
     ],
-    visibility = ["//visibility:public"],
 )
 
 scala_format_test(

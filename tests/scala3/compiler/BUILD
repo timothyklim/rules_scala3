@@ -13,5 +13,5 @@ scala_binary(
         "-source:3.0",
         "-rewrite",
         "-indent",
-    ]
+    ],
 )

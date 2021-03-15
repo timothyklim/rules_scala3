@@ -51,7 +51,7 @@ def scaladoc_implementation(ctx):
     args.add("--output_html", html.path)
     args.add_all("--source_jars", src_jars)
     args.add("--tmp", tmp.path)
-    args.add_all("--", srcs)
+    args.add_all(srcs)
     args.set_param_file_format("multiline")
     args.use_param_file("@%s", use_always = True)
 

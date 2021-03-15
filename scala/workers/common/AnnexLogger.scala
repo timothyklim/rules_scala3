@@ -7,10 +7,7 @@ import java.io.{PrintWriter, StringWriter}
 import java.nio.file.Paths
 import java.util.function.Supplier
 
-import CommonArguments.LogLevel
-
-final class AnnexLogger(level: String) extends Logger:
-
+final class AnnexLogger(level: LogLevel) extends Logger:
   private val root = s"${Paths.get("").toAbsolutePath}/"
 
   private def format(value: String): String = value.replace(root, "")

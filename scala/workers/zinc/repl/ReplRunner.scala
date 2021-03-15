@@ -9,8 +9,6 @@ import workers.common.FileUtil
 import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.Collections
-import net.sourceforge.argparse4j.ArgumentParsers
-import net.sourceforge.argparse4j.impl.Arguments
 import sbt.internal.inc.ZincUtil
 import scala.jdk.CollectionConverters.*
 import xsbti.Logger

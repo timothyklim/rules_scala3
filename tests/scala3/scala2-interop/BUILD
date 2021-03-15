@@ -5,26 +5,26 @@ scala_library(
     srcs = ["Scala3.scala"],
     scala = "//scala:zinc_3_0_0",
     scalacopts = [
-      "-version",
-      "-deprecation",
-      "-encoding",
-      "UTF-8",
-      "-feature",
-      "-unchecked",
-      "-source:3.0",
-      "-rewrite",
-      "-indent",
-    ]
+        "-version",
+        "-deprecation",
+        "-encoding",
+        "UTF-8",
+        "-feature",
+        "-unchecked",
+        "-source:3.0",
+        "-rewrite",
+        "-indent",
+    ],
 )
 
 scala_binary(
     name = "app",
     srcs = ["Scala2.scala"],
     scala = "//scala:zinc_2_13",
-    deps = [
-      ":lib3",
-    ],
     scalacopts = [
-      "-Ytasty-reader",
-    ]
+        "-Ytasty-reader",
+    ],
+    deps = [
+        ":lib3",
+    ],
 )

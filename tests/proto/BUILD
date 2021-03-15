@@ -21,9 +21,10 @@ scala_proto_library(
 scala_library(
     name = "zero_scala",
     srcs = [":zero_scala_proto"],
+    scala = "//scala:zinc_3_0_0",
     deps = [
         "@annex_test//:com_google_protobuf_protobuf_java",
-        "@annex_test//:com_thesamet_scalapb_lenses_2_13",
-        "@annex_test//:com_thesamet_scalapb_scalapb_runtime_2_13",
+        "@annex_test//:com_thesamet_scalapb_lenses_3_0_0_RC1",
+        "@annex_test//:com_thesamet_scalapb_scalapb_runtime_3_0_0_RC1",
     ],
 )

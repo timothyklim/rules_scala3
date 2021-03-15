@@ -4,8 +4,6 @@ import rules_scala.common.worker.WorkerMain
 import rules_scala.workers.common.Color
 import java.io.File
 import java.nio.file.Files
-import net.sourceforge.argparse4j.ArgumentParsers
-import net.sourceforge.argparse4j.impl.Arguments
 import org.scalafmt.Scalafmt
 import org.scalafmt.config.Config
 import org.scalafmt.util.FileOps

@@ -11,9 +11,6 @@ import java.io.File
 import java.net.URLClassLoader
 import java.nio.file.{Files, NoSuchFileException}
 import java.util.{Collections, Optional, Properties}
-import net.sourceforge.argparse4j.ArgumentParsers
-import net.sourceforge.argparse4j.impl.Arguments
-import net.sourceforge.argparse4j.inf.Namespace
 import sbt.internal.inc.classpath.ClassLoaderCache
 import sbt.internal.inc.{LoggedReporter, ZincUtil}
 import scala.jdk.CollectionConverters._

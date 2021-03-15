@@ -28,12 +28,11 @@ def phase_zinc_depscheck(ctx, g):
         deps_check = ctx.actions.declare_file("{}/depscheck_{}.success".format(ctx.label.name, name))
         deps_args = ctx.actions.args()
         deps_args.add(name, format = "--check_%s=true")
-        deps_args.add_all("--direct", [dep.label for dep in ctx.attr.deps], format_each = "_%s")
+        deps_args.add_all([dep.label for dep in ctx.attr.deps], format_each = "--direct=_%s")
         deps_args.add_all(labeled_jars, map_each = _depscheck_labeled_group)
         deps_args.add("--label", ctx.label, format = "_%s")
-        deps_args.add_all("--used_whitelist", [dep.label for dep in ctx.attr.deps_used_whitelist], format_each = "_%s")
-        deps_args.add_all("--unused_whitelist", [dep.label for dep in ctx.attr.deps_unused_whitelist], format_each = "_%s")
-        deps_args.add("--")
+        deps_args.add_all([dep.label for dep in ctx.attr.deps_used_whitelist], format_each = "--used_whitelist=_%s")
+        deps_args.add_all([dep.label for dep in ctx.attr.deps_unused_whitelist], format_each = "--unused_whitelist=_%s")
         deps_args.add(g.compile.used)
         deps_args.add(deps_check)
         deps_args.set_param_file_format("multiline")
@@ -65,4 +64,4 @@ def phase_zinc_depscheck(ctx, g):
     )
 
 def _depscheck_labeled_group(labeled_jars):
-    return (["--group", "_{}".format(labeled_jars.label)] + [jar.path for jar in labeled_jars.jars.to_list()])
+    return ["--group", ",".join(["_{}".format(labeled_jars.label)] + [jar.path for jar in labeled_jars.jars.to_list()])]

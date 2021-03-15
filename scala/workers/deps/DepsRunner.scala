@@ -1,108 +1,136 @@
 package rules_scala
 package workers.deps
 
+import java.io.File
+import java.nio.file.{FileAlreadyExistsException, Files, Path, Paths}
+import java.util.{Collections, List as JList}
+
+import scala.collection.mutable
+import scala.jdk.CollectionConverters.*
+
+import monocle.syntax.all.*
+import scopt.OParser
+
 import common.worker.WorkerMain
 
-import java.io.File
-import java.nio.file.{FileAlreadyExistsException, Files}
-import java.util.{Collections, List as JList}
-import net.sourceforge.argparse4j.ArgumentParsers
-import net.sourceforge.argparse4j.impl.Arguments
-import scala.jdk.CollectionConverters.*
-import scala.collection.mutable
+final case class GroupArgument(label: String, jars: Vector[String])
+object GroupArgument:
+  def from(value: String): GroupArgument = value.split(',') match
+    case Array(label, jars @ _*) => GroupArgument(label, jars.toVector)
+
+final case class DepsWorkArguments(
+  checkDirect: Boolean = false,
+  checkUsed: Boolean = false,
+  label: String = "",
+  group: Vector[GroupArgument] = Vector.empty,
+  direct: Vector[String] = Vector.empty,
+  usedWhitelist: Vector[String] = Vector.empty,
+  unusedWhitelist: Vector[String] = Vector.empty,
+  used: Path = Paths.get("."),
+  success: Path = Paths.get("."),
+)
+object DepsWorkArguments:
+  private val builder = OParser.builder[DepsWorkArguments]
+  import builder.*
+
+  private val parser = OParser.sequence(
+    opt[Boolean]("check_direct").action((check, c) => c.focus(_.checkDirect).replace(check)),
+    opt[Boolean]("check_used").action((check, c) => c.focus(_.checkUsed).replace(check)),
+    opt[String]("label")
+      .required()
+      .action((l, c) => c.focus(_.label).replace(l))
+      .text("Bazel label"),
+    opt[String]("direct")
+      .unbounded()
+      .optional()
+      .action((l, c) => c.focus(_.direct).modify(_ :+ l))
+      .text("Labels of direct deps"),
+    opt[String]("group")
+      .unbounded()
+      .optional()
+      .action((g, c) => c.focus(_.group).modify(_ :+ GroupArgument.from(g)))
+      .text("Labels of direct deps"),
+    opt[String]("used_whitelist")
+      .unbounded()
+      .optional()
+      .valueName("label")
+      .action((l, c) => c.focus(_.usedWhitelist).modify(_ :+ l))
+      .text("Whitelist of labels to ignore for unused deps"),
+    opt[String]("unused_whitelist")
+      .unbounded()
+      .optional()
+      .valueName("label")
+      .action((l, c) => c.focus(_.unusedWhitelist).modify(_ :+ l))
+      .text("Whitelist of labels to ignore for direct deps"),
+    arg[File]("<used>")
+      .required()
+      .action((f, c) => c.focus(_.used).replace(f.toPath()))
+      .text("Manifest of used"),
+    arg[File]("<success>")
+      .required()
+      .action((f, c) => c.focus(_.success).replace(f.toPath()))
+      .text("Success file"),
+  )
+
+  def apply(args: collection.Seq[String]): Option[DepsWorkArguments] =
+    OParser.parse(parser, args, DepsWorkArguments())
 
 object DepsRunner extends WorkerMain[Unit]:
-  private val argParser =
-    val parser = ArgumentParsers.newFor("deps").addHelp(true).fromFilePrefix("@").build
-    parser.addArgument("--check_direct").`type`(Arguments.booleanType)
-    parser.addArgument("--check_used").`type`(Arguments.booleanType)
-    parser
-      .addArgument("--direct")
-      .help("Labels of direct deps")
-      .metavar("label")
-      .nargs("*")
-      .setDefault(Collections.emptyList())
-    parser
-      .addArgument("--group")
-      .action(Arguments.append)
-      .help("Label and manifest of jars")
-      .metavar("label [path [path ...]]")
-      .nargs("+")
-    parser.addArgument("--label").help("Label of current target").metavar("label").required(true)
-    parser
-      .addArgument("--used_whitelist")
-      .help("Whitelist of labels to ignore for unused deps")
-      .metavar("label")
-      .nargs("*")
-      .setDefault(Collections.emptyList)
-    parser
-      .addArgument("--unused_whitelist")
-      .help("Whitelist of labels to ignore for direct deps")
-      .metavar("label")
-      .nargs("*")
-      .setDefault(Collections.emptyList)
-    parser.addArgument("used").help("Manifest of used").`type`(Arguments.fileType.verifyCanRead().verifyIsFile())
-    parser.addArgument("success").help("Success file").`type`(Arguments.fileType.verifyCanCreate())
-    parser
-
   override def init(args: Option[Array[String]]): Unit = ()
 
   override def work(ctx: Unit, args: Array[String]): Unit =
-    val namespace = argParser.parseArgs(args)
+    val workArgs = DepsWorkArguments(args).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
 
-    val label = namespace.getString("label").tail
-    val directLabels = namespace.getList[String]("direct").asScala.map(_.tail)
-    val (depLabelToPaths, pathToLabel) = namespace.getList[JList[String]]("group") match
-      case xs: JList[JList[String]] =>
-        val depLabelsMap = new mutable.HashMap[String, collection.Set[String]](initialCapacity = xs.size, loadFactor = 2.0)
-        val pathsMap = new mutable.HashMap[String, String](initialCapacity = xs.size, loadFactor = 0.75)
+    val label = workArgs.label.tail
+    val directLabels = workArgs.direct.map(_.tail)
+    val (depLabelToPaths, pathToLabel) = workArgs.group match
+      case groups if groups.nonEmpty  =>
+        val depLabelsMap = new mutable.HashMap[String, collection.Set[String]](initialCapacity = groups.size, loadFactor = 2.0)
+        val pathsMap = new mutable.HashMap[String, String](initialCapacity = groups.size, loadFactor = 0.75)
 
-        xs.forEach(_.asScala match {
-          case mutable.Buffer(key, xs @ _*) =>
-            val depLabel = key.tail
+        for (group <- groups) do
+          val depLabel = group.label.tail
 
-            depLabelsMap.put(depLabel, xs.toSet)
+          depLabelsMap.put(depLabel, group.jars.toSet)
 
-            for (path <- xs) pathsMap.put(path, depLabel)
-        })
+          for (path <- group.jars) pathsMap.put(path, depLabel)
 
         (depLabelsMap, pathsMap)
-      case null => (EmptyLabelsMap, EmptyPathsMap)
-    val usedPaths = Files.readAllLines(namespace.get[File]("used").toPath).asScala.toSet
+      case _ => (EmptyLabelsMap, EmptyPathsMap)
+    val usedPaths = Files.readAllLines(workArgs.used).asScala.toSet
 
-    val remove = if (namespace.getBoolean("check_used") == true)
-      val usedWhitelist = namespace.getList[String]("used_whitelist").asScala.map(_.tail)
-      directLabels.diff(usedWhitelist).filterNot { depLabel =>
-        depLabelToPaths(depLabel).exists(usedPaths)
-      }
-    else Nil
-    remove.foreach { depLabel =>
+    val remove =
+      if (workArgs.checkUsed)
+        val usedWhitelist = workArgs.usedWhitelist.map(_.tail)
+        directLabels.diff(usedWhitelist).filterNot(depLabel => depLabelToPaths(depLabel).exists(usedPaths))
+      else Nil
+
+    for (depLabel <- remove) do
       println(s"Target '$depLabel' not used, please remove it from the deps.")
       println(s"You can use the following buildozer command:")
       println(s"buildozer 'remove deps $depLabel' $label")
-    }
 
-    val add = if (namespace.getBoolean("check_direct") == true)
-      val unusedWhitelist = namespace.getList[String]("unused_whitelist").asScala.map(_.tail)
-      usedPaths
-        .diff(Set.concat(directLabels, unusedWhitelist).flatMap(depLabelToPaths))
-        .flatMap { path =>
-          pathToLabel.get(path) match
-            case res @ None =>
-              System.err.println(s"Warning: There is a reference to $path, but no dependency of $label provides it")
-              res
-            case res => res
-        }
-    else Nil
-    add.foreach { depLabel =>
+    val add =
+      if (workArgs.checkDirect)
+        val unusedWhitelist = workArgs.unusedWhitelist.map(_.tail)
+        usedPaths
+          .diff(Set.concat(directLabels, unusedWhitelist).flatMap(depLabelToPaths))
+          .flatMap { path =>
+            pathToLabel.get(path) match
+              case res @ None =>
+                System.err.println(s"Warning: There is a reference to $path, but no dependency of $label provides it")
+                res
+              case res => res
+          }
+      else Nil
+    for (depLabel <- add) do
       println(s"Target '$depLabel' is used but isn't explicitly declared, please add it to the deps.")
       println(s"You can use the following buildozer command:")
       println(s"buildozer 'add deps $depLabel' $label")
-    }
 
     if (add.isEmpty && remove.isEmpty)
-      try Files.createFile(namespace.get[File]("success").toPath)
-      catch { case _: FileAlreadyExistsException => }
+      try Files.createFile(workArgs.success)
+      catch case _: FileAlreadyExistsException => ()
 
   private val EmptyLabelsMap = Map.empty[String, collection.Set[String]]
   private val EmptyPathsMap = Map.empty[String, String]

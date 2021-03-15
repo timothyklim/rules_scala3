@@ -1,53 +1,56 @@
 package annex.scala.proto
 
-import rules_scala.common.worker.WorkerMain
 import java.io.File
-import java.nio.file.{Files, Paths}
+import java.nio.file.{Files, Paths, Path}
 import java.util.Collections
-import net.sourceforge.argparse4j.ArgumentParsers
-import net.sourceforge.argparse4j.impl.Arguments
-import net.sourceforge.argparse4j.inf.ArgumentParser
-import protocbridge.{ProtocBridge, ProtocRunner}
+
 import scala.jdk.CollectionConverters.*
+
+import monocle.syntax.all.*
+import protocbridge.{ProtocBridge, ProtocRunner}
 import scalapb.ScalaPbCodeGenerator
+import scopt.OParser
+
+import rules_scala.common.worker.WorkerMain
+
+final case class ProtoWorkArguments(
+  outputDir: Path = Paths.get("."),
+  protoc: File = new File("."),
+  sources: Vector[String] = Vector.empty,
+)
+object ProtoWorkArguments:
+  private val builder = OParser.builder[ProtoWorkArguments]
+  import builder.*
+
+  private val parser = OParser.sequence(
+    opt[File]("output_dir")
+      .required()
+      .action((out, c) => c.focus(_.outputDir).replace(out.toPath))
+      .text("Output dir"),
+    opt[File]("protoc")
+      .required()
+      .action((p, c) => c.focus(_.protoc).replace(p))
+      .text("Path to protoc"),
+    arg[File]("<source>...")
+      .unbounded()
+      .optional()
+      .action((s, c) => c.focus(_.sources).modify(_ :+ s.toString))
+      .text("Source files"),
+  )
+
+  def apply(args: collection.Seq[String]): Option[ProtoWorkArguments] =
+    OParser.parse(parser, args, ProtoWorkArguments())
 
 object ScalaProtoWorker extends WorkerMain[Unit]:
-  private val argParser: ArgumentParser =
-    val parser = ArgumentParsers.newFor("proto").addHelp(true).fromFilePrefix("@").build
-    parser
-      .addArgument("--output_dir")
-      .help("Output dir")
-      .metavar("output_dir")
-      .`type`(Arguments.fileType.verifyCanCreate)
-      .required(true)
-    parser
-      .addArgument("--protoc")
-      .help("Path to protoc")
-      .metavar("protoc")
-      .`type`(Arguments.fileType.verifyCanRead().verifyExists())
-      .required(true)
-    parser
-      .addArgument("sources")
-      .help("Source files")
-      .metavar("source")
-      .nargs("*")
-      .`type`(Arguments.fileType.verifyCanRead.verifyIsFile)
-      .setDefault(Collections.emptyList)
-    parser
-
   override def init(args: Option[Array[String]]): Unit = ()
 
   override def work(ctx: Unit, args: Array[String]): Unit =
-    val namespace = argParser.parseArgs(args)
-    val sources = namespace.getList[File]("sources").asScala.toList
+    val workArgs = ProtoWorkArguments(args).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
 
-    val scalaOut = namespace.get[File]("output_dir").toPath
-    Files.createDirectories(scalaOut)
-
-    val params = s"--scala_out=$scalaOut" :: sources.map(_.getPath)
+    Files.createDirectories(workArgs.outputDir)
 
     ProtocBridge.runWithGenerators(
-      ProtocRunner(namespace.get[File]("protoc").toString),
+      ProtocRunner(workArgs.protoc.toString),
       List("scala" -> ScalaPbCodeGenerator),
-      params
+      s"--scala_out=${workArgs.outputDir}" :: workArgs.sources.toList
     )

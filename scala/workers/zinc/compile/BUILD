@@ -7,11 +7,11 @@ scala_binary(
     main_class = "rules_scala.workers.zinc.compile.ZincRunner",
     scala = "//scala:bootstrap_3_0_0",
     visibility = ["//visibility:public"],
-    runtime_deps = [
-        "@annex//:com_lihaoyi_sourcecode_2_13",
-    ],
     deps = [
-        "@annex//:net_sourceforge_argparse4j_argparse4j",
+        "//scala/common/worker",
+        "//scala/workers/common",
+        "@annex//:com_github_julien_truffaut_monocle_core_3_0_0_RC1",
+        "@annex//:com_github_scopt_scopt_3_0_0_RC1",
         "@annex//:org_scala_sbt_compiler_interface",
         "@annex//:org_scala_sbt_util_interface",
         "@annex//:org_scala_sbt_zinc_2_13",
@@ -21,8 +21,6 @@ scala_binary(
         "@annex//:org_scala_sbt_zinc_persist_2_13",
         "@annex//:org_scala_sbt_zinc_persist_core_assembly",
         "@bazel_src//src/java_tools/buildjar/java/com/google/devtools/build/buildjar/jarhelper",
-        "//scala/common/worker",
-        "//scala/workers/common",
     ],
 )
 
