@@ -17,7 +17,7 @@ def scalafmt_repositories():
             "https://mirror.bazel.build/repo1.maven.org/maven2",
         ],
         fetch_sources = True,
-        maven_install_json = "@rules_scala_annex//:annex_scalafmt_install.json",
+        maven_install_json = "@rules_scala//:annex_scalafmt_install.json",
     )
 
 def scalafmt_default_config(path = ".scalafmt.conf"):

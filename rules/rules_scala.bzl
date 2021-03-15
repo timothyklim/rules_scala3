@@ -8,7 +8,7 @@ def _emulate_rules_scala_repository_impl(repository_ctx):
     repository_ctx.file(
         "scala/scala.bzl",
         content = _strip_margin("""
-          |load("@rules_scala_annex//rules/rules_scala:private/compat.bzl",
+          |load("@rules_scala//rules/rules_scala:private/compat.bzl",
           |     _scala_library = "scala_library",
           |     _scala_macro_library = "scala_macro_library",
           |     _scala_binary = "scala_binary",
@@ -26,7 +26,7 @@ def _emulate_rules_scala_repository_impl(repository_ctx):
     repository_ctx.file(
         "scala/scala_import.bzl",
         content = _strip_margin("""
-          |load("@rules_scala_annex//rules:scala.bzl",
+          |load("@rules_scala//rules:scala.bzl",
           |     _scala_import = "scala_import",
           |)
           |

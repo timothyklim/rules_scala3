@@ -7,7 +7,7 @@ load(
 def scala_maven_import_external(
         artifact,
         server_urls,
-        rule_load = "load(\"@rules_scala_annex//rules:scala.bzl\", \"scala_import\")",
+        rule_load = "load(\"@rules_scala//rules:scala.bzl\", \"scala_import\")",
         **kwargs):
     _jvm_maven_import_external(
         rule_name = "scala_import",
@@ -20,7 +20,7 @@ def scala_maven_import_external(
     )
 
 def scala_import_external(
-        rule_load = "load(\"@rules_scala_annex//rules:scala.bzl\", \"scala_import\")",
+        rule_load = "load(\"@rules_scala//rules:scala.bzl\", \"scala_import\")",
         **kwargs):
     _jvm_import_external(
         rule_name = "scala_import",

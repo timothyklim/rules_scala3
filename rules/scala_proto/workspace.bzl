@@ -1,7 +1,7 @@
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 def scala_proto_register_toolchains():
-    native.register_toolchains("@rules_scala_annex//rules/scala_proto:scalapb_scala_proto_toolchain")
+    native.register_toolchains("@rules_scala//rules/scala_proto:scalapb_scala_proto_toolchain")
 
 def scala_proto_artifacts():
     return [
@@ -19,5 +19,5 @@ def scala_proto_repositories():
             "https://mirror.bazel.build/repo1.maven.org/maven2",
         ],
         fetch_sources = True,
-        maven_install_json = "@rules_scala_annex//:annex_proto_install.json",
+        maven_install_json = "@rules_scala//:annex_proto_install.json",
     )

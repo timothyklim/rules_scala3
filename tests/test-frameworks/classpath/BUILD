@@ -1,4 +1,4 @@
-load("@rules_scala_annex//rules:scala.bzl", "scala_test")
+load("@rules_scala//rules:scala.bzl", "scala_test")
 
 scala_test(
     name = "bad",

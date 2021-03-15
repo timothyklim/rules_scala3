@@ -1,4 +1,4 @@
-load("@rules_scala_annex//rules:scala.bzl", "scala_import", "scala_library")
+load("@rules_scala//rules:scala.bzl", "scala_import", "scala_library")
 
 scala_import(
     name = "shapeless",

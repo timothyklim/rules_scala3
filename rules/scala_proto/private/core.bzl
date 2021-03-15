@@ -19,7 +19,7 @@ def scala_proto_library_implementation(ctx):
     transitive_sources = depset(transitive = [proto.transitive_sources for proto in protos])
     transitive_proto_path = depset(transitive = [proto.transitive_proto_path for proto in protos])
 
-    compiler = ctx.toolchains["@rules_scala_annex//rules/scala_proto:compiler_toolchain_type"]
+    compiler = ctx.toolchains["@rules_scala//rules/scala_proto:compiler_toolchain_type"]
 
     compiler_inputs, _, _ = ctx.resolve_command(tools = [compiler.compiler])
 

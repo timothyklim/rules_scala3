@@ -1,7 +1,7 @@
-import higherkindness.rules_scala.workers.common.AnnexLogger
-import higherkindness.rules_scala.workers.common.Color
-import higherkindness.rules_scala.workers.common.CommonArguments.LogLevel
-import higherkindness.rules_scala.workers.common.LoggedReporter
+import rules_scala.workers.common.AnnexLogger
+import rules_scala.workers.common.Color
+import rules_scala.workers.common.CommonArguments.LogLevel
+import rules_scala.workers.common.LoggedReporter
 
 import sbt.internal.inc.javac.JavaPosition
 import sbt.util.InterfaceUtil.problem

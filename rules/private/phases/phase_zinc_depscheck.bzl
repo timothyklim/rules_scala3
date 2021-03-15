@@ -1,10 +1,10 @@
 load(
-    "@rules_scala_annex//rules:providers.bzl",
+    "@rules_scala//rules:providers.bzl",
     _DepsConfiguration = "DepsConfiguration",
     _LabeledJars = "LabeledJars",
 )
 load(
-    "@rules_scala_annex//rules/common:private/utils.bzl",
+    "@rules_scala//rules/common:private/utils.bzl",
     _resolve_execution_reqs = "resolve_execution_reqs",
 )
 

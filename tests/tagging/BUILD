@@ -1,6 +1,6 @@
-load("@rules_scala_annex//rules:scala.bzl", "scala_binary", "scala_library", "scala_test")
+load("@rules_scala//rules:scala.bzl", "scala_binary", "scala_library", "scala_test")
 load(
-    "@rules_scala_annex//rules/common:private/utils.bzl",
+    "@rules_scala//rules/common:private/utils.bzl",
     _PROPAGATABLE_TAGS = "PROPAGATABLE_TAGS",
 )
 

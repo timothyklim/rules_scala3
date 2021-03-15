@@ -1,9 +1,9 @@
 load(
-    "@rules_scala_annex//rules:scala_proto.bzl",
+    "@rules_scala//rules:scala_proto.bzl",
     "scala_proto_library",
 )
 load(
-    "@rules_scala_annex//rules:scala.bzl",
+    "@rules_scala//rules:scala.bzl",
     "scala_library",
 )
 

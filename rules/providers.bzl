@@ -141,7 +141,7 @@ declare_zinc_configuration = rule(
             mandatory = True,
         ),
         "_compile_worker": attr.label(
-            default = "@rules_scala_annex//src/main/scala/higherkindness/rules_scala/workers/zinc/compile",
+            default = "@rules_scala//scala/workers/zinc/compile",
             allow_files = True,
             executable = True,
             cfg = "host",

@@ -1,4 +1,4 @@
-load("@rules_scala_annex//rules:scala.bzl", "scala_binary")
+load("@rules_scala//rules:scala.bzl", "scala_binary")
 
 scala_binary(
     name = "lib",
@@ -7,6 +7,6 @@ scala_binary(
         "@annex//:org_scala_sbt_util_interface",
         "@annex//:org_scala_sbt_util_logging_2_13",
         "@annex//:org_scala_sbt_zinc_compile_core_2_13",
-        "@rules_scala_annex//src/main/scala/higherkindness/rules_scala/workers/common",
+        "@rules_scala//scala/workers/common",
     ],
 )

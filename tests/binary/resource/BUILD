@@ -1,6 +1,6 @@
 # https://github.com/higherkindness/rules_scala/issues/193
 
-load("@rules_scala_annex//rules:scala.bzl", "scala_binary", "scala_library")
+load("@rules_scala//rules:scala.bzl", "scala_binary", "scala_library")
 
 scala_library(
     name = "lib",

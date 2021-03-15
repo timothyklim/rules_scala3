@@ -1,13 +1,13 @@
 load(
-    "@rules_scala_annex//rules:providers.bzl",
+    "@rules_scala//rules:providers.bzl",
     _CodeCoverageConfiguration = "CodeCoverageConfiguration",
 )
 load(
-    "@rules_scala_annex//rules/private:coverage_replacements_provider.bzl",
+    "@rules_scala//rules/private:coverage_replacements_provider.bzl",
     _coverage_replacements_provider = "coverage_replacements_provider",
 )
 load(
-    "@rules_scala_annex//rules/common:private/utils.bzl",
+    "@rules_scala//rules/common:private/utils.bzl",
     _resolve_execution_reqs = "resolve_execution_reqs",
 )
 

@@ -1,5 +1,5 @@
 """
-Provides compatibility with vanilla rules_scala rules
+Provides compatibility with vanilla rules_scalarules
 
 The aim is to implement compatibility strictly with macros. `bazel query`
 can be used to expand macro usage and provide a seamless transition to

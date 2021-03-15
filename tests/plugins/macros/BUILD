@@ -1,4 +1,4 @@
-load("@rules_scala_annex//rules:scala.bzl", "scala_binary", "scala_library")
+load("@rules_scala//rules:scala.bzl", "scala_binary", "scala_library")
 
 scala_library(
     name = "bad_compile",

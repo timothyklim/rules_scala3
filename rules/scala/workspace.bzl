@@ -39,7 +39,7 @@ def scala_repositories(java_launcher_version = "3.7.2"):
             "https://mirror.bazel.build/repo1.maven.org/maven2",
         ],
         fetch_sources = True,
-        maven_install_json = "@rules_scala_annex//:annex_install.json",
+        maven_install_json = "@rules_scala//:annex_install.json",
     )
 
     http_file(

@@ -1,4 +1,4 @@
-workspace(name = "rules_scala_annex_test")
+workspace(name = "rules_scala_test")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 load("@bazel_tools//tools/build_defs/repo:jvm.bzl", "jvm_maven_import_external")
@@ -46,7 +46,7 @@ filegroup(
 """
 
 local_repository(
-    name = "rules_scala_annex",
+    name = "rules_scala",
     path = "../",
 )
 
@@ -62,7 +62,7 @@ http_archive(
 )
 
 load(
-    "@rules_scala_annex//rules/scala:workspace.bzl",
+    "@rules_scala//rules/scala:workspace.bzl",
     "scala_register_toolchains",
     "scala_repositories",
 )
@@ -76,7 +76,7 @@ annex_pinned_maven_install()
 scala_register_toolchains()
 
 load(
-    "@rules_scala_annex//rules/scala_proto:workspace.bzl",
+    "@rules_scala//rules/scala_proto:workspace.bzl",
     "scala_proto_register_toolchains",
     "scala_proto_repositories",
 )
@@ -89,8 +89,8 @@ load("@annex_proto//:defs.bzl", annex_proto_pinned_maven_install = "pinned_maven
 
 annex_proto_pinned_maven_install()
 
-load("@rules_scala_annex//rules:rules_scala.bzl", "emulate_rules_scala")
-load("@rules_scala_annex//rules:external.bzl", "scala_import_external")
+load("@rules_scala//rules:rules_scala.bzl", "emulate_rules_scala")
+load("@rules_scala//rules:external.bzl", "scala_import_external")
 
 scala_import_external(
     name = "scalatest_2_11",
@@ -108,7 +108,7 @@ emulate_rules_scala(
     scalatest = "@scalatest_2_11//jar",
 )
 
-load("@rules_scala_annex//rules/scalafmt:workspace.bzl", "scalafmt_default_config", "scalafmt_repositories")
+load("@rules_scala//rules/scalafmt:workspace.bzl", "scalafmt_default_config", "scalafmt_repositories")
 
 scalafmt_repositories()
 

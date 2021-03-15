@@ -1,7 +1,7 @@
 package annex.scalafmt
 
-import higherkindness.rules_scala.common.worker.WorkerMain
-import higherkindness.rules_scala.workers.common.Color
+import rules_scala.common.worker.WorkerMain
+import rules_scala.workers.common.Color
 import java.io.File
 import java.nio.file.Files
 import net.sourceforge.argparse4j.ArgumentParsers

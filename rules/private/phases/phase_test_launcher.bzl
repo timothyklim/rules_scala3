@@ -1,5 +1,5 @@
 load(
-    "@rules_scala_annex//rules/private:coverage_replacements_provider.bzl",
+    "@rules_scala//rules/private:coverage_replacements_provider.bzl",
     _coverage_replacements_provider = "coverage_replacements_provider",
 )
 load(
@@ -50,7 +50,7 @@ def phase_test_launcher(ctx, g):
             "{}/subprocess-".format(ctx.label.name),
             subprocess_executable,
             subprocess_runner_jars,
-            "higherkindness.rules_scala.common.sbt_testing.SubprocessTestRunner",
+            "rules_scala.common.sbt_testing.SubprocessTestRunner",
             [ctx.expand_location(f, ctx.attr.data) for f in ctx.attr.jvm_flags],
         )
         files.append(subprocess_executable)
@@ -71,7 +71,7 @@ def phase_test_launcher(ctx, g):
         prefix = "{}/".format(ctx.label.name),
         output = ctx.outputs.bin,
         runtime_classpath = runner_jars,  # + ctx.files._jacocorunner,
-        main_class = "higherkindness.rules_scala.workers.zinc.test.TestRunner",
+        main_class = "rules_scala.workers.zinc.test.TestRunner",
         jvm_flags = [ctx.expand_location(f, ctx.attr.data) for f in ctx.attr.jvm_flags] + [
             "-Dbazel.runPath=$RUNPATH",
             "-DscalaAnnex.test.args=${{RUNPATH}}{}".format(args_file.short_path),

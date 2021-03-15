@@ -1,11 +1,11 @@
 load(
-    "@rules_scala_annex//rules:providers.bzl",
+    "@rules_scala//rules:providers.bzl",
     "declare_scala_configuration",
     "declare_zinc_configuration",
     "join_configurations",
 )
 load(
-    "@rules_scala_annex//rules:scala.bzl",
+    "@rules_scala//rules:scala.bzl",
     "bootstrap_scala_library",
 )
 load(

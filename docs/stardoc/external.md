@@ -21,7 +21,7 @@ scala_import_external(<a href="#scala_import_external-rule_load">rule_load</a>, 
     <tr id="scala_import_external-rule_load">
       <td><code>rule_load</code></td>
       <td>
-        optional. default is <code>"load(\"@rules_scala_annex//rules:scala.bzl\", \"scala_import\")"</code>
+        optional. default is <code>"load(\"@rules_scala//rules:scala.bzl\", \"scala_import\")"</code>
       </td>
     </tr>
     <tr id="scala_import_external-kwargs">
@@ -67,7 +67,7 @@ scala_maven_import_external(<a href="#scala_maven_import_external-artifact">arti
     <tr id="scala_maven_import_external-rule_load">
       <td><code>rule_load</code></td>
       <td>
-        optional. default is <code>"load(\"@rules_scala_annex//rules:scala.bzl\", \"scala_import\")"</code>
+        optional. default is <code>"load(\"@rules_scala//rules:scala.bzl\", \"scala_import\")"</code>
       </td>
     </tr>
     <tr id="scala_maven_import_external-kwargs">

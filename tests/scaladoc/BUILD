@@ -1,4 +1,4 @@
-load("@rules_scala_annex//rules:scala.bzl", "scaladoc")
+load("@rules_scala//rules:scala.bzl", "scaladoc")
 
 scaladoc(
     name = "a_doc",

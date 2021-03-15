@@ -1,5 +1,5 @@
 load(
-    "@rules_scala_annex//rules:providers.bzl",
+    "@rules_scala//rules:providers.bzl",
     _ScalaConfiguration = "ScalaConfiguration",
     _ZincConfiguration = "ZincConfiguration",
 )
@@ -16,7 +16,7 @@ scaladoc_private_attributes = {
     "_runner": attr.label(
         cfg = "host",
         executable = True,
-        default = "//src/main/scala/higherkindness/rules_scala/workers/zinc/doc",
+        default = "//scala/workers/zinc/doc",
     ),
 }
 

@@ -24,5 +24,5 @@ def test_dependencies():
             "https://mirror.bazel.build/repo1.maven.org/maven2",
         ],
         fetch_sources = True,
-        maven_install_json = "@rules_scala_annex_test//:annex_test_install.json",
+        maven_install_json = "@rules_scala_test//:annex_test_install.json",
     )

@@ -1,5 +1,5 @@
 load(
-    "@rules_scala_annex//rules:scala.bzl",
+    "@rules_scala//rules:scala.bzl",
     "configure_bootstrap_scala",
     "configure_zinc_scala",
     "scala_library",
@@ -58,7 +58,7 @@ configure_zinc_scala(
 
 alias(
     name = "3_0",
-    actual = ":zinc_3_0",
+    actual = ":zinc_3_0_0",
     visibility = ["//visibility:public"],
 )
 
@@ -98,7 +98,7 @@ compiler_classpath_3_0 = [
 # )
 
 configure_zinc_scala(
-    name = "zinc_3_0",
+    name = "zinc_3_0_0",
     compiler_bridge = "@scala_sbt_bridge_3_0_0//jar",
     compiler_classpath = compiler_classpath_3_0,
     log_level = "debug",

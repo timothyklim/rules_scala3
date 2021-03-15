@@ -1,6 +1,6 @@
 package annex.scala.proto
 
-import higherkindness.rules_scala.common.worker.WorkerMain
+import rules_scala.common.worker.WorkerMain
 import java.io.File
 import java.nio.file.{Files, Paths}
 import java.util.Collections

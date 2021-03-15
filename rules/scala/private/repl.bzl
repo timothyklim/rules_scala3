@@ -1,6 +1,6 @@
 load("@bazel_skylib//lib:dicts.bzl", _dicts = "dicts")
 load(
-    "@rules_scala_annex//rules:providers.bzl",
+    "@rules_scala//rules:providers.bzl",
     _ScalaConfiguration = "ScalaConfiguration",
     _ZincConfiguration = "ZincConfiguration",
 )
@@ -32,7 +32,7 @@ def scala_repl_implementation(ctx):
         "{}/".format(ctx.label.name),
         ctx.outputs.bin,
         runner_classpath,
-        "higherkindness.rules_scala.workers.zinc.repl.ReplRunner",
+        "rules_scala.workers.zinc.repl.ReplRunner",
         [ctx.expand_location(f, ctx.attr.data) for f in ctx.attr.jvm_flags] + [
             "-Dbazel.runPath=$RUNPATH",
             "-DscalaAnnex.test.args=${{RUNPATH}}{}".format(args_file.short_path),

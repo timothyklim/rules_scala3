@@ -1,4 +1,4 @@
-load("@rules_scala_annex//rules:scala.bzl", "configure_zinc_scala", "scala_library")
+load("@rules_scala//rules:scala.bzl", "configure_zinc_scala", "scala_library")
 
 scala_library(
     name = "kind-projector",

@@ -1,5 +1,5 @@
 load(
-    "@rules_scala_annex//rules:providers.bzl",
+    "@rules_scala//rules:providers.bzl",
     _ScalaConfiguration = "ScalaConfiguration",
     _ScalaRulePhase = "ScalaRulePhase",
 )

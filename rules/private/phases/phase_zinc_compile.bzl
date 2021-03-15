@@ -3,13 +3,13 @@ load(
     "find_java_toolchain",
 )
 load(
-    "@rules_scala_annex//rules:providers.bzl",
+    "@rules_scala//rules:providers.bzl",
     _ScalaConfiguration = "ScalaConfiguration",
     _ZincConfiguration = "ZincConfiguration",
     _ZincInfo = "ZincInfo",
 )
 load(
-    "@rules_scala_annex//rules/common:private/utils.bzl",
+    "@rules_scala//rules/common:private/utils.bzl",
     _resolve_execution_reqs = "resolve_execution_reqs",
 )
 

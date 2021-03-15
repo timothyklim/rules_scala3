@@ -3,7 +3,7 @@ load(
     "find_java_runtime_toolchain",
     "find_java_toolchain",
 )
-load("@rules_scala_annex//rules:providers.bzl", _IntellijInfo = "IntellijInfo")
+load("@rules_scala//rules:providers.bzl", _IntellijInfo = "IntellijInfo")
 
 scala_import_private_attributes = {
     "_java_toolchain": attr.label(
