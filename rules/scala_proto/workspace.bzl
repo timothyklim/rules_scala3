@@ -5,7 +5,7 @@ def scala_proto_register_toolchains():
 
 def scala_proto_artifacts():
     return [
-        "com.thesamet.scalapb:compilerplugin_2.13:0.11.0-M7",
+        "com.thesamet.scalapb:compilerplugin_3.0.0-RC1:0.11.0-M7",
         "com.thesamet.scalapb:protoc-bridge_2.13:0.9.2",
     ]
 

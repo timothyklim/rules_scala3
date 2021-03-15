@@ -16,7 +16,7 @@ filegroup(
 )
 """
 
-zinc_version = "1.5.0-M3"
+zinc_version = "1.5.0-M4"
 
 def scala_artifacts():
     return [
@@ -24,8 +24,8 @@ def scala_artifacts():
         "org.jacoco:org.jacoco.core:0.7.5.201505241946",
         "com.lihaoyi:sourcecode_2.13:0.2.1,",
         "org.scala-sbt:test-interface:1.0",
-        "org.scala-sbt:util-interface:1.4.6",
-        "org.scala-sbt:util-logging_2.13:1.4.6",
+        "org.scala-sbt:util-interface:1.5.0-M2",
+        "org.scala-sbt:util-logging_2.13:1.5.0-M2",
         "org.scala-sbt:zinc_2.13:" + zinc_version,
     ]
 
