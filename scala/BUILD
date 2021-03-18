@@ -84,10 +84,11 @@ config_setting(
 scala3_version = "3.0.0-RC1"
 
 scala3_global_scalacopts = [
+    "-deprecation",
+    "-unchecked",
     "-feature",
     "-explain",
     "-explain-types",
-    "-rewrite",
     "-indent",
     # "-new-syntax",
     "-source:future",

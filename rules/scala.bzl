@@ -25,7 +25,6 @@ load(
     _phase_classpaths = "phase_classpaths",
     _phase_coda = "phase_coda",
     _phase_coverage_jacoco = "phase_coverage_jacoco",
-    _phase_ijinfo = "phase_ijinfo",
     _phase_javainfo = "phase_javainfo",
     _phase_library_defaultinfo = "phase_library_defaultinfo",
     _phase_noop = "phase_noop",
@@ -213,7 +212,6 @@ def _scala_library_implementation(ctx):
         ("compile", _phase_noop),
         ("singlejar", _phase_singlejar),
         ("coverage", _phase_coverage_jacoco),
-        ("ijinfo", _phase_ijinfo),
         ("library_defaultinfo", _phase_library_defaultinfo),
         ("coda", _phase_coda),
     ]).coda
@@ -226,7 +224,6 @@ def _scala_binary_implementation(ctx):
         ("compile", _phase_noop),
         ("singlejar", _phase_singlejar),
         ("coverage", _phase_coverage_jacoco),
-        ("ijinfo", _phase_ijinfo),
         ("binary_deployjar", _phase_binary_deployjar),
         ("binary_launcher", _phase_binary_launcher),
         ("coda", _phase_coda),
@@ -240,7 +237,6 @@ def _scala_test_implementation(ctx):
         ("compile", _phase_noop),
         ("singlejar", _phase_singlejar),
         ("coverage", _phase_coverage_jacoco),
-        ("ijinfo", _phase_ijinfo),
         ("test_launcher", _phase_test_launcher),
         ("coda", _phase_coda),
     ]).coda

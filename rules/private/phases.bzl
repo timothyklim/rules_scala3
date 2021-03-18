@@ -5,7 +5,6 @@ load(":phases/phase_bootstrap_compile.bzl", _phase_bootstrap_compile = "phase_bo
 load(":phases/phase_classpaths.bzl", _phase_classpaths = "phase_classpaths")
 load(":phases/phase_coda.bzl", _phase_coda = "phase_coda")
 load(":phases/phase_coverage_jacoco.bzl", _phase_coverage_jacoco = "phase_coverage_jacoco")
-load(":phases/phase_ijinfo.bzl", _phase_ijinfo = "phase_ijinfo")
 load(":phases/phase_javainfo.bzl", _phase_javainfo = "phase_javainfo")
 load(":phases/phase_library_defaultinfo.bzl", _phase_library_defaultinfo = "phase_library_defaultinfo")
 load(":phases/phase_noop.bzl", _phase_noop = "phase_noop")
@@ -27,8 +26,6 @@ phase_classpaths = _phase_classpaths
 phase_coda = _phase_coda
 
 phase_coverage_jacoco = _phase_coverage_jacoco
-
-phase_ijinfo = _phase_ijinfo
 
 phase_noop = _phase_noop
 

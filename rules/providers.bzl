@@ -181,17 +181,6 @@ join_configurations = rule(
     implementation = _join_configurations_implementation,
 )
 
-# TODO: move these to another file?
-# TODO: implement these with an aspect?
-
-IntellijInfo = provider(
-    doc = "Provider for IntelliJ.",
-    fields = {
-        "outputs": "java_output_jars",
-        "transitive_exports": "labels of transitive dependencies",
-    },
-)
-
 # TODO: compare to JavaInfo's owner
 LabeledJars = provider(
     doc = "Exported jars and their labels.",

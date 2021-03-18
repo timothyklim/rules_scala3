@@ -3,7 +3,6 @@ load(
     "find_java_runtime_toolchain",
     "find_java_toolchain",
 )
-load("@rules_scala//rules:providers.bzl", _IntellijInfo = "IntellijInfo")
 
 scala_import_private_attributes = {
     "_java_toolchain": attr.label(
@@ -17,7 +16,7 @@ scala_import_private_attributes = {
 
 def scala_import_implementation(ctx):
     default_info = DefaultInfo(
-        files = depset(ctx.files.jars + ctx.files.srcjar),
+        files = depset(ctx.files.jars + ctx.files.srcjar + ctx.files.exports),
     )
 
     if ctx.files.jars:
@@ -67,28 +66,31 @@ def scala_import_implementation(ctx):
             deps = [dep[JavaInfo] for dep in ctx.attr.deps],
             neverlink = ctx.attr.neverlink,
             runtime_deps = [runtime_dep[JavaInfo] for runtime_dep in ctx.attr.runtime_deps],
-            exports = [export[JavaInfo] for export in ctx.attr.exports],
+            exports = [dep[JavaInfo] for dep in ctx.attr.exports],
+        )
+    elif ctx.files.exports:
+        _jar = []
+        for jar in ctx.files.exports:
+            if not jar.basename.endswith("sources.jar") and not jar.basename.endswith("src.jar"):
+                _jar.append(jar)
+        output_jar = _jar[0]
+
+        java_info = JavaInfo(
+            output_jar = output_jar,
+            compile_jar = output_jar,
+            source_jar = None,
+            deps = [dep[JavaInfo] for dep in ctx.attr.deps],
+            neverlink = ctx.attr.neverlink,
+            runtime_deps = [runtime_dep[JavaInfo] for runtime_dep in ctx.attr.runtime_deps],
+            exports = [],
         )
     else:
         java_info = java_common.merge([dep[JavaInfo] for dep in ctx.attr.deps])
 
-    intellij_info = create_intellij_info(ctx.label, ctx.attr.deps, java_info)
-
     return struct(
-        # IntelliJ reads from java
-        java = intellij_info,
+        java = java_info,
         providers = [
-            intellij_info,
             java_info,
+            default_info,
         ],
-    )
-
-def create_intellij_info(label, deps, java_info):
-    # note: tried using transitive_exports from a JavaInfo that was given non-empty exports, but it was always empty
-    return _IntellijInfo(
-        outputs = java_info.outputs,
-        transitive_exports = depset(
-            [label],
-            transitive = [(dep[_IntellijInfo] if _IntellijInfo in dep else dep[JavaInfo]).transitive_exports for dep in deps],
-        ),
     )

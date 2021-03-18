@@ -85,7 +85,7 @@ final case class ZincWorkArguments(
   sourceJars: Vector[Path] = Vector.empty,
   sources: Vector[File] = Vector.empty,
   tmpDir: Path = Paths.get("."),
-)
+) extends PrettyProduct
 object ZincWorkArguments:
   private val builder = OParser.builder[ZincWorkArguments]
   import builder.*

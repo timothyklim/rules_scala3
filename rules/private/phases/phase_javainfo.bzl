@@ -26,7 +26,9 @@ def phase_javainfo(ctx, g):
     scala_configuration_runtime_deps = _collect(JavaInfo, g.init.scala_configuration.runtime_classpath)
 
     scala = getattr(ctx.attr, "scala", [])
-    macro = getattr(ctx.attr, "macro", False) or (_ScalaConfiguration in scala and scala[_ScalaConfiguration].version.startswith("3.0"))
+    macro = getattr(ctx.attr, "macro", False) or \
+        (_ScalaConfiguration in scala and scala[_ScalaConfiguration].version.startswith("3.0")) or \
+        (g.init.scala_configuration.version.startswith("3.0"))
 
     if len(ctx.attr.srcs) == 0 and len(ctx.attr.resources) == 0:
         java_info = java_common.merge([g.classpaths.sdeps, sexports])

@@ -10,7 +10,7 @@ def phase_coda(ctx, g):
         dynamic["instrumented_files"] = g.coverage.instrumented_files
 
     return struct(
-        java = g.ijinfo.intellij_info,
+        java = g.javainfo,
         providers = g.out.providers,
         **dynamic
     )
