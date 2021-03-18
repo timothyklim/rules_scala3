@@ -7,12 +7,11 @@ import Status.{Canceled, Error, Failure, Ignored, Pending, Skipped}
 import scala.collection.mutable.ListBuffer
 import scala.xml.{Elem, Utility, XML}
 
-class JUnitXmlReporter(tasksAndEvents: ListBuffer[(String, ListBuffer[Event])]) {
+final class JUnitXmlReporter(tasksAndEvents: ListBuffer[(String, ListBuffer[Event])]):
   private def escape(info: String): String =
-    info match {
+    info match
       case str: String => Utility.escape(str)
-      case _           => ""
-    }
+      case null           => ""
 
   def result: Elem =
     XML.loadString(s"""<testsuites>
@@ -70,10 +69,8 @@ class JUnitXmlReporter(tasksAndEvents: ListBuffer[(String, ListBuffer[Event])]) 
       </testsuite>""").mkString("")}
     </testsuites>""")
 
-  def write = {
+  def write =
     Option(System.getenv.get("XML_OUTPUT_FILE"))
       .foreach { filespec =>
         XML.save(filespec, result, "UTF-8", true, null)
       }
-  }
-}

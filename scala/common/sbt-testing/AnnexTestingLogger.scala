@@ -1,25 +1,25 @@
-package rules_scala
-package common.sbt_testing
+package rules_scala.common.sbt_testing
 
 import sbt.testing.Logger
 
-final class AnnexTestingLogger(color: Boolean, verbosity: String) extends Logger with Serializable {
-  def ansiCodesSupported = color
+enum Verbosity:
+  case HIGH, MEDIUM, LOW
 
-  def error(msg: String) = println(s"$msg")
+final class AnnexTestingLogger(color: Boolean, verbosity: Verbosity) extends Logger with Serializable:
+  override def ansiCodesSupported: Boolean = color
 
-  def warn(msg: String) = println(s"$msg")
+  override def error(msg: String): Unit = println(s"$msg")
 
-  def info(msg: String) =
-    verbosity match {
-      case "HIGH" | "MEDIUM" => println(s"$msg")
+  override def warn(msg: String): Unit = println(s"$msg")
+
+  override def info(msg: String): Unit =
+    verbosity match
+      case Verbosity.HIGH | Verbosity.MEDIUM => println(s"$msg")
       case _                 =>
-    }
 
-  def debug(msg: String) =
-    verbosity match {
-      case "HIGH" => println(s"$msg")
-    }
+  override def debug(msg: String): Unit =
+    verbosity match
+      case Verbosity.HIGH => println(s"$msg")
+      case _      =>
 
-  def trace(err: Throwable) = println(s"${err.getMessage}")
-}
+  override def trace(err: Throwable): Unit = println(s"${err.getMessage}")

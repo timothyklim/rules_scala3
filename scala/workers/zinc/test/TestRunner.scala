@@ -1,54 +1,56 @@
 package rules_scala
 package workers.zinc.test
 
-import common.sbt_testing.AnnexTestingLogger
-import common.sbt_testing.ClassLoaders
-import common.sbt_testing.TestDefinition
-import common.sbt_testing.TestFrameworkLoader
-import common.sbt_testing.TestRequest
-
 import java.io.File
 import java.net.URLClassLoader
-import java.nio.file.attribute.FileTime
 import java.nio.file.{FileAlreadyExistsException, Files, Paths}
+import java.nio.file.attribute.FileTime
 import java.time.Instant
 import java.util.Collections
 import java.util.regex.Pattern
 import java.util.zip.GZIPInputStream
+
+import scala.jdk.CollectionConverters.*
+import scala.util.control.NonFatal
+
+import monocle.syntax.all.*
 import org.scalatools.testing.Framework
 import sbt.internal.inc.binary.converters.ProtobufReaders
 import sbt.internal.inc.Schema
-import scala.jdk.CollectionConverters._
-import scala.util.control.NonFatal
+import scopt.OParser
 import xsbti.compile.analysis.ReadMapper
 
-object TestRunner {
+import common.sbt_testing.*
 
-  private val argParser = {
-    val parser = ArgumentParsers.newFor("test-runner").addHelp(true).fromFilePrefix("@").build()
-    parser.description("Run tests")
-    parser
-      .addArgument("--color")
-      .help("ANSI color")
-      .metavar("class")
-      .`type`(Arguments.booleanType)
-      .setDefault(true)
-    parser
-      .addArgument("--subprocess_arg")
-      .action(Arguments.append)
-      .help("Argument for tests run in new JVM process")
-    parser
-      .addArgument("--verbosity")
-      .help("Verbosity")
-      .choices("HIGH", "MEDIUM", "LOW")
-      .setDefault("MEDIUM")
-    parser
-      .addArgument("--framework_args")
-      .help("Additional arguments for testing framework")
-    parser
-  }
+final case class TestRunnerArguments(
+  color: Boolean = true,
+  verbosity: Verbosity = Verbosity.MEDIUM,
+  frameworkArgs: Seq[String] = Seq.empty,
+  subprocessArg: Vector[String] = Vector.empty
+)
+object TestRunnerArguments:
+  private val builder = OParser.builder[TestRunnerArguments]
+  import builder.*
 
-  private val testArgParser = {
+  private val parser = OParser.sequence(
+    opt[Boolean]("color").action((f, c) => c.focus(_.color).replace(f)),
+    opt[String]("verbosity").action((v, c) => c.focus(_.verbosity).replace(Verbosity.valueOf(v))),
+    opt[String]("framework_args")
+      .text("Additional arguments for testing framework")
+      .action((args, c) => c.focus(_.frameworkArgs).replace(args.split("\\s+").toSeq)),
+    opt[String]("subprocess_arg")
+      .text("Argument for tests run in new JVM process")
+      .action((arg, c) => c.focus(_.subprocessArg).modify(_ :+ arg)),
+  )
+
+  def apply(args: collection.Seq[String]): Option[TestRunnerArguments] =
+    OParser.parse(parser, args, TestRunnerArguments())
+
+object TestRunner:
+  import net.sourceforge.argparse4j.ArgumentParsers
+  import net.sourceforge.argparse4j.impl.Arguments
+
+  private val testArgParser =
     val parser = ArgumentParsers.newFor("test").addHelp(true).build()
     parser
       .addArgument("--apis")
@@ -86,19 +88,16 @@ object TestRunner {
       .`type`(Arguments.fileType.verifyCanRead().verifyExists())
       .setDefault(Collections.emptyList)
     parser
-  }
 
-  def main(args: Array[String]): Unit = {
-    // for ((name, value) <- sys.env) println(name + "=" + value)
-    val namespace = argParser.parseArgsOrFail(args)
+  def main(args: Array[String]): Unit =
+    val runArgs = TestRunnerArguments(args).getOrElse(throw IllegalArgumentException(s"args is invalid: ${args.mkString(" ")}"))
 
     sys.env.get("TEST_SHARD_STATUS_FILE").map { path =>
       val file = Paths.get(path)
       try Files.createFile(file)
-      catch {
+      catch
         case _: FileAlreadyExistsException =>
           Files.setLastModifiedTime(file, FileTime.from(Instant.now))
-      }
     }
 
     val runPath = Paths.get(sys.props("bazel.runPath"))
@@ -106,7 +105,7 @@ object TestRunner {
     val testArgFile = Paths.get(sys.props("scalaAnnex.test.args"))
     val testNamespace = testArgParser.parseArgsOrFail(Files.readAllLines(testArgFile).asScala.toArray)
 
-    val logger = new AnnexTestingLogger(namespace.getBoolean("color"), namespace.getString("verbosity"))
+    val logger = AnnexTestingLogger(color = runArgs.color, runArgs.verbosity)
 
     val classpath = testNamespace
       .getList[File]("classpath")
@@ -126,31 +125,29 @@ object TestRunner {
     val apisFile = runPath.resolve(testNamespace.get[File]("apis").toPath)
     val apisStream = Files.newInputStream(apisFile)
     val apis =
-      try {
+      try
         val raw =
-          try Schema.APIs.parseFrom(new GZIPInputStream(apisStream))
+          try Schema.APIs.parseFrom(GZIPInputStream(apisStream))
           finally apisStream.close()
-        new ProtobufReaders(ReadMapper.getEmptyMapper, Schema.Version.V1_1).fromApis(shouldStoreApis = true)(raw)
-      } catch {
-        case NonFatal(e) => throw new Exception(s"Failed to load APIs from $apisFile", e)
-      }
+        ProtobufReaders(ReadMapper.getEmptyMapper, Schema.Version.V1_1).fromApis(shouldStoreApis = true)(raw)
+      catch case NonFatal(e) => throw Exception(s"Failed to load APIs from $apisFile", e)
 
-    val loader = new TestFrameworkLoader(classLoader, logger)
+    val loader = TestFrameworkLoader(classLoader, logger)
     val frameworks = testNamespace.getList[String]("frameworks").asScala.flatMap(loader.load)
 
     val testClass = sys.env
       .get("TESTBRIDGE_TEST_ONLY")
-      .map(text => Pattern.compile(if (text contains "#") raw"${text.replaceAll("#.*", "")}" else text))
+      .map(text => Pattern.compile(if (text.contains("#")) raw"${text.replaceAll("#.*", "")}" else text))
     val testScopeAndName = sys.env
       .get("TESTBRIDGE_TEST_ONLY")
       .map(text =>
-        if (text contains "#") text.replaceAll(".*#", "").replaceAll("\\$", "").replace("\\Q", "").replace("\\E", "")
+        if (text.contains("#")) text.replaceAll(".*#", "").replaceAll("\\$", "").replace("\\Q", "").replace("\\E", "")
         else ""
       )
 
     var count = 0
     val passed = frameworks.forall { framework =>
-      val tests = new TestDiscovery(framework)(apis.internal.values.toSet).sortBy(_.name)
+      val tests = TestDiscovery(framework)(apis.internal.values.toSet).sortBy(_.name)
       val filter = for {
         index <- sys.env.get("TEST_SHARD_INDEX").map(_.toInt)
         total <- sys.env.get("TEST_TOTAL_SHARDS").map(_.toInt)
@@ -161,28 +158,22 @@ object TestRunner {
           filter.fold(true)(_(test, count))
         }
       }
+
       filteredTests.isEmpty || {
-        val runner = testNamespace.getString("isolation") match {
+        val runner = testNamespace.getString("isolation") match
           case "classloader" =>
             val urls = classpath.filterNot(sharedClasspath.toSet).map(_.toUri.toURL).toArray
-            def classLoaderProvider() = new URLClassLoader(urls, sharedClassLoader)
-            new ClassLoaderTestRunner(framework, classLoaderProvider, logger)
+            def classLoaderProvider() = URLClassLoader(urls, sharedClassLoader)
+            ClassLoaderTestRunner(framework, classLoaderProvider, logger)
           case "process" =>
             val executable = runPath.resolve(testNamespace.get[File]("subprocess_exec").toPath)
-            val arguments = Option(namespace.getList[String]("subprocess_arg")).fold[Seq[String]](Nil)(_.asScala.to(Seq))
-            new ProcessTestRunner(framework, classpath, new ProcessCommand(executable.toString, arguments), logger)
-          case "none" => new BasicTestRunner(framework, classLoader, logger)
-        }
-        val testFrameworkArguments =
-          Option(namespace.getString("framework_args")).map(_.split("\\s+").toList).getOrElse(Seq.empty[String])
-        try runner.execute(filteredTests, testScopeAndName.getOrElse(""), testFrameworkArguments)
-        catch {
-          case e: Throwable =>
-            e.printStackTrace()
-            false
-        }
+            ProcessTestRunner(framework, classpath, ProcessCommand(executable.toString, runArgs.subprocessArg), logger)
+          case "none" => BasicTestRunner(framework, classLoader, logger)
+        try runner.execute(filteredTests, testScopeAndName.getOrElse(""), runArgs.frameworkArgs)
+        catch case e: Throwable =>
+          e.printStackTrace()
+          false
       }
     }
+
     sys.exit(if (passed) 0 else 1)
-  }
-}

@@ -8,8 +8,8 @@ import scala.collection.mutable
 import xsbt.api.Discovery
 import xsbti.api.{AnalyzedClass, ClassLike, Definition}
 
-final class TestDiscovery(framework: Framework) {
-  private val (annotatedPrints, subclassPrints) = {
+final class TestDiscovery(framework: Framework):
+  private val (annotatedPrints, subclassPrints) =
     val annotatedSet = mutable.HashSet.empty[TestAnnotatedFingerprint]
     val subclassSet = mutable.HashSet.empty[TestSubclassFingerprint]
 
@@ -19,14 +19,12 @@ final class TestDiscovery(framework: Framework) {
     }
 
     (annotatedSet.toSet, subclassSet.toSet)
-  }
 
-  private def definitions(classes: Set[AnalyzedClass]) = {
+  private def definitions(classes: Set[AnalyzedClass]) =
     classes.toSeq
       .flatMap(`class` => Seq(`class`.api.classApi, `class`.api.objectApi))
       .flatMap(api => Seq(api, api.structure.declared, api.structure.inherited))
       .collect { case cl: ClassLike if cl.topLevel => cl }
-  }
 
   private def discover(definitions: Seq[Definition]) =
     Discovery(subclassPrints.map(_.superclassName), annotatedPrints.map(_.annotationName))(definitions)
@@ -42,4 +40,3 @@ final class TestDiscovery(framework: Framework) {
             case print if discovered.annotations(print.annotationName) && discovered.isModule == print.isModule => print
           }
     } yield new TestDefinition(definition.name, fingerprint)
-}

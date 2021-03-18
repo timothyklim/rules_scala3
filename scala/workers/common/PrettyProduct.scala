@@ -5,4 +5,4 @@ trait PrettyProduct extends Product:
     this.productElementNames
       .zip(this.productIterator)
       .map((name, value) => s"$name=$value")
-      .mkString(this.productPrefix + "(", ",\n", ")")
+      .mkString(this.productPrefix + "(", ", ", ")")
