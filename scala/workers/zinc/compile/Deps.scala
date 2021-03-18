@@ -1,7 +1,6 @@
 package rules_scala
 package workers.zinc.compile
 
-import workers.common.FileUtil
 import java.math.BigInteger
 import java.nio.file.{Files, Path, Paths}
 import java.security.MessageDigest
@@ -9,6 +8,8 @@ import java.security.MessageDigest
 import sbt.internal.inc.{PlainVirtualFile, Relations}
 
 import xsbti.compile.PerClasspathEntryLookup
+
+import workers.common.FileUtil
 
 sealed trait Dep:
   def file: Path
@@ -21,7 +22,7 @@ final case class ExternalDep(file: Path, classpath: Path, analysis: DepAnalysisF
 object Dep:
   def sha256(file: Path): String =
     val digest = MessageDigest.getInstance("SHA-256")
-    new BigInteger(1, digest.digest(Files.readAllBytes(file))).toString(16)
+    BigInteger(1, digest.digest(Files.readAllBytes(file))).toString(16)
 
   def create(depsCache: Option[Path], classpath: collection.Seq[Path], analyses: Map[Path, (Path, DepAnalysisFiles)]): collection.Seq[Dep] =
     val roots = scala.collection.mutable.Set[Path]()

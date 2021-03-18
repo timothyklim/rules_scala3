@@ -1,8 +1,18 @@
-syntax = "proto2";
+syntax = "proto3";
 
-option java_package = "anx.proto";
+option java_package = "rules_scala.proto";
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  scope: FILE
+  flat_package: true
+  single_file: true
+  lenses: false
+  no_primitive_wrappers: false
+};
 
 message Zero {
-    required string string_0 = 1;
-    optional int32 int32_0 = 2;    
+    string string_0 = 1;
+    int32 int32_0 = 2;
 }

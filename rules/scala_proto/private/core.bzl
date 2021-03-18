@@ -11,11 +11,15 @@ scala_proto_library_private_attributes = {}
 
 def scala_proto_library_implementation(ctx):
     proto_deps = [dep for dep in ctx.attr.deps if ProtoInfo in dep]
-    if proto_deps != ctx.attr.deps:
+    proto_jar_deps = [dep for dep in ctx.attr.deps if JavaInfo in dep]
+    if (proto_deps + proto_jar_deps) != ctx.attr.deps:
         fail("disallowed non proto deps in %s" % ctx.attr.deps)
 
-    protos = [dep[ProtoInfo] for dep in proto_deps]
+    jars = [dep[JavaInfo] for dep in proto_jar_deps]
+    transitive_jars = depset(transitive = [jar.compile_jars for jar in jars])
+    print(transitive_jars)
 
+    protos = [dep[ProtoInfo] for dep in proto_deps]
     transitive_sources = depset(transitive = [proto.transitive_sources for proto in protos])
     transitive_proto_path = depset(transitive = [proto.transitive_proto_path for proto in protos])
 
@@ -25,14 +29,14 @@ def scala_proto_library_implementation(ctx):
 
     srcjar = ctx.outputs.srcjar
 
-    gendir_base_path = "tmp"
-    gendir = ctx.actions.declare_directory(
-        gendir_base_path + "/" + _safe_name(ctx.attr.name),
-    )
+    proto_path = ctx.actions.declare_directory("{}/proto_path".format(_safe_name(ctx.attr.name)))
+    gendir = ctx.actions.declare_directory("{}/output_dir".format(_safe_name(ctx.attr.name)))
 
     args = ctx.actions.args()
     args.add("--output_dir", gendir.path)
     args.add("--protoc", ctx.executable.protoc.path)
+    args.add("--proto_path", proto_path.path)
+    args.add_all(transitive_jars, format_each = "--include_jar=%s")
     args.add_all(transitive_sources)
     args.set_param_file_format("multiline")
     args.use_param_file("@%s", use_always = True)
@@ -46,11 +50,11 @@ def scala_proto_library_implementation(ctx):
 
     ctx.actions.run(
         mnemonic = "ScalaProtoCompile",
-        inputs = depset(direct = [], transitive = [transitive_sources]),
-        outputs = [gendir],
+        inputs = depset(direct = [], transitive = [transitive_sources, transitive_jars]),
+        outputs = [gendir, proto_path],
         executable = compiler.compiler.files_to_run.executable,
         tools = compiler_inputs,
-        execution_requirements = _resolve_execution_reqs(ctx, {"supports-workers": supports_workers}),
+        execution_requirements = _resolve_execution_reqs(ctx, {"no-sandbox": "1", "supports-workers": supports_workers}),
         arguments = [args],
         use_default_shell_env = True,
     )

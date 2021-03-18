@@ -89,8 +89,8 @@ def phase_zinc_compile(ctx, g):
         executable = worker.files_to_run.executable,
         input_manifests = input_manifests,
         execution_requirements = _resolve_execution_reqs(ctx, {"no-sandbox": "1", "supports-workers": "1"}),
-        use_default_shell_env = True,
         arguments = [args],
+        use_default_shell_env = True,
     )
 
     jars = []
