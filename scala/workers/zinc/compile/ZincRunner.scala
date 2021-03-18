@@ -63,14 +63,6 @@ object AnalysisArgument:
     case Array(prefixedLabel, apis, relations, jars @ _*) =>
       AnalysisArgument(prefixedLabel.stripPrefix("_"), Paths.get(apis), Paths.get(relations), jars.map(Paths.get(_)).toVector)
 
-
-trait PrettyProduct extends Product:
-  final override def toString: String =
-    this.productElementNames
-      .zip(this.productIterator)
-      .map((name, value) => s"$name=$value")
-      .mkString(this.productPrefix + "(", ",\n", ")")
-
 final case class ZincWorkArguments(
   analysis: Vector[AnalysisArgument] = Vector.empty,
   classpath: Vector[Path] = Vector.empty,
@@ -93,7 +85,7 @@ final case class ZincWorkArguments(
   sourceJars: Vector[Path] = Vector.empty,
   sources: Vector[File] = Vector.empty,
   tmpDir: Path = Paths.get("."),
-) extends PrettyProduct
+)
 object ZincWorkArguments:
   private val builder = OParser.builder[ZincWorkArguments]
   import builder.*

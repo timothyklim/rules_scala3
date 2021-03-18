@@ -5,11 +5,11 @@ option java_package = "rules_scala.proto";
 import "scalapb/scalapb.proto";
 
 option (scalapb.options) = {
-  scope: FILE
-  flat_package: true
-  single_file: true
-  lenses: false
-  no_primitive_wrappers: false
+    scope: FILE
+    flat_package: true
+    single_file: true
+    lenses: false
+    no_primitive_wrappers: false
 };
 
 message Zero {

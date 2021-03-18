@@ -17,7 +17,6 @@ def scala_proto_library_implementation(ctx):
 
     jars = [dep[JavaInfo] for dep in proto_jar_deps]
     transitive_jars = depset(transitive = [jar.compile_jars for jar in jars])
-    print(transitive_jars)
 
     protos = [dep[ProtoInfo] for dep in proto_deps]
     transitive_sources = depset(transitive = [proto.transitive_sources for proto in protos])

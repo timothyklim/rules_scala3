@@ -5,7 +5,6 @@ import java.nio.file.{Files, Paths, Path}
 import java.util.jar.{JarEntry, JarFile}
 import java.util.Collections
 
-import scala.collection.mutable
 import scala.jdk.CollectionConverters.*
 
 import monocle.syntax.all.*
@@ -66,31 +65,20 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
     val outputDir = resolve(workArgs.outputDir)
     Files.createDirectories(outputDir)
 
-    for (jar <- workArgs.includeJars)
+    for (jar <- workArgs.includeJars) do
       unzipProto(jarFile = resolve(jar), protoPath = protoPath)
 
     val optionsBuilder = List.newBuilder[String]
     optionsBuilder += s"--scala_out=$outputDir"
     optionsBuilder += s"-I$protoPath"
-
-    val parentSrcs = mutable.HashSet.empty[File]
-    for (src <- workArgs.sources) do
-      src.getParentFile() match
-        case parentDir: File if !parentSrcs.contains(parentDir) =>
-          optionsBuilder += s"-I$parentDir"
-          parentSrcs += parentDir
-        case _ =>
+    optionsBuilder += s"-I$root"
 
     for (src <- workArgs.sources) do optionsBuilder += src.toString
-
-    val options = optionsBuilder.result()
-    println(s"options:$options")
-    println(s"outputDir:${outputDir.toFile.exists()}\nprotoPath:${protoPath.toFile.exists()}")
 
     ProtocBridge.runWithGenerators(
       ProtocRunner(workArgs.protoc.toString),
       List("scala" -> ScalaPbCodeGenerator),
-      options
+      optionsBuilder.result()
     ) match
       case 0 => ()
       case code =>
@@ -103,10 +91,8 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
       for (entry <- jar.entries().asScala) do
         if (entry.getName().endsWith(".proto"))
           val entryFile = protoPath.resolve(entry.getName()).toFile()
-          println(s"entryFile:$entryFile")
           entryFile.getParentFile() match
             case parentDir: File if !parentDir.exists() =>
-              println(s"Files.createDirectories($parentDir)")
               Files.createDirectories(parentDir.toPath())
             case _ =>
           val out = FileOutputStream(entryFile, false)
