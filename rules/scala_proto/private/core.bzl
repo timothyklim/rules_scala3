@@ -53,7 +53,7 @@ def scala_proto_library_implementation(ctx):
         outputs = [gendir, proto_path],
         executable = compiler.compiler.files_to_run.executable,
         tools = compiler_inputs,
-        execution_requirements = _resolve_execution_reqs(ctx, {"no-sandbox": "1", "supports-workers": supports_workers}),
+        execution_requirements = _resolve_execution_reqs(ctx, {"supports-workers": supports_workers}),
         arguments = [args],
         use_default_shell_env = True,
     )
