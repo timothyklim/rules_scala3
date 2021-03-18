@@ -1,11 +1,5 @@
-load(
-    "@rules_scala//rules:scala_proto.bzl",
-    "scala_proto_library",
-)
-load(
-    "@rules_scala//rules:scala.bzl",
-    "scala_library",
-)
+load("@rules_scala//rules:scala_proto.bzl", "scala_proto_library")
+load("@rules_scala//rules:scala.bzl", "scala_library")
 
 proto_library(
     name = "zero_proto",

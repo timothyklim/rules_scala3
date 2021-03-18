@@ -16,7 +16,7 @@ def scala_proto_library_implementation(ctx):
         fail("disallowed non proto deps in %s" % ctx.attr.deps)
 
     jars = [dep[JavaInfo] for dep in proto_jar_deps]
-    transitive_jars = depset(transitive = [jar.compile_jars for jar in jars])
+    transitive_jars = depset(transitive = [jar.full_compile_jars for jar in jars])
 
     protos = [dep[ProtoInfo] for dep in proto_deps]
     transitive_sources = depset(transitive = [proto.transitive_sources for proto in protos])

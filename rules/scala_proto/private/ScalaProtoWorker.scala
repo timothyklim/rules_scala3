@@ -5,6 +5,7 @@ import java.nio.file.{Files, Paths, Path}
 import java.util.jar.{JarEntry, JarFile}
 import java.util.Collections
 
+import scala.annotation.tailrec
 import scala.jdk.CollectionConverters.*
 
 import monocle.syntax.all.*
@@ -87,17 +88,30 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
 
   private def unzipProto(jarFile: Path, protoPath: Path): Unit =
     val jar = JarFile(jarFile.toFile())
-    try
-      for (entry <- jar.entries().asScala) do
+
+    @tailrec def f(iter: Iterator[JarEntry], valid: Boolean): Boolean =
+      if (iter.hasNext)
+        val entry = iter.next()
         if (entry.getName().endsWith(".proto"))
           val entryFile = protoPath.resolve(entry.getName()).toFile()
           entryFile.getParentFile() match
             case parentDir: File if !parentDir.exists() =>
               Files.createDirectories(parentDir.toPath())
             case _ =>
+
           val out = FileOutputStream(entryFile, false)
           try jar.getInputStream(entry).transferTo(out)
           finally out.close()
+
+          f(iter, valid = true)
+        else f(iter, valid)
+      else valid
+
+    try f(jar.entries().asScala, valid = false) match
+      case true => ()
+      case false =>
+        System.err.println(s"$jarFile does not contain any `.proto` file")
+        sys.exit(-1)
     finally jar.close()
 
   private val root = Paths.get("").toAbsolutePath()
