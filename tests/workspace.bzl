@@ -2,9 +2,9 @@ load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 def test_artifacts():
     return [
-        "com.google.protobuf:protobuf-java:3.13.0",
-        "com.thesamet.scalapb:lenses_3.0.0-RC1:0.11.0-M7",
-        "com.thesamet.scalapb:scalapb-runtime_3.0.0-RC1:0.11.0-M7",
+        "com.google.protobuf:protobuf-java:3.15.6",
+        "com.thesamet.scalapb:lenses_3.0.0-RC1:0.11.0",
+        "com.thesamet.scalapb:scalapb-runtime_3.0.0-RC1:0.11.0",
         "org.scala-lang.modules:scala-xml_3.0.0-RC1:2.0.0-M5",
         "org.scala-sbt:compiler-interface:1.5.0-M4",
         "org.scalacheck:scalacheck_3.0.0-RC1:1.15.3",
