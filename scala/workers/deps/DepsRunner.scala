@@ -8,7 +8,6 @@ import java.util.{Collections, List as JList}
 import scala.collection.mutable
 import scala.jdk.CollectionConverters.*
 
-import monocle.syntax.all.*
 import scopt.OParser
 
 import common.worker.WorkerMain
@@ -34,41 +33,41 @@ object DepsWorkArguments:
   import builder.*
 
   private val parser = OParser.sequence(
-    opt[Boolean]("check_direct").action((check, c) => c.focus(_.checkDirect).replace(check)),
-    opt[Boolean]("check_used").action((check, c) => c.focus(_.checkUsed).replace(check)),
+    opt[Boolean]("check_direct").action((check, c) => c.copy(checkDirect = check)),
+    opt[Boolean]("check_used").action((check, c) => c.copy(checkUsed = check)),
     opt[String]("label")
       .required()
-      .action((l, c) => c.focus(_.label).replace(l))
+      .action((l, c) => c.copy(label = l))
       .text("Bazel label"),
     opt[String]("direct")
       .unbounded()
       .optional()
-      .action((l, c) => c.focus(_.direct).modify(_ :+ l))
+      .action((l, c) => c.copy(direct = c.direct :+ l))
       .text("Labels of direct deps"),
     opt[String]("group")
       .unbounded()
       .optional()
-      .action((g, c) => c.focus(_.group).modify(_ :+ GroupArgument.from(g)))
+      .action((g, c) => c.copy(group = c.group :+ GroupArgument.from(g)))
       .text("Labels of direct deps"),
     opt[String]("used_whitelist")
       .unbounded()
       .optional()
       .valueName("label")
-      .action((l, c) => c.focus(_.usedWhitelist).modify(_ :+ l))
+      .action((l, c) => c.copy(usedWhitelist = c.usedWhitelist :+ l))
       .text("Whitelist of labels to ignore for unused deps"),
     opt[String]("unused_whitelist")
       .unbounded()
       .optional()
       .valueName("label")
-      .action((l, c) => c.focus(_.unusedWhitelist).modify(_ :+ l))
+      .action((l, c) => c.copy(unusedWhitelist = c.unusedWhitelist :+ l))
       .text("Whitelist of labels to ignore for direct deps"),
     arg[File]("<used>")
       .required()
-      .action((f, c) => c.focus(_.used).replace(f.toPath()))
+      .action((f, c) => c.copy(used = f.toPath()))
       .text("Manifest of used"),
     arg[File]("<success>")
       .required()
-      .action((f, c) => c.focus(_.success).replace(f.toPath()))
+      .action((f, c) => c.copy(success = f.toPath()))
       .text("Success file"),
   )
 

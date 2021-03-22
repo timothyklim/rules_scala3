@@ -8,7 +8,6 @@ import java.util.Collections
 import scala.annotation.tailrec
 import scala.jdk.CollectionConverters.*
 
-import monocle.syntax.all.*
 import protocbridge.{ProtocBridge, ProtocRunner}
 import scalapb.ScalaPbCodeGenerator
 import scopt.OParser
@@ -29,25 +28,25 @@ object ProtoWorkArguments:
   private val parser = OParser.sequence(
     opt[File]("output_dir")
       .required()
-      .action((out, c) => c.focus(_.outputDir).replace(out.toPath))
+      .action((out, c) => c.copy(outputDir =out.toPath))
       .text("Output dir"),
     opt[File]("protoc")
       .required()
-      .action((p, c) => c.focus(_.protoc).replace(p))
+      .action((p, c) => c.copy(protoc = p))
       .text("Path to protoc"),
     opt[File]("proto_path")
       .required()
-      .action((p, c) => c.focus(_.protoPath).replace(p.toPath()))
+      .action((p, c) => c.copy(protoPath = p.toPath()))
       .text("protoc --proto_path"),
     opt[File]("include_jar")
       .unbounded()
       .optional()
-      .action((j, c) => c.focus(_.includeJars).modify(_ :+ j.toPath()))
+      .action((j, c) => c.copy(includeJars = c.includeJars :+ j.toPath()))
       .text("JAR to include in protoc --proto_path"),
     arg[File]("<source>...")
       .unbounded()
       .optional()
-      .action((s, c) => c.focus(_.sources).modify(_ :+ s))
+      .action((s, c) => c.copy(sources = c.sources :+ s))
       .text("Source files"),
   )
 

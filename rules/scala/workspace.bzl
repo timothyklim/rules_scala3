@@ -17,15 +17,13 @@ filegroup(
 """
 
 scala3_version = "3.0.0-RC1"
-sbt_version = "1.5.0-RC1"
-zinc_version = "1.5.0-M4"
+sbt_version = "1.5.0-RC2"
+zinc_version = "1.5.0-M5"
 
 def scala_artifacts():
     return [
-        "net.sourceforge.argparse4j:argparse4j:0.8.1",
-
-        "com.github.julien-truffaut:monocle-core_{}:3.0.0-M3".format(scala3_version),
         "com.github.scopt:scopt_{}:4.0.1".format(scala3_version),
+        "net.sourceforge.argparse4j:argparse4j:0.8.1",
         "org.jacoco:org.jacoco.core:0.8.6",
         "org.scala-lang.modules:scala-xml_{}:2.0.0-M5".format(scala3_version),
         "org.scala-sbt:test-interface:1.0",
@@ -58,7 +56,7 @@ def scala_repositories(java_launcher_version = "4.0.0"):
     http_archive(
         name = "compiler_bridge_2_13",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
-        sha256 = "3bae8c0e72aac827e7ac93eca55bcad0d573540c15931182cd67a163fca32600",
+        sha256 = "37ffa89c657593dd95de4302eeb1cd59c3411eb6d6b4b6296c7a421ee32d31c6",
         url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{}/compiler-bridge_2.13-{}-sources.jar".format(zinc_version, zinc_version),
     )
 

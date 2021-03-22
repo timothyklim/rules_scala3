@@ -6,7 +6,7 @@ def test_artifacts():
         "com.thesamet.scalapb:lenses_3.0.0-RC1:0.11.0",
         "com.thesamet.scalapb:scalapb-runtime_3.0.0-RC1:0.11.0",
         "org.scala-lang.modules:scala-xml_3.0.0-RC1:2.0.0-M5",
-        "org.scala-sbt:compiler-interface:1.5.0-M4",
+        "org.scala-sbt:compiler-interface:1.5.0-M5",
         "org.scalacheck:scalacheck_3.0.0-RC1:1.15.3",
         "org.scalameta:munit_3.0.0-RC1:0.7.22",
         "org.scalameta:munit-scalacheck_3.0.0-RC1:0.7.22",

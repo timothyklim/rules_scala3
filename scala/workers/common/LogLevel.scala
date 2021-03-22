@@ -1,6 +1,5 @@
 package rules_scala.workers.common
 
-import monocle.syntax.all.*
 import scopt.OParser
 
 enum LogLevel:

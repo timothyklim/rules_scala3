@@ -13,7 +13,6 @@ import java.util.zip.GZIPInputStream
 import scala.jdk.CollectionConverters.*
 import scala.util.control.NonFatal
 
-import monocle.syntax.all.*
 import org.scalatools.testing.Framework
 import sbt.internal.inc.binary.converters.ProtobufReaders
 import sbt.internal.inc.Schema
@@ -33,14 +32,14 @@ object TestRunnerArguments:
   import builder.*
 
   private val parser = OParser.sequence(
-    opt[Boolean]("color").action((f, c) => c.focus(_.color).replace(f)),
-    opt[String]("verbosity").action((v, c) => c.focus(_.verbosity).replace(Verbosity.valueOf(v))),
+    opt[Boolean]("color").action((f, c) => c.copy(color = f)),
+    opt[String]("verbosity").action((v, c) => c.copy(verbosity = Verbosity.valueOf(v))),
     opt[String]("framework_args")
       .text("Additional arguments for testing framework")
-      .action((args, c) => c.focus(_.frameworkArgs).replace(args.split("\\s+").toSeq)),
+      .action((args, c) => c.copy(frameworkArgs = args.split("\\s+").toSeq)),
     opt[String]("subprocess_arg")
       .text("Argument for tests run in new JVM process")
-      .action((arg, c) => c.focus(_.subprocessArg).modify(_ :+ arg)),
+      .action((arg, c) => c.copy(subprocessArg).modify(_ :+ arg)),
   )
 
   def apply(args: collection.Seq[String]): Option[TestRunnerArguments] =
@@ -141,7 +140,7 @@ object TestRunner:
     val testScopeAndName = sys.env
       .get("TESTBRIDGE_TEST_ONLY")
       .map(text =>
-        if (text.contains("#")) text.replaceAll(".*#", "").replaceAll("\\$", "").replace("\\Q", "").replace("\\E", "")
+        if (text.contains("#")) text.replaceAll(".*#", "").replaceAll("\\$", "" = "\\Q", "" = "\\E", "")
         else ""
       )
 

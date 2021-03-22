@@ -13,7 +13,6 @@ import scala.util.Try
 import scala.util.control.NonFatal
 
 import com.google.devtools.build.buildjar.jarhelper.JarCreator
-import monocle.syntax.all.*
 import sbt.internal.inc.{Analysis, CompileFailed, IncrementalCompilerImpl, Locate, PlainVirtualFile, ZincUtil}
 import sbt.internal.inc.classpath.ClassLoaderCache
 import scopt.OParser
@@ -47,9 +46,9 @@ object ZincRunnerArguments:
   import builder.*
 
   private val parser = OParser.sequence(
-    opt[Boolean]("use_persistence").action((p, c) => c.focus(_.usePersistence).replace(p)),
-    opt[String]("extracted_file_cache").optional().action((p, c) => c.focus(_.depsCache).replace(Some(pathFrom(p)))),
-    opt[String]("persistence_dir").optional().action((p, c) => c.focus(_.persistenceDir).replace(Some(pathFrom(p)))),
+    opt[Boolean]("use_persistence").action((p, c) => c.copy(usePersistence = p)),
+    opt[String]("extracted_file_cache").optional().action((p, c) => c.copy(depsCache = Some(pathFrom(p)))),
+    opt[String]("persistence_dir").optional().action((p, c) => c.copy(persistenceDir = Some(pathFrom(p)))),
   )
 
   def apply(args: collection.Seq[String]): Option[ZincRunnerArguments] =
@@ -93,93 +92,93 @@ object ZincWorkArguments:
   private val parser = OParser.sequence(
     opt[LogLevel]("log_level")
       .optional()
-      .action((lvl, c) => c.focus(_.logLevel).replace(lvl))
+      .action((lvl, c) => c.copy(logLevel = lvl))
       .text("Log level"),
     opt[File]("source_jar")
       .unbounded()
       .optional()
-      .action((s, c) => c.focus(_.sourceJars).modify(_ :+ s.toPath()))
+      .action((s, c) => c.copy(sourceJars = c.sourceJars :+ s.toPath()))
       .text("Source jars"),
     opt[File]("tmp")
       .required()
-      .action((tmp, c) => c.focus(_.tmpDir).replace(tmp.toPath))
+      .action((tmp, c) => c.copy(tmpDir = tmp.toPath))
       .text("Temporary directory"),
     opt[File]("output_jar")
       .required()
-      .action((jar, c) => c.focus(_.outputJar).replace(jar.toPath))
+      .action((jar, c) => c.copy(outputJar = jar.toPath))
       .text("Output jar"),
     opt[String]("analysis")
       .unbounded()
       .optional()
       .valueName("args")
-      .action((arg, c) => c.focus(_.analysis).modify(_ :+ AnalysisArgument.from(arg)))
+      .action((arg, c) => c.copy(analysis = c.analysis :+ AnalysisArgument.from(arg)))
       .text("Analysis, given as: label apis relations [jar ...]"),
     opt[File]("cp")
       .unbounded()
       .optional()
-      .action((cp, c) => c.focus(_.classpath).modify(_ :+ cp.toPath))
+      .action((cp, c) => c.copy(classpath = c.classpath :+ cp.toPath))
       .text("Compilation classpath"),
     opt[File]("compiler_cp")
       .unbounded()
       .optional()
-      .action((cp, c) => c.focus(_.compilerClasspath).modify(_ :+ cp))
+      .action((cp, c) => c.copy(compilerClasspath = c.compilerClasspath :+ cp))
       .text("Compiler classpath"),
     opt[File]("output_apis")
       .required()
-      .action((out, c) => c.focus(_.outputApis).replace(out.toPath))
+      .action((out, c) => c.copy(outputApis = out.toPath))
       .text("Output APIs"),
     opt[File]("output_setup")
       .required()
-      .action((out, c) => c.focus(_.outputSetup).replace(out.toPath))
+      .action((out, c) => c.copy(outputSetup = out.toPath))
       .text("Output Zinc setup"),
     opt[File]("output_relations")
       .required()
-      .action((out, c) => c.focus(_.outputRelations).replace(out.toPath))
+      .action((out, c) => c.copy(outputRelations = out.toPath))
       .text("Output Zinc relations"),
     opt[File]("output_infos")
       .required()
-      .action((out, c) => c.focus(_.outputInfos).replace(out.toPath))
+      .action((out, c) => c.copy(outputInfos = out.toPath))
       .text("Output Zinc source infos"),
     opt[File]("output_stamps")
       .required()
-      .action((out, c) => c.focus(_.outputStamps).replace(out.toPath))
+      .action((out, c) => c.copy(outputStamps = out.toPath))
       .text("Output Zinc source stamps"),
-    opt[Boolean]("debug").action((debug, c) => c.focus(_.debug).replace(debug)),
+    opt[Boolean]("debug").action((debug, c) => c.copy(debug = debug)),
     opt[String]("label")
       .required()
-      .action((l, c) => c.focus(_.label).replace(l))
+      .action((l, c) => c.copy(label = l))
       .text("Bazel label"),
     opt[File]("compiler_bridge")
       .required()
-      .action((bridge, c) => c.focus(_.compilerBridge).replace(bridge))
+      .action((bridge, c) => c.copy(compilerBridge = bridge))
       .text("Compiler bridge"),
     opt[File]("main_manifest")
       .required()
-      .action((manifest, c) => c.focus(_.mainManifest).replace(manifest))
+      .action((manifest, c) => c.copy(mainManifest = manifest))
       .text("List of main entry points"),
     opt[File]("output_used")
       .required()
-      .action((out, c) => c.focus(_.outputUsed).replace(out.toPath))
+      .action((out, c) => c.copy(outputUsed = out.toPath))
       .text("Output list of used jars"),
     opt[String]("compiler_option")
       .unbounded()
       .optional()
-      .action((opt, c) => c.focus(_.compilerOption).modify(_ :+ opt))
+      .action((opt, c) => c.copy(compilerOption = c.compilerOption :+ opt))
       .text("Compiler option"),
     opt[String]("java_compiler_option")
       .unbounded()
       .optional()
-      .action((opt, c) => c.focus(_.javaCompilerOption).modify(_ :+ opt))
+      .action((opt, c) => c.copy(javaCompilerOption = c.javaCompilerOption :+ opt))
       .text("Java compiler option"),
     opt[File]("plugin")
       .unbounded()
       .optional()
-      .action((p, c) => c.focus(_.plugins).modify(_ :+ p))
+      .action((p, c) => c.copy(plugins = c.plugins :+ p))
       .text("Compiler plugins"),
     arg[File]("<source>...")
       .unbounded()
       .optional()
-      .action((s, c) => c.focus(_.sources).modify(_ :+ s))
+      .action((s, c) => c.copy(sources = c.sources :+ s))
       .text("Source files"),
   )
 
