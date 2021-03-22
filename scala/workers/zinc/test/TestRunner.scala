@@ -39,7 +39,7 @@ object TestRunnerArguments:
       .action((args, c) => c.copy(frameworkArgs = args.split("\\s+").toSeq)),
     opt[String]("subprocess_arg")
       .text("Argument for tests run in new JVM process")
-      .action((arg, c) => c.copy(subprocessArg).modify(_ :+ arg)),
+      .action((arg, c) => c.copy(subprocessArg = c.subprocessArg :+ arg)),
   )
 
   def apply(args: collection.Seq[String]): Option[TestRunnerArguments] =
@@ -137,12 +137,10 @@ object TestRunner:
     val testClass = sys.env
       .get("TESTBRIDGE_TEST_ONLY")
       .map(text => Pattern.compile(if (text.contains("#")) raw"${text.replaceAll("#.*", "")}" else text))
-    val testScopeAndName = sys.env
-      .get("TESTBRIDGE_TEST_ONLY")
-      .map(text =>
-        if (text.contains("#")) text.replaceAll(".*#", "").replaceAll("\\$", "" = "\\Q", "" = "\\E", "")
-        else ""
-      )
+    val testScopeAndName = sys.env.get("TESTBRIDGE_TEST_ONLY").map {
+      case text if text.contains("#") => text.replaceAll(".*#", "").replaceAll("\\$", "").replace("\\Q", "").replace("\\E", "")
+      case _ => ""
+    }
 
     var count = 0
     val passed = frameworks.forall { framework =>
