@@ -89,9 +89,9 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
     val jar = JarFile(jarFile.toFile())
 
     @tailrec def f(iter: Iterator[JarEntry], valid: Boolean): Boolean =
-      if (iter.hasNext)
+      if iter.hasNext then
         val entry = iter.next()
-        if (entry.getName().endsWith(".proto"))
+        if entry.getName().endsWith(".proto") then
           val entryFile = protoPath.resolve(entry.getName()).toFile()
           entryFile.getParentFile() match
             case parentDir: File if !parentDir.exists() =>
@@ -115,4 +115,5 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
 
   private val root = Paths.get("").toAbsolutePath()
 
-  private def resolve(file: Path): Path = if (file.startsWith(root)) file else root.resolve(file)
+  private def resolve(file: Path): Path =
+    if file.startsWith(root) then file else root.resolve(file)

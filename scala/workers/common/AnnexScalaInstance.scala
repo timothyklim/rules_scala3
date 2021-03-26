@@ -18,9 +18,9 @@ final class TopClassLoader(sbtLoader: ClassLoader) extends ClassLoader(null):
   // from which we call resolveClass does not matter).
   // The one argument overload of loadClass delegates to this one.
   override protected def loadClass(name: String, resolve: Boolean): Class[?] =
-    if (name.startsWith("xsbti.") || name.startsWith("org.jline."))
+    if name.startsWith("xsbti.") || name.startsWith("org.jline.") then
       val c = sbtLoader.loadClass(name)
-      if (resolve) resolveClass(c)
+      if resolve then resolveClass(c)
       c
     else super.loadClass(name, resolve)
 

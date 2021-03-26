@@ -173,7 +173,7 @@ final class AnxWriteMapper(root: Path) extends WriteMapper:
   private val rootAbs = root.toAbsolutePath
 
   private def mapFile(file: Path): Path =
-    if (file.startsWith(rootAbs)) AnxMapper.rootPlaceholder.resolve(rootAbs.relativize(file))
+    if file.startsWith(rootAbs) then AnxMapper.rootPlaceholder.resolve(rootAbs.relativize(file))
     else file
 
   private def mapFile(file: VirtualFileRef): VirtualFileRef =
@@ -203,7 +203,8 @@ final class AnxReadMapper(root: Path) extends ReadMapper:
   private val rootAbs = root.toAbsolutePath
 
   private def mapFile(file: Path): Path =
-    if (file.startsWith(AnxMapper.rootPlaceholder)) rootAbs.resolve(AnxMapper.rootPlaceholder.relativize(file))
+    if file.startsWith(AnxMapper.rootPlaceholder) then
+      rootAbs.resolve(AnxMapper.rootPlaceholder.relativize(file))
     else file
 
   private def mapFile(file: VirtualFileRef): VirtualFileRef =
@@ -231,7 +232,8 @@ final class AnxReadMapper(root: Path) extends ReadMapper:
     file match
       case file: PathBasedFile =>
         val filePath = file.toPath()
-        if (AnxMapper.hashStamp(filePath) == binaryStamp) Stamper.forLastModifiedP(filePath) else binaryStamp
+        if AnxMapper.hashStamp(filePath) == binaryStamp then Stamper.forLastModifiedP(filePath)
+        else binaryStamp
       case _ => binaryStamp
 
   override def mapMiniSetup(miniSetup: MiniSetup): MiniSetup = miniSetup

@@ -99,7 +99,7 @@ object DepsRunner extends WorkerMain[Unit]:
     val usedPaths = Files.readAllLines(workArgs.used).asScala.toSet
 
     val remove =
-      if (workArgs.checkUsed)
+      if workArgs.checkUsed then
         val usedWhitelist = workArgs.usedWhitelist.map(_.tail)
         directLabels.diff(usedWhitelist).filterNot(depLabel => depLabelToPaths(depLabel).exists(usedPaths))
       else Nil
@@ -110,7 +110,7 @@ object DepsRunner extends WorkerMain[Unit]:
       println(s"buildozer 'remove deps $depLabel' $label")
 
     val add =
-      if (workArgs.checkDirect)
+      if workArgs.checkDirect then
         val unusedWhitelist = workArgs.unusedWhitelist.map(_.tail)
         usedPaths
           .diff(Set.concat(directLabels, unusedWhitelist).flatMap(depLabelToPaths))
@@ -127,7 +127,7 @@ object DepsRunner extends WorkerMain[Unit]:
       println(s"You can use the following buildozer command:")
       println(s"buildozer 'add deps $depLabel' $label")
 
-    if (add.isEmpty && remove.isEmpty)
+    if add.isEmpty && remove.isEmpty then
       try Files.createFile(workArgs.success)
       catch case _: FileAlreadyExistsException => ()
 

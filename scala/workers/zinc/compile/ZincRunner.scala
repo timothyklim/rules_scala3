@@ -253,7 +253,7 @@ object ZincRunner extends WorkerMain[ZincRunnerArguments]:
       sourceInfos = workArgs.outputInfos,
       stamps = workArgs.outputStamps
     )
-    val analysesFormat = AnxAnalyses(if (workArgs.debug) AnxAnalysisStore.TextFormat else AnxAnalysisStore.BinaryFormat)
+    val analysesFormat = AnxAnalyses(if workArgs.debug then AnxAnalysisStore.TextFormat else AnxAnalysisStore.BinaryFormat)
     val analysisStore = AnxAnalysisStore(analysisFiles, analysesFormat)
 
     val persistence = workerArgs.persistenceDir.fold[ZincPersistence](NullPersistence) { rootDir =>
@@ -264,7 +264,7 @@ object ZincRunner extends WorkerMain[ZincRunnerArguments]:
     val classesOutputDir = classesDir.resolve(labelToPath(workArgs.label))
     try
       persistence.load()
-      if (Files.exists(workArgs.outputJar))
+      if Files.exists(workArgs.outputJar) then
         try FileUtil.extractZip(workArgs.outputJar, classesOutputDir)
         finally FileUtil.delete(classesOutputDir)
     catch case NonFatal(e) =>
@@ -382,7 +382,7 @@ object ZincRunner extends WorkerMain[ZincRunnerArguments]:
     jarCreator.execute()
 
     // save persisted files
-    if (workerArgs.usePersistence)
+    if workerArgs.usePersistence then
       try persistence.save()
       catch case NonFatal(e) => logger.warn(() => s"Failed to save cached analysis: $e")
 

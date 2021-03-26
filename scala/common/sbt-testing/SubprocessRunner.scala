@@ -5,9 +5,8 @@ import java.io.ObjectInputStream
 import java.nio.file.Paths
 import scala.collection.mutable
 
-object SubprocessTestRunner {
-
-  def main(args: Array[String]): Unit = {
+object SubprocessTestRunner:
+  def main(args: Array[String]): Unit =
     val input = new ObjectInputStream(System.in)
     val request = input.readObject().asInstanceOf[TestRequest]
     val classLoader = ClassLoaders.sbtTestClassLoader(request.classpath.map(path => Paths.get(path).toUri.toURL))
@@ -32,7 +31,4 @@ object SubprocessTestRunner {
       }
     }
 
-    sys.exit(if (passed) 0 else 1)
-  }
-
-}
+    sys.exit(if passed then 0 else 1)

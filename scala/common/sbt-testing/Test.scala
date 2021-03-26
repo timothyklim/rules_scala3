@@ -10,8 +10,7 @@ final class TestDefinition(val name: String, val fingerprint: Fingerprint & Seri
 final class TestFrameworkLoader(loader: ClassLoader, logger: Logger):
   def load(className: String) =
     val framework =
-      try
-        Some(Class.forName(className, true, loader).getDeclaredConstructor().newInstance())
+      try Some(Class.forName(className, true, loader).getDeclaredConstructor().newInstance())
       catch
         case _: ClassNotFoundException => None
         case NonFatal(e)               => throw new Exception(s"Failed to load framework $className", e)
@@ -26,7 +25,8 @@ object TestHelper:
       f: Runner => A
   ) =
     val options =
-      if (framework.name == "specs2") Array("-ex", scopeAndTestName.replaceAll(".*::", "")) else Array.empty[String]
+      if framework.name == "specs2" then Array("-ex", scopeAndTestName.replaceAll(".*::", ""))
+      else Array.empty[String]
     val runner = framework.runner(arguments.toArray, options, classLoader)
     try f(runner)
     finally runner.done()
@@ -41,8 +41,8 @@ object TestHelper:
 
 final class TestReporter(logger: Logger):
   def post(failures: Traversable[String]) =
-    if (failures.nonEmpty)
-      logger.error(s"${failures.size} ${if (failures.size == 1) "failure" else "failures"}:")
+    if failures.nonEmpty then
+      logger.error(s"${failures.size} ${if failures.size == 1 then "failure" else "failures"}:")
       failures.toSeq.sorted.foreach(name => logger.error(s"    $name"))
       logger.error("")
 

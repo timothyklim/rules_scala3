@@ -115,8 +115,8 @@ final class ProcessTestRunner(
         val out = new ObjectOutputStream(process.getOutputStream)
         try out.writeObject(request)
         finally out.close()
-        if (process.waitFor() != 0)
-          failures += test.name
+
+        if process.waitFor() != 0 then failures += test.name
       finally process.destroy
     }
     reporter.post(failures.toSeq)

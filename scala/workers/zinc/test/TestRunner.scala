@@ -136,7 +136,7 @@ object TestRunner:
 
     val testClass = sys.env
       .get("TESTBRIDGE_TEST_ONLY")
-      .map(text => Pattern.compile(if (text.contains("#")) raw"${text.replaceAll("#.*", "")}" else text))
+      .map(text => Pattern.compile(if text.contains("#") then raw"${text.replaceAll("#.*", "")}" else text))
     val testScopeAndName = sys.env.get("TESTBRIDGE_TEST_ONLY").map {
       case text if text.contains("#") => text.replaceAll(".*#", "").replaceAll("\\$", "").replace("\\Q", "").replace("\\E", "")
       case _ => ""
@@ -173,4 +173,4 @@ object TestRunner:
       }
     }
 
-    sys.exit(if (passed) 0 else 1)
+    sys.exit(if passed then 0 else 1)

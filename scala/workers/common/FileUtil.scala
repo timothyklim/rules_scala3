@@ -71,8 +71,7 @@ object FileUtil:
     */
   def extractZipIdempotently(archive: Path, output: Path): Unit =
     lock(output.getParent.resolve(s".${output.getFileName}.lock")) {
-      if (Files.exists(output)) ()
-      else extractZip(archive, output)
+      if !Files.exists(output) then extractZip(archive, output)
     }
 
   def extractZip(archive: Path, output: Path) =

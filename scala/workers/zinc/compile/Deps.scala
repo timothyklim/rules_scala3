@@ -29,7 +29,7 @@ object Dep:
     classpath.flatMap { original =>
       analyses.get(original).fold[Option[Dep]](Some(LibraryDep(original))) { analysis =>
         val root = analysis._1
-        if (roots.add(root))
+        if roots.add(root) then
           depsCache match
             case Some(cacheRoot) =>
               val cachedPath = cacheRoot.resolve(sha256(original))
@@ -55,4 +55,4 @@ object Dep:
 
   private val root = Paths.get("").toAbsolutePath()
   private def absoluteVirtualFile(dep: Dep): PlainVirtualFile =
-    PlainVirtualFile(if (dep.file.startsWith(root)) dep.file else root.resolve(dep.file))
+    PlainVirtualFile(if dep.file.startsWith(root) then dep.file else root.resolve(dep.file))

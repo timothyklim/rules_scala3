@@ -27,7 +27,7 @@ final class FilePersistence(cacheDir: Path, analysisFiles: AnalysisFiles, jar: P
   private val tmpMarker = cacheDir.resolve(".tmp")
 
   def load() =
-    if (Files.exists(cacheDir) && Files.notExists(tmpMarker))
+    if Files.exists(cacheDir) && Files.notExists(tmpMarker) then
       Files.copy(cacheAnalysisFiles.apis, analysisFiles.apis)
       Files.copy(cacheAnalysisFiles.miniSetup, analysisFiles.miniSetup)
       Files.copy(cacheAnalysisFiles.relations, analysisFiles.relations)
@@ -35,8 +35,7 @@ final class FilePersistence(cacheDir: Path, analysisFiles: AnalysisFiles, jar: P
       Files.copy(cacheAnalysisFiles.stamps, analysisFiles.stamps)
       Files.copy(cacheJar, jar)
   def save() =
-    if (Files.exists(cacheDir))
-      FileUtil.delete(cacheDir)
+    if Files.exists(cacheDir) then FileUtil.delete(cacheDir)
     Files.createDirectories(cacheDir)
     Files.createFile(tmpMarker)
     Files.copy(analysisFiles.apis, cacheAnalysisFiles.apis)
