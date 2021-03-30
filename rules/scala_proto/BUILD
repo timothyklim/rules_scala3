@@ -19,9 +19,9 @@ scala_binary(
     scala = "//scala:zinc_3_0_0",
     visibility = ["//visibility:public"],
     deps = [
-        "@annex_proto//:com_thesamet_scalapb_compilerplugin_3_0_0_RC1",
+        "@annex_proto//:com_thesamet_scalapb_compilerplugin_2_13",
         "@annex_proto//:com_thesamet_scalapb_protoc_bridge_2_13",
-        "@annex//:com_github_scopt_scopt_3_0_0_RC1",
+        "@annex//:com_github_scopt_scopt_2_13",
         "//scala/common/worker",
     ],
 )
@@ -36,7 +36,7 @@ scala_proto_toolchain(
 toolchain(
     name = "scalapb_scala_proto_toolchain",
     toolchain = ":scalapb_scala_proto_toolchain_implementation",
-    toolchain_type = "@rules_scala//rules/scala_proto:compiler_toolchain_type",
+    toolchain_type = "@rules_scala3//rules/scala_proto:compiler_toolchain_type",
     visibility = ["//visibility:public"],
 )
 

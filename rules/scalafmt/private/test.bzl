@@ -1,5 +1,5 @@
 load(
-    "@rules_scala//rules/common:private/utils.bzl",
+    "@rules_scala3//rules/common:private/utils.bzl",
     _resolve_execution_reqs = "resolve_execution_reqs",
 )
 
@@ -11,19 +11,19 @@ scala_format_attributes = {
     ),
     "_fmt": attr.label(
         cfg = "host",
-        default = "@rules_scala//rules/scalafmt",
+        default = "@rules_scala3//rules/scalafmt",
         executable = True,
     ),
     "_runner": attr.label(
         allow_single_file = True,
-        default = "@rules_scala//rules/scalafmt:runner",
+        default = "@rules_scala3//rules/scalafmt:runner",
     ),
 }
 
 scala_non_default_format_attributes = {
     "_testrunner": attr.label(
         allow_single_file = True,
-        default = "@rules_scala//rules/scalafmt:testrunner",
+        default = "@rules_scala3//rules/scalafmt:testrunner",
     ),
     "format": attr.bool(
         default = False,

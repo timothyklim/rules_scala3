@@ -1,11 +1,11 @@
 load(
-    "@rules_scala//rules:scala.bzl",
+    "@rules_scala3//rules:scala.bzl",
     "make_scala_binary",
     "make_scala_library",
     "make_scala_test",
 )
 load(
-    "@rules_scala//rules/scalafmt:ext.bzl",
+    "@rules_scala3//rules/scalafmt:ext.bzl",
     "ext_with_non_default_format",
 )
 

@@ -1,5 +1,5 @@
-load("@rules_scala//rules:scala.bzl", "scala_library")
-load("@rules_scala//rules:providers.bzl", "reconfigure_deps_configuration")
+load("@rules_scala3//rules:scala.bzl", "scala_library")
+load("@rules_scala3//rules:providers.bzl", "reconfigure_deps_configuration")
 
 # used_deps off
 reconfigure_deps_configuration(
@@ -59,19 +59,19 @@ scala_library(
 scala_library(
     name = "define_a",
     srcs = ["A.scala"],
-    scala = "@rules_scala//scala:zinc_2_13",
+    scala = "@rules_scala3//scala:zinc_2_13",
 )
 
 scala_library(
     name = "define_b",
     srcs = ["B.scala"],
-    scala = "@rules_scala//scala:zinc_2_13",
+    scala = "@rules_scala3//scala:zinc_2_13",
     deps = [":define_a"],
 )
 
 scala_library(
     name = "define_c",
     srcs = ["C.scala"],
-    scala = "@rules_scala//scala:zinc_2_13",
+    scala = "@rules_scala3//scala:zinc_2_13",
     deps = [":define_b"],
 )

@@ -1,5 +1,5 @@
 load(
-    "@rules_scala//rules:scala.bzl",
+    "@rules_scala3//rules:scala.bzl",
     "scala_binary",
     "scala_library",
 )

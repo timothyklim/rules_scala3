@@ -1,4 +1,4 @@
-load("@rules_scala//rules:scala.bzl", "scala_binary")
+load("@rules_scala3//rules:scala.bzl", "scala_binary")
 
 scala_binary(
     name = "app",

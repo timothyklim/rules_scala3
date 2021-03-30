@@ -10,7 +10,7 @@ load("@io_bazel_skydoc//stardoc:stardoc.bzl", "stardoc")
         input = file,
         deps = [
             ":bzl_internal",
-            "@rules_scala//rules:bzl",
+            "@rules_scala3//rules:bzl",
         ],
     )
     for file in glob(["**/*.bzl"])
@@ -29,7 +29,7 @@ bzl_library(
     deps = [":private_bzl"],
 )
 
-# Bizzaro @rules_scala// vs // differences
+# Bizzaro @rules_scala3// vs // differences
 bzl_library(
     name = "bzl_internal",
     srcs = glob(["**/*.bzl"]),

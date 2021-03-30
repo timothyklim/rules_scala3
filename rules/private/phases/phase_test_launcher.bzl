@@ -1,5 +1,5 @@
 load(
-    "@rules_scala//rules/private:coverage_replacements_provider.bzl",
+    "@rules_scala3//rules/private:coverage_replacements_provider.bzl",
     _coverage_replacements_provider = "coverage_replacements_provider",
 )
 load(

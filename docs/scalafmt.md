@@ -3,7 +3,7 @@
 Create .scalafmt.conf at the repo root (may be empty). And add to the WORKSPACE
 
 ```python
-load("@rules_scala//rules/scalafmt:workspace.bzl", "scalafmt_repositories", "scalafmt_default_config")
+load("@rules_scala3//rules/scalafmt:workspace.bzl", "scalafmt_repositories", "scalafmt_default_config")
 scalafmt_repositories()
 scalafmt_default_config()
 ```
@@ -11,7 +11,7 @@ scalafmt_default_config()
 And in BUILD
 
 ```python
-load("@rules_scala//rules:scalafmt.bzl", "scala_format_test")
+load("@rules_scala3//rules:scalafmt.bzl", "scala_format_test")
 scala_format_test(
     name = "format",
     srcs = glob(["**/*.scala"]),

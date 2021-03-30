@@ -53,7 +53,7 @@ scala_proto_toolchain(<a href="#scala_proto_toolchain-name">name</a>, <a href="#
 </pre>
 
 
-Specifies a toolchain of the `@rules_scala//rules/scala_proto:compiler_toolchain_type` toolchain type.
+Specifies a toolchain of the `@rules_scala3//rules/scala_proto:compiler_toolchain_type` toolchain type.
 
 This rule should be used with an accompanying `toolchain` that binds it and specifies constraints
 (See the official documentation for more info on [Bazel Toolchains](https://docs.bazel.build/versions/master/toolchains.html))
@@ -71,7 +71,7 @@ scala_proto_toolchain(
 toolchain(
     name = "scalapb_toolchain_example_linux",
     toolchain = ":scalapb_toolchain_example",
-    toolchain_type = "@rules_scala//rules/scala_proto:compiler_toolchain_type",
+    toolchain_type = "@rules_scala3//rules/scala_proto:compiler_toolchain_type",
     exec_compatible_with = [
         "@bazel_tools//platforms:linux",
         "@bazel_tools//platforms:x86_64",

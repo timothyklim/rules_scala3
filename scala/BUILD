@@ -1,5 +1,5 @@
 load(
-    "@rules_scala//rules:scala.bzl",
+    "@rules_scala3//rules:scala.bzl",
     "configure_bootstrap_scala",
     "configure_zinc_scala",
     "scala_library",
@@ -79,9 +79,9 @@ config_setting(
     },
 )
 
-# Scala 3.0.0-RC1
+# Scala 3.0.0-RC2
 
-scala3_version = "3.0.0-RC1"
+scala3_version = "3.0.0-RC2"
 
 scala3_global_scalacopts = [
     "-deprecation",
@@ -94,7 +94,7 @@ scala3_global_scalacopts = [
     "-source:future",
     # "-language:strictEquality",
     # "-language:existentials",
-    # "-Ycheck-init",
+    "-Ysafe-init",
     # "-Yexplicit-nulls",
     "-Xfatal-warnings",
 ]

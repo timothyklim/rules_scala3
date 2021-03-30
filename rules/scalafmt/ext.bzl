@@ -1,6 +1,6 @@
 load("@bazel_skylib//lib:dicts.bzl", _dicts = "dicts")
 load(
-    "@rules_scala//rules:providers.bzl",
+    "@rules_scala3//rules:providers.bzl",
     _ScalaRulePhase = "ScalaRulePhase",
 )
 load(

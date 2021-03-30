@@ -1,5 +1,5 @@
 load(
-    "@rules_scala//rules:scala.bzl",
+    "@rules_scala3//rules:scala.bzl",
     "configure_bootstrap_scala",
     "configure_zinc_scala",
     "scala_library",
@@ -54,7 +54,7 @@ configure_zinc_scala(
     visibility = ["//visibility:public"],
 )
 
-# Scala 3.0.0-RC1
+# Scala 3.0.0-RC2
 
 alias(
     name = "3_0",
@@ -78,7 +78,7 @@ compiler_classpath_3_0 = [
 #     name = "bootstrap_3_0",
 #     compiler_classpath = compiler_classpath_3_0,
 #     runtime_classpath = runtime_classpath_3_0,
-#     version = "3.0.0-RC1",
+#     version = "3.0.0-RC2",
 #     visibility = ["//visibility:public"],
 # )
 
@@ -103,6 +103,6 @@ configure_zinc_scala(
     compiler_classpath = compiler_classpath_3_0,
     log_level = "debug",
     runtime_classpath = runtime_classpath_3_0,
-    version = "3.0.0-RC1",
+    version = "3.0.0-RC2",
     visibility = ["//visibility:public"],
 )

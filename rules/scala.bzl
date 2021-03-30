@@ -4,17 +4,17 @@
 
 load("@bazel_skylib//lib:dicts.bzl", _dicts = "dicts")
 load(
-    "@rules_scala//rules:jvm.bzl",
+    "@rules_scala3//rules:jvm.bzl",
     _labeled_jars = "labeled_jars",
 )
 load(
-    "@rules_scala//rules:providers.bzl",
+    "@rules_scala3//rules:providers.bzl",
     _ScalaConfiguration = "ScalaConfiguration",
     _ScalaRulePhase = "ScalaRulePhase",
     _ZincConfiguration = "ZincConfiguration",
 )
 load(
-    "@rules_scala//rules/private:coverage_replacements_provider.bzl",
+    "@rules_scala3//rules/private:coverage_replacements_provider.bzl",
     _coverage_replacements_provider = "coverage_replacements_provider",
 )
 load(
@@ -335,8 +335,8 @@ def make_scala_test(*extras):
                         "com.novocode.junit.JUnitFramework",
                     ],
                 ),
-                "runner": attr.label(default = "@rules_scala//scala/workers/zinc/test"),
-                "subprocess_runner": attr.label(default = "@rules_scala//scala/common/sbt-testing:subprocess"),
+                "runner": attr.label(default = "@rules_scala3//scala/workers/zinc/test"),
+                "subprocess_runner": attr.label(default = "@rules_scala3//scala/common/sbt-testing:subprocess"),
             },
             _extras_attributes(extras),
             *[extra["attrs"] for extra in extras]
@@ -373,7 +373,7 @@ _scala_repl_private_attributes = _dicts.add(
         "_runner": attr.label(
             cfg = "host",
             executable = True,
-            default = "@rules_scala//scala/workers/zinc/repl",
+            default = "@rules_scala3//scala/workers/zinc/repl",
         ),
     },
 )
@@ -518,19 +518,19 @@ _configure_zinc_scala = rule(
         "deps_direct": attr.string(default = "error"),
         "deps_used": attr.string(default = "error"),
         "_compile_worker": attr.label(
-            default = "@rules_scala//scala/workers/zinc/compile",
+            default = "@rules_scala3//scala/workers/zinc/compile",
             allow_files = True,
             executable = True,
             cfg = "host",
         ),
         "_deps_worker": attr.label(
-            default = "@rules_scala//scala/workers/deps",
+            default = "@rules_scala3//scala/workers/deps",
             allow_files = True,
             executable = True,
             cfg = "host",
         ),
         "_code_coverage_instrumentation_worker": attr.label(
-            default = "@rules_scala//scala/workers/jacoco/instrumenter",
+            default = "@rules_scala3//scala/workers/jacoco/instrumenter",
             allow_files = True,
             executable = True,
             cfg = "host",
@@ -542,11 +542,11 @@ _configure_zinc_scala = rule(
 def configure_zinc_scala(**kwargs):
     _configure_zinc_scala(
         deps_direct = select({
-            "@rules_scala//scala:deps_direct_off": "off",
+            "@rules_scala3//scala:deps_direct_off": "off",
             "//conditions:default": "error",
         }),
         deps_used = select({
-            "@rules_scala//scala:deps_used_off": "off",
+            "@rules_scala3//scala:deps_used_off": "off",
             "//conditions:default": "error",
         }),
         **kwargs

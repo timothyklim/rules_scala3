@@ -1,4 +1,4 @@
-load("@rules_scala//rules:providers.bzl", "LabeledJars")
+load("@rules_scala3//rules:providers.bzl", "LabeledJars")
 
 def labeled_jars_implementation(target, ctx):
     if JavaInfo not in target:

@@ -26,7 +26,7 @@ scala_library(
     scala = "//scala:zinc_3_0_0",
     visibility = ["//visibility:public"],
     deps = [
-        "@annex//:org_scala_lang_modules_scala_xml_3_0_0_RC1",
+        "@annex//:org_scala_lang_modules_scala_xml2_13",
         "@annex//:org_scala_sbt_test_interface",
     ],
 )

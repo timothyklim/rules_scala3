@@ -1,11 +1,11 @@
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 def scala_proto_register_toolchains():
-    native.register_toolchains("@rules_scala//rules/scala_proto:scalapb_scala_proto_toolchain")
+    native.register_toolchains("@rules_scala3//rules/scala_proto:scalapb_scala_proto_toolchain")
 
 def scala_proto_artifacts():
     return [
-        "com.thesamet.scalapb:compilerplugin_3.0.0-RC1:0.11.0",
+        "com.thesamet.scalapb:compilerplugin_2.13:0.11.0",
         "com.thesamet.scalapb:protoc-bridge_2.13:0.9.2",
     ]
 
@@ -19,5 +19,5 @@ def scala_proto_repositories():
             "https://mirror.bazel.build/repo1.maven.org/maven2",
         ],
         fetch_sources = True,
-        maven_install_json = "@rules_scala//:annex_proto_install.json",
+        maven_install_json = "@rules_scala3//:annex_proto_install.json",
     )

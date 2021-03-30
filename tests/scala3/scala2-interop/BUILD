@@ -1,4 +1,4 @@
-load("@rules_scala//rules:scala.bzl", "scala_binary", "scala_library")
+load("@rules_scala3//rules:scala.bzl", "scala_binary", "scala_library")
 
 scala_library(
     name = "lib3",
@@ -11,8 +11,7 @@ scala_library(
         "UTF-8",
         "-feature",
         "-unchecked",
-        "-source:3.0",
-        "-rewrite",
+        "-source:future",
         "-indent",
     ],
 )

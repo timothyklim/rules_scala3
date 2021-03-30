@@ -16,20 +16,21 @@ filegroup(
 )
 """
 
-scala3_version = "3.0.0-RC1"
+scala3_version = "3.0.0-RC2"
+scala2_version = "2.13"
 sbt_version = "1.5.0-RC2"
 zinc_version = "1.5.0-M5"
 
 def scala_artifacts():
     return [
-        "com.github.scopt:scopt_{}:4.0.1".format(scala3_version),
+        "com.github.scopt:scopt_{}:4.0.1".format(scala2_version),
         "net.sourceforge.argparse4j:argparse4j:0.8.1",
         "org.jacoco:org.jacoco.core:0.8.6",
-        "org.scala-lang.modules:scala-xml_{}:2.0.0-M5".format(scala3_version),
+        "org.scala-lang.modules:scala-xml_{}:2.0.0-M5".format(scala2_version),
         "org.scala-sbt:test-interface:1.0",
         "org.scala-sbt:util-interface:" + sbt_version,
-        "org.scala-sbt:util-logging_2.13:" + sbt_version,
-        "org.scala-sbt:zinc_2.13:" + zinc_version,
+        "org.scala-sbt:util-logging_{}:{}".format(scala2_version, sbt_version),
+        "org.scala-sbt:zinc_{}:{}".format(scala2_version, zinc_version),
     ]
 
 def scala_repositories(java_launcher_version = "4.0.0"):
@@ -42,7 +43,7 @@ def scala_repositories(java_launcher_version = "4.0.0"):
             "https://mirror.bazel.build/repo1.maven.org/maven2",
         ],
         fetch_sources = True,
-        maven_install_json = "@rules_scala//:annex_install.json",
+        maven_install_json = "@rules_scala3//:annex_install.json",
     )
 
     http_file(

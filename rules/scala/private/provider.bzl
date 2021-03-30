@@ -1,5 +1,5 @@
 load(
-    "@rules_scala//rules:providers.bzl",
+    "@rules_scala3//rules:providers.bzl",
     _CodeCoverageConfiguration = "CodeCoverageConfiguration",
     _DepsConfiguration = "DepsConfiguration",
     _ScalaConfiguration = "ScalaConfiguration",

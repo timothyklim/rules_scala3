@@ -55,7 +55,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 rules_scala_version = "ae99fcb08bbddfc24fef00d7b13f6c065e1df8d5"
 rules_scala_sha256 = "1630fc7ecc7a4ffeabcdef73c7600eab9cf3fd2377db1f69b8ce1927560211ff"
 http_archive(
-    name = "rules_scala",
+    name = "rules_scala3",
     sha256 = rules_scala_sha256,
     strip_prefix = "rules_scala-{}".format(rules_scala_version),
     url = "https://github.com/higherkindness/rules_scala/archive/{}.zip".format(rules_scala_version),
@@ -72,19 +72,19 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_jvm_external/archive/{}.zip".format(rules_jvm_external_tag),
 )
 
-load("@rules_scala//rules/scala:workspace.bzl", "scala_register_toolchains", "scala_repositories")
+load("@rules_scala3//rules/scala:workspace.bzl", "scala_register_toolchains", "scala_repositories")
 scala_repositories()
 load("@annex//:defs.bzl", annex_pinned_maven_install = "pinned_maven_install")
 annex_pinned_maven_install()
 scala_register_toolchains()
 
-load("@rules_scala//rules/scalafmt:workspace.bzl", "scalafmt_default_config", "scalafmt_repositories")
+load("@rules_scala3//rules/scalafmt:workspace.bzl", "scalafmt_default_config", "scalafmt_repositories")
 scalafmt_repositories()
 load("@annex_scalafmt//:defs.bzl", annex_scalafmt_pinned_maven_install = "pinned_maven_install")
 annex_scalafmt_pinned_maven_install()
 scalafmt_default_config()
 
-load("@rules_scala//rules/scala_proto:workspace.bzl", "scala_proto_register_toolchains", "scala_proto_repositories",)
+load("@rules_scala3//rules/scala_proto:workspace.bzl", "scala_proto_register_toolchains", "scala_proto_repositories",)
 scala_proto_repositories()
 load("@annex_proto//:defs.bzl", annex_proto_pinned_maven_install = "pinned_maven_install")
 annex_proto_pinned_maven_install()
@@ -118,14 +118,14 @@ protobuf_deps()
 # Specify the scala compiler we wish to use; in this case, we'll use the default one specified in rules_scala
 bind(
     name = "default_scala",
-    actual = "@rules_scala//scala:zinc_2_13",
+    actual = "@rules_scala3//scala:zinc_2_13",
 )
 ```
 
 BUILD
 
 ```python
-load("@rules_scala//rules:scala.bzl", "scala_library")
+load("@rules_scala3//rules:scala.bzl", "scala_library")
 
 scala_library(
   name = "example",

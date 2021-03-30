@@ -1,4 +1,4 @@
-load("@rules_scala//rules:scala.bzl", "scala_library")
+load("@rules_scala3//rules:scala.bzl", "scala_library")
 load(":rules.bzl", "my_plugin")
 
 scala_library(
