@@ -92,12 +92,6 @@ annex_proto_pinned_maven_install()
 load("@rules_scala3//rules:rules_scala.bzl", "emulate_rules_scala")
 load("@rules_scala3//rules:external.bzl", "scala_import_external")
 
-scala_import_external(
-    name = "scalatest_2_11",
-    jar_sha256 = "f198967436a5e7a69cfd182902adcfbcb9f2e41b349e1a5c8881a2407f615962",
-    jar_urls = ["https://mirror.bazel.build/oss.sonatype.org/content/groups/public/org/scalatest/scalatest_2.11/2.2.6/scalatest_2.11-2.2.6.jar"],
-)
-
 emulate_rules_scala(
     extra_deps = [
         "@scala_reflect_2_11_12//jar",

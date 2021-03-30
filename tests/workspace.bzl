@@ -8,11 +8,11 @@ def test_artifacts():
         "com.google.protobuf:protobuf-java:3.15.6",
         "com.thesamet.scalapb:lenses_{}:0.11.0".format(scala2_version),
         "com.thesamet.scalapb:scalapb-runtime_{}:0.11.0".format(scala2_version),
-        "org.scala-lang.modules:scala-xml_{}:2.0.0-M5".format(scala2_version),
+        "org.scala-lang.modules:scala-xml_{}:2.0.0-RC1".format(scala3_version),
         "org.scala-sbt:compiler-interface:1.5.0-M5",
-        "org.scalacheck:scalacheck_{}:1.15.3".format(scala2_version),
-        "org.scalameta:munit_{}:0.7.22".format(scala2_version),
-        "org.scalameta:munit-scalacheck_{}:0.7.22".format(scala2_version),
+        "org.scalacheck:scalacheck_{}:1.15.3".format(scala3_version),
+        "org.scalameta:munit_{}:0.7.23".format(scala3_version),
+        "org.scalameta:munit-scalacheck_{}:0.7.23".format(scala3_version),
     ]
 
 def test_dependencies():

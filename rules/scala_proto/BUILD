@@ -21,7 +21,7 @@ scala_binary(
     deps = [
         "@annex_proto//:com_thesamet_scalapb_compilerplugin_2_13",
         "@annex_proto//:com_thesamet_scalapb_protoc_bridge_2_13",
-        "@annex//:com_github_scopt_scopt_2_13",
+        "@annex//:com_github_scopt_scopt_3_0_0_RC2",
         "//scala/common/worker",
     ],
 )

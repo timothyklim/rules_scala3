@@ -9,7 +9,7 @@ scala_library(
     deps = [
         "//scala/common/sbt-testing:common",
         "@annex//:net_sourceforge_argparse4j_argparse4j",
-        "@annex//:com_github_scopt_scopt_2_13",
+        "@annex//:com_github_scopt_scopt_3_0_0_RC2",
         "@annex//:org_scala_sbt_compiler_interface",
         "@annex//:org_scala_sbt_test_interface",
         "@annex//:org_scala_sbt_zinc_apiinfo_2_13",

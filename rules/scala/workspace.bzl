@@ -23,12 +23,12 @@ zinc_version = "1.5.0-M5"
 
 def scala_artifacts():
     return [
-        "com.github.scopt:scopt_{}:4.0.1".format(scala2_version),
+        "com.github.scopt:scopt_{}:4.0.1".format(scala3_version),
         "net.sourceforge.argparse4j:argparse4j:0.8.1",
         "org.jacoco:org.jacoco.core:0.8.6",
-        "org.scala-lang.modules:scala-xml_{}:2.0.0-M5".format(scala2_version),
+        "org.scala-lang.modules:scala-xml_{}:2.0.0-RC1".format(scala3_version),
         "org.scala-sbt:test-interface:1.0",
-        "org.scala-sbt:util-interface:" + sbt_version,
+        "org.scala-sbt:util-interface:{}".format(sbt_version),
         "org.scala-sbt:util-logging_{}:{}".format(scala2_version, sbt_version),
         "org.scala-sbt:zinc_{}:{}".format(scala2_version, zinc_version),
     ]
