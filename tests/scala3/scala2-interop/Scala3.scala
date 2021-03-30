@@ -1,6 +1,4 @@
-package scala3
+package interop
 
 object Scala3:
-  def h(x: String): Unit = println(x)
-
-  @main def test() = h("wow!")
+  def test() = println("wow!")

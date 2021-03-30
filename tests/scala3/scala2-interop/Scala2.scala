@@ -1,3 +1,5 @@
+package interop
+
 object Scala2App extends App {
-  scala3.Scala3.test()
+  Scala3.test()
 }

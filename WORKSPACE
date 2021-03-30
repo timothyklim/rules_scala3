@@ -105,7 +105,7 @@ http_archive(
     url = "https://github.com/TimothyKlim/bazel/archive/{}.tar.gz".format(bazel_commit),
 )
 
-scala2_version = "2.13.5"
+scala2_version = "2.13.6-bin-107c727"
 
 server_urls = [
     "https://repo1.maven.org/maven2",
@@ -115,21 +115,21 @@ server_urls = [
 jvm_maven_import_external(
     name = "scala_compiler_2_13_5",
     artifact = "org.scala-lang:scala-compiler:" + scala2_version,
-    artifact_sha256 = "ea7423f3bc3673845d6d1c64335a4645abba0b0478ae00e15979915826ff6116",
+    artifact_sha256 = "61a1d7765b716e29bddcc05d5c8bcb8caf68745016b50b4d00f4a895808044f6",
     server_urls = server_urls,
 )
 
 jvm_maven_import_external(
     name = "scala_library_2_13_5",
     artifact = "org.scala-lang:scala-library:" + scala2_version,
-    artifact_sha256 = "52aafeef8e0d104433329b1bc31463d1b4a9e2b8f24f85432c8cfaed9fad2587",
+    artifact_sha256 = "7e4ea50c2abdd7e7c9d58df823354b765c5efb797ae9550a959b7f47e6ad18c2",
     server_urls = server_urls,
 )
 
 jvm_maven_import_external(
     name = "scala_reflect_2_13_5",
     artifact = "org.scala-lang:scala-reflect:" + scala2_version,
-    artifact_sha256 = "808c44b8adb3205e91d417bf57406715ca2508ad6952f6e2132ff8099b78bd73",
+    artifact_sha256 = "53f5c2de8beab1093f458866dbbc86a1ce8e570f47768b037d09a054347e0096",
     server_urls = server_urls,
 )
 
@@ -139,40 +139,40 @@ jvm_maven_import_external(
     name = "scala_compiler_3_0_0",
     artifact = "org.scala-lang:scala3-compiler_3.0.0-RC2:" + scala3_version,
     artifact_sha256 = "7003bdafc4827f3461c502986005644a200a2de94b822c2ca7258077f478e248",
-    server_urls = ["https://repo.maven.apache.org/maven2"],
+    server_urls = server_urls,
 )
 
 jvm_maven_import_external(
     name = "scala_library_3_0_0",
     artifact = "org.scala-lang:scala3-library_3.0.0-RC2:" + scala3_version,
     artifact_sha256 = "e7cf01652b4acc288068f28d24b263b249816b44a382385a82daacc9781bf02c",
-    server_urls = ["https://repo.maven.apache.org/maven2"],
+    server_urls = server_urls,
 )
 
 jvm_maven_import_external(
     name = "scala_tasty_core_3_0_0",
     artifact = "org.scala-lang:tasty-core_3.0.0-RC2:" + scala3_version,
     artifact_sha256 = "4243833ad853bc3d969d93d25bc2faf7afd80f98e79b26336b303c7f735bb0c0",
-    server_urls = ["https://repo.maven.apache.org/maven2"],
+    server_urls = server_urls,
 )
 
 jvm_maven_import_external(
     name = "scala_interfaces_3_0_0",
     artifact = "org.scala-lang:scala3-interfaces:" + scala3_version,
     artifact_sha256 = "db94538a11a84f1ffb97b6275b49dd44182fc1edbab4689b537500f882a77ff1",
-    server_urls = ["https://repo.maven.apache.org/maven2"],
+    server_urls = server_urls,
 )
 
 jvm_maven_import_external(
     name = "scala_sbt_bridge_3_0_0",
     artifact = "org.scala-lang:scala3-sbt-bridge:" + scala3_version,
     artifact_sha256 = "97b7ad2846e27dade57c574f212c1ffcd53027c8ea65a5494eabb46e38fb4517",
-    server_urls = ["https://repo.maven.apache.org/maven2"],
+    server_urls = server_urls,
 )
 
 jvm_maven_import_external(
     name = "scala_asm_9_1_0",
     artifact = "org.scala-lang.modules:scala-asm:9.1.0-scala-1",
     artifact_sha256 = "b85af6cbbd6075c4960177c2c3aa03d53b5221fa58b0bc74a31b72f25595e39f",
-    server_urls = ["https://repo.maven.apache.org/maven2"],
+    server_urls = server_urls,
 )

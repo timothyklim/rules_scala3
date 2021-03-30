@@ -4,16 +4,6 @@ scala_library(
     name = "lib3",
     srcs = ["Scala3.scala"],
     scala = "//scala:zinc_3_0_0",
-    scalacopts = [
-        "-version",
-        "-deprecation",
-        "-encoding",
-        "UTF-8",
-        "-feature",
-        "-unchecked",
-        "-source:future",
-        "-indent",
-    ],
 )
 
 scala_binary(
