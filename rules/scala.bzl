@@ -485,6 +485,9 @@ configure_bootstrap_scala = rule(
         "global_scalacopts": attr.string_list(
             doc = "Scalac options that will always be enabled.",
         ),
+        "global_jvm_flags": attr.string_list(
+            doc = "JVM flags that will always be passed.",
+        ),
     },
     implementation = _configure_bootstrap_scala_implementation,
 )
@@ -510,6 +513,9 @@ _configure_zinc_scala = rule(
         ),
         "global_scalacopts": attr.string_list(
             doc = "Scalac options that will always be enabled.",
+        ),
+        "global_jvm_flags": attr.string_list(
+            doc = "JVM flags that will always be passed.",
         ),
         "log_level": attr.string(
             doc = "Compiler log level",

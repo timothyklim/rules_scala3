@@ -67,6 +67,7 @@ def phase_zinc_compile(ctx, g):
     args.set_param_file_format("multiline")
     args.use_param_file("@%s", use_always = True)
 
+    worker_args = ["--wrapper_script_flag=--jvm_flag={}".format(flag) for flag in scala_configuration.global_jvm_flags]
     worker = zinc_configuration.compile_worker
 
     worker_inputs, _, input_manifests = ctx.resolve_command(tools = [worker])
@@ -89,7 +90,7 @@ def phase_zinc_compile(ctx, g):
         executable = worker.files_to_run.executable,
         input_manifests = input_manifests,
         execution_requirements = _resolve_execution_reqs(ctx, {"no-sandbox": "1", "supports-workers": "1"}),
-        arguments = [args],
+        arguments = worker_args + [args],
         use_default_shell_env = True,
     )
 

@@ -12,6 +12,7 @@ ScalaConfiguration = provider(
         "runtime_classpath": "The runtime classpath.",
         "global_plugins": "Globally enabled compiler plugins",
         "global_scalacopts": "Globally enabled compiler options",
+        "global_jvm_flags": "JVM flags that will always be passed.",
     },
 )
 
@@ -22,6 +23,7 @@ def _declare_scala_configuration_implementation(ctx):
             compiler_classpath = ctx.attr.compiler_classpath,
             global_plugins = ctx.attr.global_plugins,
             global_scalacopts = ctx.attr.global_scalacopts,
+            global_jvm_flags = ctx.attr.global_jvm_flags,
             runtime_classpath = ctx.attr.runtime_classpath,
             version = ctx.attr.version,
         ),
@@ -44,6 +46,9 @@ declare_scala_configuration = rule(
         ),
         "global_scalacopts": attr.string_list(
             doc = "Scalac options that will always be enabled.",
+        ),
+        "global_jvm_flags": attr.string_list(
+            doc = "JVM flags that will always be passed.",
         ),
     },
     doc = "Creates a `ScalaConfiguration`.",

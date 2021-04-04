@@ -105,4 +105,5 @@ configure_zinc_scala(
     runtime_classpath = runtime_classpath_3_0,
     version = "3.0.0-RC2",
     visibility = ["//visibility:public"],
+    global_jvm_flags = ["-Xms8M"],
 )
