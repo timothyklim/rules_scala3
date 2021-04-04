@@ -18,7 +18,7 @@ filegroup(
 
 scala3_version = "3.0.0-RC2"
 scala2_version = "2.13"
-sbt_version = "1.5.0-RC2"
+sbt_version = "1.5.0"
 zinc_version = "1.5.0-M5"
 
 def scala_artifacts():
