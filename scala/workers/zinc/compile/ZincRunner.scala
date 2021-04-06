@@ -40,6 +40,7 @@ final case class ZincRunnerArguments(
   usePersistence: Boolean = true,
   depsCache: Option[Path] = None,
   persistenceDir: Option[Path] = None,
+  maxErrors: Int = 100,
 )
 object ZincRunnerArguments:
   private val builder = OParser.builder[ZincRunnerArguments]
@@ -49,6 +50,7 @@ object ZincRunnerArguments:
     opt[Boolean]("use_persistence").action((p, c) => c.copy(usePersistence = p)),
     opt[String]("extracted_file_cache").optional().action((p, c) => c.copy(depsCache = Some(pathFrom(p)))),
     opt[String]("persistence_dir").optional().action((p, c) => c.copy(persistenceDir = Some(pathFrom(p)))),
+    opt[Int]("max_errors").optional().action((m, c) => c.copy(maxErrors = m)),
   )
 
   def apply(args: collection.Seq[String]): Option[ZincRunnerArguments] =
