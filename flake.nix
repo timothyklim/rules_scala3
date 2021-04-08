@@ -7,7 +7,7 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
-    java.url = "github:TawasalMessenger/jdk-flake/zing-jdk15.0.1-fp.dev-3418";
+    java.url = "github:TawasalMessenger/jdk-flake";
   };
 
   outputs = { self, nixpkgs, flake-compat, java }:
