@@ -119,40 +119,40 @@ jvm_maven_import_external(
     server_urls = server_urls,
 )
 
-scala3_version = "3.0.0-RC2"
+scala3_version = "3.0.0-RC1"
 
 jvm_maven_import_external(
     name = "scala_compiler_3_0_0",
-    artifact = "org.scala-lang:scala3-compiler_3.0.0-RC2:" + scala3_version,
-    artifact_sha256 = "7003bdafc4827f3461c502986005644a200a2de94b822c2ca7258077f478e248",
+    artifact = "org.scala-lang:scala3-compiler_3.0.0-RC1:" + scala3_version,
+    artifact_sha256 = "d1f6c9d56b31ebd3e643284ef49643a40a563eb24c026c9b3806f208beeded42",
     server_urls = server_urls,
 )
 
 jvm_maven_import_external(
     name = "scala_library_3_0_0",
-    artifact = "org.scala-lang:scala3-library_3.0.0-RC2:" + scala3_version,
-    artifact_sha256 = "e7cf01652b4acc288068f28d24b263b249816b44a382385a82daacc9781bf02c",
+    artifact = "org.scala-lang:scala3-library_3.0.0-RC1:" + scala3_version,
+    artifact_sha256 = "0fc5fa72f30f6c789cbe000d1fbebbc6ae927c73c1058d0f18871a9b3b79fc66",
     server_urls = server_urls,
 )
 
 jvm_maven_import_external(
     name = "scala_tasty_core_3_0_0",
-    artifact = "org.scala-lang:tasty-core_3.0.0-RC2:" + scala3_version,
-    artifact_sha256 = "4243833ad853bc3d969d93d25bc2faf7afd80f98e79b26336b303c7f735bb0c0",
+    artifact = "org.scala-lang:tasty-core_3.0.0-RC1:" + scala3_version,
+    artifact_sha256 = "c485550b896a18a5ddcb9a95846a6d7ea6b9d4ae8e93b8937681eefeb7f20e77",
     server_urls = server_urls,
 )
 
 jvm_maven_import_external(
     name = "scala_interfaces_3_0_0",
     artifact = "org.scala-lang:scala3-interfaces:" + scala3_version,
-    artifact_sha256 = "db94538a11a84f1ffb97b6275b49dd44182fc1edbab4689b537500f882a77ff1",
+    artifact_sha256 = "6960bca56897940acc2183f0316360fca0d49cd3dfcdd660b524766c36e573a0",
     server_urls = server_urls,
 )
 
 jvm_maven_import_external(
     name = "scala_sbt_bridge_3_0_0",
     artifact = "org.scala-lang:scala3-sbt-bridge:" + scala3_version,
-    artifact_sha256 = "97b7ad2846e27dade57c574f212c1ffcd53027c8ea65a5494eabb46e38fb4517",
+    artifact_sha256 = "361f373f3967c6816a220498e0f0ca4c54d9c65a32b4a4c1877a7060d4ba8282",
     server_urls = server_urls,
 )
 

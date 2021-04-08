@@ -19,9 +19,9 @@ scala_binary(
     scala = "//scala:zinc_3_0_0",
     visibility = ["//visibility:public"],
     deps = [
-        "@annex_proto//:com_thesamet_scalapb_compilerplugin_3_0_0_RC2",
+        "@annex_proto//:com_thesamet_scalapb_compilerplugin_3_0_0_RC1",
         "@annex_proto//:com_thesamet_scalapb_protoc_bridge_2_13",
-        "@annex//:com_github_scopt_scopt_3_0_0_RC2",
+        "@annex//:com_github_scopt_scopt_3_0_0_RC1",
         "//scala/common/worker",
     ],
 )

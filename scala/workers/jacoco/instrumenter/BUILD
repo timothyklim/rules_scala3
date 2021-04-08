@@ -9,7 +9,7 @@ scala_binary(
     visibility = ["//visibility:public"],
     deps = [
         "//scala/common/worker",
-        "@annex//:com_github_scopt_scopt_3_0_0_RC2",
+        "@annex//:com_github_scopt_scopt_3_0_0_RC1",
         "@annex//:org_jacoco_org_jacoco_core",
     ],
 )
