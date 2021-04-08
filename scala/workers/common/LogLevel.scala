@@ -6,10 +6,12 @@ enum LogLevel:
   case Debug, Error, Info, None, Warn
   val value: String = productPrefix.toLowerCase
 object LogLevel:
+  def from(value: String): LogLevel = valuesMap(value.toLowerCase)
+
   given CanEqual[LogLevel, LogLevel] = CanEqual.derived
 
   private val valuesMap = LogLevel.values.map(v => v.value -> v).toMap
-  given scopt.Read[LogLevel] = scopt.Read.reads(valuesMap(_))
+  given scopt.Read[LogLevel] = scopt.Read.reads(from)
 
   // def add(parser: ArgumentParser): Unit =
   //   parser

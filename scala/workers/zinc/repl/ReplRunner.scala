@@ -1,20 +1,22 @@
 package rules_scala
 package workers.zinc.repl
 
-import workers.common.CommonArguments.LogLevel
-import workers.common.AnnexLogger
-import workers.common.AnnexScalaInstance
-import workers.common.FileUtil
+import workers.common.{LogLevel, AnnexLogger, AnnexScalaInstance, FileUtil, TopClassLoader}
 
 import java.io.File
 import java.nio.file.{Files, Paths}
+import java.net.URLClassLoader
 import java.util.Collections
-import sbt.internal.inc.ZincUtil
+
 import scala.jdk.CollectionConverters.*
+
+import net.sourceforge.argparse4j.ArgumentParsers
+import net.sourceforge.argparse4j.impl.Arguments
+import sbt.internal.inc.classpath.ClassLoaderCache
+import sbt.internal.inc.{ZincUtil, PlainVirtualFile, MappedFileConverter}
 import xsbti.Logger
 
-object ReplRunner {
-
+object ReplRunner:
   private val argParser =
     ArgumentParsers.newFor("repl").addHelp(true).defaultFormatWidth(80).fromFilePrefix("@").build()
   argParser
@@ -51,7 +53,7 @@ object ReplRunner {
     .action(Arguments.append)
     .metavar("option")
 
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]): Unit =
     val namespace = argParser.parseArgsOrFail(args)
 
     val runPath = Paths.get(sys.props("bazel.runPath"))
@@ -69,9 +71,9 @@ object ReplRunner {
       .getList[File]("compiler_classpath")
       .asScala
       .map(file => runPath.resolve(file.toPath).toFile)
-    val scalaInstance = new AnnexScalaInstance(compilerClasspath.toArray)
+    val scalaInstance = AnnexScalaInstance(topLoader, classloaderCache, compilerClasspath.toArray)
 
-    val logger = new AnnexLogger(namespace.getString("log_level"))
+    val logger = AnnexLogger(LogLevel.from(namespace.getString("log_level")))
 
     val scalaCompiler = ZincUtil
       .scalaCompiler(scalaInstance, runPath.resolve(replNamespace.get[File]("compiler_bridge").toPath).toFile)
@@ -83,6 +85,8 @@ object ReplRunner {
       .toSeq
 
     val options = Option(replNamespace.getList[String]("compiler_option")).fold[Seq[String]](Nil)(_.asScala.to(Seq))
-    scalaCompiler.console(compilerClasspath ++ classpath, null, options, "", "", logger)()
-  }
-}
+    val refs = compilerClasspath.view.concat(classpath).map(f => PlainVirtualFile(f.toPath())).to(Seq)
+    scalaCompiler.console(refs, MappedFileConverter.empty, options, "", "", logger)()
+
+  private val topLoader = TopClassLoader(getClass().getClassLoader())
+  private val classloaderCache = ClassLoaderCache(URLClassLoader(Array.empty))
