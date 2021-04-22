@@ -16,7 +16,7 @@ filegroup(
 )
 """
 
-scala3_version = "3.0.0-RC1"
+scala3_version = "3.0.0-RC2"
 scala2_version = "2.13"
 sbt_version = "1.5.0"
 zinc_version = "1.5.0"
@@ -24,7 +24,7 @@ zinc_version = "1.5.0"
 def scala_artifacts():
     return [
         "com.github.scopt:scopt_{}:4.0.1".format(scala3_version),
-        "net.sourceforge.argparse4j:argparse4j:0.8.1",
+        "net.sourceforge.argparse4j:argparse4j:0.9.0",
         "org.jacoco:org.jacoco.core:0.8.6",
         "org.scala-lang.modules:scala-xml_{}:2.0.0-RC1".format(scala3_version),
         "org.scala-sbt:test-interface:1.0",

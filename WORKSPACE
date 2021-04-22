@@ -119,25 +119,25 @@ jvm_maven_import_external(
     server_urls = server_urls,
 )
 
-scala3_version = "3.0.0-RC1"
+scala3_version = "3.0.0-RC2"
 
 jvm_maven_import_external(
     name = "scala_compiler_3_0_0",
-    artifact = "org.scala-lang:scala3-compiler_3.0.0-RC1:" + scala3_version,
+    artifact = "org.scala-lang:scala3-compiler_3.0.0-RC2:" + scala3_version,
     artifact_sha256 = "d1f6c9d56b31ebd3e643284ef49643a40a563eb24c026c9b3806f208beeded42",
     server_urls = server_urls,
 )
 
 jvm_maven_import_external(
     name = "scala_library_3_0_0",
-    artifact = "org.scala-lang:scala3-library_3.0.0-RC1:" + scala3_version,
+    artifact = "org.scala-lang:scala3-library_3.0.0-RC2:" + scala3_version,
     artifact_sha256 = "0fc5fa72f30f6c789cbe000d1fbebbc6ae927c73c1058d0f18871a9b3b79fc66",
     server_urls = server_urls,
 )
 
 jvm_maven_import_external(
     name = "scala_tasty_core_3_0_0",
-    artifact = "org.scala-lang:tasty-core_3.0.0-RC1:" + scala3_version,
+    artifact = "org.scala-lang:tasty-core_3.0.0-RC2:" + scala3_version,
     artifact_sha256 = "c485550b896a18a5ddcb9a95846a6d7ea6b9d4ae8e93b8937681eefeb7f20e77",
     server_urls = server_urls,
 )

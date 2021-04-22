@@ -79,9 +79,9 @@ config_setting(
     },
 )
 
-# Scala 3.0.0-RC1
+# Scala 3.0.0-RC2
 
-scala3_version = "3.0.0-RC1"
+scala3_version = "3.0.0-RC2"
 
 scala3_global_scalacopts = [
     "-deprecation",

@@ -1,6 +1,6 @@
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
-scala3_version = "3.0.0-RC1"
+scala3_version = "3.0.0-RC2"
 scala2_version = "2.13"
 
 def scala_proto_register_toolchains():
@@ -8,7 +8,7 @@ def scala_proto_register_toolchains():
 
 def scala_proto_artifacts():
     return [
-        "com.thesamet.scalapb:compilerplugin_{}:0.11.0".format(scala3_version),
+        "com.thesamet.scalapb:compilerplugin_{}:0.11.1".format(scala3_version),
         "com.thesamet.scalapb:protoc-bridge_{}:0.9.2".format(scala2_version),
     ]
 
