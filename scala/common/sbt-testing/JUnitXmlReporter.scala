@@ -35,9 +35,9 @@ final class JUnitXmlReporter(tasksAndEvents: ListBuffer[(String, ListBuffer[Even
         }}"
             time="${(e.duration / 1000d).toString}">
             ${
-          val stringWriter = new StringWriter()
+          val stringWriter = StringWriter()
           if e.throwable.isDefined then
-            val writer = new PrintWriter(stringWriter)
+            val writer = PrintWriter(stringWriter)
             e.throwable.get.printStackTrace(writer)
             writer.flush()
 

@@ -33,6 +33,8 @@ def scala_artifacts():
         "org.scala-sbt:zinc_{}:{}".format(scala2_version, zinc_version),
     ]
 
+# TODO: replace by https://github.com/bazelbuild/bazel/commit/8ace6dbfcb6aae2627ed623001c6eb1cfd781832
+# @bazel_tools//tools:java/com/google/devtools/build/lib/bazel/rules/java/java_stub_template.txt
 def scala_repositories(java_launcher_version = "4.0.0"):
     maven_install(
         name = "annex",

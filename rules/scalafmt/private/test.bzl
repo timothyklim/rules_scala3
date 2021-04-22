@@ -46,7 +46,7 @@ def build_format(ctx):
             args.set_param_file_format("multiline")
             args.use_param_file("@%s", use_always = True)
             ctx.actions.run(
-                arguments = ["--jvm_flag=-Dfile.encoding=UTF-8", args],
+                arguments = ["--wrapper_script_flag=--jvm_flag=-Dfile.encoding=UTF-8", args],
                 executable = ctx.executable._fmt,
                 outputs = [file],
                 input_manifests = runner_manifests,
