@@ -22,10 +22,10 @@ import xsbti.compile.analysis.ReadMapper
 import common.sbt_testing.*
 
 final case class TestRunnerArguments(
-  color: Boolean = true,
-  verbosity: Verbosity = Verbosity.MEDIUM,
-  frameworkArgs: Seq[String] = Seq.empty,
-  subprocessArg: Vector[String] = Vector.empty
+    color: Boolean = true,
+    verbosity: Verbosity = Verbosity.MEDIUM,
+    frameworkArgs: Seq[String] = Seq.empty,
+    subprocessArg: Vector[String] = Vector.empty
 )
 object TestRunnerArguments:
   private val builder = OParser.builder[TestRunnerArguments]
@@ -39,7 +39,7 @@ object TestRunnerArguments:
       .action((args, c) => c.copy(frameworkArgs = args.split("\\s+").toSeq)),
     opt[String]("subprocess_arg")
       .text("Argument for tests run in new JVM process")
-      .action((arg, c) => c.copy(subprocessArg = c.subprocessArg :+ arg)),
+      .action((arg, c) => c.copy(subprocessArg = c.subprocessArg :+ arg))
   )
 
   def apply(args: collection.Seq[String]): Option[TestRunnerArguments] =
@@ -139,16 +139,16 @@ object TestRunner:
       .map(text => Pattern.compile(if text.contains("#") then raw"${text.replaceAll("#.*", "")}" else text))
     val testScopeAndName = sys.env.get("TESTBRIDGE_TEST_ONLY").map {
       case text if text.contains("#") => text.replaceAll(".*#", "").replaceAll("\\$", "").replace("\\Q", "").replace("\\E", "")
-      case _ => ""
+      case _                          => ""
     }
 
     var count = 0
     val passed = frameworks.forall { framework =>
       val tests = TestDiscovery(framework)(apis.internal.values.toSet).sortBy(_.name)
-      val filter = for {
+      val filter = for
         index <- sys.env.get("TEST_SHARD_INDEX").map(_.toInt)
         total <- sys.env.get("TEST_TOTAL_SHARDS").map(_.toInt)
-      } yield (test: TestDefinition, i: Int) => i % total == index
+      yield (test: TestDefinition, i: Int) => i % total == index
       val filteredTests = tests.filter { test =>
         testClass.forall(_.matcher(test.name).matches) && {
           count += 1
@@ -167,9 +167,10 @@ object TestRunner:
             ProcessTestRunner(framework, classpath, ProcessCommand(executable.toString, runArgs.subprocessArg), logger)
           case "none" => BasicTestRunner(framework, classLoader, logger)
         try runner.execute(filteredTests, testScopeAndName.getOrElse(""), runArgs.frameworkArgs)
-        catch case e: Throwable =>
-          e.printStackTrace()
-          false
+        catch
+          case e: Throwable =>
+            e.printStackTrace()
+            false
       }
     }
 

@@ -105,8 +105,7 @@ final class ProcessTestRunner(
         try out.writeObject(request)
         finally out.close()
 
-        if process.waitFor() != 0 then
-          failures += test.name
+        if process.waitFor() != 0 then failures += test.name
       finally process.destroy
     }
     reporter.post(failures.toSeq)

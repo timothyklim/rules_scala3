@@ -1,4 +1,4 @@
-object HelloWorld {
+object HelloWorld:
   def main(args: Array[String]) {
     println("Be careful with this test")
     println("小心這個測試")
@@ -9,4 +9,3 @@ object HelloWorld {
     println("Будьте осторожны с этим тестом")
     println("😁✊🚀🍟💯")
   }
-}

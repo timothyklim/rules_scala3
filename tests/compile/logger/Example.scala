@@ -7,8 +7,8 @@ import sbt.internal.inc.javac.JavaPosition
 import sbt.util.InterfaceUtil.problem
 import xsbti.Severity
 
-object Example {
-  def main(args: Array[String]): Unit = {
+object Example:
+  def main(args: Array[String]): Unit =
     val logger = new AnnexLogger(LogLevel.Info)
     val reporter = new LoggedReporter(logger)
     val problem1 = problem("", new JavaPosition("Test Line", 100, "", 100), "Info Message 1", Severity.Info)
@@ -22,5 +22,3 @@ object Example {
     System.err.println(Color.Info("This is an info"))
     System.err.println(Color.Warning("This is a warning"))
     System.err.println(Color.Error("This is an error"))
-  }
-}

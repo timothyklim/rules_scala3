@@ -30,7 +30,7 @@ final class TestDiscovery(framework: Framework):
     Discovery(subclassPrints.map(_.superclassName), annotatedPrints.map(_.annotationName))(definitions)
 
   def apply(classes: Set[AnalyzedClass]) =
-    for {
+    for
       (definition, discovered) <- discover(definitions(classes))
       fingerprint <-
         subclassPrints.collect {
@@ -39,4 +39,4 @@ final class TestDiscovery(framework: Framework):
           annotatedPrints.collect {
             case print if discovered.annotations(print.annotationName) && discovered.isModule == print.isModule => print
           }
-    } yield new TestDefinition(definition.name, fingerprint)
+    yield new TestDefinition(definition.name, fingerprint)

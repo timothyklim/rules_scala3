@@ -1,6 +1,6 @@
 import org.specs2.mutable.Specification
 
-object Test extends Specification {
+object Test extends Specification:
 
   "Classpath" should {
     "load class" in {
@@ -8,5 +8,3 @@ object Test extends Specification {
       ok
     }
   }
-
-}

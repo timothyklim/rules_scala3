@@ -1,8 +1,8 @@
 package rules_scala
 package workers.zinc.compile
 
-
 import java.io.{File, PrintWriter}
+import java.lang.ref.WeakReference
 import java.net.URLClassLoader
 import java.nio.file.{Files, NoSuchFileException, Path, Paths}
 import java.text.SimpleDateFormat
@@ -13,7 +13,7 @@ import scala.util.Try
 import scala.util.control.NonFatal
 
 import com.google.devtools.build.buildjar.jarhelper.JarCreator
-import sbt.internal.inc.{Analysis, CompileFailed, IncrementalCompilerImpl, Locate, PlainVirtualFile, ZincUtil}
+import sbt.internal.inc.{Analysis, AnalyzingCompiler, CompileFailed, IncrementalCompilerImpl, Locate, PlainVirtualFile, ZincUtil}
 import sbt.internal.inc.classpath.ClassLoaderCache
 import scopt.OParser
 import xsbti.{Logger, PathBasedFile, VirtualFile}
@@ -37,10 +37,10 @@ import rules_scala.common.worker.WorkerMain
 import rules_scala.workers.common.*
 
 final case class ZincRunnerArguments(
-  usePersistence: Boolean = true,
-  depsCache: Option[Path] = None,
-  persistenceDir: Option[Path] = None,
-  maxErrors: Int = 100,
+    usePersistence: Boolean = true,
+    depsCache: Option[Path] = None,
+    persistenceDir: Option[Path] = None,
+    maxErrors: Int = 100
 )
 object ZincRunnerArguments:
   private val builder = OParser.builder[ZincRunnerArguments]
@@ -50,7 +50,7 @@ object ZincRunnerArguments:
     opt[Boolean]("use_persistence").action((p, c) => c.copy(usePersistence = p)),
     opt[String]("extracted_file_cache").optional().action((p, c) => c.copy(depsCache = Some(pathFrom(p)))),
     opt[String]("persistence_dir").optional().action((p, c) => c.copy(persistenceDir = Some(pathFrom(p)))),
-    opt[Int]("max_errors").optional().action((m, c) => c.copy(maxErrors = m)),
+    opt[Int]("max_errors").optional().action((m, c) => c.copy(maxErrors = m))
   )
 
   def apply(args: collection.Seq[String]): Option[ZincRunnerArguments] =
@@ -61,31 +61,31 @@ object ZincRunnerArguments:
 final case class AnalysisArgument(label: String, apis: Path, relations: Path, jars: Vector[Path])
 object AnalysisArgument:
   def from(value: String): AnalysisArgument = value.split(',') match
-    case Array(prefixedLabel, apis, relations, jars @ _*) =>
+    case Array(prefixedLabel, apis, relations, jars*) =>
       AnalysisArgument(prefixedLabel.stripPrefix("_"), Paths.get(apis), Paths.get(relations), jars.map(Paths.get(_)).toVector)
 
 final case class ZincWorkArguments(
-  analysis: Vector[AnalysisArgument] = Vector.empty,
-  classpath: Vector[Path] = Vector.empty,
-  compilerBridge: File = new File("."),
-  compilerClasspath: Vector[File] = Vector.empty,
-  compilerOption: Vector[String] = Vector.empty,
-  debug: Boolean = false,
-  javaCompilerOption: Vector[String] = Vector.empty,
-  label: String = "",
-  logLevel: LogLevel = LogLevel.Warn,
-  mainManifest: File = new File("."),
-  outputApis: Path = Paths.get("."),
-  outputInfos: Path = Paths.get("."),
-  outputJar: Path = Paths.get("."),
-  outputRelations: Path = Paths.get("."),
-  outputSetup: Path = Paths.get("."),
-  outputStamps: Path = Paths.get("."),
-  outputUsed: Path = Paths.get("."),
-  plugins: Vector[File] = Vector.empty,
-  sourceJars: Vector[Path] = Vector.empty,
-  sources: Vector[File] = Vector.empty,
-  tmpDir: Path = Paths.get("."),
+    analysis: Vector[AnalysisArgument] = Vector.empty,
+    classpath: Vector[Path] = Vector.empty,
+    compilerBridge: File = new File("."),
+    compilerClasspath: Vector[File] = Vector.empty,
+    compilerOption: Vector[String] = Vector.empty,
+    debug: Boolean = false,
+    javaCompilerOption: Vector[String] = Vector.empty,
+    label: String = "",
+    logLevel: LogLevel = LogLevel.Warn,
+    mainManifest: File = new File("."),
+    outputApis: Path = Paths.get("."),
+    outputInfos: Path = Paths.get("."),
+    outputJar: Path = Paths.get("."),
+    outputRelations: Path = Paths.get("."),
+    outputSetup: Path = Paths.get("."),
+    outputStamps: Path = Paths.get("."),
+    outputUsed: Path = Paths.get("."),
+    plugins: Vector[File] = Vector.empty,
+    sourceJars: Vector[Path] = Vector.empty,
+    sources: Vector[File] = Vector.empty,
+    tmpDir: Path = Paths.get(".")
 ) extends PrettyProduct
 object ZincWorkArguments:
   private val builder = OParser.builder[ZincWorkArguments]
@@ -181,39 +181,32 @@ object ZincWorkArguments:
       .unbounded()
       .optional()
       .action((s, c) => c.copy(sources = c.sources :+ s))
-      .text("Source files"),
+      .text("Source files")
   )
 
   def apply(args: collection.Seq[String]): Option[ZincWorkArguments] =
     OParser.parse(parser, args, ZincWorkArguments())
 
-/**
-  * <strong>Caching</strong>
+/** <strong>Caching</strong>
   *
   * Zinc has two caches:
-  *  1. a ClassLoaderCache which is a soft reference cache for classloaders of Scala compilers.
-  *  2. a CompilerCache which is a hard reference cache for (I think) Scala compiler instances.
+  *   1. a ClassLoaderCache which is a soft reference cache for classloaders of Scala compilers. 2. a CompilerCache which is a hard reference cache
+  *      for (I think) Scala compiler instances.
   *
-  * The CompilerCache has reproducibility issues, so it needs to be a no-op.
-  * The ClassLoaderCache needs to be reused else JIT reuse (i.e. the point of the worker strategy) doesn't happen.
+  * The CompilerCache has reproducibility issues, so it needs to be a no-op. The ClassLoaderCache needs to be reused else JIT reuse (i.e. the point of
+  * the worker strategy) doesn't happen.
   *
-  * There are two sensible strategies for Bazel workers
-  *  A. Each worker compiles multiple Scala versions. Trust the ClassLoaderCache's timestamp check. Maintain a hard
-  *     reference to the classloader for the last version, and allow previous versions to be GC'ed subject to
-  *     free memory and -XX:SoftRefLRUPolicyMSPerMB.
-  *  B. Each worker compiles a single Scala version. Probably still use ClassLoaderCache + hard reference since
-  *     ClassLoaderCache is hard to remove. The compiler classpath is passed via the initial flags to the worker
-  *     (rather than the per-request arg file). Bazel worker management cycles out Scala compiler versions.
-  * Currently, this runner follows strategy A.
+  * There are two sensible strategies for Bazel workers A. Each worker compiles multiple Scala versions. Trust the ClassLoaderCache's timestamp check.
+  * Maintain a hard reference to the classloader for the last version, and allow previous versions to be GC'ed subject to free memory and
+  * -XX:SoftRefLRUPolicyMSPerMB. B. Each worker compiles a single Scala version. Probably still use ClassLoaderCache + hard reference since
+  * ClassLoaderCache is hard to remove. The compiler classpath is passed via the initial flags to the worker (rather than the per-request arg file).
+  * Bazel worker management cycles out Scala compiler versions. Currently, this runner follows strategy A.
   */
 object ZincRunner extends WorkerMain[ZincRunnerArguments]:
   private val topLoader = TopClassLoader(getClass().getClassLoader())
   private val classloaderCache = ClassLoaderCache(URLClassLoader(Array.empty))
 
   private val compilerCache = CompilerCache.fresh
-
-  // prevents GC of the soft reference in classloaderCache
-  private var lastCompiler: AnyRef = null
 
   private def labelToPath(label: String): Path =
     Paths.get(label.replaceAll("^/+", "").replaceAll(raw"[^\w/]", "_"))
@@ -223,15 +216,13 @@ object ZincRunner extends WorkerMain[ZincRunnerArguments]:
     ZincRunnerArguments(xs).getOrElse(throw IllegalArgumentException(s"init args is invalid: ${xs.mkString(" ")}"))
 
   override def work(workerArgs: ZincRunnerArguments, args: Array[String]) =
-    val workArgs = ZincWorkArguments(args).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
+    val workArgs = ZincWorkArguments(Bazel.parseParams(args)).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
 
     val logger = AnnexLogger(workArgs.logLevel)
 
     val sourcesDir = workArgs.tmpDir.resolve("src")
     // extract srcjars
-    val sources: collection.Seq[File] = workArgs.sources ++ workArgs
-      .sourceJars
-      .zipWithIndex
+    val sources: collection.Seq[File] = workArgs.sources ++ workArgs.sourceJars.zipWithIndex
       .flatMap((jar, i) => FileUtil.extractZip(jar, sourcesDir.resolve(i.toString)))
       .map(_.toFile)
 
@@ -240,8 +231,7 @@ object ZincRunner extends WorkerMain[ZincRunnerArguments]:
 
     val analyses = workerArgs.usePersistence match
       case true =>
-        workArgs
-          .analysis
+        workArgs.analysis
           .flatMap(arg => arg.jars.map(jar => jar -> (classesDir.resolve(labelToPath(arg.label)), DepAnalysisFiles(arg.apis, arg.relations))))
           .toMap
       case false => Map.empty
@@ -269,13 +259,14 @@ object ZincRunner extends WorkerMain[ZincRunnerArguments]:
       if Files.exists(workArgs.outputJar) then
         try FileUtil.extractZip(workArgs.outputJar, classesOutputDir)
         finally FileUtil.delete(classesOutputDir)
-    catch case NonFatal(e) =>
-      logger.warn(() => s"Failed to load cached analysis: $e")
-      Files.delete(analysisFiles.apis)
-      Files.delete(analysisFiles.miniSetup)
-      Files.delete(analysisFiles.relations)
-      Files.delete(analysisFiles.sourceInfos)
-      Files.delete(analysisFiles.stamps)
+    catch
+      case NonFatal(e) =>
+        logger.warn(() => s"Failed to load cached analysis: $e")
+        Files.delete(analysisFiles.apis)
+        Files.delete(analysisFiles.miniSetup)
+        Files.delete(analysisFiles.relations)
+        Files.delete(analysisFiles.sourceInfos)
+        Files.delete(analysisFiles.stamps)
     Files.createDirectories(classesOutputDir)
 
     val previousResult = Try(analysisStore.get())
@@ -302,7 +293,6 @@ object ZincRunner extends WorkerMain[ZincRunnerArguments]:
     val scalaCompiler = ZincUtil
       .scalaCompiler(scalaInstance, workArgs.compilerBridge)
       .withClassLoaderCache(classloaderCache)
-    lastCompiler = scalaCompiler
     val compilers =
       ZincUtil.compilers(scalaInstance, ClasspathOptionsUtil.boot, None, scalaCompiler)
 
@@ -316,7 +306,7 @@ object ZincRunner extends WorkerMain[ZincRunnerArguments]:
             relations = analysesFormat.relations.read(files.relations)
           )
         )
-     )
+    )
 
     val setup =
       val incOptions = IncOptions.create()

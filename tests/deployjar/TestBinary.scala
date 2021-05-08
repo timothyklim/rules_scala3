@@ -1,6 +1,6 @@
 package foo
 
-object TestBinary {
+object TestBinary:
   def main(args: Array[String]) {
     println("Hello, world1")
     println("Hello, world2")
@@ -9,4 +9,3 @@ object TestBinary {
     val test = new TestClass
     test.print
   }
-}

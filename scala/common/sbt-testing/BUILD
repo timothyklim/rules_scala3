@@ -1,7 +1,7 @@
 load("//rules:scalafmt.bzl", "scala_format_test")
 load("//rules:scala.bzl", "scala_library")
 
-_subprocess_srcs = glob(["SubprocessRunner.scala"])
+_subprocess_srcs = ["SubprocessRunner.scala"]
 
 _common_srcs = [
     f
@@ -12,7 +12,6 @@ _common_srcs = [
 scala_library(
     name = "subprocess",
     srcs = _subprocess_srcs,
-    scala = "//scala:zinc_3_0_0",
     visibility = ["//visibility:public"],
     deps = [
         ":common",
@@ -23,7 +22,6 @@ scala_library(
 scala_library(
     name = "common",
     srcs = _common_srcs,
-    scala = "//scala:zinc_3_0_0",
     visibility = ["//visibility:public"],
     deps = [
         "@annex//:org_scala_lang_modules_scala_xml_2_13",

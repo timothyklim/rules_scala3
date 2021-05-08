@@ -2,7 +2,7 @@ load(
     "//rules/common:private/utils.bzl",
     _write_launcher = "write_launcher",
 )
-load( "//rules:providers.bzl", _ScalaConfiguration = "ScalaConfiguration")
+load("//rules:providers.bzl", _ScalaConfiguration = "ScalaConfiguration")
 
 #
 # PHASE: binary_launcher

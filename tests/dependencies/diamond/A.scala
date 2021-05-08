@@ -1,5 +1,4 @@
 package anx
 
-trait A {
+trait A:
   def a: String
-}
