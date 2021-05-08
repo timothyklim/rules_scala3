@@ -10,11 +10,11 @@ import org.scalafmt.util.FileOps
 import scala.annotation.tailrec
 import scala.io.Codec
 
-object ScalafmtRunner extends WorkerMain[Unit] {
+object ScalafmtRunner extends WorkerMain[Unit]:
 
   protected[this] def init(args: Option[Array[String]]): Unit = {}
 
-  protected[this] def work(worker: Unit, args: Array[String]): Unit = {
+  protected[this] def work(worker: Unit, args: Array[String]): Unit =
 
     val parser = ArgumentParsers.newFor("scalafmt").addHelp(true).defaultFormatWidth(80).fromFilePrefix("@").build
     parser.addArgument("--config").required(true).`type`(Arguments.fileType)
@@ -27,28 +27,21 @@ object ScalafmtRunner extends WorkerMain[Unit] {
 
     val config = Config.fromHoconFile(namespace.get[File]("config")).get
     @tailrec
-    def format(code: String): String = {
+    def format(code: String): String =
       val formatted = Scalafmt.format(code, config).get
-      if (code == formatted) code else format(formatted)
-    }
+      if code == formatted then code else format(formatted)
 
     val output =
-      try {
-        format(source)
-      } catch {
+      try format(source)
+      catch
         case e @ (_: org.scalafmt.Error | _: scala.meta.parsers.ParseException) => {
-          if (config.runner.fatalWarnings) {
+          if config.runner.fatalWarnings then
             System.err.println(Color.Error("Exception thrown by Scalafmt and fatalWarnings is enabled"))
             throw e
-          } else {
+          else
             System.err.println(Color.Warning("Unable to format file due to bug in scalafmt"))
             System.err.println(Color.Warning(e.toString))
             source
-          }
         }
-      }
 
     Files.write(namespace.get[File]("output").toPath, output.getBytes)
-  }
-
-}

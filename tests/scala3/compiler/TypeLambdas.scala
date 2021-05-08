@@ -1,5 +1,4 @@
-/**
-  * Type Lambdas: https://dotty.epfl.ch/docs/reference/new-types/type-lambdas.html
+/** Type Lambdas: https://dotty.epfl.ch/docs/reference/new-types/type-lambdas.html
   */
 object TypeLambdas:
 
@@ -13,4 +12,3 @@ object TypeLambdas:
 
     val tuple: Tuple[String] = ("a", "b")
     println(tuple)
-

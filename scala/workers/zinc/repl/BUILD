@@ -4,10 +4,9 @@ load("//rules:scalafmt.bzl", "scala_format_test")
 scala_binary(
     name = "repl",
     srcs = glob(["**/*.scala"]),
-    scala = "//scala:zinc_3_0_0",
     visibility = ["//visibility:public"],
     deps = [
-        # "@annex//:com_github_scopt_scopt_3_0_0_RC2",
+        # "@annex//:com_github_scopt_scopt_3_0_0_RC3",
         "@annex//:net_sourceforge_argparse4j_argparse4j",
         "@annex//:org_scala_sbt_compiler_interface",
         "@annex//:org_scala_sbt_util_interface",

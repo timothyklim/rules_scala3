@@ -13,10 +13,10 @@ import java.nio.file.{Files, NoSuchFileException}
 import java.util.{Collections, Optional, Properties}
 import sbt.internal.inc.classpath.ClassLoaderCache
 import sbt.internal.inc.{LoggedReporter, ZincUtil}
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 import xsbti.Logger
 
-object DocRunner extends WorkerMain[Unit] {
+object DocRunner extends WorkerMain[Unit]:
 
   private val classloaderCache = new ClassLoaderCache(new URLClassLoader(Array()))
 
@@ -81,20 +81,20 @@ object DocRunner extends WorkerMain[Unit] {
 
   override def init(args: Option[Array[String]]): Unit = ()
 
-  override def work(ctx: Unit, args: Array[String]): Unit = {
+  override def work(ctx: Unit, args: Array[String]): Unit =
     val namespace = parser.parseArgsOrFail(args)
 
     val tmpDir = namespace.get[File]("tmp").toPath
     try FileUtil.delete(tmpDir)
-    catch { case _: NoSuchFileException => }
+    catch case _: NoSuchFileException =>
 
     val sources = namespace.getList[File]("sources").asScala ++
       namespace
         .getList[File]("source_jars")
         .asScala
         .zipWithIndex
-        .flatMap {
-          case (jar, i) => FileUtil.extractZip(jar.toPath, tmpDir.resolve("src").resolve(i.toString))
+        .flatMap { case (jar, i) =>
+          FileUtil.extractZip(jar.toPath, tmpDir.resolve("src").resolve(i.toString))
         }
         .map(_.toFile)
 
@@ -114,7 +114,5 @@ object DocRunner extends WorkerMain[Unit] {
     scalaCompiler.doc(sources, scalaInstance.libraryJar +: classpath, output, options, logger, reporter)
 
     try FileUtil.delete(tmpDir)
-    catch { case _: NoSuchFileException => }
+    catch case _: NoSuchFileException =>
     Files.createDirectory(tmpDir)
-  }
-}

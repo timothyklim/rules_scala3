@@ -1,6 +1,6 @@
 import org.specs2.mutable.Specification
 
-object ContextTest extends Specification {
+object ContextTest extends Specification:
 
   class Item
 
@@ -9,5 +9,3 @@ object ContextTest extends Specification {
       Thread.currentThread.getContextClassLoader.loadClass(classOf[Item].getName) must_== classOf[Item]
     }
   }
-
-}

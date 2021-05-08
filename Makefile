@@ -1,4 +1,10 @@
 deps-update:
+	bazel run @annex//:pin
+	bazel run @annex_scalafmt//:pin
+	bazel run @annex_proto//:pin
+	cd tests && bazel run @annex_test//:pin
+
+deps-install:
 	REPIN=1 bazel run @unpinned_annex//:pin
 	REPIN=1 bazel run @unpinned_annex_scalafmt//:pin
 	REPIN=1 bazel run @unpinned_annex_proto//:pin

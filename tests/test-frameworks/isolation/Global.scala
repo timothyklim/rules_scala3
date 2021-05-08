@@ -1,3 +1,2 @@
-object Global {
+object Global:
   var value = 1
-}

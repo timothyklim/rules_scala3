@@ -1,4 +1,4 @@
 #!/usr/bin/env -S bash -e
 . "$(dirname "$0")"/../../common.sh
 
-bazel build :library
+bazel build --nokeep_state_after_build --strategy=ScalaCompile=local :library

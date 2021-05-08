@@ -1,6 +1,6 @@
 import org.specs2.mutable.Specification
 
-class IndirectUnused extends Specification {
+class IndirectUnused extends Specification:
 
   "Equality" should {
     "be reflexive" in {
@@ -8,5 +8,3 @@ class IndirectUnused extends Specification {
       a must_== a
     }
   }
-
-}

@@ -130,5 +130,5 @@ def _compile_analysis(analysis):
             "_{}".format(analysis.label),
             analysis.apis.path,
             analysis.relations.path,
-        ] + [jar.path for jar in analysis.jars])
+        ] + [jar.path for jar in analysis.jars]),
     ]

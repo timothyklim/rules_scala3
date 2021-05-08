@@ -14,15 +14,15 @@ toolchain_type(
 
 scala_binary(
     name = "worker",
-    srcs = glob(["private/ScalaProtoWorker.scala"]),
+    srcs = ["private/ScalaProtoWorker.scala"],
     main_class = "annex.scala.proto.ScalaProtoWorker",
-    scala = "//scala:zinc_3_0_0",
     visibility = ["//visibility:public"],
     deps = [
-        "@annex_proto//:com_thesamet_scalapb_compilerplugin_3_0_0_RC2",
-        "@annex_proto//:com_thesamet_scalapb_protoc_bridge_2_13",
-        "@annex//:com_github_scopt_scopt_3_0_0_RC2",
         "//scala/common/worker",
+        "//scala/workers/common",
+        "@annex//:com_github_scopt_scopt_3_0_0_RC3",
+        "@annex_proto//:com_thesamet_scalapb_compilerplugin_3_0_0_RC3",
+        "@annex_proto//:com_thesamet_scalapb_protoc_bridge_2_13",
     ],
 )
 

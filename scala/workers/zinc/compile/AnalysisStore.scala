@@ -69,8 +69,7 @@ final class AnxAnalysisStore(files: AnalysisFiles, analyses: AnxAnalyses) extend
       )
       val miniSetup = analyses.miniSetup.read(files.miniSetup)
       Optional.of(AnalysisContents.create(analysis, miniSetup))
-    catch
-      case e: NoSuchFileException => Empty
+    catch case _: NoSuchFileException => Empty
 
   override def unsafeGet: AnalysisContents = get.get
 
@@ -119,8 +118,8 @@ final class AnxAnalyses(format: AnxAnalysisStore.Format):
     )
 
   private def updateAnalyzedMap(map: JMap[String, Schema.AnalyzedClass]): JMap[String, Schema.AnalyzedClass] =
-    map.asScala.map {
-      case (key, cls) => key -> cls.toBuilder().setCompilationTimestamp(JarHelper.DEFAULT_TIMESTAMP).build()
+    map.asScala.map { case (key, cls) =>
+      key -> cls.toBuilder().setCompilationTimestamp(JarHelper.DEFAULT_TIMESTAMP).build()
     }.asJava
 
   private def update(api: Schema.APIs): Schema.APIs =
@@ -135,21 +134,18 @@ final class AnxAnalyses(format: AnxAnalysisStore.Format):
       mapper: GenericMapper,
       relations: Schema.Relations
   ): Schema.Relations =
-    val updatedSrcProd = relations.getSrcProdMap.asScala.map {
-      case (source, products) =>
-        val values = products.getValuesList().asScala.map(path => mapper.mapProductFile(Mapper.forFileV.read(path)).toString)
-        mapper.mapSourceFile(Mapper.forFileV.read(source)).toString -> Schema.Values.newBuilder().addAllValues(values.asJava).build()
+    val updatedSrcProd = relations.getSrcProdMap.asScala.map { case (source, products) =>
+      val values = products.getValuesList().asScala.map(path => mapper.mapProductFile(Mapper.forFileV.read(path)).toString)
+      mapper.mapSourceFile(Mapper.forFileV.read(source)).toString -> Schema.Values.newBuilder().addAllValues(values.asJava).build()
     }
-    val updatedLibraryDep = relations.getLibraryDepMap.asScala.map {
-      case (source, binaries) =>
-        val values = binaries.getValuesList().asScala.map(path => mapper.mapBinaryFile(Mapper.forFileV.read(path)).toString)
-        mapper
-          .mapBinaryFile(mapper.mapSourceFile(Mapper.forFileV.read(source)))
-          .toString -> Schema.Values.newBuilder().addAllValues(values.asJava).build()
+    val updatedLibraryDep = relations.getLibraryDepMap.asScala.map { case (source, binaries) =>
+      val values = binaries.getValuesList().asScala.map(path => mapper.mapBinaryFile(Mapper.forFileV.read(path)).toString)
+      mapper
+        .mapBinaryFile(mapper.mapSourceFile(Mapper.forFileV.read(source)))
+        .toString -> Schema.Values.newBuilder().addAllValues(values.asJava).build()
     }
-    val updatedClasses = relations.getClassesMap.asScala.map {
-      case (source, values) =>
-        mapper.mapSourceFile(Mapper.forFileV.read(source)).toString -> values
+    val updatedClasses = relations.getClassesMap.asScala.map { case (source, values) =>
+      mapper.mapSourceFile(Mapper.forFileV.read(source)).toString -> values
     }
     relations.toBuilder().putAllSrcProd(updatedSrcProd.asJava).putAllLibraryDep(updatedLibraryDep.asJava).putAllClasses(updatedClasses.asJava).build()
 
@@ -203,8 +199,7 @@ final class AnxReadMapper(root: Path) extends ReadMapper:
   private val rootAbs = root.toAbsolutePath
 
   private def mapFile(file: Path): Path =
-    if file.startsWith(AnxMapper.rootPlaceholder) then
-      rootAbs.resolve(AnxMapper.rootPlaceholder.relativize(file))
+    if file.startsWith(AnxMapper.rootPlaceholder) then rootAbs.resolve(AnxMapper.rootPlaceholder.relativize(file))
     else file
 
   private def mapFile(file: VirtualFileRef): VirtualFileRef =

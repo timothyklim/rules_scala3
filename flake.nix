@@ -7,29 +7,20 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
+    flake-utils.url = "github:numtide/flake-utils";
     java.url = "github:TawasalMessenger/jdk-flake";
   };
 
-  outputs = { self, nixpkgs, flake-compat, java }:
+  outputs = { self, nixpkgs, flake-compat, flake-utils, java }:
     let
       sources = with builtins; (fromJSON (readFile ./flake.lock)).nodes;
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-      jdk = java.defaultPackage.${system};
-      bazel_4 = with pkgs; callPackage "${nixpkgs}/pkgs/development/tools/build-managers/bazel/bazel_4/default.nix" rec {
-        inherit (darwin) cctools;
-        inherit (darwin.apple_sdk.frameworks) CoreFoundation CoreServices Foundation;
-        stdenv = pkgs.stdenv;
-        bazel_self = bazel_4;
-
-        buildJdk = jdk11;
-        buildJdkName = "java11";
-        runJdk = jdk;
-      };
     in
-    rec {
-      devShell.${system} = pkgs.callPackage ./shell.nix {
-        inherit jdk bazel_4;
-      };
-    };
+    flake-utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        jdk = java.defaultPackage.${system};
+      in
+      rec {
+        devShell = pkgs.callPackage ./shell.nix { inherit jdk; };
+      });
 }

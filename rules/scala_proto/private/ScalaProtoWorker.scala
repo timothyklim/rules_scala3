@@ -12,14 +12,15 @@ import protocbridge.{ProtocBridge, ProtocRunner}
 import scalapb.ScalaPbCodeGenerator
 import scopt.OParser
 
+import rules_scala.workers.common.Bazel
 import rules_scala.common.worker.WorkerMain
 
 final case class ProtoWorkArguments(
-  outputDir: Path = Paths.get("."),
-  protoc: File = new File("."),
-  protoPath: Path = Paths.get("."),
-  includeJars: Vector[Path] = Vector.empty,
-  sources: Vector[File] = Vector.empty,
+    outputDir: Path = Paths.get("."),
+    protoc: File = new File("."),
+    protoPath: Path = Paths.get("."),
+    includeJars: Vector[Path] = Vector.empty,
+    sources: Vector[File] = Vector.empty
 )
 object ProtoWorkArguments:
   private val builder = OParser.builder[ProtoWorkArguments]
@@ -28,7 +29,7 @@ object ProtoWorkArguments:
   private val parser = OParser.sequence(
     opt[File]("output_dir")
       .required()
-      .action((out, c) => c.copy(outputDir =out.toPath))
+      .action((out, c) => c.copy(outputDir = out.toPath))
       .text("Output dir"),
     opt[File]("protoc")
       .required()
@@ -47,7 +48,7 @@ object ProtoWorkArguments:
       .unbounded()
       .optional()
       .action((s, c) => c.copy(sources = c.sources :+ s))
-      .text("Source files"),
+      .text("Source files")
   )
 
   def apply(args: collection.Seq[String]): Option[ProtoWorkArguments] =
@@ -57,7 +58,7 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
   override def init(args: Option[Array[String]]): Unit = ()
 
   override def work(ctx: Unit, args: Array[String]): Unit =
-    val workArgs = ProtoWorkArguments(args).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
+    val workArgs = ProtoWorkArguments(Bazel.parseParams(args)).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
 
     val protoPath = resolve(workArgs.protoPath)
     Files.createDirectories(protoPath)
@@ -65,15 +66,14 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
     val outputDir = resolve(workArgs.outputDir)
     Files.createDirectories(outputDir)
 
-    for (jar <- workArgs.includeJars) do
-      unzipProto(jarFile = resolve(jar), protoPath = protoPath)
+    for jar <- workArgs.includeJars do unzipProto(jarFile = resolve(jar), protoPath = protoPath)
 
     val optionsBuilder = List.newBuilder[String]
     optionsBuilder += s"--scala_out=$outputDir"
     optionsBuilder += s"-I$protoPath"
     optionsBuilder += s"-I$root"
 
-    for (src <- workArgs.sources) do optionsBuilder += src.toString
+    for src <- workArgs.sources do optionsBuilder += src.toString
 
     ProtocBridge.runWithGenerators(
       ProtocRunner(workArgs.protoc.toString),
@@ -106,11 +106,12 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
         else f(iter, valid)
       else valid
 
-    try f(jar.entries().asScala, valid = false) match
-      case true => ()
-      case false =>
-        System.err.println(s"$jarFile does not contain any `.proto` file")
-        sys.exit(-1)
+    try
+      f(jar.entries().asScala, valid = false) match
+        case true => ()
+        case false =>
+          System.err.println(s"$jarFile does not contain any `.proto` file")
+          sys.exit(-1)
     finally jar.close()
 
   private val root = Paths.get("").toAbsolutePath()

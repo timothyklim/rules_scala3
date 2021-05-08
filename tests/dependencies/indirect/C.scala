@@ -1,4 +1,3 @@
-object C {
+object C:
   A
   B
-}

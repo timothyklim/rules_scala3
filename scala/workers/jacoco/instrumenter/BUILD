@@ -5,11 +5,11 @@ scala_binary(
     name = "instrumenter",
     srcs = glob(["**/*.scala"]),
     main_class = "rules_scala.workers.jacoco.instrumenter.JacocoInstrumenter",
-    scala = "//scala:bootstrap_3_0_0",
+    scala = "//scala:bootstrap_3_0",
     visibility = ["//visibility:public"],
     deps = [
         "//scala/common/worker",
-        "@annex//:com_github_scopt_scopt_3_0_0_RC2",
+        "@annex//:com_github_scopt_scopt_3_0_0_RC3",
         "@annex//:org_jacoco_org_jacoco_core",
     ],
 )

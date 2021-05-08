@@ -21,8 +21,7 @@ final class FilePersistence(cacheDir: Path, analysisFiles: AnalysisFiles, jar: P
     )
   private val cacheJar = cacheDir.resolve("classes.jar")
 
-  /**
-    * Existance indicates that files are incomplete.
+  /** Existance indicates that files are incomplete.
     */
   private val tmpMarker = cacheDir.resolve(".tmp")
 

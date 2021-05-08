@@ -24,8 +24,7 @@ final class TopClassLoader(sbtLoader: ClassLoader) extends ClassLoader(null):
       c
     else super.loadClass(name, resolve)
 
-final class AnnexScalaInstance(classLoader: ClassLoader, classLoaderCache: ClassLoaderCache, override val allJars: Array[File])
-    extends ScalaInstance:
+final class AnnexScalaInstance(classLoader: ClassLoader, classLoaderCache: ClassLoaderCache, override val allJars: Array[File]) extends ScalaInstance:
   import AnnexScalaInstance.*
 
   override lazy val version: String = actualVersion

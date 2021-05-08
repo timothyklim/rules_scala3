@@ -12,10 +12,9 @@ object ClassLoaders:
     finally thread.setContextClassLoader(previous)
 
   def sbtTestClassLoader(urls: Seq[URL]) =
-    new URLClassLoader(urls.toArray, null) {
+    new URLClassLoader(urls.toArray, null):
       private val current = getClass.getClassLoader()
       override protected def findClass(className: String): Class[?] =
         if className.startsWith("sbt.testing.") then current.loadClass(className)
         else if className.startsWith("org.jacoco.agent.rt.") then current.loadClass(className)
         else super.findClass(className)
-    }

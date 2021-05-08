@@ -4,10 +4,10 @@ load("//rules:scalafmt.bzl", "scala_format_test")
 scala_library(
     name = "test",
     srcs = glob(["**/*.scala"]),
-    scala = "//scala:zinc_3_0_0",
     visibility = ["//visibility:public"],
     deps = [
-        "@annex//:com_github_scopt_scopt_3_0_0_RC2",
+        "//scala/common/sbt-testing:common",
+        "@annex//:com_github_scopt_scopt_3_0_0_RC3",
         "@annex//:net_sourceforge_argparse4j_argparse4j",
         "@annex//:org_scala_sbt_compiler_interface",
         "@annex//:org_scala_sbt_test_interface",
@@ -15,7 +15,6 @@ scala_library(
         "@annex//:org_scala_sbt_zinc_core_2_13",
         "@annex//:org_scala_sbt_zinc_persist_2_13",
         "@annex//:org_scala_sbt_zinc_persist_core_assembly",
-        "//scala/common/sbt-testing:common",
     ],
 )
 

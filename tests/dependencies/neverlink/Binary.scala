@@ -1,3 +1,2 @@
-object Binary {
+object Binary:
   def main(args: Array[String]): Unit = Library
-}

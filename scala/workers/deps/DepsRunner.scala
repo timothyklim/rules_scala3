@@ -10,23 +10,24 @@ import scala.jdk.CollectionConverters.*
 
 import scopt.OParser
 
+import workers.common.Bazel
 import common.worker.WorkerMain
 
 final case class GroupArgument(label: String, jars: Vector[String])
 object GroupArgument:
   def from(value: String): GroupArgument = value.split(',') match
-    case Array(label, jars @ _*) => GroupArgument(label, jars.toVector)
+    case Array(label, jars*) => GroupArgument(label, jars.toVector)
 
 final case class DepsWorkArguments(
-  checkDirect: Boolean = false,
-  checkUsed: Boolean = false,
-  label: String = "",
-  group: Vector[GroupArgument] = Vector.empty,
-  direct: Vector[String] = Vector.empty,
-  usedWhitelist: Vector[String] = Vector.empty,
-  unusedWhitelist: Vector[String] = Vector.empty,
-  used: Path = Paths.get("."),
-  success: Path = Paths.get("."),
+    checkDirect: Boolean = false,
+    checkUsed: Boolean = false,
+    label: String = "",
+    group: Vector[GroupArgument] = Vector.empty,
+    direct: Vector[String] = Vector.empty,
+    usedWhitelist: Vector[String] = Vector.empty,
+    unusedWhitelist: Vector[String] = Vector.empty,
+    used: Path = Paths.get("."),
+    success: Path = Paths.get(".")
 )
 object DepsWorkArguments:
   private val builder = OParser.builder[DepsWorkArguments]
@@ -68,7 +69,7 @@ object DepsWorkArguments:
     arg[File]("<success>")
       .required()
       .action((f, c) => c.copy(success = f.toPath()))
-      .text("Success file"),
+      .text("Success file")
   )
 
   def apply(args: collection.Seq[String]): Option[DepsWorkArguments] =
@@ -78,21 +79,21 @@ object DepsRunner extends WorkerMain[Unit]:
   override def init(args: Option[Array[String]]): Unit = ()
 
   override def work(ctx: Unit, args: Array[String]): Unit =
-    val workArgs = DepsWorkArguments(args).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
+    val workArgs = DepsWorkArguments(Bazel.parseParams(args)).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
 
     val label = workArgs.label.tail
     val directLabels = workArgs.direct.map(_.tail)
     val (depLabelToPaths, pathToLabel) = workArgs.group match
-      case groups if groups.nonEmpty  =>
+      case groups if groups.nonEmpty =>
         val depLabelsMap = new mutable.HashMap[String, collection.Set[String]](initialCapacity = groups.size, loadFactor = 2.0)
         val pathsMap = new mutable.HashMap[String, String](initialCapacity = groups.size, loadFactor = 0.75)
 
-        for (group <- groups) do
+        for group <- groups do
           val depLabel = group.label.tail
 
           depLabelsMap.put(depLabel, group.jars.toSet)
 
-          for (path <- group.jars) pathsMap.put(path, depLabel)
+          for path <- group.jars do pathsMap.put(path, depLabel)
 
         (depLabelsMap, pathsMap)
       case _ => (EmptyLabelsMap, EmptyPathsMap)
@@ -104,7 +105,7 @@ object DepsRunner extends WorkerMain[Unit]:
         directLabels.diff(usedWhitelist).filterNot(depLabel => depLabelToPaths(depLabel).exists(usedPaths))
       else Nil
 
-    for (depLabel <- remove) do
+    for depLabel <- remove do
       println(s"Target '$depLabel' not used, please remove it from the deps.")
       println(s"You can use the following buildozer command:")
       println(s"buildozer 'remove deps $depLabel' $label")
@@ -122,7 +123,7 @@ object DepsRunner extends WorkerMain[Unit]:
               case res => res
           }
       else Nil
-    for (depLabel <- add) do
+    for depLabel <- add do
       println(s"Target '$depLabel' is used but isn't explicitly declared, please add it to the deps.")
       println(s"You can use the following buildozer command:")
       println(s"buildozer 'add deps $depLabel' $label")

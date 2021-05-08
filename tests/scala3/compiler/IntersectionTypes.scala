@@ -1,5 +1,4 @@
-/**
-  * Intersection Types: https://dotty.epfl.ch/docs/reference/new-types/intersection-types.html
+/** Intersection Types: https://dotty.epfl.ch/docs/reference/new-types/intersection-types.html
   */
 object IntersectionTypes:
 
@@ -24,4 +23,3 @@ object IntersectionTypes:
     val p1: P = Point(3, 4)
     val p2: PP = Point(6, 8)
     println(euclideanDistance(p1, p2))
-

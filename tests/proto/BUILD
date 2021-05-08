@@ -13,7 +13,7 @@ scala_proto_library(
     deps = [
         ":zero_proto",
         "@annex_test//:com_google_protobuf_protobuf_java",
-        "@annex_test//:com_thesamet_scalapb_scalapb_runtime_3_0_0_RC2",
+        "@annex_test//:com_thesamet_scalapb_scalapb_runtime_3_0_0_RC3",
     ],
 )
 
@@ -23,6 +23,6 @@ scala_library(
     scala = "//scala:zinc_3_0_0",
     deps = [
         "@annex_test//:com_google_protobuf_protobuf_java",
-        "@annex_test//:com_thesamet_scalapb_scalapb_runtime_3_0_0_RC2",
+        "@annex_test//:com_thesamet_scalapb_scalapb_runtime_3_0_0_RC3",
     ],
 )

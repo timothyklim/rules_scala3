@@ -1,7 +1,6 @@
 import scala.language.implicitConversions
 
-/**
-  *  Conversions: http://dotty.epfl.ch/docs/reference/contextual/conversions.html
+/** Conversions: http://dotty.epfl.ch/docs/reference/contextual/conversions.html
   */
 object Conversion:
 
@@ -10,9 +9,8 @@ object Conversion:
 
   def convert[T, U](x: T)(using converter: Conversion[T, U]): U = converter(x)
 
-  given IntWrapperToDoubleWrapper: Conversion[IntWrapper, DoubleWrapper] = new Conversion[IntWrapper, DoubleWrapper] {
+  given IntWrapperToDoubleWrapper: Conversion[IntWrapper, DoubleWrapper] = new Conversion[IntWrapper, DoubleWrapper]:
     override def apply(i: IntWrapper): DoubleWrapper = new DoubleWrapper(i.a.toDouble)
-  }
 
   def useConversion(using f: Conversion[IntWrapper, DoubleWrapper]) =
     val y: IntWrapper = new IntWrapper(4)
@@ -29,4 +27,3 @@ object Conversion:
   def test: Unit =
     println(useConversion)
     println(convert(new IntWrapper(42)))
-
