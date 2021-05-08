@@ -37,7 +37,7 @@ configure_bootstrap_scala(
 
 # compiler bridge needed to configure zinc compiler
 scala_library(
-    name = "compiler_bridge_2_13_6",
+    name = "compiler_bridge_2_13",
     srcs = [
         "@compiler_bridge_2_13//:src",
     ],
@@ -52,7 +52,7 @@ scala_library(
 # This augments the configuration to configure the zinc compiler
 configure_zinc_scala(
     name = "zinc_2_13",
-    compiler_bridge = ":compiler_bridge_2_13_6",
+    compiler_bridge = ":compiler_bridge_2_13",
     compiler_classpath = compiler_classpath_2_13_6,
     runtime_classpath = runtime_classpath_2_13_6,
     version = "2.13.3",

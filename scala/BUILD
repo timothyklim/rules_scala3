@@ -46,7 +46,7 @@ scala_library(
     ],
     resource_strip_prefix = "../compiler_bridge_2_13",
     resources = ["@compiler_bridge_2_13//:meta"],
-    scala = ":bootstrap_2_13",
+    scala = ":bootstrap_2_13_6",
     visibility = ["//visibility:public"],
     deps = compiler_classpath_2_13 + [
         "@annex//:org_scala_sbt_compiler_interface",

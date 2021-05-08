@@ -11,7 +11,7 @@ scala_library(
 
 configure_zinc_scala(
     name = "scala_2_13_6_with_kind_projector",
-    compiler_bridge = "//scala:compiler_bridge_2_13_6",
+    compiler_bridge = "//scala:compiler_bridge_2_13",
     compiler_classpath = [
         "@scala_compiler_2_13_6//jar",
         "@scala_reflect_2_13_6//jar",
