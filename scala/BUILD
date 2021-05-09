@@ -19,16 +19,16 @@ config_setting(
     },
 )
 
-scala2 = "2.13.5"
+scala2 = "2.13.6"
 
 compiler_classpath_2_13 = [
-    "@annex//:org_scala_lang_scala_compiler",
-    "@annex//:org_scala_lang_scala_library",
-    "@annex//:org_scala_lang_scala_reflect",
+    "@scala_compiler_2_13_6//jar",
+    "@scala_library_2_13_6//jar",
+    "@scala_reflect_2_13_6//jar",
 ]
 
 runtime_classpath_2_13 = [
-    "@annex//:org_scala_lang_scala_library",
+    "@scala_library_2_13_6//jar",
 ]
 
 configure_bootstrap_scala(
@@ -63,7 +63,7 @@ configure_zinc_scala(
     visibility = ["//visibility:public"],
 )
 
-alias(name = "scala_2_13", actual = ":zinc_2_13", visibility = ["//visibility:public"])
+alias(name = "2_13", actual = ":zinc_2_13", visibility = ["//visibility:public"])
 
 scala3 = "3.0.0-RC3"
 
@@ -114,4 +114,4 @@ configure_zinc_scala(
     visibility = ["//visibility:public"],
 )
 
-alias(name = "scala_3_0", actual = ":zinc_3_0", visibility = ["//visibility:public"])
+alias(name = "3_0", actual = ":zinc_3_0", visibility = ["//visibility:public"])

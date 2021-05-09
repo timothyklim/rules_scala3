@@ -9,7 +9,7 @@ def test_artifacts():
         "com.thesamet.scalapb:lenses_{}:{}".format(scala3_version, scalapb_version),
         "com.thesamet.scalapb:scalapb-runtime_{}:{}".format(scala3_version, scalapb_version),
         "org.scala-lang.modules:scala-xml_{}:2.0.0-RC1".format(scala3_version),
-        "org.scala-sbt:compiler-interface:1.5.2",
+        "org.scala-sbt:compiler-interface:1.5.3",
         "org.scalacheck:scalacheck_{}:1.15.4".format(scala3_version),
         "org.scalameta:munit_{}:0.7.25".format(scala3_version),
         "org.scalameta:munit-scalacheck_{}:0.7.25".format(scala3_version),
