@@ -27,7 +27,7 @@ repositories = [
     "https://mirror.bazel.build/repo1.maven.org/maven2",
 ]
 
-sbt_version = "1.5.1"
+sbt_version = "1.5.2"
 zinc_version = "1.5.3"
 
 def scala_artifacts():
@@ -36,7 +36,6 @@ def scala_artifacts():
 
     return [
         "com.github.scopt:scopt_{}:4.0.1".format(scala3),
-        "net.sourceforge.argparse4j:argparse4j:0.9.0",
         "org.jacoco:org.jacoco.core:0.8.7",
         "org.scala-lang.modules:scala-xml_{}:2.0.0-RC1".format(scala3),
         "org.scala-sbt:test-interface:1.0",

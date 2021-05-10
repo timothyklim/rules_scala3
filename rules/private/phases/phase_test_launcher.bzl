@@ -56,7 +56,7 @@ def phase_test_launcher(ctx, g):
         files.append(subprocess_executable)
         args.add("--isolation", "process")
         args.add("--subprocess_exec", subprocess_executable.short_path)
-    args.add_all("--", test_jars, map_each = _test_launcher_short_path)
+    args.add_all(test_jars, map_each = _test_launcher_short_path)
     args.set_param_file_format("multiline")
     args_file = ctx.actions.declare_file("{}/test.params".format(ctx.label.name))
     ctx.actions.write(args_file, args)

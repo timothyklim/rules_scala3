@@ -213,7 +213,7 @@ object ZincRunner extends WorkerMain[ZincRunnerArguments]:
 
   override def init(args: Option[Array[String]]) =
     val xs = args.getOrElse(Array.empty[String])
-    ZincRunnerArguments(xs).getOrElse(throw IllegalArgumentException(s"init args is invalid: ${xs.mkString(" ")}"))
+    ZincRunnerArguments(Bazel.parseParams(xs)).getOrElse(throw IllegalArgumentException(s"init args is invalid: ${xs.mkString(" ")}"))
 
   override def work(workerArgs: ZincRunnerArguments, args: Array[String]) =
     val workArgs = ZincWorkArguments(Bazel.parseParams(args)).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))

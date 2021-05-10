@@ -23,7 +23,7 @@ object DocRunner extends WorkerMain[Unit]:
   private val parser =
     ArgumentParsers.newFor("doc").addHelp(true).defaultFormatWidth(80).fromFilePrefix("@").build()
   parser
-    .addArgument("--classpath")
+    .addArgument("--cp")
     .help("Compilation classpath")
     .metavar("path")
     .nargs("*")
@@ -36,7 +36,7 @@ object DocRunner extends WorkerMain[Unit]:
     .required(true)
     .`type`(Arguments.fileType.verifyCanRead().verifyIsFile())
   parser
-    .addArgument("--compiler_classpath")
+    .addArgument("--compiler_cp")
     .help("Compiler classpath")
     .metavar("path")
     .nargs("*")
@@ -106,7 +106,7 @@ object DocRunner extends WorkerMain[Unit]:
       .scalaCompiler(scalaInstance, namespace.get[File]("compiler_bridge"))
       .withClassLoaderCache(classloaderCache)
 
-    val classpath = namespace.getList[File]("classpath").asScala.toSeq
+    val classpath = namespace.getList[File]("cp").asScala.toSeq
     val output = namespace.get[File]("output_html")
     output.mkdirs()
     val options = Option(namespace.getList[String]("option")).fold[Seq[String]](Nil)(_.asScala).toSeq

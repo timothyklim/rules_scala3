@@ -1,92 +1,92 @@
 package rules_scala
 package workers.zinc.repl
 
-import workers.common.{LogLevel, AnnexLogger, AnnexScalaInstance, FileUtil, TopClassLoader}
+import workers.common.{Bazel, LogLevel, AnnexLogger, AnnexScalaInstance, FileUtil, TopClassLoader}
 
 import java.io.File
-import java.nio.file.{Files, Paths}
+import java.nio.file.{Files, Paths, Path}
 import java.net.URLClassLoader
 import java.util.Collections
 
 import scala.jdk.CollectionConverters.*
 
-import net.sourceforge.argparse4j.ArgumentParsers
-import net.sourceforge.argparse4j.impl.Arguments
-import sbt.internal.inc.classpath.ClassLoaderCache
 import sbt.internal.inc.{ZincUtil, PlainVirtualFile, MappedFileConverter}
+import sbt.internal.inc.classpath.ClassLoaderCache
+import scopt.OParser
 import xsbti.Logger
 
+final case class ReplRunnerArguments(
+    logLevel: LogLevel = LogLevel.Warn,
+)
+object ReplRunnerArguments:
+  private val builder = OParser.builder[ReplRunnerArguments]
+  import builder.*
+
+  private val parser = OParser.sequence(
+    opt[LogLevel]("log_level").action((l, c) => c.copy(logLevel = l)).text("Log level"),
+  )
+
+  def apply(args: collection.Seq[String]): Option[ReplRunnerArguments] =
+    OParser.parse(parser, args, ReplRunnerArguments())
+
+final case class ReplWorkArguments(
+  classpath: Vector[Path] = Vector.empty,
+  compilerBridge: Path = Paths.get("."),
+  compilerOption: Vector[String] = Vector.empty,
+  compilerClasspath: Vector[Path] = Vector.empty,
+)
+object ReplWorkArguments:
+  private val builder = OParser.builder[ReplWorkArguments]
+  import builder.*
+
+  private val parser = OParser.sequence(
+    opt[File]("cp")
+      .unbounded()
+      .optional()
+      .action((f, c) => c.copy(classpath = c.classpath :+ f.toPath()))
+      .text("Compilation classpath"),
+    opt[File]("compiler_bridge")
+      .required()
+      .action((bridge, c) => c.copy(compilerBridge = bridge.toPath()))
+      .text("Compiler bridge"),
+    opt[String]("compiler_option")
+      .unbounded()
+      .optional()
+      .action((opt, c) => c.copy(compilerOption = c.compilerOption :+ opt))
+      .text("Compiler option"),
+    opt[File]("compiler_cp")
+      .unbounded()
+      .optional()
+      .action((cp, c) => c.copy(compilerClasspath = c.compilerClasspath :+ cp.toPath()))
+      .text("Compiler classpath"),
+  )
+
+  def apply(args: collection.Seq[String]): Option[ReplWorkArguments] =
+    OParser.parse(parser, args, ReplWorkArguments())
+
 object ReplRunner:
-  private val argParser =
-    ArgumentParsers.newFor("repl").addHelp(true).defaultFormatWidth(80).fromFilePrefix("@").build()
-  argParser
-    .addArgument("--log_level")
-    .help("Log level")
-    .choices(LogLevel.Debug, LogLevel.Error, LogLevel.Info, LogLevel.None, LogLevel.Warn)
-    .setDefault(LogLevel.Warn)
-
-  private val replArgParser =
-    ArgumentParsers.newFor("repl-args").addHelp(true).defaultFormatWidth(80).fromFilePrefix("@").build()
-  replArgParser
-    .addArgument("--classpath")
-    .help("Compilation classpath")
-    .metavar("path")
-    .nargs("*")
-    .`type`(Arguments.fileType)
-    .setDefault(Collections.emptyList)
-  replArgParser
-    .addArgument("--compiler_bridge")
-    .help("Compiler bridge")
-    .metavar("path")
-    .required(true)
-    .`type`(Arguments.fileType)
-  replArgParser
-    .addArgument("--compiler_classpath")
-    .help("Compiler classpath")
-    .metavar("path")
-    .nargs("*")
-    .`type`(Arguments.fileType)
-    .setDefault(Collections.emptyList)
-  replArgParser
-    .addArgument("--compiler_option")
-    .help("Compiler option")
-    .action(Arguments.append)
-    .metavar("option")
-
   def main(args: Array[String]): Unit =
-    val namespace = argParser.parseArgsOrFail(args)
+    val runArgs = ReplRunnerArguments(Bazel.parseParams(args)).getOrElse(throw IllegalArgumentException(s"args is invalid: ${args.mkString(" ")}"))
 
     val runPath = Paths.get(sys.props("bazel.runPath"))
 
     val replArgFile = Paths.get(sys.props("scalaAnnex.test.args"))
-    val replNamespace = replArgParser.parseArgsOrFail(Files.readAllLines(replArgFile).asScala.toArray)
+    val workerArgs = Bazel.parseParams(Files.readAllLines(replArgFile).asScala)
+    val workArgs = ReplWorkArguments(workerArgs).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${workerArgs.mkString(" ")}"))
 
-    val urls =
-      replNamespace
-        .getList[File]("classpath")
-        .asScala
-        .map(file => runPath.resolve(file.toPath).toUri.toURL)
+    val urls = workArgs.classpath.map(p => runPath.resolve(p).toUri.toURL)
 
-    val compilerClasspath = replNamespace
-      .getList[File]("compiler_classpath")
-      .asScala
-      .map(file => runPath.resolve(file.toPath).toFile)
+    val compilerClasspath = workArgs.compilerClasspath.map(p => runPath.resolve(p).toFile)
     val scalaInstance = AnnexScalaInstance(topLoader, classloaderCache, compilerClasspath.toArray)
 
-    val logger = AnnexLogger(LogLevel.from(namespace.getString("log_level")))
+    val logger = AnnexLogger(runArgs.logLevel)
 
-    val scalaCompiler = ZincUtil
-      .scalaCompiler(scalaInstance, runPath.resolve(replNamespace.get[File]("compiler_bridge").toPath).toFile)
+    val scalaCompiler = ZincUtil.scalaCompiler(scalaInstance, runPath.resolve(workArgs.compilerBridge).toFile)
 
-    val classpath = replNamespace
-      .getList[File]("classpath")
-      .asScala
-      .map(file => runPath.resolve(file.toPath).toFile)
-      .toSeq
+    val classpath = workArgs.classpath.map(p => runPath.resolve(p).toFile)
 
-    val options = Option(replNamespace.getList[String]("compiler_option")).fold[Seq[String]](Nil)(_.asScala.to(Seq))
     val refs = compilerClasspath.view.concat(classpath).map(f => PlainVirtualFile(f.toPath())).to(Seq)
-    scalaCompiler.console(refs, MappedFileConverter.empty, options, "", "", logger)()
+    scalaCompiler.console(refs, MappedFileConverter.empty, workArgs.compilerOption, "", "", logger)()
 
   private val topLoader = TopClassLoader(getClass().getClassLoader())
   private val classloaderCache = ClassLoaderCache(URLClassLoader(Array.empty))

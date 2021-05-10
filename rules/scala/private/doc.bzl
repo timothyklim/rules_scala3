@@ -45,8 +45,8 @@ def scaladoc_implementation(ctx):
 
     args = ctx.actions.args()
     args.add("--compiler_bridge", zinc_configuration.compiler_bridge)
-    args.add_all("--compiler_classpath", compiler_classpath)
-    args.add_all("--classpath", classpath)
+    args.add_all("--compiler_cp", compiler_classpath)
+    args.add_all("--cp", classpath)
     args.add_all(scalacopts, format_each = "--option=%s")
     args.add("--output_html", html.path)
     args.add_all("--source_jars", src_jars)
