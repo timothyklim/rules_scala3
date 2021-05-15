@@ -1,18 +1,18 @@
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
-scala3_version = "3.0.0-RC3"
-scalapb_version = "0.11.2"
+scalapb_version = "0.11.3"
+munit_version = "0.7.26"
 
 def test_artifacts():
     return [
-        "com.google.protobuf:protobuf-java:3.15.7",
-        "com.thesamet.scalapb:lenses_{}:{}".format(scala3_version, scalapb_version),
-        "com.thesamet.scalapb:scalapb-runtime_{}:{}".format(scala3_version, scalapb_version),
-        "org.scala-lang.modules:scala-xml_{}:2.0.0-RC1".format(scala3_version),
+        "com.google.protobuf:protobuf-java:3.15.8",
+        "com.thesamet.scalapb:lenses_3:" + scalapb_version,
+        "com.thesamet.scalapb:scalapb-runtime_3:" + scalapb_version,
+        "org.scala-lang.modules:scala-xml_3:2.0.0",
         "org.scala-sbt:compiler-interface:1.5.3",
-        "org.scalacheck:scalacheck_{}:1.15.4".format(scala3_version),
-        "org.scalameta:munit_{}:0.7.25".format(scala3_version),
-        "org.scalameta:munit-scalacheck_{}:0.7.25".format(scala3_version),
+        "org.scalacheck:scalacheck_3:1.15.4",
+        "org.scalameta:munit_3:" + munit_version,
+        "org.scalameta:munit-scalacheck_3:" + munit_version,
     ]
 
 def test_dependencies():

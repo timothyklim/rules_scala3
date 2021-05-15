@@ -54,7 +54,7 @@ configure_zinc_scala(
     visibility = ["//visibility:public"],
 )
 
-# Scala 3.0.0-RC3
+# Scala 3.0.0
 
 alias(
     name = "3_0",
@@ -78,7 +78,7 @@ compiler_classpath_3_0 = [
 #     name = "bootstrap_3_0",
 #     compiler_classpath = compiler_classpath_3_0,
 #     runtime_classpath = runtime_classpath_3_0,
-#     version = "3.0.0-RC3",
+#     version = "3.0.0",
 #     visibility = ["//visibility:public"],
 # )
 
@@ -104,6 +104,6 @@ configure_zinc_scala(
     global_jvm_flags = ["-Xms8M"],
     log_level = "debug",
     runtime_classpath = runtime_classpath_3_0,
-    version = "3.0.0-RC3",
+    version = "3.0.0",
     visibility = ["//visibility:public"],
 )

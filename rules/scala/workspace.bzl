@@ -31,17 +31,14 @@ sbt_version = "1.5.2"
 zinc_version = "1.5.3"
 
 def scala_artifacts():
-    scala3 = "3.0.0-RC3"
-    scala2_version = "2.13"
-
     return [
-        "com.github.scopt:scopt_{}:4.0.1".format(scala3),
+        "com.github.scopt:scopt_3:4.0.1",
         "org.jacoco:org.jacoco.core:0.8.7",
-        "org.scala-lang.modules:scala-xml_{}:2.0.0-RC1".format(scala3),
+        "org.scala-lang.modules:scala-xml_3:2.0.0",
         "org.scala-sbt:test-interface:1.0",
-        "org.scala-sbt:util-interface:{}".format(sbt_version),
-        "org.scala-sbt:util-logging_{}:{}".format(scala2_version, sbt_version),
-        "org.scala-sbt:zinc_{}:{}".format(scala2_version, zinc_version),
+        "org.scala-sbt:util-interface:" + sbt_version,
+        "org.scala-sbt:util-logging_2.13:" + sbt_version,
+        "org.scala-sbt:zinc_2.13:" + zinc_version,
     ]
 
 # TODO: replace by https://github.com/bazelbuild/bazel/commit/8ace6dbfcb6aae2627ed623001c6eb1cfd781832
@@ -70,18 +67,18 @@ def scala_repositories(java_launcher_version = "4.0.0"):
         url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{}/compiler-bridge_2.13-{}-sources.jar".format(zinc_version, zinc_version),
     )
 
-    scala2 = "2.13.6-bin-107c727"
-    scala3 = "3.0.0-RC3"
+    scala2 = "2.13.6-bin-9468b9a"
+    scala3 = "3.0.0"
 
     direct_deps = [
-        # ["scala_compiler_2_13_6", "org.scala-lang:scala-compiler:" + scala2, "61a1d7765b716e29bddcc05d5c8bcb8caf68745016b50b4d00f4a895808044f6"],
-        # ["scala_library_2_13_6", "org.scala-lang:scala-library:" + scala2, "7e4ea50c2abdd7e7c9d58df823354b765c5efb797ae9550a959b7f47e6ad18c2"],
-        # ["scala_reflect_2_13_6", "org.scala-lang:scala-reflect:" + scala2, "53f5c2de8beab1093f458866dbbc86a1ce8e570f47768b037d09a054347e0096"],
-        ["scala_compiler_3_0_0", "org.scala-lang:scala3-compiler_3.0.0-RC3:" + scala3, "a94b6b501c4ad76095ca76d94c4188fc5186a64a2921d7190a28a5d21c4250b2"],
-        ["scala_interfaces_3_0_0", "org.scala-lang:scala3-interfaces:" + scala3, "34ff12ec189cf63f7f3e6abee7c279ebbcdc4df3bfcd4973776c7e6f444aa198"],
-        ["scala_library_3_0_0", "org.scala-lang:scala3-library_3.0.0-RC3:" + scala3, "c19a214fa9205306671ea0e1fd3fa2598eac0c3fcce76366adb4d6706374a7b5"],
-        ["scala_sbt_bridge_3_0_0", "org.scala-lang:scala3-sbt-bridge:" + scala3, "f151f0e150c51aa60a4b775f8b1d46de739d42b234c7e8797ed793256718038b"],
-        ["scala_tasty_core_3_0_0", "org.scala-lang:tasty-core_3.0.0-RC3:" + scala3, "fac6282be86a4c6b8b36869791e8adc978c41bfcc64f8f46380924815fb19399"],
+        ["scala_compiler_2_13_6", "org.scala-lang:scala-compiler:" + scala2, "7d216a19d68b8921024874666b227de3d885fd0825f2e1c756ea8836882c18ed"],
+        ["scala_library_2_13_6", "org.scala-lang:scala-library:" + scala2, "91eff8d734f69165d4ec955537634321e1f9b74eebb0991859bc03fcf3ea4275"],
+        ["scala_reflect_2_13_6", "org.scala-lang:scala-reflect:" + scala2, "3a64322b5d3bb8ac46c8f43ff43343b9d1c9809e00d2a014518a5f6c78669a2e"],
+        ["scala_compiler_3_0_0", "org.scala-lang:scala3-compiler_3:" + scala3, "47d01cd513a42f7e610460973e60fcf49dde9d10085986e42733c9513a05d188"],
+        ["scala_interfaces_3_0_0", "org.scala-lang:scala3-interfaces:" + scala3, "7367b9837c22424e05f906c85deb0efa5330d9370dfcdc02e35fb033b8993b68"],
+        ["scala_library_3_0_0", "org.scala-lang:scala3-library_3:" + scala3, "1af055a657bebd47d82e8825bb58a9c7602bee0e6f041ddf38a177e9fdb5626b"],
+        ["scala_sbt_bridge_3_0_0", "org.scala-lang:scala3-sbt-bridge:" + scala3, "ae1e940adb52e72f386e766d0e65062ed4f9dbe8106d0b3b21ebcab189aaa93c"],
+        ["scala_tasty_core_3_0_0", "org.scala-lang:tasty-core_3:" + scala3, "81a639ba521e0cd1ca9b23a2626387e969e53c152ee9a2f2b75f09580c2a66ef"],
         ["scala_asm_9_1_0", "org.scala-lang.modules:scala-asm:9.1.0-scala-1", "b85af6cbbd6075c4960177c2c3aa03d53b5221fa58b0bc74a31b72f25595e39f"],
     ]
     for dep in direct_deps:
@@ -89,22 +86,6 @@ def scala_repositories(java_launcher_version = "4.0.0"):
             maybe(jvm_maven_import_external, name = dep[0], artifact = dep[1], artifact_sha256 = dep[2], server_urls = repositories)
         elif len(dep) == 2:
             maybe(jvm_maven_import_external, name = dep[0], artifact = dep[1], server_urls = repositories)
-        else:
-            fail("Unknown dep structure: {}".format(dep))
-
-    snapshot = "2.13.6-bin-937b234-SNAPSHOT"
-    full_version = "2.13.6-bin-937b234-20210507.172551-1"
-    snapshot_repo = "https://scala-ci.typesafe.com/artifactory/scala-pr-validation-snapshots/org/scala-lang"
-    snapshot_deps = [
-        ["scala_compiler_2_13_6", "{}/scala-compiler/{}/scala-compiler-{}.jar".format(snapshot_repo, snapshot, full_version), "b40177eed0f7474f04e070da772e89227e3eccb0c302ba714553dc607ff5d09f"],
-        ["scala_library_2_13_6", "{}/scala-library/{}/scala-library-{}.jar".format(snapshot_repo, snapshot, full_version), "5bc0d060569c0a91de88bc0be2869ca79c56c4bf6334a026b6185dd871ca754e"],
-        ["scala_reflect_2_13_6", "{}/scala-reflect/{}/scala-reflect-{}.jar".format(snapshot_repo, snapshot, full_version), "65764e8e83fba9770c40abc4e6c5314271ff91494a3a98c189a95f397cfae1e1"],
-    ]
-    for dep in snapshot_deps:
-        if len(dep) == 3:
-            maybe(java_import_external, name = dep[0], jar_urls = [dep[1]], jar_sha256 = dep[2])
-        elif len(dep) == 2:
-            maybe(java_import_external, name = dep[0], jar_urls = [dep[1]])
         else:
             fail("Unknown dep structure: {}".format(dep))
 

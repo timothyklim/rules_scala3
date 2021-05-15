@@ -6,7 +6,7 @@ scala_binary(
     srcs = glob(["**/*.scala"]),
     visibility = ["//visibility:public"],
     deps = [
-        "@annex//:com_github_scopt_scopt_3_0_0_RC3",
+        "@annex//:com_github_scopt_scopt_3",
         "@annex//:org_scala_sbt_compiler_interface",
         "@annex//:org_scala_sbt_util_interface",
         "@annex//:org_scala_sbt_util_logging_2_13",

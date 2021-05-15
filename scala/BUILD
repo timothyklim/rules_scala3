@@ -65,7 +65,7 @@ configure_zinc_scala(
 
 alias(name = "2_13", actual = ":zinc_2_13", visibility = ["//visibility:public"])
 
-scala3 = "3.0.0-RC3"
+scala3 = "3.0.0"
 
 scala3_global_scalacopts = [
     "-deprecation",

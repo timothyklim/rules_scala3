@@ -8,7 +8,7 @@ scala_library(
     deps = [
         "//scala/common/sbt-testing:common",
         "//scala/workers/common",
-        "@annex//:com_github_scopt_scopt_3_0_0_RC3",
+        "@annex//:com_github_scopt_scopt_3",
         "@annex//:org_scala_sbt_compiler_interface",
         "@annex//:org_scala_sbt_test_interface",
         "@annex//:org_scala_sbt_zinc_apiinfo_2_13",

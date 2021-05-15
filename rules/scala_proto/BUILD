@@ -20,8 +20,8 @@ scala_binary(
     deps = [
         "//scala/common/worker",
         "//scala/workers/common",
-        "@annex//:com_github_scopt_scopt_3_0_0_RC3",
-        "@annex_proto//:com_thesamet_scalapb_compilerplugin_3_0_0_RC3",
+        "@annex//:com_github_scopt_scopt_3",
+        "@annex_proto//:com_thesamet_scalapb_compilerplugin_3",
         "@annex_proto//:com_thesamet_scalapb_protoc_bridge_2_13",
     ],
 )

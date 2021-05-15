@@ -10,7 +10,7 @@ scala_binary(
     deps = [
         "//scala/common/worker",
         "//scala/workers/common",
-        "@annex//:com_github_scopt_scopt_3_0_0_RC3",
+        "@annex//:com_github_scopt_scopt_3",
     ],
 )
 

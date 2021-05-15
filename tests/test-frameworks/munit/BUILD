@@ -6,8 +6,8 @@ scala_test(
     frameworks = ["munit.Framework"],
     scala = "//scala:zinc_3_0_0",
     deps = [
-        "@annex_test//:org_scalacheck_scalacheck_3_0_0_RC3",
-        "@annex_test//:org_scalameta_munit_3_0_0_RC3",
-        "@annex_test//:org_scalameta_munit_scalacheck_3_0_0_RC3",
+        "@annex_test//:org_scalacheck_scalacheck_3",
+        "@annex_test//:org_scalameta_munit_3",
+        "@annex_test//:org_scalameta_munit_scalacheck_3",
     ],
 )
