@@ -22,21 +22,6 @@ git_repository(
     # shallow_since = "1593183852 +0200",
 )
 
-protobuf_tag = "3.15.7"
-
-protobuf_sha256 = "efdd6b932a2c0a88a90c4c80f88e4b2e1bf031e7514dbb5a5db5d0bf4f295504"
-
-http_archive(
-    name = "com_google_protobuf",
-    sha256 = protobuf_sha256,
-    strip_prefix = "protobuf-{}".format(protobuf_tag),
-    url = "https://github.com/protocolbuffers/protobuf/archive/v{}.tar.gz".format(protobuf_tag),
-)
-
-load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
-
-protobuf_deps()
-
 rules_jvm_external_tag = "4.0"
 
 rules_jvm_external_sha256 = "31d226a6b3f5362b59d261abf9601116094ea4ae2aa9f28789b6c105e4cada68"
@@ -51,6 +36,10 @@ http_archive(
 load("//rules/scala:workspace.bzl", "scala_register_toolchains", "scala_repositories")
 
 scala_repositories()
+
+load("//rules/scala:init.bzl", "rules_scala3_init")
+
+rules_scala3_init()
 
 load("@annex//:defs.bzl", annex_pinned_maven_install = "pinned_maven_install")
 

@@ -63,7 +63,11 @@ configure_zinc_scala(
     visibility = ["//visibility:public"],
 )
 
-alias(name = "2_13", actual = ":zinc_2_13", visibility = ["//visibility:public"])
+alias(
+    name = "2_13",
+    actual = ":zinc_2_13",
+    visibility = ["//visibility:public"],
+)
 
 scala3 = "3.0.0"
 
@@ -114,4 +118,8 @@ configure_zinc_scala(
     visibility = ["//visibility:public"],
 )
 
-alias(name = "3_0", actual = ":zinc_3_0", visibility = ["//visibility:public"])
+alias(
+    name = "3_0",
+    actual = ":zinc_3_0",
+    visibility = ["//visibility:public"],
+)

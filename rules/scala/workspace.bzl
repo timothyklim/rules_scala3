@@ -89,6 +89,16 @@ def scala_repositories(java_launcher_version = "4.0.0"):
         else:
             fail("Unknown dep structure: {}".format(dep))
 
+    protobuf_tag = "3.17.0"
+    rules_deps = [
+        ["com_google_protobuf", "protobuf-{}".format(protobuf_tag), "https://github.com/protocolbuffers/protobuf/archive/v{}.tar.gz".format(protobuf_tag), "eaba1dd133ac5167e8b08bc3268b2d33c6e9f2dcb14ec0f97f3d3eed9b395863"],
+    ]
+    for dep in rules_deps:
+        if len(dep) == 4:
+            maybe(http_archive, name = dep[0], strip_prefix = dep[1], url = dep[2], sha256 = dep[3])
+        else:
+            fail("Unknown dep structure: {}".format(dep))
+
     bazel_commit = "4.0.0"
     http_archive(
         name = "bazel",

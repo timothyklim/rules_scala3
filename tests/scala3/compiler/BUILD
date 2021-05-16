@@ -2,7 +2,7 @@ load("@rules_scala3//rules:scala.bzl", "scala_binary")
 
 scala_binary(
     name = "app",
-    srcs = glob(["*.scala"]),
+    srcs = glob(["scala3-example-project/src/main/**/*.scala"]),
     scala = "//scala:zinc_3_0_0",
     scalacopts = [
         "-deprecation",
@@ -11,7 +11,5 @@ scala_binary(
         "-feature",
         "-unchecked",
         "-source:3.0",
-        "-rewrite",
-        "-indent",
     ],
 )

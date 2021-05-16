@@ -6,6 +6,7 @@ scala_binary(
     srcs = glob(["**/*.scala"]),
     visibility = ["//visibility:public"],
     deps = [
+        "//scala/workers/common",
         "@annex//:com_github_scopt_scopt_3",
         "@annex//:org_scala_sbt_compiler_interface",
         "@annex//:org_scala_sbt_util_interface",
@@ -14,7 +15,6 @@ scala_binary(
         "@annex//:org_scala_sbt_zinc_classpath_2_13",
         "@annex//:org_scala_sbt_zinc_compile_core_2_13",
         "@annex//:org_scala_sbt_zinc_core_2_13",
-        "//scala/workers/common",
     ],
 )
 
