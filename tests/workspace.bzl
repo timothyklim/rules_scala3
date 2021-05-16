@@ -5,7 +5,6 @@ munit_version = "0.7.26"
 
 def test_artifacts():
     return [
-        "com.google.protobuf:protobuf-java:3.15.8",
         "com.thesamet.scalapb:lenses_3:" + scalapb_version,
         "com.thesamet.scalapb:scalapb-runtime_3:" + scalapb_version,
         "org.scala-lang.modules:scala-xml_3:2.0.0",

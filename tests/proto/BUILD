@@ -12,17 +12,22 @@ scala_proto_library(
     name = "zero_scala_proto",
     deps = [
         ":zero_proto",
-        "@annex_test//:com_google_protobuf_protobuf_java",
         "@annex_test//:com_thesamet_scalapb_scalapb_runtime_3",
+        "@com_google_protobuf//:descriptor_proto",
     ],
 )
 
 scala_library(
     name = "zero_scala",
     srcs = [":zero_scala_proto"],
-    scala = "//scala:zinc_3_0_0",
-    deps = [
+    deps_used_whitelist = [
+        "@com_google_protobuf//java/core",
+    ],
+    deps_unused_whitelist = [
         "@annex_test//:com_google_protobuf_protobuf_java",
+    ],
+    deps = [
         "@annex_test//:com_thesamet_scalapb_scalapb_runtime_3",
+        "@com_google_protobuf//java/core",
     ],
 )

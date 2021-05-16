@@ -2,9 +2,9 @@
 -rw----     2.0 fat       48 b-  0% stor 20100101.000000 META-INF/MANIFEST.MF
 -rw----     1.0 fat        0 b-  0% stor 20100101.000000 rules_scala/
 -rw----     1.0 fat        0 b-  0% stor 20100101.000000 rules_scala/proto/
--rw----     2.0 fat    14760 b-  0% stor 20100101.000002 rules_scala/proto/Zero$.class
--rw----     2.0 fat    12316 b-  0% stor 20100101.000002 rules_scala/proto/Zero.class
--rw----     2.0 fat     9643 b-  0% stor 20100101.000000 rules_scala/proto/Zero.tasty
--rw----     2.0 fat     7027 b-  0% stor 20100101.000002 rules_scala/proto/ZeroProto$.class
+-rw----     2.0 fat    13960 b-  0% stor 20100101.000002 rules_scala/proto/Zero$.class
+-rw----     2.0 fat    11012 b-  0% stor 20100101.000002 rules_scala/proto/Zero.class
+-rw----     2.0 fat     8486 b-  0% stor 20100101.000000 rules_scala/proto/Zero.tasty
+-rw----     2.0 fat     7063 b-  0% stor 20100101.000002 rules_scala/proto/ZeroProto$.class
 -rw----     2.0 fat      823 b-  0% stor 20100101.000002 rules_scala/proto/ZeroProto.class
--rw----     2.0 fat     2997 b-  0% stor 20100101.000000 rules_scala/proto/ZeroProto.tasty
+-rw----     2.0 fat     2890 b-  0% stor 20100101.000000 rules_scala/proto/ZeroProto.tasty

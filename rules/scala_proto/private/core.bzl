@@ -12,8 +12,10 @@ scala_proto_library_private_attributes = {}
 def scala_proto_library_implementation(ctx):
     proto_deps = [dep for dep in ctx.attr.deps if ProtoInfo in dep]
     proto_jar_deps = [dep for dep in ctx.attr.deps if JavaInfo in dep]
-    if (proto_deps + proto_jar_deps) != ctx.attr.deps:
-        fail("disallowed non proto deps in %s" % ctx.attr.deps)
+    valid_deps = proto_deps + proto_jar_deps
+    invalid_deps = [dep for dep in ctx.attr.deps if dep not in valid_deps]
+    if invalid_deps:
+        fail("disallowed non proto deps in %s" % invalid_deps)
 
     jars = [dep[JavaInfo] for dep in proto_jar_deps]
     transitive_jars = depset(transitive = [jar.full_compile_jars for jar in jars])
@@ -36,6 +38,7 @@ def scala_proto_library_implementation(ctx):
     args.add("--protoc", ctx.executable.protoc.path)
     args.add("--proto_path", proto_path.path)
     args.add_all(transitive_jars, format_each = "--include_jar=%s")
+    args.add_all(transitive_proto_path, format_each = "--include=%s")
     args.add_all(transitive_sources)
     args.set_param_file_format("multiline")
     args.use_param_file("@%s", use_always = True)

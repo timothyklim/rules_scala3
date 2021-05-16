@@ -20,7 +20,8 @@ final case class ProtoWorkArguments(
     protoc: File = new File("."),
     protoPath: Path = Paths.get("."),
     includeJars: Vector[Path] = Vector.empty,
-    sources: Vector[File] = Vector.empty
+    include: Set[Path] = Set.empty,
+    sources: Vector[Path] = Vector.empty
 )
 object ProtoWorkArguments:
   private val builder = OParser.builder[ProtoWorkArguments]
@@ -44,10 +45,15 @@ object ProtoWorkArguments:
       .optional()
       .action((j, c) => c.copy(includeJars = c.includeJars :+ j.toPath()))
       .text("JAR to include in protoc --proto_path"),
+    opt[File]("include")
+      .unbounded()
+      .optional()
+      .action((j, c) => c.copy(include = c.include + j.toPath()))
+      .text("Path to include in protoc --proto_path"),
     arg[File]("<source>...")
       .unbounded()
       .optional()
-      .action((s, c) => c.copy(sources = c.sources :+ s))
+      .action((s, c) => c.copy(sources = c.sources :+ s.toPath()))
       .text("Source files")
   )
 
@@ -66,14 +72,20 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
     val outputDir = resolve(workArgs.outputDir)
     Files.createDirectories(outputDir)
 
-    for jar <- workArgs.includeJars do unzipProto(jarFile = resolve(jar), protoPath = protoPath)
+    for jar <- workArgs.includeJars do
+      unzipProto(jarFile = resolve(jar), protoPath = protoPath)
 
     val optionsBuilder = List.newBuilder[String]
     optionsBuilder += s"--scala_out=$outputDir"
     optionsBuilder += s"-I$protoPath"
     optionsBuilder += s"-I$root"
 
-    for src <- workArgs.sources do optionsBuilder += src.toString
+    for include <- workArgs.include do
+      optionsBuilder += s"-I${resolve(include)}"
+
+    for src <- workArgs.sources do
+      if !workArgs.include.exists(src.startsWith(_)) then
+        optionsBuilder += src.toString
 
     ProtocBridge.runWithGenerators(
       ProtocRunner(workArgs.protoc.toString),

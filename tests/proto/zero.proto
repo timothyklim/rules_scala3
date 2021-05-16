@@ -5,11 +5,15 @@ option java_package = "rules_scala.proto";
 import "scalapb/scalapb.proto";
 
 option (scalapb.options) = {
-    scope: FILE
+    enum_strip_prefix: true
+    enum_value_naming: AS_IN_PROTO
     flat_package: true
-    single_file: true
     lenses: false
-    no_primitive_wrappers: false
+    no_default_values_in_constructor: false
+    package_name: "rules_scala.proto"
+    preserve_unknown_fields: false
+    retain_source_code_info: false
+    single_file: false
 };
 
 message Zero {

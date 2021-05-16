@@ -4,7 +4,6 @@ scala_test(
     name = "tests",
     srcs = ["MunitSpec.scala"],
     frameworks = ["munit.Framework"],
-    scala = "//scala:zinc_3_0_0",
     deps = [
         "@annex_test//:org_scalacheck_scalacheck_3",
         "@annex_test//:org_scalameta_munit_3",
