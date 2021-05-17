@@ -21,7 +21,6 @@ filegroup(
 
 repositories = [
     "https://repo1.maven.org/maven2",
-    "https://scala-ci.typesafe.com/artifactory/scala-integration/",
     "https://repo.maven.apache.org/maven2",
     "https://maven-central.storage-download.googleapis.com/maven2",
     "https://mirror.bazel.build/repo1.maven.org/maven2",
@@ -67,13 +66,13 @@ def scala_repositories(java_launcher_version = "4.0.0"):
         url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{}/compiler-bridge_2.13-{}-sources.jar".format(zinc_version, zinc_version),
     )
 
-    scala2 = "2.13.6-bin-9468b9a"
+    scala2 = "2.13.6"
     scala3 = "3.0.0"
 
     direct_deps = [
-        ["scala_compiler_2_13_6", "org.scala-lang:scala-compiler:" + scala2, "7d216a19d68b8921024874666b227de3d885fd0825f2e1c756ea8836882c18ed"],
-        ["scala_library_2_13_6", "org.scala-lang:scala-library:" + scala2, "91eff8d734f69165d4ec955537634321e1f9b74eebb0991859bc03fcf3ea4275"],
-        ["scala_reflect_2_13_6", "org.scala-lang:scala-reflect:" + scala2, "3a64322b5d3bb8ac46c8f43ff43343b9d1c9809e00d2a014518a5f6c78669a2e"],
+        ["scala_compiler_2_13_6", "org.scala-lang:scala-compiler:" + scala2, "310d263d622a3d016913e94ee00b119d270573a5ceaa6b21312d69637fd9eec1"],
+        ["scala_library_2_13_6", "org.scala-lang:scala-library:" + scala2, "f19ed732e150d3537794fd3fe42ee18470a3f707efd499ecd05a99e727ff6c8a"],
+        ["scala_reflect_2_13_6", "org.scala-lang:scala-reflect:" + scala2, "f713593809b387c60935bb9a940dfcea53bd0dbf8fdc8d10739a2896f8ac56fa"],
         ["scala_compiler_3_0_0", "org.scala-lang:scala3-compiler_3:" + scala3, "47d01cd513a42f7e610460973e60fcf49dde9d10085986e42733c9513a05d188"],
         ["scala_interfaces_3_0_0", "org.scala-lang:scala3-interfaces:" + scala3, "7367b9837c22424e05f906c85deb0efa5330d9370dfcdc02e35fb033b8993b68"],
         ["scala_library_3_0_0", "org.scala-lang:scala3-library_3:" + scala3, "1af055a657bebd47d82e8825bb58a9c7602bee0e6f041ddf38a177e9fdb5626b"],
