@@ -64,7 +64,8 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
   override def init(args: Option[Array[String]]): Unit = ()
 
   override def work(ctx: Unit, args: Array[String]): Unit =
-    val workArgs = ProtoWorkArguments(Bazel.parseParams(args)).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
+    val workArgs =
+      ProtoWorkArguments(Bazel.parseParams(args)).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
 
     val protoPath = resolve(workArgs.protoPath)
     Files.createDirectories(protoPath)
@@ -72,20 +73,16 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
     val outputDir = resolve(workArgs.outputDir)
     Files.createDirectories(outputDir)
 
-    for jar <- workArgs.includeJars do
-      unzipProto(jarFile = resolve(jar), protoPath = protoPath)
+    for jar <- workArgs.includeJars do unzipProto(jarFile = resolve(jar), protoPath = protoPath)
 
     val optionsBuilder = List.newBuilder[String]
     optionsBuilder += s"--scala_out=$outputDir"
     optionsBuilder += s"-I$protoPath"
     optionsBuilder += s"-I$root"
 
-    for include <- workArgs.include do
-      optionsBuilder += s"-I${resolve(include)}"
+    for include <- workArgs.include do optionsBuilder += s"-I${resolve(include)}"
 
-    for src <- workArgs.sources do
-      if !workArgs.include.exists(src.startsWith(_)) then
-        optionsBuilder += src.toString
+    for src <- workArgs.sources do if !workArgs.include.exists(src.startsWith(_)) then optionsBuilder += src.toString
 
     ProtocBridge.runWithGenerators(
       ProtocRunner(workArgs.protoc.toString),

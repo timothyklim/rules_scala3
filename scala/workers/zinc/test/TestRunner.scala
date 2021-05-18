@@ -59,12 +59,12 @@ object TestRunnerArguments:
     OParser.parse(parser, args, TestRunnerArguments())
 
 final case class TestWorkArguments(
-  apis: Path = Paths.get("."),
-  subprocessExec: Path = Paths.get("."),
-  isolation: Isolation = Isolation.None,
-  sharedClasspath: Vector[Path] = Vector.empty,
-  frameworks: Vector[String] = Vector.empty,
-  classpath: Vector[Path] = Vector.empty,
+    apis: Path = Paths.get("."),
+    subprocessExec: Path = Paths.get("."),
+    isolation: Isolation = Isolation.None,
+    sharedClasspath: Vector[Path] = Vector.empty,
+    frameworks: Vector[String] = Vector.empty,
+    classpath: Vector[Path] = Vector.empty
 )
 object TestWorkArguments:
   private val builder = OParser.builder[TestWorkArguments]

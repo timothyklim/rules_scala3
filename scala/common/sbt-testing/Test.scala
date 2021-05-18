@@ -19,7 +19,6 @@ final class TestFrameworkLoader(loader: ClassLoader, logger: Logger):
       case _                    => throw new Exception(s"$className does not implement ${classOf[Framework].getName}")
     }
 
-
 object TestHelper:
   def withRunner[A](framework: Framework, scopeAndTestName: String, classLoader: ClassLoader, arguments: Seq[String])(
       f: Runner => A
@@ -59,14 +58,13 @@ final class TestTaskExecutor(logger: Logger):
     var events = new mutable.ListBuffer[Event]()
     def execute(task: Task): Unit =
       val tasks = task.execute(
-        event => {
+        event =>
           events += event
-          event.status match {
+          event.status match
             case Status.Failure | Status.Error =>
               failures += task.taskDef.fullyQualifiedName
             case _ =>
-          }
-        },
+        ,
         Array(new PrefixedTestingLogger(logger, "    "))
       )
       tasks.foreach(execute)

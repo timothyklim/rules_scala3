@@ -11,7 +11,7 @@ final class JUnitXmlReporter(tasksAndEvents: ListBuffer[(String, ListBuffer[Even
   private def escape(info: String): String =
     info match
       case str: String => Utility.escape(str)
-      case null           => ""
+      case null        => ""
 
   def result: Elem =
     XML.loadString(s"""<testsuites>
@@ -29,10 +29,10 @@ final class JUnitXmlReporter(tasksAndEvents: ListBuffer[(String, ListBuffer[Even
           ${(for (e <- events)
         yield s"""<testcase
             classname="${escape(name)}"
-            name="${e.selector match {
+            name="${e.selector match
           case selector: TestSelector => escape(selector.testName.split('.').last)
           case _                      => "Error occurred outside of a test case."
-        }}"
+        }"
             time="${(e.duration / 1000d).toString}">
             ${
           val stringWriter = StringWriter()

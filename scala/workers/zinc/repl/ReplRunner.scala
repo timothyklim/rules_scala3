@@ -16,24 +16,24 @@ import scopt.OParser
 import xsbti.Logger
 
 final case class ReplRunnerArguments(
-    logLevel: LogLevel = LogLevel.Warn,
+    logLevel: LogLevel = LogLevel.Warn
 )
 object ReplRunnerArguments:
   private val builder = OParser.builder[ReplRunnerArguments]
   import builder.*
 
   private val parser = OParser.sequence(
-    opt[LogLevel]("log_level").action((l, c) => c.copy(logLevel = l)).text("Log level"),
+    opt[LogLevel]("log_level").action((l, c) => c.copy(logLevel = l)).text("Log level")
   )
 
   def apply(args: collection.Seq[String]): Option[ReplRunnerArguments] =
     OParser.parse(parser, args, ReplRunnerArguments())
 
 final case class ReplWorkArguments(
-  classpath: Vector[Path] = Vector.empty,
-  compilerBridge: Path = Paths.get("."),
-  compilerOption: Vector[String] = Vector.empty,
-  compilerClasspath: Vector[Path] = Vector.empty,
+    classpath: Vector[Path] = Vector.empty,
+    compilerBridge: Path = Paths.get("."),
+    compilerOption: Vector[String] = Vector.empty,
+    compilerClasspath: Vector[Path] = Vector.empty
 )
 object ReplWorkArguments:
   private val builder = OParser.builder[ReplWorkArguments]
@@ -58,7 +58,7 @@ object ReplWorkArguments:
       .unbounded()
       .optional()
       .action((cp, c) => c.copy(compilerClasspath = c.compilerClasspath :+ cp.toPath()))
-      .text("Compiler classpath"),
+      .text("Compiler classpath")
   )
 
   def apply(args: collection.Seq[String]): Option[ReplWorkArguments] =
