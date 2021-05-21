@@ -1,36 +1,14 @@
 workspace(name = "rules_scala3")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
-load("@bazel_tools//tools/build_defs/repo:jvm.bzl", "jvm_maven_import_external")
 
-skydoc_tag = "0.3.0"
-
-skydoc_sha256 = "8762a212cff5f81505a1632630edcfe9adce381479a50a03c968bd2fc217972d"
-
-http_archive(
-    name = "io_bazel_skydoc",
-    sha256 = skydoc_sha256,
-    strip_prefix = "skydoc-{}".format(skydoc_tag),
-    url = "https://github.com/bazelbuild/skydoc/archive/{}.tar.gz".format(skydoc_tag),
-)
-
-git_repository(
-    name = "bazel_skylib",
-    commit = "398f3122891b9b711f5aab1adc7597d9fce09085",
-    remote = "https://github.com/bazelbuild/bazel-skylib",
-    # shallow_since = "1593183852 +0200",
-)
-
-rules_jvm_external_tag = "4.0"
-
-rules_jvm_external_sha256 = "31d226a6b3f5362b59d261abf9601116094ea4ae2aa9f28789b6c105e4cada68"
+rules_jvm_tag = "4.0"
 
 http_archive(
     name = "rules_jvm_external",
-    sha256 = rules_jvm_external_sha256,
-    strip_prefix = "rules_jvm_external-{}".format(rules_jvm_external_tag),
-    url = "https://github.com/bazelbuild/rules_jvm_external/archive/{}.tar.gz".format(rules_jvm_external_tag),
+    sha256 = "31d226a6b3f5362b59d261abf9601116094ea4ae2aa9f28789b6c105e4cada68",
+    strip_prefix = "rules_jvm_external-" + rules_jvm_tag,
+    url = "https://github.com/bazelbuild/rules_jvm_external/archive/{}.tar.gz".format(rules_jvm_tag),
 )
 
 load("//rules/scala:workspace.bzl", "scala_register_toolchains", "scala_repositories")

@@ -2,7 +2,7 @@
   description = "Bazel rules_scala flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/3e965a42b08cb913360b2edb3422451d7cde44a8";
     flake-compat = {
       url = "github:edolstra/flake-compat";
       flake = false;

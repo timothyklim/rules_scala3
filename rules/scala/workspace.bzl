@@ -1,9 +1,7 @@
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
-load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 load("@bazel_tools//tools/build_defs/repo:jvm.bzl", "jvm_maven_import_external")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 load("@rules_jvm_external//:defs.bzl", "maven_install")
-load("@rules_scala3//rules:scala.bzl", "configure_bootstrap_scala", "configure_zinc_scala", "scala_library")
 
 _SRC_FILEGROUP_BUILD_FILE_CONTENT = """
 filegroup(
@@ -40,23 +38,13 @@ def scala_artifacts():
         "org.scala-sbt:zinc_2.13:" + zinc_version,
     ]
 
-# TODO: replace by https://github.com/bazelbuild/bazel/commit/8ace6dbfcb6aae2627ed623001c6eb1cfd781832
-# @bazel_tools//tools:java/com/google/devtools/build/lib/bazel/rules/java/java_stub_template.txt
-def scala_repositories(java_launcher_version = "4.0.0"):
+def scala_repositories():
     maven_install(
         name = "annex",
         artifacts = scala_artifacts(),
         repositories = repositories,
         fetch_sources = True,
         maven_install_json = "@rules_scala3//:annex_install.json",
-    )
-
-    http_file(
-        name = "anx_java_stub_template",
-        sha256 = "3bead51d19b11eff5d20840022d106f5af93811731f009f88bfeb48990d6b492",
-        urls = [
-            "https://raw.githubusercontent.com/bazelbuild/bazel/{}/src/main/java/com/google/devtools/build/lib/bazel/rules/java/java_stub_template.txt".format(java_launcher_version),
-        ],
     )
 
     http_archive(
@@ -89,19 +77,25 @@ def scala_repositories(java_launcher_version = "4.0.0"):
             fail("Unknown dep structure: {}".format(dep))
 
     protobuf_tag = "3.17.0"
+    skylib_tag = "c6f6b5425b232baf5caecc3aae31d49d63ddec03"
+    skydoc_tag = "0.3.0"
     rules_deps = [
-        ["com_google_protobuf", "protobuf-{}".format(protobuf_tag), "https://github.com/protocolbuffers/protobuf/archive/v{}.tar.gz".format(protobuf_tag), "eaba1dd133ac5167e8b08bc3268b2d33c6e9f2dcb14ec0f97f3d3eed9b395863"],
+        ["com_google_protobuf", "protobuf-" + protobuf_tag, "https://github.com/protocolbuffers/protobuf/archive/v{}.tar.gz".format(protobuf_tag), "eaba1dd133ac5167e8b08bc3268b2d33c6e9f2dcb14ec0f97f3d3eed9b395863"],
+        ["io_bazel_skydoc", "skydoc-" + skydoc_tag, "https://github.com/bazelbuild/skydoc/archive/{}.tar.gz".format(skydoc_tag)],
+        ["bazel_skylib", "bazel-skylib-" + skylib_tag, "https://github.com/bazelbuild/bazel-skylib/archive/{}.tar.gz".format(skylib_tag), "b6cddd8206d5d2953791398b0f025a3f3f3c997872943625529e7b30eba92e78"],
     ]
     for dep in rules_deps:
         if len(dep) == 4:
             maybe(http_archive, name = dep[0], strip_prefix = dep[1], url = dep[2], sha256 = dep[3])
+        elif len(dep) == 3:
+            maybe(http_archive, name = dep[0], strip_prefix = dep[1], url = dep[2])
         else:
             fail("Unknown dep structure: {}".format(dep))
 
-    bazel_commit = "4.0.0"
+    bazel_commit = "4ddb5955c2e5e161f68584678844900152353b0a"
     http_archive(
         name = "bazel",
-        sha256 = "2b9999d06466815ab1f2eb9c6fc6fceb6061efc715b4086fa99eac041976fb4f",
+        sha256 = "7016824922c3b344c72714c489acfaa1199c7014bdccc57dd3de954651a9f1d7",
         strip_prefix = "bazel-{}".format(bazel_commit),
         url = "https://github.com/bazelbuild/bazel/archive/{}.tar.gz".format(bazel_commit),
     )

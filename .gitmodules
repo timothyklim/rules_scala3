@@ -1,3 +1,6 @@
 [submodule "tests/scala3/compiler/scala3-example-project"]
 	path = tests/scala3/compiler/scala3-example-project
 	url = https://github.com/scala/scala3-example-project.git
+[submodule "bazel-multiversion"]
+	path = bazel-multiversion
+	url = https://github.com/timothyklim/bazel-multiversion
