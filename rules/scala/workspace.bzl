@@ -76,13 +76,15 @@ def scala_repositories():
         else:
             fail("Unknown dep structure: {}".format(dep))
 
-    protobuf_tag = "3.17.0"
-    skylib_tag = "c6f6b5425b232baf5caecc3aae31d49d63ddec03"
+    protobuf_tag = "3.15.8"
+    rules_proto_tag = "f7a30f6f80006b591fa7c437fe5a951eb10bcbcf"
     skydoc_tag = "0.3.0"
+    skylib_tag = "c6f6b5425b232baf5caecc3aae31d49d63ddec03"
     rules_deps = [
-        ["com_google_protobuf", "protobuf-" + protobuf_tag, "https://github.com/protocolbuffers/protobuf/archive/v{}.tar.gz".format(protobuf_tag), "eaba1dd133ac5167e8b08bc3268b2d33c6e9f2dcb14ec0f97f3d3eed9b395863"],
-        ["io_bazel_skydoc", "skydoc-" + skydoc_tag, "https://github.com/bazelbuild/skydoc/archive/{}.tar.gz".format(skydoc_tag)],
         ["bazel_skylib", "bazel-skylib-" + skylib_tag, "https://github.com/bazelbuild/bazel-skylib/archive/{}.tar.gz".format(skylib_tag), "b6cddd8206d5d2953791398b0f025a3f3f3c997872943625529e7b30eba92e78"],
+        ["com_google_protobuf", "protobuf-" + protobuf_tag, "https://github.com/protocolbuffers/protobuf/archive/v{}.tar.gz".format(protobuf_tag), "0cbdc9adda01f6d2facc65a22a2be5cecefbefe5a09e5382ee8879b522c04441"],
+        ["io_bazel_skydoc", "skydoc-" + skydoc_tag, "https://github.com/bazelbuild/skydoc/archive/{}.tar.gz".format(skydoc_tag)],
+        ["rules_proto", "rules_proto-" + rules_proto_tag, "https://github.com/bazelbuild/rules_proto/archive/{}.tar.gz".format(rules_proto_tag), "9fc210a34f0f9e7cc31598d109b5d069ef44911a82f507d5a88716db171615a8"],
     ]
     for dep in rules_deps:
         if len(dep) == 4:

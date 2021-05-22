@@ -91,5 +91,5 @@ jvm_maven_import_external(
 
 bind(
     name = "default_scala",
-    actual = "//scala:zinc_3_0_0",
+    actual = "@rules_scala3//scala:zinc_3_0",
 )

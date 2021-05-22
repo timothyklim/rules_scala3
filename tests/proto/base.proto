@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package events;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  flat_package: true
+  package_name: "events"
+  single_file: true
+  preamble: "trait EventProtoMessage"
+};

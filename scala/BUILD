@@ -118,6 +118,16 @@ configure_zinc_scala(
     visibility = ["//visibility:public"],
 )
 
+configure_zinc_scala(
+    name = "zinc_3_0_migration",
+    compiler_bridge = "@scala_sbt_bridge_3_0_0//jar",
+    compiler_classpath = compiler_classpath_3_0,
+    runtime_classpath = runtime_classpath_3_0,
+    global_scalacopts = ["-source:3.0-migration"],
+    version = "3.0.0",
+    visibility = ["//visibility:public"],
+)
+
 alias(
     name = "3_0",
     actual = ":zinc_3_0",
