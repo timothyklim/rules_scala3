@@ -15,6 +15,10 @@ scala_proto_library(
     deps = [
         ":grpc_proto",
     ],
+    scalapb_options = [
+        "grpc",
+        "no_lenses",
+    ],
 )
 
 scala_library(

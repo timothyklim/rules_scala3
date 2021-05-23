@@ -19,6 +19,9 @@ scala_proto_library = rule(
                 allow_single_file = True,
                 executable = True,
             ),
+            "scalapb_options": attr.string_list(
+                doc = "ScalaPB gen options: flat_package, java_conversions, grpc, single_line_to_proto_string, ascii_format_to_string, no_lenses",
+            ),
             "_zipper": attr.label(cfg = "host", default = "@bazel_tools//tools/zip:zipper", executable = True),
         },
     ),

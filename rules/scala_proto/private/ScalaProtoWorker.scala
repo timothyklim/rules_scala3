@@ -23,7 +23,8 @@ final case class ProtoWorkArguments(
     protoPath: Path = Paths.get("."),
     includeJars: Vector[Path] = Vector.empty,
     include: Set[Path] = Set.empty,
-    sources: Vector[Path] = Vector.empty
+    sources: Vector[Path] = Vector.empty,
+    genOptions: Set[String] = Set.empty
 )
 object ProtoWorkArguments:
   private val builder = OParser.builder[ProtoWorkArguments]
@@ -52,6 +53,15 @@ object ProtoWorkArguments:
       .optional()
       .action((j, c) => c.copy(include = c.include + j.toPath()))
       .text("Path to include in protoc --proto_path"),
+    opt[String]("gen_option")
+      .unbounded()
+      .optional()
+      .validate {
+        case o if ScalaProtoWorker.genOptions.contains(o) => success
+        case _ => failure(s"Value must be one of: ${ScalaProtoWorker.genOptions.mkString(", ")}")
+      }
+      .action((o, c) => c.copy(genOptions = c.genOptions + o))
+      .text("ScalaPB gen options"),
     arg[File]("<source>...")
       .unbounded()
       .optional()
@@ -85,19 +95,11 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
 
     for src <- workArgs.sources do if !workArgs.include.exists(src.startsWith(_)) then options += src.toString
 
-    val scalaOut = genOptions(
-      flatPackage = false,
-      javaConversions = false,
-      grpc = true,
-      singleLineToProtoString = false,
-      asciiFormatToString = false,
-      lenses = true
-    ) match
-      case options if options.nonEmpty => s"$options:$outputDir"
+    val scalaOut = workArgs.genOptions match
+      case options if options.nonEmpty => s"${options.mkString(",")}:$outputDir"
       case _                           => outputDir
     options += s"--scala_out=$scalaOut"
 
-    println(s"options: ${options.result()}")
     ProtocBridge.runWithGenerators(
       ProtocRunner(workArgs.protoc.toString),
       List("scala" -> ScalaPbCodeGenerator),
@@ -142,21 +144,11 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
   private def resolve(file: Path): Path =
     if file.startsWith(root) then file else root.resolve(file)
 
-  private def genOptions(
-      flatPackage: Boolean = false,
-      javaConversions: Boolean = false,
-      grpc: Boolean = true,
-      singleLineToProtoString: Boolean = false,
-      asciiFormatToString: Boolean = false,
-      lenses: Boolean = true
-  ): String =
-    val options = mutable.ArrayBuffer.empty[GeneratorOption]
-
-    if flatPackage then options += FlatPackage
-    if javaConversions then options += JavaConversions
-    if grpc then options += Grpc
-    if singleLineToProtoString then options += SingleLineToProtoString
-    if asciiFormatToString then options += AsciiFormatToString
-    if !lenses then options += NoLenses
-
-    options.mkString(",")
+  val genOptions: Set[String] = Set(
+    FlatPackage,
+    JavaConversions,
+    Grpc,
+    SingleLineToProtoString,
+    AsciiFormatToString,
+    NoLenses
+  ).map(_.toString)

@@ -37,6 +37,7 @@ def scala_proto_library_implementation(ctx):
     args.add("--output_dir", gendir.path)
     args.add("--protoc", ctx.executable.protoc.path)
     args.add("--proto_path", proto_path.path)
+    args.add_all(ctx.attr.scalapb_options, format_each = "--gen_option=%s")
     args.add_all(transitive_jars, format_each = "--include_jar=%s")
     args.add_all(transitive_proto_path, format_each = "--include=%s")
     args.add_all(transitive_sources)
