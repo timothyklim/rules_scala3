@@ -41,36 +41,35 @@ trait WorkerMain[S]:
         System.setOut(out)
         System.setErr(out)
 
-        try
-          @tailrec
-          def process(ctx: S): S =
-            val request = WorkerProtocol.WorkRequest.parseDelimitedFrom(stdin)
-            val args = request.getArgumentsList.toArray(Array.empty[String])
+        @tailrec def process(ctx: S): S =
+          val request = WorkerProtocol.WorkRequest.parseDelimitedFrom(stdin)
+          val args: Array[String] = Option(request.getArgumentsList()).map(_.toArray(Array.empty[String])).getOrElse(Array.empty)
 
-            val code =
-              try
-                work(ctx, args)
-                0
-              catch
-                case ExitTrapped(code) => code
-                case NonFatal(e) =>
-                  e.printStackTrace()
-                  1
+          val code =
+            try
+              work(ctx, args)
+              0
+            catch
+              case ExitTrapped(code) => code
+              case NonFatal(e) =>
+                e.printStackTrace()
+                1
 
-            WorkerProtocol.WorkResponse.newBuilder
-              .setOutput(outStream.toString)
-              .setExitCode(code)
-              .build
-              .writeDelimitedTo(stdout)
+          WorkerProtocol.WorkResponse.newBuilder
+            .setOutput(outStream.toString)
+            .setExitCode(code)
+            .build
+            .writeDelimitedTo(stdout)
 
-            out.flush()
-            outStream.reset()
+          out.flush()
+          outStream.reset()
 
-            process(ctx)
-          process(init(Some(args.toArray)))
+          process(ctx)
+        end process
+
+        try process(init(Some(args.toArray)))
         finally
           System.setIn(stdin)
           System.setOut(stdout)
           System.setErr(stderr)
-
       case args => work(init(None), args.toArray)

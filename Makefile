@@ -26,6 +26,6 @@ nix-fmt:
 	find . -name "*.nix" | xargs nixpkgs-fmt
 
 scala-fmt:
-	scalafmt -c .scalafmt.conf --mode changed --non-interactive --quiet
+	scalafmt -c .scalafmt.conf --non-interactive --quiet
 
 fmt: scala-fmt nix-fmt bzl-fmt

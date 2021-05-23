@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package auth;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  collection_type: "Vector"
+  enum_strip_prefix: true
+  enum_value_naming: AS_IN_PROTO
+  flat_package: true
+  lenses: false
+  no_primitive_wrappers: false
+  no_default_values_in_constructor: false
+  preserve_unknown_fields: false
+  retain_source_code_info: false
+  single_file: false
+};
+
+
+message SignInReq {
+  string username = 1;
+  string password = 2;
+}
+
+message SignInResp {
+  string accessToken = 1;
+  string refreshToken = 2;
+}
+
+service AuthService {
+  rpc SignIn (SignInReq) returns (SignInResp) {}
+}

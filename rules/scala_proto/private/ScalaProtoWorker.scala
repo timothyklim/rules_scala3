@@ -6,10 +6,12 @@ import java.util.jar.{JarEntry, JarFile}
 import java.util.Collections
 
 import scala.annotation.tailrec
+import scala.collection.mutable
 import scala.jdk.CollectionConverters.*
 
 import protocbridge.{ProtocBridge, ProtocRunner}
-import scalapb.ScalaPbCodeGenerator
+import scalapb.{ScalaPbCodeGenerator, GeneratorOption}
+import scalapb.GeneratorOption.*
 import scopt.OParser
 
 import rules_scala.workers.common.Bazel
@@ -75,19 +77,31 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
 
     for jar <- workArgs.includeJars do unzipProto(jarFile = resolve(jar), protoPath = protoPath)
 
-    val optionsBuilder = List.newBuilder[String]
-    optionsBuilder += s"--scala_out=$outputDir"
-    optionsBuilder += s"-I$protoPath"
-    optionsBuilder += s"-I$root"
+    val options = List.newBuilder[String]
+    options += s"-I$protoPath"
+    options += s"-I$root"
 
-    for include <- workArgs.include do optionsBuilder += s"-I${resolve(include)}"
+    for include <- workArgs.include do options += s"-I${resolve(include)}"
 
-    for src <- workArgs.sources do if !workArgs.include.exists(src.startsWith(_)) then optionsBuilder += src.toString
+    for src <- workArgs.sources do if !workArgs.include.exists(src.startsWith(_)) then options += src.toString
 
+    val scalaOut = genOptions(
+      flatPackage = false,
+      javaConversions = false,
+      grpc = true,
+      singleLineToProtoString = false,
+      asciiFormatToString = false,
+      lenses = true
+    ) match
+      case options if options.nonEmpty => s"$options:$outputDir"
+      case _                           => outputDir
+    options += s"--scala_out=$scalaOut"
+
+    println(s"options: ${options.result()}")
     ProtocBridge.runWithGenerators(
       ProtocRunner(workArgs.protoc.toString),
       List("scala" -> ScalaPbCodeGenerator),
-      optionsBuilder.result()
+      options.result()
     ) match
       case 0 => ()
       case code =>
@@ -127,3 +141,22 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
 
   private def resolve(file: Path): Path =
     if file.startsWith(root) then file else root.resolve(file)
+
+  private def genOptions(
+      flatPackage: Boolean = false,
+      javaConversions: Boolean = false,
+      grpc: Boolean = true,
+      singleLineToProtoString: Boolean = false,
+      asciiFormatToString: Boolean = false,
+      lenses: Boolean = true
+  ): String =
+    val options = mutable.ArrayBuffer.empty[GeneratorOption]
+
+    if flatPackage then options += FlatPackage
+    if javaConversions then options += JavaConversions
+    if grpc then options += Grpc
+    if singleLineToProtoString then options += SingleLineToProtoString
+    if asciiFormatToString then options += AsciiFormatToString
+    if !lenses then options += NoLenses
+
+    options.mkString(",")
