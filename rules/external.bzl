@@ -1,5 +1,5 @@
 load(
-    "//rules/external/third_party/bazel/tools/build_defs/repo:java.bzl",
+    "@bazel_tools//tools/build_defs/repo:java.bzl",
     _jvm_import_external = "jvm_import_external",
     _jvm_maven_import_external = "jvm_maven_import_external",
 )

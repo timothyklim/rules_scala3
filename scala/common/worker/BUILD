@@ -7,7 +7,7 @@ scala_library(
     scala = "//scala:bootstrap_3_0",
     visibility = ["//visibility:public"],
     deps = [
-        "//third_party/bazel/src/main/protobuf:worker_protocol_java_proto",
+        "@bazel_tools//src/main/protobuf:worker_protocol_java_proto",
     ],
 )
 
