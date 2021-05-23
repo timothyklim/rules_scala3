@@ -222,7 +222,6 @@ object ZincRunner extends WorkerMain[ZincRunnerArguments]:
     val logger = AnnexLogger(workArgs.logLevel)
 
     val sourcesDir = workArgs.tmpDir.resolve("src")
-    // extract srcjars
     val sources: collection.Seq[File] = workArgs.sources ++ workArgs.sourceJars.zipWithIndex
       .flatMap((jar, i) => FileUtil.extractZip(jar, sourcesDir.resolve(i.toString)))
       .map(_.toFile)
@@ -358,8 +357,9 @@ object ZincRunner extends WorkerMain[ZincRunnerArguments]:
     Files.write(workArgs.outputUsed, usedDeps.map(_.file.toString).sorted.asJava)
 
     // create jar
-    val mains = analysis.infos.allInfos.values.toList
-      .flatMap(_.getMainClasses.toList)
+    val mains = analysis.infos.allInfos.values
+      .flatMap(_.getMainClasses)
+      .toSeq
       .sorted
 
     val pw = PrintWriter(workArgs.mainManifest)
