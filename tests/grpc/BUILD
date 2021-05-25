@@ -21,6 +21,17 @@ scala_proto_library(
     ],
 )
 
+scala_proto_library(
+    name = "grpc_scala_proto_web",
+    deps = [
+        ":grpc_proto",
+    ],
+    scalapb_options = [
+        "no_lenses",
+    ],
+    grpc_web = True,
+)
+
 scala_library(
     name = "grpc",
     srcs = [
@@ -40,5 +51,31 @@ scala_library(
         "@annex_test//:io_grpc_grpc_api",
         "@annex_test//:io_grpc_grpc_stub",
         "@com_google_protobuf//java/core",
+    ],
+)
+
+scala_library(
+    name = "grpc_web",
+    srcs = [
+        ":grpc_scala_proto_web",
+        "AuthServiceGrpcWeb.scala",
+    ],
+    scala = "@rules_scala3//scala:zinc_3_0_migration",
+    deps_used_whitelist = [
+        "@com_google_protobuf//java/core",
+    ],
+    deps_unused_whitelist = [
+        "@annex_test//:com_google_protobuf_protobuf_java",
+    ],
+    deps = [
+        "@annex_test//:com_thesamet_scalapb_scalapb_runtime_3",
+        "@annex_test//:com_thesamet_scalapb_scalapb_runtime_grpc_3",
+        "@annex_test//:com_thesamet_scalapb_grpcweb_scalapb_grpcweb_sjs1_3",
+        "@annex_test//:io_grpc_grpc_api",
+        "@annex_test//:io_grpc_grpc_stub",
+        "@com_google_protobuf//java/core",
+    ],
+    scalacopts = [
+        "-scalajs",
     ],
 )

@@ -3,6 +3,7 @@ syntax = "proto3";
 option java_package = "events.auth";
 
 import "scalapb/scalapb.proto";
+import "proto/common/base.proto";
 
 option (scalapb.options) = {
     enum_strip_prefix: true

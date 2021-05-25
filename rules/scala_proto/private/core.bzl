@@ -23,6 +23,7 @@ def scala_proto_library_implementation(ctx):
     protos = [dep[ProtoInfo] for dep in proto_deps]
     transitive_sources = depset(transitive = [proto.transitive_sources for proto in protos])
     transitive_proto_path = depset(transitive = [proto.transitive_proto_path for proto in protos])
+    # TODO: https://docs.bazel.build/versions/master/skylark/lib/ProtoInfo.html#proto_source_root
 
     compiler = ctx.toolchains["@rules_scala3//rules/scala_proto:compiler_toolchain_type"]
 
@@ -34,6 +35,9 @@ def scala_proto_library_implementation(ctx):
     gendir = ctx.actions.declare_directory("{}/output_dir".format(_safe_name(ctx.attr.name)))
 
     args = ctx.actions.args()
+    if ctx.attr.grpc_web:
+        args.add("--grpc_web")
+
     args.add("--output_dir", gendir.path)
     args.add("--protoc", ctx.executable.protoc.path)
     args.add("--proto_path", proto_path.path)

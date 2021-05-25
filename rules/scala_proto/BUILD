@@ -17,11 +17,13 @@ scala_binary(
     srcs = ["private/ScalaProtoWorker.scala"],
     main_class = "annex.scala.proto.ScalaProtoWorker",
     visibility = ["//visibility:public"],
+    scala = "//scala:bootstrap_3_0",
     deps = [
         "//scala/common/worker",
         "//scala/workers/common",
         "@annex//:com_github_scopt_scopt_3",
         "@annex_proto//:com_thesamet_scalapb_compilerplugin_3",
+        "@annex_proto//:com_thesamet_scalapb_grpcweb_scalapb_grpcweb_code_gen_3",
         "@annex_proto//:com_thesamet_scalapb_protoc_bridge_2_13",
     ],
 )

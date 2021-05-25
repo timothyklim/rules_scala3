@@ -9,9 +9,10 @@ import scala.annotation.tailrec
 import scala.collection.mutable
 import scala.jdk.CollectionConverters.*
 
-import protocbridge.{ProtocBridge, ProtocRunner}
+import protocbridge.{ProtocBridge, ProtocRunner, ProtocCodeGenerator}
 import scalapb.{ScalaPbCodeGenerator, GeneratorOption}
 import scalapb.GeneratorOption.*
+import scalapb.grpcweb.GrpcWebCodeGenerator
 import scopt.OParser
 
 import rules_scala.workers.common.Bazel
@@ -24,7 +25,8 @@ final case class ProtoWorkArguments(
     includeJars: Vector[Path] = Vector.empty,
     include: Set[Path] = Set.empty,
     sources: Vector[Path] = Vector.empty,
-    genOptions: Set[String] = Set.empty
+    genOptions: Set[String] = Set.empty,
+    grpcWeb: Boolean = false
 )
 object ProtoWorkArguments:
   private val builder = OParser.builder[ProtoWorkArguments]
@@ -58,10 +60,14 @@ object ProtoWorkArguments:
       .optional()
       .validate {
         case o if ScalaProtoWorker.genOptions.contains(o) => success
-        case _ => failure(s"Value must be one of: ${ScalaProtoWorker.genOptions.mkString(", ")}")
+        case _                                            => failure(s"Value must be one of: ${ScalaProtoWorker.genOptions.mkString(", ")}")
       }
       .action((o, c) => c.copy(genOptions = c.genOptions + o))
       .text("ScalaPB gen options"),
+    opt[Unit]("grpc_web")
+      .optional()
+      .action((_, c) => c.copy(grpcWeb = true))
+      .text("Enable gRPC web generator"),
     arg[File]("<source>...")
       .unbounded()
       .optional()
@@ -100,11 +106,13 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
       case _                           => outputDir
     options += s"--scala_out=$scalaOut"
 
-    ProtocBridge.runWithGenerators(
-      ProtocRunner(workArgs.protoc.toString),
-      List("scala" -> ScalaPbCodeGenerator),
-      options.result()
-    ) match
+    val generators = List.newBuilder[(String, ProtocCodeGenerator)]
+    generators += "scala" -> ScalaPbCodeGenerator
+    if workArgs.grpcWeb then
+      generators += "grpc-web" -> GrpcWebCodeGenerator
+      options += s"--grpc-web_out=$scalaOut"
+
+    ProtocBridge.runWithGenerators(ProtocRunner(workArgs.protoc.toString), generators.result(), options.result()) match
       case 0 => ()
       case code =>
         System.err.println(s"Exit code: $code")

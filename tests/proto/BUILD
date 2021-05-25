@@ -4,7 +4,7 @@ load("@rules_scala3//rules:scala.bzl", "scala_library")
 
 proto_library(
     name = "events_proto",
-    srcs = glob(["*.proto"]),
+    srcs = glob(["**/*.proto"]),
     deps = [
         "//:scalapb",
     ],
