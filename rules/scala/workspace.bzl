@@ -24,7 +24,7 @@ repositories = [
     "https://mirror.bazel.build/repo1.maven.org/maven2",
 ]
 
-sbt_version = "1.5.2"
+sbt_version = "1.5.3"
 zinc_version = "1.5.3"
 
 def scala_artifacts():
