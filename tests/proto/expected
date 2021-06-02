@@ -3,13 +3,13 @@
 -rw----     1.0 fat        0 b-  0% stor 20100101.000000 events/
 -rw----     2.0 fat     6801 b-  0% stor 20100101.000002 events/BaseProto$.class
 -rw----     2.0 fat      790 b-  0% stor 20100101.000002 events/BaseProto.class
--rw----     2.0 fat     2655 b-  0% stor 20100101.000000 events/BaseProto.tasty
+-rw----     2.0 fat     2659 b-  0% stor 20100101.000000 events/BaseProto.tasty
 -rw----     2.0 fat      159 b-  0% stor 20100101.000002 events/EventProtoMessage.class
--rw----     2.0 fat      415 b-  0% stor 20100101.000000 events/EventProtoMessage.tasty
+-rw----     2.0 fat      419 b-  0% stor 20100101.000000 events/EventProtoMessage.tasty
 -rw----     1.0 fat        0 b-  0% stor 20100101.000000 events/auth/
 -rw----     2.0 fat     7175 b-  0% stor 20100101.000002 events/auth/AuthProto$.class
 -rw----     2.0 fat      805 b-  0% stor 20100101.000002 events/auth/AuthProto.class
--rw----     2.0 fat     3018 b-  0% stor 20100101.000000 events/auth/AuthProto.tasty
+-rw----     2.0 fat     3022 b-  0% stor 20100101.000000 events/auth/AuthProto.tasty
 -rw----     2.0 fat    13799 b-  0% stor 20100101.000002 events/auth/SignIn$.class
 -rw----     2.0 fat    10739 b-  0% stor 20100101.000002 events/auth/SignIn.class
--rw----     2.0 fat     8218 b-  0% stor 20100101.000000 events/auth/SignIn.tasty
+-rw----     2.0 fat     8222 b-  0% stor 20100101.000000 events/auth/SignIn.tasty

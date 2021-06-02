@@ -8,7 +8,7 @@ scala_library(
 scala_binary(
     name = "app",
     srcs = ["Scala2.scala"],
-    scala = "//scala:zinc_2_13",
+    scala = "@rules_scala3//scala:2_13",
     scalacopts = [
         "-Ytasty-reader",
     ],

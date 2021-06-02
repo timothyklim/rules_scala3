@@ -69,7 +69,7 @@ alias(
     visibility = ["//visibility:public"],
 )
 
-scala3 = "3.0.0"
+scala3 = "3.0.1-RC1"
 
 scala3_global_scalacopts = [
     "-deprecation",
@@ -124,7 +124,7 @@ configure_zinc_scala(
     compiler_classpath = compiler_classpath_3_0,
     runtime_classpath = runtime_classpath_3_0,
     global_scalacopts = ["-source:3.0-migration"],
-    version = "3.0.0",
+    version = scala3,
     visibility = ["//visibility:public"],
 )
 
