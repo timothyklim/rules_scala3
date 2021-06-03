@@ -259,7 +259,9 @@ def scala_test(
         name = name,
         srcs = srcs,
         deps_used_whitelist = _extra_deps,
-        frameworks = ["org.scalatest.tools.Framework"],
+        frameworks = [
+            "munit.Framework",
+        ],
         scala = _scala,
         tags = tags,
         runtime_deps = runtime_deps,

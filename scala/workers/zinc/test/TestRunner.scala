@@ -79,7 +79,7 @@ object TestWorkArguments:
       .optional()
       .action((f, c) => c.copy(sharedClasspath = c.sharedClasspath :+ f.toPath()))
       .text("Classpath to share between tests"),
-    opt[String]("frameworks")
+    opt[String]("framework")
       .unbounded()
       .optional()
       .valueName("args")

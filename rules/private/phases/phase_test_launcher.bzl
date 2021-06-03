@@ -36,7 +36,7 @@ def phase_test_launcher(ctx, g):
 
     args = ctx.actions.args()
     args.add("--apis", g.compile.zinc_info.apis.short_path)
-    args.add_all("--frameworks", ctx.attr.frameworks)
+    args.add_all(ctx.attr.frameworks, format_each = "--framework=%s")
     if ctx.attr.isolation == "classloader":
         shared_deps = java_common.merge(_collect(JavaInfo, ctx.attr.shared_deps))
         args.add("--isolation", "classloader")
