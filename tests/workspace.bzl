@@ -11,7 +11,7 @@ def test_artifacts():
         "com.thesamet.scalapb.grpcweb:scalapb-grpcweb_sjs1_3:0.6.4",
         "io.grpc:grpc-netty:1.38.0",
         "org.scala-lang.modules:scala-xml_3:2.0.0",
-        "org.scala-sbt:compiler-interface:1.5.4",
+        "org.scala-sbt:compiler-interface:1.5.5",
         "org.scalacheck:scalacheck_3:1.15.4",
         "org.scalameta:munit_3:" + munit_version,
         "org.scalameta:munit-scalacheck_3:" + munit_version,
