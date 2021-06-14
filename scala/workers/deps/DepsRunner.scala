@@ -76,11 +76,10 @@ object DepsWorkArguments:
     OParser.parse(parser, args, DepsWorkArguments())
 
 object DepsRunner extends WorkerMain[Unit]:
-  override def init(args: Option[Array[String]]): Unit = ()
+  override def init(args: collection.Seq[String]): Unit = ()
 
-  override def work(ctx: Unit, args: Array[String]): Unit =
-    val workArgs =
-      DepsWorkArguments(Bazel.parseParams(args)).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
+  override def work(ctx: Unit, args: collection.Seq[String]): Unit =
+    val workArgs = DepsWorkArguments(args).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
 
     val label = workArgs.label.tail
     val directLabels = workArgs.direct.map(_.tail)

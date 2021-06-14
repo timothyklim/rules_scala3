@@ -9,41 +9,45 @@ import scala.annotation.tailrec
 import scala.util.control.NonFatal
 
 import com.google.devtools.build.lib.worker.WorkerProtocol
+import com.google.protobuf.ProtocolStringList
+
+import rules_scala.workers.common.Bazel
 
 final case class ExitTrapped(code: Int) extends Throwable
 
 trait WorkerMain[S]:
-  protected def init(args: Option[Array[String]]): S
+  protected def init(args: collection.Seq[String]): S
 
-  protected def work(ctx: S, args: Array[String]): Unit
+  protected def work(ctx: S, args: collection.Seq[String]): Unit
 
   final def main(args: Array[String]): Unit =
-    args.toList match
-      case "--persistent_worker" :: args =>
+    args match
+      case Array("--persistent_worker", args*) =>
         val stdin = System.in
         val stdout = System.out
         val stderr = System.err
 
         System.setSecurityManager(new SecurityManager:
-          val Exit = raw"exitVM\.(-?\d+)".r
           override def checkPermission(permission: Permission): Unit =
             permission.getName match
               case Exit(code) =>
                 stderr.println(s"ScalaCompile worker startup failure: permission=$permission, args=${args.mkString("[", ", ", "]")}")
-                throw new ExitTrapped(code.toInt)
+                throw ExitTrapped(code.toInt)
               case _ =>
         )
 
-        val outStream = new ByteArrayOutputStream
-        val out = new PrintStream(outStream)
+        val outStream = ByteArrayOutputStream()
+        val out = PrintStream(outStream)
 
-        System.setIn(new ByteArrayInputStream(Array.emptyByteArray))
+        System.setIn(ByteArrayInputStream(Array.emptyByteArray))
         System.setOut(out)
         System.setErr(out)
 
         @tailrec def process(ctx: S): S =
           val request = WorkerProtocol.WorkRequest.parseDelimitedFrom(stdin)
-          val args: Array[String] = Option(request.getArgumentsList()).map(_.toArray(Array.empty[String])).getOrElse(Array.empty)
+          val args: Array[String] = request.getArgumentsList() match
+            case xs: ProtocolStringList => xs.toArray(Array.empty[String])
+            case null => Array.empty
 
           val code =
             try
@@ -67,9 +71,11 @@ trait WorkerMain[S]:
           process(ctx)
         end process
 
-        try process(init(Some(args.toArray)))
+        try process(init(Bazel.parseParams(args)))
         finally
           System.setIn(stdin)
           System.setOut(stdout)
           System.setErr(stderr)
-      case args => work(init(None), args.toArray)
+      case args => work(init(Array.empty[String]), Bazel.parseParams(args))
+
+  private val Exit = raw"exitVM\.(-?\d+)".r

@@ -36,156 +36,11 @@ import xsbti.compile.{
 import rules_scala.common.worker.WorkerMain
 import rules_scala.workers.common.*
 
-final case class ZincRunnerArguments(
-    usePersistence: Boolean = true,
-    depsCache: Option[Path] = None,
-    persistenceDir: Option[Path] = None,
-    maxErrors: Int = 100
-)
-object ZincRunnerArguments:
-  private val builder = OParser.builder[ZincRunnerArguments]
-  import builder.*
-
-  private val parser = OParser.sequence(
-    opt[Boolean]("use_persistence").action((p, c) => c.copy(usePersistence = p)),
-    opt[String]("extracted_file_cache").optional().action((p, c) => c.copy(depsCache = Some(pathFrom(p)))),
-    opt[String]("persistence_dir").optional().action((p, c) => c.copy(persistenceDir = Some(pathFrom(p)))),
-    opt[Int]("max_errors").optional().action((m, c) => c.copy(maxErrors = m))
-  )
-
-  def apply(args: collection.Seq[String]): Option[ZincRunnerArguments] =
-    OParser.parse(parser, args, ZincRunnerArguments())
-
-  private def pathFrom(path: String): Path = Paths.get(path.replace("~", sys.props.getOrElse("user.home", "")))
-
 final case class AnalysisArgument(label: String, apis: Path, relations: Path, jars: Vector[Path])
 object AnalysisArgument:
   def from(value: String): AnalysisArgument = value.split(',') match
     case Array(prefixedLabel, apis, relations, jars*) =>
       AnalysisArgument(prefixedLabel.stripPrefix("_"), Paths.get(apis), Paths.get(relations), jars.map(Paths.get(_)).toVector)
-
-final case class ZincWorkArguments(
-    analysis: Vector[AnalysisArgument] = Vector.empty,
-    classpath: Vector[Path] = Vector.empty,
-    compilerBridge: File = new File("."),
-    compilerClasspath: Vector[File] = Vector.empty,
-    compilerOption: Vector[String] = Vector.empty,
-    debug: Boolean = false,
-    javaCompilerOption: Vector[String] = Vector.empty,
-    label: String = "",
-    logLevel: LogLevel = LogLevel.Warn,
-    mainManifest: File = new File("."),
-    outputApis: Path = Paths.get("."),
-    outputInfos: Path = Paths.get("."),
-    outputJar: Path = Paths.get("."),
-    outputRelations: Path = Paths.get("."),
-    outputSetup: Path = Paths.get("."),
-    outputStamps: Path = Paths.get("."),
-    outputUsed: Path = Paths.get("."),
-    plugins: Vector[File] = Vector.empty,
-    sourceJars: Vector[Path] = Vector.empty,
-    sources: Vector[File] = Vector.empty,
-    tmpDir: Path = Paths.get(".")
-) extends PrettyProduct
-object ZincWorkArguments:
-  private val builder = OParser.builder[ZincWorkArguments]
-  import builder.*
-
-  private val parser = OParser.sequence(
-    opt[LogLevel]("log_level")
-      .optional()
-      .action((lvl, c) => c.copy(logLevel = lvl))
-      .text("Log level"),
-    opt[File]("source_jar")
-      .unbounded()
-      .optional()
-      .action((s, c) => c.copy(sourceJars = c.sourceJars :+ s.toPath()))
-      .text("Source jars"),
-    opt[File]("tmp")
-      .required()
-      .action((tmp, c) => c.copy(tmpDir = tmp.toPath))
-      .text("Temporary directory"),
-    opt[File]("output_jar")
-      .required()
-      .action((jar, c) => c.copy(outputJar = jar.toPath))
-      .text("Output jar"),
-    opt[String]("analysis")
-      .unbounded()
-      .optional()
-      .valueName("args")
-      .action((arg, c) => c.copy(analysis = c.analysis :+ AnalysisArgument.from(arg)))
-      .text("Analysis, given as: label apis relations [jar ...]"),
-    opt[File]("cp")
-      .unbounded()
-      .optional()
-      .action((cp, c) => c.copy(classpath = c.classpath :+ cp.toPath))
-      .text("Compilation classpath"),
-    opt[File]("compiler_cp")
-      .unbounded()
-      .optional()
-      .action((cp, c) => c.copy(compilerClasspath = c.compilerClasspath :+ cp))
-      .text("Compiler classpath"),
-    opt[File]("output_apis")
-      .required()
-      .action((out, c) => c.copy(outputApis = out.toPath))
-      .text("Output APIs"),
-    opt[File]("output_setup")
-      .required()
-      .action((out, c) => c.copy(outputSetup = out.toPath))
-      .text("Output Zinc setup"),
-    opt[File]("output_relations")
-      .required()
-      .action((out, c) => c.copy(outputRelations = out.toPath))
-      .text("Output Zinc relations"),
-    opt[File]("output_infos")
-      .required()
-      .action((out, c) => c.copy(outputInfos = out.toPath))
-      .text("Output Zinc source infos"),
-    opt[File]("output_stamps")
-      .required()
-      .action((out, c) => c.copy(outputStamps = out.toPath))
-      .text("Output Zinc source stamps"),
-    opt[Boolean]("debug").action((debug, c) => c.copy(debug = debug)),
-    opt[String]("label")
-      .required()
-      .action((l, c) => c.copy(label = l))
-      .text("Bazel label"),
-    opt[File]("compiler_bridge")
-      .required()
-      .action((bridge, c) => c.copy(compilerBridge = bridge))
-      .text("Compiler bridge"),
-    opt[File]("main_manifest")
-      .required()
-      .action((manifest, c) => c.copy(mainManifest = manifest))
-      .text("List of main entry points"),
-    opt[File]("output_used")
-      .required()
-      .action((out, c) => c.copy(outputUsed = out.toPath))
-      .text("Output list of used jars"),
-    opt[String]("compiler_option")
-      .unbounded()
-      .optional()
-      .action((opt, c) => c.copy(compilerOption = c.compilerOption :+ opt))
-      .text("Compiler option"),
-    opt[String]("java_compiler_option")
-      .unbounded()
-      .optional()
-      .action((opt, c) => c.copy(javaCompilerOption = c.javaCompilerOption :+ opt))
-      .text("Java compiler option"),
-    opt[File]("plugin")
-      .unbounded()
-      .optional()
-      .action((p, c) => c.copy(plugins = c.plugins :+ p))
-      .text("Compiler plugins"),
-    arg[File]("<source>...")
-      .unbounded()
-      .optional()
-      .action((s, c) => c.copy(sources = c.sources :+ s))
-      .text("Source files")
-  )
-
-  def apply(args: collection.Seq[String]): Option[ZincWorkArguments] =
-    OParser.parse(parser, args, ZincWorkArguments())
 
 /** <strong>Caching</strong>
   *
@@ -202,22 +57,12 @@ object ZincWorkArguments:
   * ClassLoaderCache is hard to remove. The compiler classpath is passed via the initial flags to the worker (rather than the per-request arg file).
   * Bazel worker management cycles out Scala compiler versions. Currently, this runner follows strategy A.
   */
-object ZincRunner extends WorkerMain[ZincRunnerArguments]:
-  private val topLoader = TopClassLoader(getClass().getClassLoader())
-  private val classloaderCache = ClassLoaderCache(URLClassLoader(Array.empty))
+object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
+  override def init(args: collection.Seq[String]): Arguments =
+    Arguments(args).getOrElse(throw IllegalArgumentException(s"init args is invalid: ${args.mkString(" ")}"))
 
-  private val compilerCache = CompilerCache.fresh
-
-  private def labelToPath(label: String): Path =
-    Paths.get(label.replaceAll("^/+", "").replaceAll(raw"[^\w/]", "_"))
-
-  override def init(args: Option[Array[String]]) =
-    val xs = args.getOrElse(Array.empty[String])
-    ZincRunnerArguments(Bazel.parseParams(xs)).getOrElse(throw IllegalArgumentException(s"init args is invalid: ${xs.mkString(" ")}"))
-
-  override def work(workerArgs: ZincRunnerArguments, args: Array[String]) =
-    val workArgs =
-      ZincWorkArguments(Bazel.parseParams(args)).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
+  override def work(workerArgs: Arguments, args: collection.Seq[String]): Unit =
+    val workArgs = WorkArguments(args).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
 
     val logger = AnnexLogger(workArgs.logLevel)
 
@@ -382,6 +227,161 @@ object ZincRunner extends WorkerMain[ZincRunnerArguments]:
     // clear temporary files
     FileUtil.delete(workArgs.tmpDir)
     Files.createDirectory(workArgs.tmpDir)
+
+  final case class Arguments(
+      usePersistence: Boolean = true,
+      depsCache: Option[Path] = None,
+      persistenceDir: Option[Path] = None,
+      maxErrors: Int = 100
+  )
+  object Arguments:
+    private val builder = OParser.builder[Arguments]
+    import builder.*
+
+    private val parser = OParser.sequence(
+      opt[Boolean]("use_persistence").action((p, c) => c.copy(usePersistence = p)),
+      opt[String]("extracted_file_cache").optional().action((p, c) => c.copy(depsCache = Some(pathFrom(p)))),
+      opt[String]("persistence_dir").optional().action((p, c) => c.copy(persistenceDir = Some(pathFrom(p)))),
+      opt[Int]("max_errors").optional().action((m, c) => c.copy(maxErrors = m))
+    )
+
+    def apply(args: collection.Seq[String]): Option[Arguments] =
+      OParser.parse(parser, args, Arguments())
+
+    private def pathFrom(path: String): Path = Paths.get(path.replace("~", sys.props.getOrElse("user.home", "")))
+  end Arguments
+
+  final case class WorkArguments(
+      analysis: Vector[AnalysisArgument] = Vector.empty,
+      classpath: Vector[Path] = Vector.empty,
+      compilerBridge: File = new File("."),
+      compilerClasspath: Vector[File] = Vector.empty,
+      compilerOption: Vector[String] = Vector.empty,
+      debug: Boolean = false,
+      javaCompilerOption: Vector[String] = Vector.empty,
+      label: String = "",
+      logLevel: LogLevel = LogLevel.Warn,
+      mainManifest: File = new File("."),
+      outputApis: Path = Paths.get("."),
+      outputInfos: Path = Paths.get("."),
+      outputJar: Path = Paths.get("."),
+      outputRelations: Path = Paths.get("."),
+      outputSetup: Path = Paths.get("."),
+      outputStamps: Path = Paths.get("."),
+      outputUsed: Path = Paths.get("."),
+      plugins: Vector[File] = Vector.empty,
+      sourceJars: Vector[Path] = Vector.empty,
+      sources: Vector[File] = Vector.empty,
+      tmpDir: Path = Paths.get(".")
+  ) extends PrettyProduct
+  object WorkArguments:
+    private val builder = OParser.builder[WorkArguments]
+    import builder.*
+
+    private val parser = OParser.sequence(
+      opt[LogLevel]("log_level")
+        .optional()
+        .action((lvl, c) => c.copy(logLevel = lvl))
+        .text("Log level"),
+      opt[File]("source_jar")
+        .unbounded()
+        .optional()
+        .action((s, c) => c.copy(sourceJars = c.sourceJars :+ s.toPath()))
+        .text("Source jars"),
+      opt[File]("tmp")
+        .required()
+        .action((tmp, c) => c.copy(tmpDir = tmp.toPath))
+        .text("Temporary directory"),
+      opt[File]("output_jar")
+        .required()
+        .action((jar, c) => c.copy(outputJar = jar.toPath))
+        .text("Output jar"),
+      opt[String]("analysis")
+        .unbounded()
+        .optional()
+        .valueName("args")
+        .action((arg, c) => c.copy(analysis = c.analysis :+ AnalysisArgument.from(arg)))
+        .text("Analysis, given as: label apis relations [jar ...]"),
+      opt[File]("cp")
+        .unbounded()
+        .optional()
+        .action((cp, c) => c.copy(classpath = c.classpath :+ cp.toPath))
+        .text("Compilation classpath"),
+      opt[File]("compiler_cp")
+        .unbounded()
+        .optional()
+        .action((cp, c) => c.copy(compilerClasspath = c.compilerClasspath :+ cp))
+        .text("Compiler classpath"),
+      opt[File]("output_apis")
+        .required()
+        .action((out, c) => c.copy(outputApis = out.toPath))
+        .text("Output APIs"),
+      opt[File]("output_setup")
+        .required()
+        .action((out, c) => c.copy(outputSetup = out.toPath))
+        .text("Output Zinc setup"),
+      opt[File]("output_relations")
+        .required()
+        .action((out, c) => c.copy(outputRelations = out.toPath))
+        .text("Output Zinc relations"),
+      opt[File]("output_infos")
+        .required()
+        .action((out, c) => c.copy(outputInfos = out.toPath))
+        .text("Output Zinc source infos"),
+      opt[File]("output_stamps")
+        .required()
+        .action((out, c) => c.copy(outputStamps = out.toPath))
+        .text("Output Zinc source stamps"),
+      opt[Boolean]("debug").action((debug, c) => c.copy(debug = debug)),
+      opt[String]("label")
+        .required()
+        .action((l, c) => c.copy(label = l))
+        .text("Bazel label"),
+      opt[File]("compiler_bridge")
+        .required()
+        .action((bridge, c) => c.copy(compilerBridge = bridge))
+        .text("Compiler bridge"),
+      opt[File]("main_manifest")
+        .required()
+        .action((manifest, c) => c.copy(mainManifest = manifest))
+        .text("List of main entry points"),
+      opt[File]("output_used")
+        .required()
+        .action((out, c) => c.copy(outputUsed = out.toPath))
+        .text("Output list of used jars"),
+      opt[String]("compiler_option")
+        .unbounded()
+        .optional()
+        .action((opt, c) => c.copy(compilerOption = c.compilerOption :+ opt))
+        .text("Compiler option"),
+      opt[String]("java_compiler_option")
+        .unbounded()
+        .optional()
+        .action((opt, c) => c.copy(javaCompilerOption = c.javaCompilerOption :+ opt))
+        .text("Java compiler option"),
+      opt[File]("plugin")
+        .unbounded()
+        .optional()
+        .action((p, c) => c.copy(plugins = c.plugins :+ p))
+        .text("Compiler plugins"),
+      arg[File]("<source>...")
+        .unbounded()
+        .optional()
+        .action((s, c) => c.copy(sources = c.sources :+ s))
+        .text("Source files")
+    )
+
+    def apply(args: collection.Seq[String]): Option[WorkArguments] =
+      OParser.parse(parser, args, WorkArguments())
+  end WorkArguments
+
+  private val topLoader = TopClassLoader(getClass().getClassLoader())
+  private val classloaderCache = ClassLoaderCache(URLClassLoader(Array.empty))
+
+  private val compilerCache = CompilerCache.fresh
+
+  private def labelToPath(label: String): Path =
+    Paths.get(label.replaceAll("^/+", "").replaceAll(raw"[^\w/]", "_"))
 
 final class AnxPerClasspathEntryLookup(analyses: Path => Option[CompileAnalysis]) extends PerClasspathEntryLookup:
   private val Empty = Optional.empty[CompileAnalysis]

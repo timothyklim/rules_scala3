@@ -14,7 +14,7 @@ object ScalafmtRunner extends WorkerMain[Unit]:
 
   protected[this] def init(args: Option[Array[String]]): Unit = {}
 
-  protected[this] def work(worker: Unit, args: Array[String]): Unit =
+  protected[this] def work(worker: Unit, args: collection.Seq[String]): Unit =
 
     val parser = ArgumentParsers.newFor("scalafmt").addHelp(true).defaultFormatWidth(80).fromFilePrefix("@").build
     parser.addArgument("--config").required(true).`type`(Arguments.fileType)
