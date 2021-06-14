@@ -24,7 +24,7 @@ repositories = [
     "https://mirror.bazel.build/repo1.maven.org/maven2",
 ]
 
-sbt_version = "1.5.3"
+sbt_version = "1.5.4"
 zinc_version = "1.5.5"
 
 def scala_artifacts():
@@ -56,6 +56,7 @@ def scala_repositories():
 
     scala2 = "2.13.6"
     scala3 = "3.0.1-RC1"
+    scalajs = "1.6.0"
 
     direct_deps = [
         ["scala_compiler_2_13_6", "org.scala-lang:scala-compiler:" + scala2, "310d263d622a3d016913e94ee00b119d270573a5ceaa6b21312d69637fd9eec1"],
@@ -67,14 +68,20 @@ def scala_repositories():
         ["scala_sbt_bridge_3_0_1", "org.scala-lang:scala3-sbt-bridge:" + scala3, "e93de119842cb5544bb51e03c296ab4f14be445144e51eb36297fff4a88f86c2"],
         ["scala_tasty_core_3_0_1", "org.scala-lang:tasty-core_3:" + scala3, "ef3c7882996b7413fbb32ffd867328cfc4ba08aacefa5bcce9a1d48d774d4b8d"],
         ["scala_asm_9_1_0", "org.scala-lang.modules:scala-asm:9.1.0-scala-1", "b85af6cbbd6075c4960177c2c3aa03d53b5221fa58b0bc74a31b72f25595e39f"],
+        ["scalajs_compiler_2_13", "org.scala-js:scalajs-compiler_2.13:" + scalajs],
+        ["scalajs_env_nodejs_2_13", "org.scala-js:scalajs-env-nodejs_2.13:1.1.1", ""],
+        ["scalajs_ir_2_13", "org.scala-js:scalajs-ir_2.13:" + scalajs],
+        ["scalajs_js_envs_2_13", "org.scala-js:scalajs-js-envs_2.13:1.1.1", ""],
+        ["scalajs_library_2_13", "org.scala-js:scalajs-library_2.13:" + scalajs, ""],
+        ["scalajs_linker_2_13", "org.scala-js:scalajs-linker_2.13:" + scalajs, ""],
+        ["scalajs_linker_interface_2_13", "org.scala-js:scalajs-linker-interface_2.13:" + scalajs, ""],
+        ["scalajs_logging_2_13", "org.scala-js:scalajs-logging_2.13:1.1.1", ""],
+        ["scalajs_sbt_test_adapter_2_13", "org.scala-js:scalajs-sbt-test-adapter_2.13:" + scalajs, ""],
+        ["scalajs_test_bridge_2_13", "org.scala-js:scalajs-test-bridge_2.13:" + scalajs, ""],
+        ["scalajs_test_interface_2_13", "org.scala-js:scalajs-test-interface_2.13:" + scalajs, ""],
     ]
     for dep in direct_deps:
-        if len(dep) == 3:
-            maybe(jvm_maven_import_external, name = dep[0], artifact = dep[1], artifact_sha256 = dep[2], server_urls = repositories)
-        elif len(dep) == 2:
-            maybe(jvm_maven_import_external, name = dep[0], artifact = dep[1], server_urls = repositories)
-        else:
-            fail("Unknown dep structure: {}".format(dep))
+        maybe(jvm_maven_import_external, name = dep[0], artifact = dep[1], artifact_sha256 = dep[2] if len(dep) == 3 else "", server_urls = repositories)
 
     protobuf_tag = "3.15.8"
     rules_proto_tag = "f7a30f6f80006b591fa7c437fe5a951eb10bcbcf"
@@ -87,12 +94,7 @@ def scala_repositories():
         ["rules_proto", "rules_proto-" + rules_proto_tag, "https://github.com/bazelbuild/rules_proto/archive/{}.tar.gz".format(rules_proto_tag), "9fc210a34f0f9e7cc31598d109b5d069ef44911a82f507d5a88716db171615a8"],
     ]
     for dep in rules_deps:
-        if len(dep) == 4:
-            maybe(http_archive, name = dep[0], strip_prefix = dep[1], url = dep[2], sha256 = dep[3])
-        elif len(dep) == 3:
-            maybe(http_archive, name = dep[0], strip_prefix = dep[1], url = dep[2])
-        else:
-            fail("Unknown dep structure: {}".format(dep))
+        maybe(http_archive, name = dep[0], strip_prefix = dep[1], url = dep[2], sha256 = dep[3] if len(dep) == 4 else "")
 
     bazel_commit = "4ddb5955c2e5e161f68584678844900152353b0a"
     http_archive(

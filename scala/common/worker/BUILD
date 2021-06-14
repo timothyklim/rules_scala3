@@ -8,6 +8,7 @@ scala_library(
     visibility = ["//visibility:public"],
     deps = [
         "@bazel_tools//src/main/protobuf:worker_protocol_java_proto",
+        "//scala/workers/common",
     ],
 )
 

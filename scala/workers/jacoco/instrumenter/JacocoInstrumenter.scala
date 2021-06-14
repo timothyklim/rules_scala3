@@ -24,9 +24,9 @@ object JacocoInstrumenter extends WorkerMain[Unit]:
       .nargs("+")
     parser
 
-  override def init(args: Option[Array[String]]): Unit = ()
+  override def init(args: collection.Seq[String]): Unit = ()
 
-  override def work(ctx: Unit, args: Array[String]): Unit =
+  override def work(ctx: Unit, args: collection.Seq[String]): Unit =
     val namespace = argParser.parseArgs(args)
 
     val pathPairs: List[(Path, Path)] = namespace

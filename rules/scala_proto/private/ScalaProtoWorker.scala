@@ -79,11 +79,10 @@ object ProtoWorkArguments:
     OParser.parse(parser, args, ProtoWorkArguments())
 
 object ScalaProtoWorker extends WorkerMain[Unit]:
-  override def init(args: Option[Array[String]]): Unit = ()
+  override def init(args: collection.Seq[String]): Unit = ()
 
-  override def work(ctx: Unit, args: Array[String]): Unit =
-    val workArgs =
-      ProtoWorkArguments(Bazel.parseParams(args)).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
+  override def work(ctx: Unit, args: collection.Seq[String]): Unit =
+    val workArgs = ProtoWorkArguments(args).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
 
     val protoPath = resolve(workArgs.protoPath)
     Files.createDirectories(protoPath)

@@ -79,9 +79,9 @@ object DocRunner extends WorkerMain[Unit]:
     .`type`(Arguments.fileType.verifyCanRead.verifyIsFile)
     .setDefault(Collections.emptyList)
 
-  override def init(args: Option[Array[String]]): Unit = ()
+  override def init(args: collection.Seq[String]): Unit = ()
 
-  override def work(ctx: Unit, args: Array[String]): Unit =
+  override def work(ctx: Unit, args: collection.Seq[String]): Unit =
     val namespace = parser.parseArgsOrFail(args)
 
     val tmpDir = namespace.get[File]("tmp").toPath
