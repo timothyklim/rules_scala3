@@ -1,6 +1,6 @@
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
-scalapb_version = "0.11.3"
+scalapb_version = "0.11.4"
 munit_version = "0.7.26"
 
 def test_artifacts():
@@ -28,5 +28,5 @@ def test_dependencies():
             "https://mirror.bazel.build/repo1.maven.org/maven2",
         ],
         fetch_sources = True,
-        maven_install_json = "@rules_scala3_test//:annex_test_install.json",
+        maven_install_json ="@rules_scala3_test//:annex_test_install.json",
     )
