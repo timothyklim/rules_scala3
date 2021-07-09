@@ -1,7 +1,7 @@
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 scalapb_version = "0.11.4"
-munit_version = "0.7.26"
+munit_version = "0.7.27"
 
 def test_artifacts():
     return [
@@ -9,7 +9,7 @@ def test_artifacts():
         "com.thesamet.scalapb:scalapb-runtime_3:" + scalapb_version,
         "com.thesamet.scalapb:scalapb-runtime-grpc_3:" + scalapb_version,
         "com.thesamet.scalapb.grpcweb:scalapb-grpcweb_sjs1_3:0.6.4",
-        "io.grpc:grpc-netty:1.38.1",
+        "io.grpc:grpc-netty:1.39.0",
         "org.scala-js:scalajs-dom_sjs1_2.13:1.1.0",
         "org.scala-lang.modules:scala-xml_3:2.0.0",
         "org.scala-sbt:compiler-interface:1.5.5",
@@ -28,5 +28,5 @@ def test_dependencies():
             "https://mirror.bazel.build/repo1.maven.org/maven2",
         ],
         fetch_sources = True,
-        maven_install_json ="@rules_scala3_test//:annex_test_install.json",
+        maven_install_json = "@rules_scala3_test//:annex_test_install.json",
     )

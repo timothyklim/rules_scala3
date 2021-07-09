@@ -44,7 +44,7 @@ def scala_repositories():
         artifacts = scala_artifacts(),
         repositories = repositories,
         fetch_sources = True,
-        maven_install_json ="@rules_scala3//:annex_install.json",
+        maven_install_json = "@rules_scala3//:annex_install.json",
     )
 
     http_archive(
@@ -55,18 +55,18 @@ def scala_repositories():
     )
 
     scala2 = "2.13.6"
-    scala3 = "3.0.1-RC2"
+    scala3 = "3.0.1"
     scalajs = "1.6.0"
 
     direct_deps = [
         ["scala_compiler_2_13_6", "org.scala-lang:scala-compiler:" + scala2, "310d263d622a3d016913e94ee00b119d270573a5ceaa6b21312d69637fd9eec1"],
         ["scala_library_2_13_6", "org.scala-lang:scala-library:" + scala2, "f19ed732e150d3537794fd3fe42ee18470a3f707efd499ecd05a99e727ff6c8a"],
         ["scala_reflect_2_13_6", "org.scala-lang:scala-reflect:" + scala2, "f713593809b387c60935bb9a940dfcea53bd0dbf8fdc8d10739a2896f8ac56fa"],
-        ["scala_compiler_3_0_1", "org.scala-lang:scala3-compiler_3:" + scala3, "353ab443593134cabf8ddfa9c0647f1ad31eb68289dd321aea878f2b8a8b8acf"],
-        ["scala_interfaces_3_0_1", "org.scala-lang:scala3-interfaces:" + scala3, "e64bdb4b0ba3df24be2bf8fd2e78a9124c06081a3f620d83934655a52df70194"],
-        ["scala_library_3_0_1", "org.scala-lang:scala3-library_3:" + scala3, "1403add942ceeac7c38d746138fcfca973123a7b8db6af0a1ee8107241e53210"],
-        ["scala_sbt_bridge_3_0_1", "org.scala-lang:scala3-sbt-bridge:" + scala3, "f9306e3ced0e0b65bea861139fce77a9b0135f4f59d8c80b0fc1b750d3fa4ec4"],
-        ["scala_tasty_core_3_0_1", "org.scala-lang:tasty-core_3:" + scala3, "361ad1f36b5c1ca8afcac7e33c63927033d7048659b17876b23721fd5b701a77"],
+        ["scala_compiler_3_0_1", "org.scala-lang:scala3-compiler_3:" + scala3, "44ce0ee11bfc1e6784c19906512c1e573d8be0b05fed96f5f6027f8a884c1c8d"],
+        ["scala_interfaces_3_0_1", "org.scala-lang:scala3-interfaces:" + scala3, "2c35ec130fbe9cbfe0f7c24a010f596045a5cdadda332249706d31d647db4816"],
+        ["scala_library_3_0_1", "org.scala-lang:scala3-library_3:" + scala3, "43584226adb12326b8a81287f4c607993b3316764e63034c7748576ccb11bf8e"],
+        ["scala_sbt_bridge_3_0_1", "org.scala-lang:scala3-sbt-bridge:" + scala3, "3cd6de55d118d509736da98e4de12ce8d9b2fc2c43dae53bdb2e5ff7b111087a"],
+        ["scala_tasty_core_3_0_1", "org.scala-lang:tasty-core_3:" + scala3, "3fcf45b6f5f1a390e9d2ca519f4877be27c4b2caf8c0f78d68d95a303f7b6fa0"],
         ["scala_asm_9_1_0", "org.scala-lang.modules:scala-asm:9.1.0-scala-1", "b85af6cbbd6075c4960177c2c3aa03d53b5221fa58b0bc74a31b72f25595e39f"],
         ["scalajs_compiler_2_13", "org.scala-js:scalajs-compiler_2.13:" + scalajs],
         ["scalajs_env_nodejs_2_13", "org.scala-js:scalajs-env-nodejs_2.13:1.1.1", ""],

@@ -3,8 +3,8 @@ load("@rules_jvm_external//:defs.bzl", "maven_install")
 def scalafmt_artifacts():
     return [
         "com.geirsson:metaconfig-core_2.13:0.9.14",
-        "org.scalameta:parsers_2.13:4.4.22",
-        "org.scalameta:scalafmt-core_2.13:3.0.0-RC5",
+        "org.scalameta:parsers_2.13:4.4.23",
+        "org.scalameta:scalafmt-core_2.13:3.0.0-RC6",
     ]
 
 def scalafmt_repositories():
@@ -17,7 +17,7 @@ def scalafmt_repositories():
             "https://mirror.bazel.build/repo1.maven.org/maven2",
         ],
         fetch_sources = True,
-        maven_install_json ="@rules_scala3//:annex_scalafmt_install.json",
+        maven_install_json = "@rules_scala3//:annex_scalafmt_install.json",
     )
 
 def scalafmt_default_config(path = ".scalafmt.conf"):
