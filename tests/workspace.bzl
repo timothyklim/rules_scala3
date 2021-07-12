@@ -12,7 +12,7 @@ def test_artifacts():
         "io.grpc:grpc-netty:1.39.0",
         "org.scala-js:scalajs-dom_sjs1_2.13:1.1.0",
         "org.scala-lang.modules:scala-xml_3:2.0.0",
-        "org.scala-sbt:compiler-interface:1.5.5",
+        "org.scala-sbt:compiler-interface:1.5.6",
         "org.scalacheck:scalacheck_3:1.15.4",
         "org.scalameta:munit_3:" + munit_version,
         "org.scalameta:munit-scalacheck_3:" + munit_version,
