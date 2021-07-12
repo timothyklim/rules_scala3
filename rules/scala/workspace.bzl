@@ -25,7 +25,7 @@ repositories = [
 ]
 
 sbt_version = "1.5.4"
-zinc_version = "1.5.6"
+zinc_version = "1.5.7"
 
 def scala_artifacts():
     return [
@@ -50,7 +50,7 @@ def scala_repositories():
     http_archive(
         name = "compiler_bridge_2_13",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
-        sha256 = "ba3d0bd714f7817b7f2837ea7f158a14f41eca9cd318b9c8e1cba77255714293",
+        sha256 = "d2663d3ec4de76801d16e4d032223bdaf0533a74b5c3a57897eeb41889062c7e",
         url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{}/compiler-bridge_2.13-{}-sources.jar".format(zinc_version, zinc_version),
     )
 
