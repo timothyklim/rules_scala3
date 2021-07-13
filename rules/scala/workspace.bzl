@@ -55,18 +55,18 @@ def scala_repositories():
     )
 
     scala2 = "2.13.6"
-    scala3 = "3.0.1"
+    scala3 = "3.0.2-RC1"
     scalajs = "1.6.0"
 
     direct_deps = [
         ["scala_compiler_2_13_6", "org.scala-lang:scala-compiler:" + scala2, "310d263d622a3d016913e94ee00b119d270573a5ceaa6b21312d69637fd9eec1"],
         ["scala_library_2_13_6", "org.scala-lang:scala-library:" + scala2, "f19ed732e150d3537794fd3fe42ee18470a3f707efd499ecd05a99e727ff6c8a"],
         ["scala_reflect_2_13_6", "org.scala-lang:scala-reflect:" + scala2, "f713593809b387c60935bb9a940dfcea53bd0dbf8fdc8d10739a2896f8ac56fa"],
-        ["scala_compiler_3_0_1", "org.scala-lang:scala3-compiler_3:" + scala3, "44ce0ee11bfc1e6784c19906512c1e573d8be0b05fed96f5f6027f8a884c1c8d"],
-        ["scala_interfaces_3_0_1", "org.scala-lang:scala3-interfaces:" + scala3, "2c35ec130fbe9cbfe0f7c24a010f596045a5cdadda332249706d31d647db4816"],
-        ["scala_library_3_0_1", "org.scala-lang:scala3-library_3:" + scala3, "43584226adb12326b8a81287f4c607993b3316764e63034c7748576ccb11bf8e"],
-        ["scala_sbt_bridge_3_0_1", "org.scala-lang:scala3-sbt-bridge:" + scala3, "3cd6de55d118d509736da98e4de12ce8d9b2fc2c43dae53bdb2e5ff7b111087a"],
-        ["scala_tasty_core_3_0_1", "org.scala-lang:tasty-core_3:" + scala3, "3fcf45b6f5f1a390e9d2ca519f4877be27c4b2caf8c0f78d68d95a303f7b6fa0"],
+        ["scala_compiler_3_0_1", "org.scala-lang:scala3-compiler_3:" + scala3, "1fc14490090daf6d5ce77826e1fb566c7a01abf597ca164368f58a940d8d7738"],
+        ["scala_interfaces_3_0_1", "org.scala-lang:scala3-interfaces:" + scala3, "9a448043486d0270954bce9f54f9327fc8a94e2a68c321ff4fa59a13c9dd6023"],
+        ["scala_library_3_0_1", "org.scala-lang:scala3-library_3:" + scala3, "cd374acfb3b24bcf6db7f0a81a9df6fe991a4ee0e949686dae262bedb703842a"],
+        ["scala_sbt_bridge_3_0_1", "org.scala-lang:scala3-sbt-bridge:" + scala3, "8da3c0d5e947fe3812c795e470b496464e8a5b83163cf7565857cd0506ff8d1b"],
+        ["scala_tasty_core_3_0_1", "org.scala-lang:tasty-core_3:" + scala3, "2800533c2e7223cdcfec40bd87035d0ad6972b26b9915989f15dee4267b0f6e9"],
         ["scala_asm_9_1_0", "org.scala-lang.modules:scala-asm:9.1.0-scala-1", "b85af6cbbd6075c4960177c2c3aa03d53b5221fa58b0bc74a31b72f25595e39f"],
         ["scalajs_compiler_2_13", "org.scala-js:scalajs-compiler_2.13:" + scalajs],
         ["scalajs_env_nodejs_2_13", "org.scala-js:scalajs-env-nodejs_2.13:1.1.1", ""],
