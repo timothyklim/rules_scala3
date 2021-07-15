@@ -7,13 +7,17 @@
         "src": "src"
       },
       "locked": {
-        "narHash": "sha256-y9FlLTW2RW7fqXBWURknJXjy+SJl5ap4wn5fP5bqZOA=",
-        "path": "/data/home/johndoe/Development/bazel-flake",
-        "type": "path"
+        "lastModified": 1626328291,
+        "narHash": "sha256-U+eT7Jh+EcuVFyNNOI7hvXgs1BmSL8EZr4v2tPTJCTg=",
+        "owner": "timothyklim",
+        "repo": "bazel-flake",
+        "rev": "4f239d71d3ef7a0dd56dfde5febb4531469f3d9a",
+        "type": "github"
       },
       "original": {
-        "path": "/data/home/johndoe/Development/bazel-flake",
-        "type": "path"
+        "owner": "timothyklim",
+        "repo": "bazel-flake",
+        "type": "github"
       }
     },
     "flake-compat": {
@@ -74,11 +78,11 @@
         "zing_15-pkg": "zing_15-pkg"
       },
       "locked": {
-        "lastModified": 1626243611,
-        "narHash": "sha256-C2DB6zSCOy42boAaq03z/sR9A4vvyucfsbzv/l6WY4I=",
+        "lastModified": 1626352442,
+        "narHash": "sha256-F+bxS+PRVe2gvO0rxV7uSzMEa6HJdanqye+x/hmmmZk=",
         "owner": "TawasalMessenger",
         "repo": "jdk-flake",
-        "rev": "afe42d2144d3cc7771e31555a03d610b5bac86b3",
+        "rev": "8cc0f283aed0f9f820561f09ba5e19c8a182306d",
         "type": "github"
       },
       "original": {
@@ -205,11 +209,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1626312449,
-        "narHash": "sha256-EQMvoKv8xTPzdl85Vil24dpnKzmgKLF9ggo01kV7mkc=",
+        "lastModified": 1626352624,
+        "narHash": "sha256-UDGDdGirxdwOaTUCuqK7M8yTzlNC0ll7N5oW42j35oE=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "fe653f953d3a1f09ef6888f0ecc3490b2f2a0216",
+        "rev": "f2b81f91beb90a78292ec5523c72116156490877",
         "type": "github"
       },
       "original": {

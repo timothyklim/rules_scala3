@@ -3,7 +3,6 @@
 with pkgs;
 
 let
-  jdk = openjdk16_headless;
   bazel = stdenv.mkDerivation {
     name = "bazel_custom";
     phases = [ "installPhase" ];
