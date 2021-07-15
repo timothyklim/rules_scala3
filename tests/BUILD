@@ -1,3 +1,13 @@
+load("@bazel_tools//tools/jdk:default_java_toolchain.bzl", "default_java_toolchain", "VANILLA_TOOLCHAIN_CONFIGURATION")
+load(
+    "@bazel_tools//tools/jdk:java_toolchain_alias.bzl",
+    "java_host_runtime_alias",
+    "java_runtime_alias",
+    "java_runtime_version_alias",
+    "java_toolchain_alias",
+    "legacy_java_runtime_alias",
+    "legacy_java_toolchain_alias",
+)
 load("@rules_proto//proto:defs.bzl", "proto_library")
 
 genrule(
@@ -22,4 +32,17 @@ proto_library(
         "@com_google_protobuf//:descriptor_proto",
     ],
     visibility = ["//visibility:public"],
+)
+
+default_java_toolchain(
+    name = "toolchain_hostjdk16",
+    configuration = dict(
+      tools = ["@remote_java_tools//:javac_jar"],
+      jvm_opts = ["-Xbootclasspath/p:$(location @remote_java_tools//:javac_jar)"],
+      java_runtime = "@bazel_tools//tools/jdk:jdk",
+    ),
+    java_runtime = "@bazel_tools//tools/jdk:current_host_java_runtime",
+    source_version = "16",
+    target_version = "16",
+    toolchain_definition = False,
 )
