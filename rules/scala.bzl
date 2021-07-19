@@ -178,7 +178,7 @@ _runtime_private_attributes = {
         providers = [java_common.JavaRuntimeInfo],
     ),
     "_java_stub_template": attr.label(
-        default = Label("@bazel//src/main/java/com/google/devtools/build/lib/bazel/rules/java:java_stub_template.txt"),
+        default = Label("@rules_scala3//rules/third_party:java_stub_template.txt"),
         allow_single_file = True,
     ),
 }

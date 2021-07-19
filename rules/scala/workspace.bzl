@@ -96,14 +96,6 @@ def scala_repositories():
     for dep in rules_deps:
         maybe(http_archive, name = dep[0], strip_prefix = dep[1], url = dep[2], sha256 = dep[3] if len(dep) == 4 else "")
 
-    bazel_commit = "4ddb5955c2e5e161f68584678844900152353b0a"
-    http_archive(
-        name = "bazel",
-        sha256 = "7016824922c3b344c72714c489acfaa1199c7014bdccc57dd3de954651a9f1d7",
-        strip_prefix = "bazel-{}".format(bazel_commit),
-        url = "https://github.com/bazelbuild/bazel/archive/{}.tar.gz".format(bazel_commit),
-    )
-
 def scala_register_toolchains():
     # reserved for future use
     return ()

@@ -1,13 +1,4 @@
-load("@bazel_tools//tools/jdk:default_java_toolchain.bzl", "default_java_toolchain", "VANILLA_TOOLCHAIN_CONFIGURATION")
-load(
-    "@bazel_tools//tools/jdk:java_toolchain_alias.bzl",
-    "java_host_runtime_alias",
-    "java_runtime_alias",
-    "java_runtime_version_alias",
-    "java_toolchain_alias",
-    "legacy_java_runtime_alias",
-    "legacy_java_toolchain_alias",
-)
+load("@bazel_tools//tools/jdk:default_java_toolchain.bzl", "default_java_toolchain")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 
 genrule(
