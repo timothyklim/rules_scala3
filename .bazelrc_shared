@@ -8,8 +8,7 @@ build --java_runtime_version=16
 build --tool_java_language_version=16
 build --tool_java_runtime_version=16
 
-build --host_java_toolchain=@//:toolchain_hostjdk16
-build --java_toolchain=@//:toolchain_hostjdk16
+build --extra_toolchains=@local_jdk//:all
 build --host_javabase=@local_jdk//:jdk
 build --javabase=@local_jdk//:jdk
 
@@ -18,7 +17,7 @@ build --worker_max_instances=4
 build --worker_sandboxing
 build --verbose_failures
 
-test  --test_output=all
+test --test_output=all
 
 build:rules --disk_cache=.bazel_cache
 build:tests --disk_cache=../.bazel_cache

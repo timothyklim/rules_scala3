@@ -31,7 +31,7 @@ def scala_artifacts():
     return [
         "com.github.scopt:scopt_3:4.0.1",
         "org.jacoco:org.jacoco.core:0.8.7",
-        "org.scala-lang.modules:scala-xml_3:2.0.0",
+        "org.scala-lang.modules:scala-xml_3:2.0.1",
         "org.scala-sbt:test-interface:1.0",
         "org.scala-sbt:util-interface:" + sbt_version,
         "org.scala-sbt:util-logging_2.13:" + sbt_version,
