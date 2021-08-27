@@ -8,11 +8,11 @@
         "src": "src"
       },
       "locked": {
-        "lastModified": 1629947843,
+        "lastModified": 1630038321,
         "narHash": "sha256-o8lf917e4hlCH2N7/TR4HdN3K/4wzuzGLkybDgXKK+Y=",
         "owner": "timothyklim",
         "repo": "bazel-flake",
-        "rev": "c1fce4b803fb24710136b168595d6beab6c818a0",
+        "rev": "f2edfbe74d97323e749c421ba367d572dcfded6f",
         "type": "github"
       },
       "original": {
@@ -349,15 +349,16 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1629980474,
-        "narHash": "sha256-JdSxn82I37qImsBOvbXnggFkdPgQnmn57dTa2NZgZck=",
+        "lastModified": 1629705759,
+        "narHash": "sha256-M5sHgjA1OZn/c21pk64qd5kjbkBpbZuYwgaDEl9kiP8=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "9463b5e932a15153c521cf7714ca8fcbb8560ae3",
+        "rev": "5bc8b980b9178ef9a4bb622320cf34e59ea2ea10",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }

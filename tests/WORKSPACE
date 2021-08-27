@@ -4,13 +4,13 @@ load("@bazel_tools//tools/build_defs/repo:jvm.bzl", "jvm_maven_import_external")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-rules_jvm_tag = "4.0"
+rules_jvm_external_tag = "d610f38add575692ae711a905822d65e126d96ae"
 
 http_archive(
     name = "rules_jvm_external",
-    sha256 = "31d226a6b3f5362b59d261abf9601116094ea4ae2aa9f28789b6c105e4cada68",
-    strip_prefix = "rules_jvm_external-" + rules_jvm_tag,
-    url = "https://github.com/bazelbuild/rules_jvm_external/archive/{}.tar.gz".format(rules_jvm_tag),
+    sha256 = "2e8806a236baad8b65623afd93846f8eade0e2f74a3699adba2bdaf22a270c69",
+    strip_prefix = "rules_jvm_external-{}".format(rules_jvm_external_tag),
+    url = "https://github.com/bazelbuild/rules_jvm_external/archive/{}.tar.gz".format(rules_jvm_external_tag),
 )
 
 local_repository(
