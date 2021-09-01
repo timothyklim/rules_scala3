@@ -1,7 +1,7 @@
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 scalapb_version = "0.11.5"
-munit_version = "0.7.28"
+munit_version = "0.7.29"
 
 def test_artifacts():
     return [

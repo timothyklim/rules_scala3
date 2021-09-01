@@ -4,7 +4,7 @@ def scalafmt_artifacts():
     return [
         "com.geirsson:metaconfig-core_2.13:0.9.14",
         "org.scalameta:parsers_2.13:4.4.27",
-        "org.scalameta:scalafmt-core_2.13:3.0.0",
+        "org.scalameta:scalafmt-core_2.13:3.0.1",
     ]
 
 def scalafmt_repositories():
