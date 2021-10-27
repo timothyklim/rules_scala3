@@ -5,7 +5,7 @@ scala_binary(
     name = "instrumenter",
     srcs = glob(["**/*.scala"]),
     main_class = "rules_scala.workers.jacoco.instrumenter.JacocoInstrumenter",
-    scala = "//scala:bootstrap_3_0",
+    scala = "//scala:bootstrap_3_1",
     visibility = ["//visibility:public"],
     deps = [
         "//scala/common/worker",

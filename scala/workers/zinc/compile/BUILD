@@ -5,7 +5,7 @@ scala_binary(
     name = "compile",
     srcs = glob(["**/*.scala"]),
     main_class = "rules_scala.workers.zinc.compile.ZincRunner",
-    scala = "//scala:bootstrap_3_0",
+    scala = "//scala:bootstrap_3_1",
     visibility = ["//visibility:public"],
     deps = [
         "@annex//:com_github_scopt_scopt_3",

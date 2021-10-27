@@ -38,7 +38,7 @@ scala_library(
         ":grpc_scala_proto",
         "AuthService.scala",
     ],
-    scala = "@rules_scala3//scala:zinc_3_0_migration",
+    scala = "@rules_scala3//scala:zinc_3_1_migration",
     deps_used_whitelist = [
         "@com_google_protobuf//java/core",
     ],
@@ -60,7 +60,7 @@ scala_library(
         ":grpc_scala_proto_web",
         "AuthServiceGrpcWeb.scala",
     ],
-    scala = "@rules_scala3//scala:zinc_3_0_migration",
+    scala = "@rules_scala3//scala:zinc_3_1_migration",
     deps_used_whitelist = [
         "@com_google_protobuf//java/core",
     ],

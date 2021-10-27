@@ -5,7 +5,7 @@ scala_binary(
     name = "deps",
     srcs = glob(["**/*.scala"]),
     main_class = "rules_scala.workers.deps.DepsRunner",
-    scala = "//scala:bootstrap_3_0",
+    scala = "//scala:bootstrap_3_1",
     visibility = ["//visibility:public"],
     deps = [
         "//scala/common/worker",

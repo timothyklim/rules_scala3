@@ -4,7 +4,7 @@ scala_binary(
     name = "scalajs",
     srcs = glob(["*.scala"]),
     main_class = "rules_scala.workers.scalajs.ScalaJsWorker",
-    scala = "//scala:bootstrap_3_0",
+    scala = "//scala:bootstrap_3_1",
     deps = [
         "@annex//:com_github_scopt_scopt_3",
         "@scalajs_env_nodejs_2_13",
