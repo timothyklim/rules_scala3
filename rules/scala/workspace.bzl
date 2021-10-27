@@ -22,6 +22,7 @@ repositories = [
     "https://repo.maven.apache.org/maven2",
     "https://maven-central.storage-download.googleapis.com/maven2",
     "https://mirror.bazel.build/repo1.maven.org/maven2",
+    "https://scala-ci.typesafe.com/artifactory/scala-integration/",
 ]
 
 sbt_version = "1.6.0-M1"
@@ -54,14 +55,14 @@ def scala_repositories():
         url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{}/compiler-bridge_2.13-{}-sources.jar".format(zinc_version, zinc_version),
     )
 
-    scala2 = "2.13.6"
+    scala2 = "2.13.7-bin-8ee33bb"
     scala3 = "3.1.0"
     scalajs = "1.7.1"
 
     direct_deps = [
-        ["scala_compiler_2_13_6", "org.scala-lang:scala-compiler:" + scala2, "310d263d622a3d016913e94ee00b119d270573a5ceaa6b21312d69637fd9eec1"],
-        ["scala_library_2_13_6", "org.scala-lang:scala-library:" + scala2, "f19ed732e150d3537794fd3fe42ee18470a3f707efd499ecd05a99e727ff6c8a"],
-        ["scala_reflect_2_13_6", "org.scala-lang:scala-reflect:" + scala2, "f713593809b387c60935bb9a940dfcea53bd0dbf8fdc8d10739a2896f8ac56fa"],
+        ["scala_compiler_2_13_7", "org.scala-lang:scala-compiler:" + scala2, ""],
+        ["scala_library_2_13_7", "org.scala-lang:scala-library:" + scala2, ""],
+        ["scala_reflect_2_13_7", "org.scala-lang:scala-reflect:" + scala2, ""],
         ["scala_compiler_3_1_0", "org.scala-lang:scala3-compiler_3:" + scala3, ""],
         ["scala_interfaces_3_1_0", "org.scala-lang:scala3-interfaces:" + scala3, ""],
         ["scala_library_3_1_0", "org.scala-lang:scala3-library_3:" + scala3, ""],

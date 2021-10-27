@@ -22,17 +22,17 @@ config_setting(
 scala2 = "2.13.6"
 
 compiler_classpath_2_13 = [
-    "@scala_compiler_2_13_6//jar",
-    "@scala_library_2_13_6//jar",
-    "@scala_reflect_2_13_6//jar",
+    "@scala_compiler_2_13_7//jar",
+    "@scala_library_2_13_7//jar",
+    "@scala_reflect_2_13_7//jar",
 ]
 
 runtime_classpath_2_13 = [
-    "@scala_library_2_13_6//jar",
+    "@scala_library_2_13_7//jar",
 ]
 
 configure_bootstrap_scala(
-    name = "bootstrap_2_13_6",
+    name = "bootstrap_2_13_7",
     compiler_classpath = compiler_classpath_2_13,
     runtime_classpath = runtime_classpath_2_13,
     version = scala2,
@@ -46,7 +46,7 @@ scala_library(
     ],
     resource_strip_prefix = "../compiler_bridge_2_13",
     resources = ["@compiler_bridge_2_13//:meta"],
-    scala = ":bootstrap_2_13_6",
+    scala = ":bootstrap_2_13_7",
     visibility = ["//visibility:public"],
     deps = compiler_classpath_2_13 + [
         "@annex//:org_scala_sbt_compiler_interface",
@@ -89,7 +89,7 @@ scala3_global_scalacopts = [
 
 runtime_classpath_3_0 = [
     "@scala_library_3_1_0//jar",
-    "@scala_library_2_13_6//jar",
+    "@scala_library_2_13_7//jar",
 ]
 
 compiler_classpath_3_0 = [
