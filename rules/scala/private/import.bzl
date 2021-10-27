@@ -53,7 +53,7 @@ def scala_import_implementation(ctx):
 
         source_jar = java_common.pack_sources(
             ctx.actions,
-            output_jar = output_jar,
+            output_source_jar = output_jar,
             source_jars = _src_jar,
             host_javabase = find_java_runtime_toolchain(ctx, ctx.attr._host_javabase),
             java_toolchain = find_java_toolchain(ctx, ctx.attr._java_toolchain),

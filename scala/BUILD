@@ -88,15 +88,15 @@ scala3_global_scalacopts = [
 ]
 
 runtime_classpath_3_0 = [
-    "@scala_library_3_0_2//jar",
+    "@scala_library_3_1_0//jar",
     "@scala_library_2_13_6//jar",
 ]
 
 compiler_classpath_3_0 = [
-    "@scala_compiler_3_0_2//jar",
-    "@scala_interfaces_3_0_2//jar",
-    "@scala_tasty_core_3_0_2//jar",
-    "@scala_asm_9_1_0//jar",
+    "@scala_compiler_3_1_0//jar",
+    "@scala_interfaces_3_1_0//jar",
+    "@scala_tasty_core_3_1_0//jar",
+    "@scala_asm_9_2_0//jar",
 ] + runtime_classpath_3_0
 
 configure_bootstrap_scala(
@@ -110,7 +110,7 @@ configure_bootstrap_scala(
 
 configure_zinc_scala(
     name = "zinc_3_0",
-    compiler_bridge = "@scala_sbt_bridge_3_0_2//jar",
+    compiler_bridge = "@scala_sbt_bridge_3_1_0//jar",
     compiler_classpath = compiler_classpath_3_0,
     global_scalacopts = scala3_global_scalacopts,
     runtime_classpath = runtime_classpath_3_0,
@@ -120,7 +120,7 @@ configure_zinc_scala(
 
 configure_zinc_scala(
     name = "zinc_3_0_migration",
-    compiler_bridge = "@scala_sbt_bridge_3_0_2//jar",
+    compiler_bridge = "@scala_sbt_bridge_3_1_0//jar",
     compiler_classpath = compiler_classpath_3_0,
     runtime_classpath = runtime_classpath_3_0,
     global_scalacopts = ["-source:3.0-migration"],

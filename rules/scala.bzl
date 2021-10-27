@@ -254,6 +254,7 @@ def make_scala_library(*extras):
         outputs = _dicts.add(
             {
                 "jar": "%{name}.jar",
+                "src_jar": "%{name}-src.jar",
             },
             *[extra["outputs"] for extra in extras]
         ),
@@ -293,6 +294,7 @@ To run the program: `bazel run <target>`
             {
                 "bin": "%{name}-bin",
                 "jar": "%{name}.jar",
+                "src_jar": "%{name}-src.jar",
                 "deploy_jar": "%{name}_deploy.jar",
             },
             *[extra["outputs"] for extra in extras]
@@ -358,6 +360,7 @@ To build and run a specific test: `bazel test <target> --test_filter=<filter_exp
             {
                 "bin": "%{name}-bin",
                 "jar": "%{name}.jar",
+                "src_jar": "%{name}-src.jar",
             },
             *[extra["outputs"] for extra in extras]
         ),

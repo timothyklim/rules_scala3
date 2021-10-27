@@ -2,7 +2,7 @@
   description = "Bazel rules_scala flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
     java.url = "github:TawasalMessenger/jdk-flake";
     bazel.url = "github:timothyklim/bazel-flake";
@@ -12,10 +12,7 @@
     flake-utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        jdk =
-          if pkgs.stdenv.isDarwin
-          then pkgs.jdk16_headless
-          else java.packages.${system}.openjdk_16;
+        jdk = java.packages.${system}.jdk_17;
         bazel-pre = bazel.defaultPackage.${system};
       in
       rec {
