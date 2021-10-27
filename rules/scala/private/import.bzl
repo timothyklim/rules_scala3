@@ -29,8 +29,6 @@ def scala_import_implementation(ctx):
                 _jar.append(jar)
         _src_jar += ctx.files.srcjar
 
-        output_jar = _jar[0]
-
         # TODO: maybe eventually we should use this. Right now it produces
         # a warning:
         #   WARNING: Duplicate name in Manifest: <MANIFEST.MF entry>.
@@ -53,12 +51,12 @@ def scala_import_implementation(ctx):
 
         source_jar = java_common.pack_sources(
             ctx.actions,
-            output_source_jar = output_jar,
+            output_source_jar = ctx.actions.declare_file("%s-src.jar" % ctx.attr.name),
             source_jars = _src_jar,
-            host_javabase = find_java_runtime_toolchain(ctx, ctx.attr._host_javabase),
             java_toolchain = find_java_toolchain(ctx, ctx.attr._java_toolchain),
         )
 
+        output_jar = _jar[0]
         java_info = JavaInfo(
             output_jar = output_jar,
             compile_jar = output_jar,
