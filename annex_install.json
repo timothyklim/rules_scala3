@@ -18,7 +18,8 @@
                     "https://repo1.maven.org/maven2/com/eed3si9n/shaded-jawn-parser_2.13/0.9.1/shaded-jawn-parser_2.13-0.9.1.jar",
                     "https://repo.maven.apache.org/maven2/com/eed3si9n/shaded-jawn-parser_2.13/0.9.1/shaded-jawn-parser_2.13-0.9.1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/com/eed3si9n/shaded-jawn-parser_2.13/0.9.1/shaded-jawn-parser_2.13-0.9.1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/eed3si9n/shaded-jawn-parser_2.13/0.9.1/shaded-jawn-parser_2.13-0.9.1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/eed3si9n/shaded-jawn-parser_2.13/0.9.1/shaded-jawn-parser_2.13-0.9.1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/com/eed3si9n/shaded-jawn-parser_2.13/0.9.1/shaded-jawn-parser_2.13-0.9.1.jar"
                 ],
                 "sha256": "0fcb635e2ea79f252a83b15cafd74d9bbce05d693c43cd3ffe055abae2c6e293",
                 "url": "https://repo.maven.apache.org/maven2/com/eed3si9n/shaded-jawn-parser_2.13/0.9.1/shaded-jawn-parser_2.13-0.9.1.jar"
@@ -36,7 +37,8 @@
                     "https://repo1.maven.org/maven2/com/eed3si9n/shaded-jawn-parser_2.13/0.9.1/shaded-jawn-parser_2.13-0.9.1-sources.jar",
                     "https://repo.maven.apache.org/maven2/com/eed3si9n/shaded-jawn-parser_2.13/0.9.1/shaded-jawn-parser_2.13-0.9.1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/com/eed3si9n/shaded-jawn-parser_2.13/0.9.1/shaded-jawn-parser_2.13-0.9.1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/eed3si9n/shaded-jawn-parser_2.13/0.9.1/shaded-jawn-parser_2.13-0.9.1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/eed3si9n/shaded-jawn-parser_2.13/0.9.1/shaded-jawn-parser_2.13-0.9.1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/com/eed3si9n/shaded-jawn-parser_2.13/0.9.1/shaded-jawn-parser_2.13-0.9.1-sources.jar"
                 ],
                 "sha256": "52a356a9721461f2d40a334c39ceae5c67cd5074eba631f3aee44031a1c4ac18",
                 "url": "https://repo.maven.apache.org/maven2/com/eed3si9n/shaded-jawn-parser_2.13/0.9.1/shaded-jawn-parser_2.13-0.9.1-sources.jar"
@@ -54,7 +56,8 @@
                     "https://repo1.maven.org/maven2/com/eed3si9n/shaded-scalajson_2.13/1.0.0-M4/shaded-scalajson_2.13-1.0.0-M4.jar",
                     "https://repo.maven.apache.org/maven2/com/eed3si9n/shaded-scalajson_2.13/1.0.0-M4/shaded-scalajson_2.13-1.0.0-M4.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/com/eed3si9n/shaded-scalajson_2.13/1.0.0-M4/shaded-scalajson_2.13-1.0.0-M4.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/eed3si9n/shaded-scalajson_2.13/1.0.0-M4/shaded-scalajson_2.13-1.0.0-M4.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/eed3si9n/shaded-scalajson_2.13/1.0.0-M4/shaded-scalajson_2.13-1.0.0-M4.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/com/eed3si9n/shaded-scalajson_2.13/1.0.0-M4/shaded-scalajson_2.13-1.0.0-M4.jar"
                 ],
                 "sha256": "7b6b6d85727bd8abab940b559de8e32aa5081add29f7531c855bb0761ae8de67",
                 "url": "https://repo.maven.apache.org/maven2/com/eed3si9n/shaded-scalajson_2.13/1.0.0-M4/shaded-scalajson_2.13-1.0.0-M4.jar"
@@ -72,7 +75,8 @@
                     "https://repo1.maven.org/maven2/com/eed3si9n/shaded-scalajson_2.13/1.0.0-M4/shaded-scalajson_2.13-1.0.0-M4-sources.jar",
                     "https://repo.maven.apache.org/maven2/com/eed3si9n/shaded-scalajson_2.13/1.0.0-M4/shaded-scalajson_2.13-1.0.0-M4-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/com/eed3si9n/shaded-scalajson_2.13/1.0.0-M4/shaded-scalajson_2.13-1.0.0-M4-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/eed3si9n/shaded-scalajson_2.13/1.0.0-M4/shaded-scalajson_2.13-1.0.0-M4-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/eed3si9n/shaded-scalajson_2.13/1.0.0-M4/shaded-scalajson_2.13-1.0.0-M4-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/com/eed3si9n/shaded-scalajson_2.13/1.0.0-M4/shaded-scalajson_2.13-1.0.0-M4-sources.jar"
                 ],
                 "sha256": "33ab92febadd7def753691bcb981c9a01aa9a6bfcdbd0768495af630d19690fc",
                 "url": "https://repo.maven.apache.org/maven2/com/eed3si9n/shaded-scalajson_2.13/1.0.0-M4/shaded-scalajson_2.13-1.0.0-M4-sources.jar"
@@ -90,7 +94,8 @@
                     "https://repo1.maven.org/maven2/com/eed3si9n/sjson-new-core_2.13/0.9.1/sjson-new-core_2.13-0.9.1.jar",
                     "https://repo.maven.apache.org/maven2/com/eed3si9n/sjson-new-core_2.13/0.9.1/sjson-new-core_2.13-0.9.1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/com/eed3si9n/sjson-new-core_2.13/0.9.1/sjson-new-core_2.13-0.9.1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/eed3si9n/sjson-new-core_2.13/0.9.1/sjson-new-core_2.13-0.9.1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/eed3si9n/sjson-new-core_2.13/0.9.1/sjson-new-core_2.13-0.9.1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/com/eed3si9n/sjson-new-core_2.13/0.9.1/sjson-new-core_2.13-0.9.1.jar"
                 ],
                 "sha256": "253c5082b8c7933ceb8aa9c872828037669fd0bc51c01fc985940f2bd4193400",
                 "url": "https://repo.maven.apache.org/maven2/com/eed3si9n/sjson-new-core_2.13/0.9.1/sjson-new-core_2.13-0.9.1.jar"
@@ -108,7 +113,8 @@
                     "https://repo1.maven.org/maven2/com/eed3si9n/sjson-new-core_2.13/0.9.1/sjson-new-core_2.13-0.9.1-sources.jar",
                     "https://repo.maven.apache.org/maven2/com/eed3si9n/sjson-new-core_2.13/0.9.1/sjson-new-core_2.13-0.9.1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/com/eed3si9n/sjson-new-core_2.13/0.9.1/sjson-new-core_2.13-0.9.1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/eed3si9n/sjson-new-core_2.13/0.9.1/sjson-new-core_2.13-0.9.1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/eed3si9n/sjson-new-core_2.13/0.9.1/sjson-new-core_2.13-0.9.1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/com/eed3si9n/sjson-new-core_2.13/0.9.1/sjson-new-core_2.13-0.9.1-sources.jar"
                 ],
                 "sha256": "71d3f475660ae6a56a63cf6adaf7b28606065bee215163269f23e26a5c0b9c34",
                 "url": "https://repo.maven.apache.org/maven2/com/eed3si9n/sjson-new-core_2.13/0.9.1/sjson-new-core_2.13-0.9.1-sources.jar"
@@ -132,7 +138,8 @@
                     "https://repo1.maven.org/maven2/com/eed3si9n/sjson-new-scalajson_2.13/0.9.1/sjson-new-scalajson_2.13-0.9.1.jar",
                     "https://repo.maven.apache.org/maven2/com/eed3si9n/sjson-new-scalajson_2.13/0.9.1/sjson-new-scalajson_2.13-0.9.1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/com/eed3si9n/sjson-new-scalajson_2.13/0.9.1/sjson-new-scalajson_2.13-0.9.1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/eed3si9n/sjson-new-scalajson_2.13/0.9.1/sjson-new-scalajson_2.13-0.9.1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/eed3si9n/sjson-new-scalajson_2.13/0.9.1/sjson-new-scalajson_2.13-0.9.1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/com/eed3si9n/sjson-new-scalajson_2.13/0.9.1/sjson-new-scalajson_2.13-0.9.1.jar"
                 ],
                 "sha256": "c0bae93e48180549d7358c6e5c809568a20aeb4342661da0b61507af0a9fa5be",
                 "url": "https://repo.maven.apache.org/maven2/com/eed3si9n/sjson-new-scalajson_2.13/0.9.1/sjson-new-scalajson_2.13-0.9.1.jar"
@@ -156,7 +163,8 @@
                     "https://repo1.maven.org/maven2/com/eed3si9n/sjson-new-scalajson_2.13/0.9.1/sjson-new-scalajson_2.13-0.9.1-sources.jar",
                     "https://repo.maven.apache.org/maven2/com/eed3si9n/sjson-new-scalajson_2.13/0.9.1/sjson-new-scalajson_2.13-0.9.1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/com/eed3si9n/sjson-new-scalajson_2.13/0.9.1/sjson-new-scalajson_2.13-0.9.1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/eed3si9n/sjson-new-scalajson_2.13/0.9.1/sjson-new-scalajson_2.13-0.9.1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/eed3si9n/sjson-new-scalajson_2.13/0.9.1/sjson-new-scalajson_2.13-0.9.1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/com/eed3si9n/sjson-new-scalajson_2.13/0.9.1/sjson-new-scalajson_2.13-0.9.1-sources.jar"
                 ],
                 "sha256": "e67210c10845f54f5af1fdfa942f0751529c35f974e3dc3ad3298aee5f707d6d",
                 "url": "https://repo.maven.apache.org/maven2/com/eed3si9n/sjson-new-scalajson_2.13/0.9.1/sjson-new-scalajson_2.13-0.9.1-sources.jar"
@@ -174,7 +182,8 @@
                     "https://repo1.maven.org/maven2/com/github/scopt/scopt_3/4.0.1/scopt_3-4.0.1.jar",
                     "https://repo.maven.apache.org/maven2/com/github/scopt/scopt_3/4.0.1/scopt_3-4.0.1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/com/github/scopt/scopt_3/4.0.1/scopt_3-4.0.1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/github/scopt/scopt_3/4.0.1/scopt_3-4.0.1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/github/scopt/scopt_3/4.0.1/scopt_3-4.0.1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/com/github/scopt/scopt_3/4.0.1/scopt_3-4.0.1.jar"
                 ],
                 "sha256": "f7affeb6d24ea8ddb2535965e218572d960d829d7dc96b75bd67cc299aaf09d7",
                 "url": "https://repo1.maven.org/maven2/com/github/scopt/scopt_3/4.0.1/scopt_3-4.0.1.jar"
@@ -192,7 +201,8 @@
                     "https://repo1.maven.org/maven2/com/github/scopt/scopt_3/4.0.1/scopt_3-4.0.1-sources.jar",
                     "https://repo.maven.apache.org/maven2/com/github/scopt/scopt_3/4.0.1/scopt_3-4.0.1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/com/github/scopt/scopt_3/4.0.1/scopt_3-4.0.1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/github/scopt/scopt_3/4.0.1/scopt_3-4.0.1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/github/scopt/scopt_3/4.0.1/scopt_3-4.0.1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/com/github/scopt/scopt_3/4.0.1/scopt_3-4.0.1-sources.jar"
                 ],
                 "sha256": "60651ec794de59783ad2454e7ffe0bd09193f90d8bab49ab286bd4af054c6d10",
                 "url": "https://repo1.maven.org/maven2/com/github/scopt/scopt_3/4.0.1/scopt_3-4.0.1-sources.jar"
@@ -206,7 +216,8 @@
                     "https://repo1.maven.org/maven2/com/lmax/disruptor/3.4.2/disruptor-3.4.2.jar",
                     "https://repo.maven.apache.org/maven2/com/lmax/disruptor/3.4.2/disruptor-3.4.2.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/com/lmax/disruptor/3.4.2/disruptor-3.4.2.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/lmax/disruptor/3.4.2/disruptor-3.4.2.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/lmax/disruptor/3.4.2/disruptor-3.4.2.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/com/lmax/disruptor/3.4.2/disruptor-3.4.2.jar"
                 ],
                 "sha256": "f412ecbb235c2460b45e63584109723dea8d94b819c78c9bfc38f50cba8546c0",
                 "url": "https://repo1.maven.org/maven2/com/lmax/disruptor/3.4.2/disruptor-3.4.2.jar"
@@ -220,7 +231,8 @@
                     "https://repo1.maven.org/maven2/com/lmax/disruptor/3.4.2/disruptor-3.4.2-sources.jar",
                     "https://repo.maven.apache.org/maven2/com/lmax/disruptor/3.4.2/disruptor-3.4.2-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/com/lmax/disruptor/3.4.2/disruptor-3.4.2-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/lmax/disruptor/3.4.2/disruptor-3.4.2-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/lmax/disruptor/3.4.2/disruptor-3.4.2-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/com/lmax/disruptor/3.4.2/disruptor-3.4.2-sources.jar"
                 ],
                 "sha256": "ed3a5401dbfd2c6a6d914db221b7728acd17cfc8fdb7520c26879938a30132b4",
                 "url": "https://repo1.maven.org/maven2/com/lmax/disruptor/3.4.2/disruptor-3.4.2-sources.jar"
@@ -234,7 +246,8 @@
                     "https://repo1.maven.org/maven2/com/swoval/file-tree-views/2.1.7/file-tree-views-2.1.7.jar",
                     "https://repo.maven.apache.org/maven2/com/swoval/file-tree-views/2.1.7/file-tree-views-2.1.7.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/com/swoval/file-tree-views/2.1.7/file-tree-views-2.1.7.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/swoval/file-tree-views/2.1.7/file-tree-views-2.1.7.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/swoval/file-tree-views/2.1.7/file-tree-views-2.1.7.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/com/swoval/file-tree-views/2.1.7/file-tree-views-2.1.7.jar"
                 ],
                 "sha256": "a678d18699fa927402a431e3775d7e977f5f496c0c053129c1af2823e0c69d1c",
                 "url": "https://repo1.maven.org/maven2/com/swoval/file-tree-views/2.1.7/file-tree-views-2.1.7.jar"
@@ -248,7 +261,8 @@
                     "https://repo1.maven.org/maven2/com/swoval/file-tree-views/2.1.7/file-tree-views-2.1.7-sources.jar",
                     "https://repo.maven.apache.org/maven2/com/swoval/file-tree-views/2.1.7/file-tree-views-2.1.7-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/com/swoval/file-tree-views/2.1.7/file-tree-views-2.1.7-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/swoval/file-tree-views/2.1.7/file-tree-views-2.1.7-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/com/swoval/file-tree-views/2.1.7/file-tree-views-2.1.7-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/com/swoval/file-tree-views/2.1.7/file-tree-views-2.1.7-sources.jar"
                 ],
                 "sha256": "b181cc39552022512946e8de828d9d2b0654f0209fb8edef933b4145107cad3b",
                 "url": "https://repo1.maven.org/maven2/com/swoval/file-tree-views/2.1.7/file-tree-views-2.1.7-sources.jar"
@@ -266,7 +280,8 @@
                     "https://repo1.maven.org/maven2/net/java/dev/jna/jna-platform/5.8.0/jna-platform-5.8.0.jar",
                     "https://repo.maven.apache.org/maven2/net/java/dev/jna/jna-platform/5.8.0/jna-platform-5.8.0.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/net/java/dev/jna/jna-platform/5.8.0/jna-platform-5.8.0.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/net/java/dev/jna/jna-platform/5.8.0/jna-platform-5.8.0.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/net/java/dev/jna/jna-platform/5.8.0/jna-platform-5.8.0.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/net/java/dev/jna/jna-platform/5.8.0/jna-platform-5.8.0.jar"
                 ],
                 "sha256": "ffd93fe1bc07de6f33eabf3d051c3636e01a01c17cb0da8448c53a2ac5e3bf7a",
                 "url": "https://repo1.maven.org/maven2/net/java/dev/jna/jna-platform/5.8.0/jna-platform-5.8.0.jar"
@@ -284,7 +299,8 @@
                     "https://repo1.maven.org/maven2/net/java/dev/jna/jna-platform/5.8.0/jna-platform-5.8.0-sources.jar",
                     "https://repo.maven.apache.org/maven2/net/java/dev/jna/jna-platform/5.8.0/jna-platform-5.8.0-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/net/java/dev/jna/jna-platform/5.8.0/jna-platform-5.8.0-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/net/java/dev/jna/jna-platform/5.8.0/jna-platform-5.8.0-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/net/java/dev/jna/jna-platform/5.8.0/jna-platform-5.8.0-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/net/java/dev/jna/jna-platform/5.8.0/jna-platform-5.8.0-sources.jar"
                 ],
                 "sha256": "c049de61b0d3727850142b901e68cee9dd2963792442161f0e7a8229161b3894",
                 "url": "https://repo1.maven.org/maven2/net/java/dev/jna/jna-platform/5.8.0/jna-platform-5.8.0-sources.jar"
@@ -298,7 +314,8 @@
                     "https://repo1.maven.org/maven2/net/java/dev/jna/jna/5.8.0/jna-5.8.0.jar",
                     "https://repo.maven.apache.org/maven2/net/java/dev/jna/jna/5.8.0/jna-5.8.0.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/net/java/dev/jna/jna/5.8.0/jna-5.8.0.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/net/java/dev/jna/jna/5.8.0/jna-5.8.0.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/net/java/dev/jna/jna/5.8.0/jna-5.8.0.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/net/java/dev/jna/jna/5.8.0/jna-5.8.0.jar"
                 ],
                 "sha256": "930273cc1c492f25661ea62413a6da3fd7f6e01bf1c4dcc0817fc8696a7b07ac",
                 "url": "https://repo1.maven.org/maven2/net/java/dev/jna/jna/5.8.0/jna-5.8.0.jar"
@@ -312,7 +329,8 @@
                     "https://repo1.maven.org/maven2/net/java/dev/jna/jna/5.8.0/jna-5.8.0-sources.jar",
                     "https://repo.maven.apache.org/maven2/net/java/dev/jna/jna/5.8.0/jna-5.8.0-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/net/java/dev/jna/jna/5.8.0/jna-5.8.0-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/net/java/dev/jna/jna/5.8.0/jna-5.8.0-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/net/java/dev/jna/jna/5.8.0/jna-5.8.0-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/net/java/dev/jna/jna/5.8.0/jna-5.8.0-sources.jar"
                 ],
                 "sha256": "4616cf507a47462ea5ec04654778d2e41624e21db7f41188cc553e8dce1123da",
                 "url": "https://repo1.maven.org/maven2/net/java/dev/jna/jna/5.8.0/jna-5.8.0-sources.jar"
@@ -326,7 +344,8 @@
                     "https://repo1.maven.org/maven2/net/openhft/zero-allocation-hashing/0.10.1/zero-allocation-hashing-0.10.1.jar",
                     "https://repo.maven.apache.org/maven2/net/openhft/zero-allocation-hashing/0.10.1/zero-allocation-hashing-0.10.1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/net/openhft/zero-allocation-hashing/0.10.1/zero-allocation-hashing-0.10.1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/net/openhft/zero-allocation-hashing/0.10.1/zero-allocation-hashing-0.10.1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/net/openhft/zero-allocation-hashing/0.10.1/zero-allocation-hashing-0.10.1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/net/openhft/zero-allocation-hashing/0.10.1/zero-allocation-hashing-0.10.1.jar"
                 ],
                 "sha256": "83636838b75e001a061414f6737141e6200d5e21293842a7a08201ada8988d32",
                 "url": "https://repo1.maven.org/maven2/net/openhft/zero-allocation-hashing/0.10.1/zero-allocation-hashing-0.10.1.jar"
@@ -340,7 +359,8 @@
                     "https://repo1.maven.org/maven2/net/openhft/zero-allocation-hashing/0.10.1/zero-allocation-hashing-0.10.1-sources.jar",
                     "https://repo.maven.apache.org/maven2/net/openhft/zero-allocation-hashing/0.10.1/zero-allocation-hashing-0.10.1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/net/openhft/zero-allocation-hashing/0.10.1/zero-allocation-hashing-0.10.1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/net/openhft/zero-allocation-hashing/0.10.1/zero-allocation-hashing-0.10.1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/net/openhft/zero-allocation-hashing/0.10.1/zero-allocation-hashing-0.10.1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/net/openhft/zero-allocation-hashing/0.10.1/zero-allocation-hashing-0.10.1-sources.jar"
                 ],
                 "sha256": "d402059ea626c31ccd7006bfa1c39ae934b468e6166aa314178e85eebb0481dd",
                 "url": "https://repo1.maven.org/maven2/net/openhft/zero-allocation-hashing/0.10.1/zero-allocation-hashing-0.10.1-sources.jar"
@@ -354,7 +374,8 @@
                     "https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2.jar",
                     "https://repo.maven.apache.org/maven2/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2.jar"
                 ],
                 "sha256": "09b8ce1740491deefdb3c336855822b64609b457c2966d806348456c0da261d2",
                 "url": "https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2.jar"
@@ -368,7 +389,8 @@
                     "https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2-sources.jar"
                 ],
                 "sha256": "9c75c657aae31707b46ddfdf3a49f9a1c4b60d07abbfd5a76e9d702c0f316740",
                 "url": "https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.11.2/log4j-api-2.11.2-sources.jar"
@@ -386,7 +408,8 @@
                     "https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2.jar",
                     "https://repo.maven.apache.org/maven2/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2.jar"
                 ],
                 "sha256": "d4748cd5d8d67f513de7634fa202740490d7e0ab546f4bf94e5c4d4a11e3edbc",
                 "url": "https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2.jar"
@@ -404,7 +427,8 @@
                     "https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2-sources.jar"
                 ],
                 "sha256": "4dde81a4a934d61f3ae9f92d896facbf76a55da410f70c0ebdf4f3c0778c8d78",
                 "url": "https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core/2.11.2/log4j-core-2.11.2-sources.jar"
@@ -418,7 +442,8 @@
                     "https://repo1.maven.org/maven2/org/fusesource/jansi/jansi/2.1.0/jansi-2.1.0.jar",
                     "https://repo.maven.apache.org/maven2/org/fusesource/jansi/jansi/2.1.0/jansi-2.1.0.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/fusesource/jansi/jansi/2.1.0/jansi-2.1.0.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/fusesource/jansi/jansi/2.1.0/jansi-2.1.0.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/fusesource/jansi/jansi/2.1.0/jansi-2.1.0.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/fusesource/jansi/jansi/2.1.0/jansi-2.1.0.jar"
                 ],
                 "sha256": "d207c1114741e7544a8f17c07b53d91689c0716c54eaf8f3b7149e73b0ec1b09",
                 "url": "https://repo1.maven.org/maven2/org/fusesource/jansi/jansi/2.1.0/jansi-2.1.0.jar"
@@ -432,7 +457,8 @@
                     "https://repo1.maven.org/maven2/org/fusesource/jansi/jansi/2.1.0/jansi-2.1.0-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/fusesource/jansi/jansi/2.1.0/jansi-2.1.0-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/fusesource/jansi/jansi/2.1.0/jansi-2.1.0-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/fusesource/jansi/jansi/2.1.0/jansi-2.1.0-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/fusesource/jansi/jansi/2.1.0/jansi-2.1.0-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/fusesource/jansi/jansi/2.1.0/jansi-2.1.0-sources.jar"
                 ],
                 "sha256": "c5f4a5fb41546f9c7b0dd0d5d8ff6dfa396e8cc11049f64f7a96fe24436c59eb",
                 "url": "https://repo1.maven.org/maven2/org/fusesource/jansi/jansi/2.1.0/jansi-2.1.0-sources.jar"
@@ -455,7 +481,8 @@
                     "https://repo1.maven.org/maven2/org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7.jar",
                     "https://repo.maven.apache.org/maven2/org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7.jar"
                 ],
                 "sha256": "ad7739b5fb5969aa1a8aead3d74ed54dc82ed012f1f10f336bd1b96e71c1a13c",
                 "url": "https://repo1.maven.org/maven2/org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7.jar"
@@ -478,7 +505,8 @@
                     "https://repo1.maven.org/maven2/org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7-sources.jar"
                 ],
                 "sha256": "eace380505f83533660e27a0033ea0b69f4343817f6da7e1bc1c60df5ca38ce4",
                 "url": "https://repo1.maven.org/maven2/org/jacoco/org.jacoco.core/0.8.7/org.jacoco.core-0.8.7-sources.jar"
@@ -498,7 +526,8 @@
                     "https://repo1.maven.org/maven2/org/jline/jline-terminal-jansi/3.19.0/jline-terminal-jansi-3.19.0.jar",
                     "https://repo.maven.apache.org/maven2/org/jline/jline-terminal-jansi/3.19.0/jline-terminal-jansi-3.19.0.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/jline/jline-terminal-jansi/3.19.0/jline-terminal-jansi-3.19.0.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jline/jline-terminal-jansi/3.19.0/jline-terminal-jansi-3.19.0.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jline/jline-terminal-jansi/3.19.0/jline-terminal-jansi-3.19.0.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/jline/jline-terminal-jansi/3.19.0/jline-terminal-jansi-3.19.0.jar"
                 ],
                 "sha256": "09566aa3af952a83e2fc2582865b9afe20ad2c6afcafd78c52ae7eacdeb736c9",
                 "url": "https://repo1.maven.org/maven2/org/jline/jline-terminal-jansi/3.19.0/jline-terminal-jansi-3.19.0.jar"
@@ -518,7 +547,8 @@
                     "https://repo1.maven.org/maven2/org/jline/jline-terminal-jansi/3.19.0/jline-terminal-jansi-3.19.0-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/jline/jline-terminal-jansi/3.19.0/jline-terminal-jansi-3.19.0-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/jline/jline-terminal-jansi/3.19.0/jline-terminal-jansi-3.19.0-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jline/jline-terminal-jansi/3.19.0/jline-terminal-jansi-3.19.0-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jline/jline-terminal-jansi/3.19.0/jline-terminal-jansi-3.19.0-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/jline/jline-terminal-jansi/3.19.0/jline-terminal-jansi-3.19.0-sources.jar"
                 ],
                 "sha256": "1c68b6d3c2cbb44e7fd04232ff81d5ea760bdb8005ae0f76a803608a88ddaa26",
                 "url": "https://repo1.maven.org/maven2/org/jline/jline-terminal-jansi/3.19.0/jline-terminal-jansi-3.19.0-sources.jar"
@@ -538,7 +568,8 @@
                     "https://repo1.maven.org/maven2/org/jline/jline-terminal-jna/3.19.0/jline-terminal-jna-3.19.0.jar",
                     "https://repo.maven.apache.org/maven2/org/jline/jline-terminal-jna/3.19.0/jline-terminal-jna-3.19.0.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/jline/jline-terminal-jna/3.19.0/jline-terminal-jna-3.19.0.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jline/jline-terminal-jna/3.19.0/jline-terminal-jna-3.19.0.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jline/jline-terminal-jna/3.19.0/jline-terminal-jna-3.19.0.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/jline/jline-terminal-jna/3.19.0/jline-terminal-jna-3.19.0.jar"
                 ],
                 "sha256": "4a86975ba94756eaf70dea642d8d4c32535b65479050b56c476dc8c6b0519331",
                 "url": "https://repo1.maven.org/maven2/org/jline/jline-terminal-jna/3.19.0/jline-terminal-jna-3.19.0.jar"
@@ -558,7 +589,8 @@
                     "https://repo1.maven.org/maven2/org/jline/jline-terminal-jna/3.19.0/jline-terminal-jna-3.19.0-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/jline/jline-terminal-jna/3.19.0/jline-terminal-jna-3.19.0-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/jline/jline-terminal-jna/3.19.0/jline-terminal-jna-3.19.0-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jline/jline-terminal-jna/3.19.0/jline-terminal-jna-3.19.0-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jline/jline-terminal-jna/3.19.0/jline-terminal-jna-3.19.0-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/jline/jline-terminal-jna/3.19.0/jline-terminal-jna-3.19.0-sources.jar"
                 ],
                 "sha256": "8bb10c163466591935b8accdf3b1793cc83478a56fa2a767f11810f110c2de30",
                 "url": "https://repo1.maven.org/maven2/org/jline/jline-terminal-jna/3.19.0/jline-terminal-jna-3.19.0-sources.jar"
@@ -572,7 +604,8 @@
                     "https://repo1.maven.org/maven2/org/jline/jline-terminal/3.19.0/jline-terminal-3.19.0.jar",
                     "https://repo.maven.apache.org/maven2/org/jline/jline-terminal/3.19.0/jline-terminal-3.19.0.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/jline/jline-terminal/3.19.0/jline-terminal-3.19.0.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jline/jline-terminal/3.19.0/jline-terminal-3.19.0.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jline/jline-terminal/3.19.0/jline-terminal-3.19.0.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/jline/jline-terminal/3.19.0/jline-terminal-3.19.0.jar"
                 ],
                 "sha256": "abdbeafa38c4ccd82578c1f3d08ea48af439eff194d23aa3bae18fbe93b4dcf0",
                 "url": "https://repo1.maven.org/maven2/org/jline/jline-terminal/3.19.0/jline-terminal-3.19.0.jar"
@@ -586,7 +619,8 @@
                     "https://repo1.maven.org/maven2/org/jline/jline-terminal/3.19.0/jline-terminal-3.19.0-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/jline/jline-terminal/3.19.0/jline-terminal-3.19.0-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/jline/jline-terminal/3.19.0/jline-terminal-3.19.0-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jline/jline-terminal/3.19.0/jline-terminal-3.19.0-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jline/jline-terminal/3.19.0/jline-terminal-3.19.0-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/jline/jline-terminal/3.19.0/jline-terminal-3.19.0-sources.jar"
                 ],
                 "sha256": "249e29e67e300d978491fcfbdbced5c9ecabec8aeaaf36145edfd5e890f34ac6",
                 "url": "https://repo1.maven.org/maven2/org/jline/jline-terminal/3.19.0/jline-terminal-3.19.0-sources.jar"
@@ -600,7 +634,8 @@
                     "https://repo1.maven.org/maven2/org/jline/jline/3.19.0/jline-3.19.0.jar",
                     "https://repo.maven.apache.org/maven2/org/jline/jline/3.19.0/jline-3.19.0.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/jline/jline/3.19.0/jline-3.19.0.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jline/jline/3.19.0/jline-3.19.0.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jline/jline/3.19.0/jline-3.19.0.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/jline/jline/3.19.0/jline-3.19.0.jar"
                 ],
                 "sha256": "c99ddcfa5431cab88d1cd40fd63bec6ab5a3fe2e83877051198539af66592a46",
                 "url": "https://repo1.maven.org/maven2/org/jline/jline/3.19.0/jline-3.19.0.jar"
@@ -614,7 +649,8 @@
                     "https://repo1.maven.org/maven2/org/jline/jline/3.19.0/jline-3.19.0-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/jline/jline/3.19.0/jline-3.19.0-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/jline/jline/3.19.0/jline-3.19.0-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jline/jline/3.19.0/jline-3.19.0-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/jline/jline/3.19.0/jline-3.19.0-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/jline/jline/3.19.0/jline-3.19.0-sources.jar"
                 ],
                 "sha256": "153e60f5dea73b68f0275d45d2dbd709a1397e3e9423ed44fbcad68eada9782c",
                 "url": "https://repo1.maven.org/maven2/org/jline/jline/3.19.0/jline-3.19.0-sources.jar"
@@ -633,7 +669,8 @@
                     "https://repo1.maven.org/maven2/org/ow2/asm/asm-analysis/9.1/asm-analysis-9.1.jar",
                     "https://repo.maven.apache.org/maven2/org/ow2/asm/asm-analysis/9.1/asm-analysis-9.1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/ow2/asm/asm-analysis/9.1/asm-analysis-9.1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/ow2/asm/asm-analysis/9.1/asm-analysis-9.1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/ow2/asm/asm-analysis/9.1/asm-analysis-9.1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/ow2/asm/asm-analysis/9.1/asm-analysis-9.1.jar"
                 ],
                 "sha256": "81a88041b1b8beda5a8a99646098046c48709538270c49def68abff25ac3be34",
                 "url": "https://repo1.maven.org/maven2/org/ow2/asm/asm-analysis/9.1/asm-analysis-9.1.jar"
@@ -652,7 +689,8 @@
                     "https://repo1.maven.org/maven2/org/ow2/asm/asm-analysis/9.1/asm-analysis-9.1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/ow2/asm/asm-analysis/9.1/asm-analysis-9.1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/ow2/asm/asm-analysis/9.1/asm-analysis-9.1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/ow2/asm/asm-analysis/9.1/asm-analysis-9.1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/ow2/asm/asm-analysis/9.1/asm-analysis-9.1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/ow2/asm/asm-analysis/9.1/asm-analysis-9.1-sources.jar"
                 ],
                 "sha256": "c5a6764bbcee9e4bcd8ee1ea33808f96b8b587371f329aa75a2f541f2ee1b0d5",
                 "url": "https://repo1.maven.org/maven2/org/ow2/asm/asm-analysis/9.1/asm-analysis-9.1-sources.jar"
@@ -674,7 +712,8 @@
                     "https://repo1.maven.org/maven2/org/ow2/asm/asm-commons/9.1/asm-commons-9.1.jar",
                     "https://repo.maven.apache.org/maven2/org/ow2/asm/asm-commons/9.1/asm-commons-9.1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/ow2/asm/asm-commons/9.1/asm-commons-9.1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/ow2/asm/asm-commons/9.1/asm-commons-9.1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/ow2/asm/asm-commons/9.1/asm-commons-9.1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/ow2/asm/asm-commons/9.1/asm-commons-9.1.jar"
                 ],
                 "sha256": "afcb26dc1fc12c0c4a99ada670908dd82e18dfc488caf5ee92546996b470c00c",
                 "url": "https://repo1.maven.org/maven2/org/ow2/asm/asm-commons/9.1/asm-commons-9.1.jar"
@@ -696,7 +735,8 @@
                     "https://repo1.maven.org/maven2/org/ow2/asm/asm-commons/9.1/asm-commons-9.1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/ow2/asm/asm-commons/9.1/asm-commons-9.1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/ow2/asm/asm-commons/9.1/asm-commons-9.1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/ow2/asm/asm-commons/9.1/asm-commons-9.1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/ow2/asm/asm-commons/9.1/asm-commons-9.1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/ow2/asm/asm-commons/9.1/asm-commons-9.1-sources.jar"
                 ],
                 "sha256": "b7cac25d2481a8731b81ebbf5315599004f0f37416c1b5d83ada58e36dc7beea",
                 "url": "https://repo1.maven.org/maven2/org/ow2/asm/asm-commons/9.1/asm-commons-9.1-sources.jar"
@@ -714,7 +754,8 @@
                     "https://repo1.maven.org/maven2/org/ow2/asm/asm-tree/9.1/asm-tree-9.1.jar",
                     "https://repo.maven.apache.org/maven2/org/ow2/asm/asm-tree/9.1/asm-tree-9.1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/ow2/asm/asm-tree/9.1/asm-tree-9.1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/ow2/asm/asm-tree/9.1/asm-tree-9.1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/ow2/asm/asm-tree/9.1/asm-tree-9.1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/ow2/asm/asm-tree/9.1/asm-tree-9.1.jar"
                 ],
                 "sha256": "fd00afa49e9595d7646205b09cecb4a776a8ff0ba06f2d59b8f7bf9c704b4a73",
                 "url": "https://repo1.maven.org/maven2/org/ow2/asm/asm-tree/9.1/asm-tree-9.1.jar"
@@ -732,7 +773,8 @@
                     "https://repo1.maven.org/maven2/org/ow2/asm/asm-tree/9.1/asm-tree-9.1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/ow2/asm/asm-tree/9.1/asm-tree-9.1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/ow2/asm/asm-tree/9.1/asm-tree-9.1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/ow2/asm/asm-tree/9.1/asm-tree-9.1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/ow2/asm/asm-tree/9.1/asm-tree-9.1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/ow2/asm/asm-tree/9.1/asm-tree-9.1-sources.jar"
                 ],
                 "sha256": "e75b132b75a861dcbb8aa75b98783b863310fb2e3e3d28394c22063db5ec7432",
                 "url": "https://repo1.maven.org/maven2/org/ow2/asm/asm-tree/9.1/asm-tree-9.1-sources.jar"
@@ -746,7 +788,8 @@
                     "https://repo1.maven.org/maven2/org/ow2/asm/asm/9.1/asm-9.1.jar",
                     "https://repo.maven.apache.org/maven2/org/ow2/asm/asm/9.1/asm-9.1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/ow2/asm/asm/9.1/asm-9.1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/ow2/asm/asm/9.1/asm-9.1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/ow2/asm/asm/9.1/asm-9.1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/ow2/asm/asm/9.1/asm-9.1.jar"
                 ],
                 "sha256": "cda4de455fab48ff0bcb7c48b4639447d4de859a7afc30a094a986f0936beba2",
                 "url": "https://repo1.maven.org/maven2/org/ow2/asm/asm/9.1/asm-9.1.jar"
@@ -760,7 +803,8 @@
                     "https://repo1.maven.org/maven2/org/ow2/asm/asm/9.1/asm-9.1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/ow2/asm/asm/9.1/asm-9.1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/ow2/asm/asm/9.1/asm-9.1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/ow2/asm/asm/9.1/asm-9.1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/ow2/asm/asm/9.1/asm-9.1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/ow2/asm/asm/9.1/asm-9.1-sources.jar"
                 ],
                 "sha256": "64a1059b152dee08e203b4e1117b7979fff1578c545573f05329fb6d9090bb41",
                 "url": "https://repo1.maven.org/maven2/org/ow2/asm/asm/9.1/asm-9.1-sources.jar"
@@ -778,7 +822,8 @@
                     "https://repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar"
                 ],
                 "sha256": "d15f22f1308b98e9ac52a3d1ac8d582d548d6d852b1116cbdf5a50f431246ed1",
                 "url": "https://repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar"
@@ -796,7 +841,8 @@
                     "https://repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0-sources.jar"
                 ],
                 "sha256": "c513b9f3f72d843c106376fb06c16eded909e7a6f16abbe58f880e18c1299bb9",
                 "url": "https://repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0-sources.jar"
@@ -814,7 +860,8 @@
                     "https://repo1.maven.org/maven2/org/scala-lang/modules/scala-parser-combinators_2.13/1.1.2/scala-parser-combinators_2.13-1.1.2.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-lang/modules/scala-parser-combinators_2.13/1.1.2/scala-parser-combinators_2.13-1.1.2.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-lang/modules/scala-parser-combinators_2.13/1.1.2/scala-parser-combinators_2.13-1.1.2.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/modules/scala-parser-combinators_2.13/1.1.2/scala-parser-combinators_2.13-1.1.2.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/modules/scala-parser-combinators_2.13/1.1.2/scala-parser-combinators_2.13-1.1.2.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-lang/modules/scala-parser-combinators_2.13/1.1.2/scala-parser-combinators_2.13-1.1.2.jar"
                 ],
                 "sha256": "5c285b72e6dc0a98e99ae0a1ceeb4027dab9adfa441844046bd3f19e0efdcb54",
                 "url": "https://repo1.maven.org/maven2/org/scala-lang/modules/scala-parser-combinators_2.13/1.1.2/scala-parser-combinators_2.13-1.1.2.jar"
@@ -832,7 +879,8 @@
                     "https://repo1.maven.org/maven2/org/scala-lang/modules/scala-parser-combinators_2.13/1.1.2/scala-parser-combinators_2.13-1.1.2-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-lang/modules/scala-parser-combinators_2.13/1.1.2/scala-parser-combinators_2.13-1.1.2-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-lang/modules/scala-parser-combinators_2.13/1.1.2/scala-parser-combinators_2.13-1.1.2-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/modules/scala-parser-combinators_2.13/1.1.2/scala-parser-combinators_2.13-1.1.2-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/modules/scala-parser-combinators_2.13/1.1.2/scala-parser-combinators_2.13-1.1.2-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-lang/modules/scala-parser-combinators_2.13/1.1.2/scala-parser-combinators_2.13-1.1.2-sources.jar"
                 ],
                 "sha256": "a5cdd33bc2dcd8917e4fea30d31ea19d0d70cc5f6951c5a913428930ced8391a",
                 "url": "https://repo1.maven.org/maven2/org/scala-lang/modules/scala-parser-combinators_2.13/1.1.2/scala-parser-combinators_2.13-1.1.2-sources.jar"
@@ -850,7 +898,8 @@
                     "https://repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0.jar"
                 ],
                 "sha256": "213d2b7840bed5d1a1d5abfa1d72d7c7454473a6f77ea329fff0574910056fd3",
                 "url": "https://repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0.jar"
@@ -868,7 +917,8 @@
                     "https://repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0-sources.jar"
                 ],
                 "sha256": "e513d27835bcd489f70c24d5719a585f3323feae6610c06daa1533a462cf34bf",
                 "url": "https://repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_2.13/1.2.0/scala-xml_2.13-1.2.0-sources.jar"
@@ -887,7 +937,8 @@
                     "https://repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_3/2.0.1/scala-xml_3-2.0.1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-lang/modules/scala-xml_3/2.0.1/scala-xml_3-2.0.1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-lang/modules/scala-xml_3/2.0.1/scala-xml_3-2.0.1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_3/2.0.1/scala-xml_3-2.0.1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_3/2.0.1/scala-xml_3-2.0.1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-lang/modules/scala-xml_3/2.0.1/scala-xml_3-2.0.1.jar"
                 ],
                 "sha256": "c649c3aa411dc7d0b8eb249ef745b08c4f931d5fb09fc2a8f2f068fcf4c54354",
                 "url": "https://repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_3/2.0.1/scala-xml_3-2.0.1.jar"
@@ -906,7 +957,8 @@
                     "https://repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_3/2.0.1/scala-xml_3-2.0.1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-lang/modules/scala-xml_3/2.0.1/scala-xml_3-2.0.1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-lang/modules/scala-xml_3/2.0.1/scala-xml_3-2.0.1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_3/2.0.1/scala-xml_3-2.0.1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_3/2.0.1/scala-xml_3-2.0.1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-lang/modules/scala-xml_3/2.0.1/scala-xml_3-2.0.1-sources.jar"
                 ],
                 "sha256": "fcf3920ff00544cb396735b11c0bfe42d78e0ed328a99876b8cfc8cb0ce05056",
                 "url": "https://repo1.maven.org/maven2/org/scala-lang/modules/scala-xml_3/2.0.1/scala-xml_3-2.0.1-sources.jar"
@@ -930,7 +982,8 @@
                     "https://repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.13.6/scala-compiler-2.13.6.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-lang/scala-compiler/2.13.6/scala-compiler-2.13.6.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-lang/scala-compiler/2.13.6/scala-compiler-2.13.6.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.13.6/scala-compiler-2.13.6.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.13.6/scala-compiler-2.13.6.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-lang/scala-compiler/2.13.6/scala-compiler-2.13.6.jar"
                 ],
                 "sha256": "310d263d622a3d016913e94ee00b119d270573a5ceaa6b21312d69637fd9eec1",
                 "url": "https://repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.13.6/scala-compiler-2.13.6.jar"
@@ -954,7 +1007,8 @@
                     "https://repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.13.6/scala-compiler-2.13.6-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-lang/scala-compiler/2.13.6/scala-compiler-2.13.6-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-lang/scala-compiler/2.13.6/scala-compiler-2.13.6-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.13.6/scala-compiler-2.13.6-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.13.6/scala-compiler-2.13.6-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-lang/scala-compiler/2.13.6/scala-compiler-2.13.6-sources.jar"
                 ],
                 "sha256": "60d76ceef8357452abd645224dbc619f432f97175ac669213c7c25bd7df8d9a4",
                 "url": "https://repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.13.6/scala-compiler-2.13.6-sources.jar"
@@ -968,7 +1022,8 @@
                     "https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.6/scala-library-2.13.6.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-lang/scala-library/2.13.6/scala-library-2.13.6.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-lang/scala-library/2.13.6/scala-library-2.13.6.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.6/scala-library-2.13.6.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.6/scala-library-2.13.6.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-lang/scala-library/2.13.6/scala-library-2.13.6.jar"
                 ],
                 "sha256": "f19ed732e150d3537794fd3fe42ee18470a3f707efd499ecd05a99e727ff6c8a",
                 "url": "https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.6/scala-library-2.13.6.jar"
@@ -982,7 +1037,8 @@
                     "https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.6/scala-library-2.13.6-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-lang/scala-library/2.13.6/scala-library-2.13.6-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-lang/scala-library/2.13.6/scala-library-2.13.6-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.6/scala-library-2.13.6-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.6/scala-library-2.13.6-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-lang/scala-library/2.13.6/scala-library-2.13.6-sources.jar"
                 ],
                 "sha256": "8dd2744253f11da9684396f05ae16e7ab87827a971099636ec100fff42dc1ed3",
                 "url": "https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.6/scala-library-2.13.6-sources.jar"
@@ -1000,7 +1056,8 @@
                     "https://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.13.6/scala-reflect-2.13.6.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-lang/scala-reflect/2.13.6/scala-reflect-2.13.6.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-lang/scala-reflect/2.13.6/scala-reflect-2.13.6.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.13.6/scala-reflect-2.13.6.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.13.6/scala-reflect-2.13.6.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-lang/scala-reflect/2.13.6/scala-reflect-2.13.6.jar"
                 ],
                 "sha256": "f713593809b387c60935bb9a940dfcea53bd0dbf8fdc8d10739a2896f8ac56fa",
                 "url": "https://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.13.6/scala-reflect-2.13.6.jar"
@@ -1018,7 +1075,8 @@
                     "https://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.13.6/scala-reflect-2.13.6-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-lang/scala-reflect/2.13.6/scala-reflect-2.13.6-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-lang/scala-reflect/2.13.6/scala-reflect-2.13.6-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.13.6/scala-reflect-2.13.6-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.13.6/scala-reflect-2.13.6-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-lang/scala-reflect/2.13.6/scala-reflect-2.13.6-sources.jar"
                 ],
                 "sha256": "d39f09971573ebf9e23a78d4e867548fb62cccf820af648f6969b8bb1d672d57",
                 "url": "https://repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.13.6/scala-reflect-2.13.6-sources.jar"
@@ -1036,7 +1094,8 @@
                     "https://repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.0.1/scala3-library_3-3.0.1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-lang/scala3-library_3/3.0.1/scala3-library_3-3.0.1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-lang/scala3-library_3/3.0.1/scala3-library_3-3.0.1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.0.1/scala3-library_3-3.0.1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.0.1/scala3-library_3-3.0.1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-lang/scala3-library_3/3.0.1/scala3-library_3-3.0.1.jar"
                 ],
                 "sha256": "43584226adb12326b8a81287f4c607993b3316764e63034c7748576ccb11bf8e",
                 "url": "https://repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.0.1/scala3-library_3-3.0.1.jar"
@@ -1054,7 +1113,8 @@
                     "https://repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.0.1/scala3-library_3-3.0.1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-lang/scala3-library_3/3.0.1/scala3-library_3-3.0.1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-lang/scala3-library_3/3.0.1/scala3-library_3-3.0.1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.0.1/scala3-library_3-3.0.1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.0.1/scala3-library_3-3.0.1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-lang/scala3-library_3/3.0.1/scala3-library_3-3.0.1-sources.jar"
                 ],
                 "sha256": "bf12ae0a6cd4699deee1b0cc83d58e323b3c798ecbd9c408de479184f72cfb75",
                 "url": "https://repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.0.1/scala3-library_3-3.0.1-sources.jar"
@@ -1072,7 +1132,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/jline/jline/2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493/jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/jline/jline/2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493/jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/jline/jline/2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493/jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/jline/jline/2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493/jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/jline/jline/2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493/jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/jline/jline/2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493/jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493.jar"
                 ],
                 "sha256": "6d725b356cbfc1131ef2ae3c3555fa4952bf273f245b174a45413f03372f7239",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/jline/jline/2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493/jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493.jar"
@@ -1090,7 +1151,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/jline/jline/2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493/jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/jline/jline/2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493/jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/jline/jline/2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493/jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/jline/jline/2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493/jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/jline/jline/2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493/jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/jline/jline/2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493/jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493-sources.jar"
                 ],
                 "sha256": "e2d0fffa3f8ee802a1bcb043f24f1c9026107d055e58910cefc2ed6dcf567a82",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/jline/jline/2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493/jline-2.14.7-sbt-a1b0ffbb8f64bb820f4f84a0c07a0c0964507493-sources.jar"
@@ -1118,7 +1180,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/collections_2.13/1.6.0-M1/collections_2.13-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/collections_2.13/1.6.0-M1/collections_2.13-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/collections_2.13/1.6.0-M1/collections_2.13-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/collections_2.13/1.6.0-M1/collections_2.13-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/collections_2.13/1.6.0-M1/collections_2.13-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/collections_2.13/1.6.0-M1/collections_2.13-1.6.0-M1.jar"
                 ],
                 "sha256": "6708c068a1194b19f039273f01800ad793a3f69fd8c3903675338880b009a306",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/collections_2.13/1.6.0-M1/collections_2.13-1.6.0-M1.jar"
@@ -1146,7 +1209,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/collections_2.13/1.6.0-M1/collections_2.13-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/collections_2.13/1.6.0-M1/collections_2.13-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/collections_2.13/1.6.0-M1/collections_2.13-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/collections_2.13/1.6.0-M1/collections_2.13-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/collections_2.13/1.6.0-M1/collections_2.13-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/collections_2.13/1.6.0-M1/collections_2.13-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "5199f3408a907ac6792d7cb9171465c3256c8dd735582e6787cd0c882e59c4bb",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/collections_2.13/1.6.0-M1/collections_2.13-1.6.0-M1-sources.jar"
@@ -1165,7 +1229,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/compiler-bridge_2.13/1.6.0-M1/compiler-bridge_2.13-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/1.6.0-M1/compiler-bridge_2.13-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/compiler-bridge_2.13/1.6.0-M1/compiler-bridge_2.13-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/compiler-bridge_2.13/1.6.0-M1/compiler-bridge_2.13-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/compiler-bridge_2.13/1.6.0-M1/compiler-bridge_2.13-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/compiler-bridge_2.13/1.6.0-M1/compiler-bridge_2.13-1.6.0-M1.jar"
                 ],
                 "sha256": "2048498b7f5a6fcbfc89d62835e9ac1f23e9c928977139cdb50424601a8c4ae3",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/compiler-bridge_2.13/1.6.0-M1/compiler-bridge_2.13-1.6.0-M1.jar"
@@ -1184,7 +1249,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/compiler-bridge_2.13/1.6.0-M1/compiler-bridge_2.13-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/1.6.0-M1/compiler-bridge_2.13-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/compiler-bridge_2.13/1.6.0-M1/compiler-bridge_2.13-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/compiler-bridge_2.13/1.6.0-M1/compiler-bridge_2.13-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/compiler-bridge_2.13/1.6.0-M1/compiler-bridge_2.13-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/compiler-bridge_2.13/1.6.0-M1/compiler-bridge_2.13-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "62441ae4c8661b6057d382432712bf74b53117c0bab4a397fa9096db2c93da59",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/compiler-bridge_2.13/1.6.0-M1/compiler-bridge_2.13-1.6.0-M1-sources.jar"
@@ -1202,7 +1268,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/compiler-interface/1.6.0-M1/compiler-interface-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-interface/1.6.0-M1/compiler-interface-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/compiler-interface/1.6.0-M1/compiler-interface-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/compiler-interface/1.6.0-M1/compiler-interface-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/compiler-interface/1.6.0-M1/compiler-interface-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/compiler-interface/1.6.0-M1/compiler-interface-1.6.0-M1.jar"
                 ],
                 "sha256": "69e16aa2a67f544170bfcc44cdbecab84c66908076571b0c3eed60606d6f0664",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/compiler-interface/1.6.0-M1/compiler-interface-1.6.0-M1.jar"
@@ -1220,7 +1287,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/compiler-interface/1.6.0-M1/compiler-interface-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-interface/1.6.0-M1/compiler-interface-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/compiler-interface/1.6.0-M1/compiler-interface-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/compiler-interface/1.6.0-M1/compiler-interface-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/compiler-interface/1.6.0-M1/compiler-interface-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/compiler-interface/1.6.0-M1/compiler-interface-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "bc6083a6add2b72386f18225b469b47bfd6ee99d97dc276f1b6b75a43320661e",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/compiler-interface/1.6.0-M1/compiler-interface-1.6.0-M1-sources.jar"
@@ -1251,7 +1319,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/core-macros_2.13/1.6.0-M1/core-macros_2.13-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/core-macros_2.13/1.6.0-M1/core-macros_2.13-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/core-macros_2.13/1.6.0-M1/core-macros_2.13-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/core-macros_2.13/1.6.0-M1/core-macros_2.13-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/core-macros_2.13/1.6.0-M1/core-macros_2.13-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/core-macros_2.13/1.6.0-M1/core-macros_2.13-1.6.0-M1.jar"
                 ],
                 "sha256": "8d30235a5593cbec99473d0af7d20fb08beddbc54df4b6726eecd3a9793c660f",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/core-macros_2.13/1.6.0-M1/core-macros_2.13-1.6.0-M1.jar"
@@ -1282,7 +1351,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/core-macros_2.13/1.6.0-M1/core-macros_2.13-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/core-macros_2.13/1.6.0-M1/core-macros_2.13-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/core-macros_2.13/1.6.0-M1/core-macros_2.13-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/core-macros_2.13/1.6.0-M1/core-macros_2.13-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/core-macros_2.13/1.6.0-M1/core-macros_2.13-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/core-macros_2.13/1.6.0-M1/core-macros_2.13-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "9598610b8d0b0486b074335f3d0a94f53187455e5e0ed87975723a2f345798b1",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/core-macros_2.13/1.6.0-M1/core-macros_2.13-1.6.0-M1-sources.jar"
@@ -1306,7 +1376,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/io_2.13/1.6.0-M1/io_2.13-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/io_2.13/1.6.0-M1/io_2.13-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/io_2.13/1.6.0-M1/io_2.13-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/io_2.13/1.6.0-M1/io_2.13-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/io_2.13/1.6.0-M1/io_2.13-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/io_2.13/1.6.0-M1/io_2.13-1.6.0-M1.jar"
                 ],
                 "sha256": "61d1cd410f752c4d6b0ea25c082b28abca6f47d8db0137501360f09c9f537496",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/io_2.13/1.6.0-M1/io_2.13-1.6.0-M1.jar"
@@ -1330,7 +1401,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/io_2.13/1.6.0-M1/io_2.13-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/io_2.13/1.6.0-M1/io_2.13-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/io_2.13/1.6.0-M1/io_2.13-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/io_2.13/1.6.0-M1/io_2.13-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/io_2.13/1.6.0-M1/io_2.13-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/io_2.13/1.6.0-M1/io_2.13-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "a84d1ae15faabfd9d593dc3a784ff2080d800d0285a669467d6db7946848c216",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/io_2.13/1.6.0-M1/io_2.13-1.6.0-M1-sources.jar"
@@ -1344,7 +1416,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/launcher-interface/1.1.3/launcher-interface-1.1.3.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/launcher-interface/1.1.3/launcher-interface-1.1.3.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/launcher-interface/1.1.3/launcher-interface-1.1.3.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/launcher-interface/1.1.3/launcher-interface-1.1.3.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/launcher-interface/1.1.3/launcher-interface-1.1.3.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/launcher-interface/1.1.3/launcher-interface-1.1.3.jar"
                 ],
                 "sha256": "55d7082529412752c1ec13b340ba1db5769b6c6724d94af9993a3cc160d7ad52",
                 "url": "https://repo.maven.apache.org/maven2/org/scala-sbt/launcher-interface/1.1.3/launcher-interface-1.1.3.jar"
@@ -1358,7 +1431,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/launcher-interface/1.1.3/launcher-interface-1.1.3-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/launcher-interface/1.1.3/launcher-interface-1.1.3-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/launcher-interface/1.1.3/launcher-interface-1.1.3-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/launcher-interface/1.1.3/launcher-interface-1.1.3-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/launcher-interface/1.1.3/launcher-interface-1.1.3-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/launcher-interface/1.1.3/launcher-interface-1.1.3-sources.jar"
                 ],
                 "sha256": "8613759c6137020a4629654b369d352fee09ca03760e1fab8bfde13483daf9b0",
                 "url": "https://repo.maven.apache.org/maven2/org/scala-sbt/launcher-interface/1.1.3/launcher-interface-1.1.3-sources.jar"
@@ -1378,7 +1452,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/sbinary_2.13/0.5.1/sbinary_2.13-0.5.1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/sbinary_2.13/0.5.1/sbinary_2.13-0.5.1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/sbinary_2.13/0.5.1/sbinary_2.13-0.5.1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/sbinary_2.13/0.5.1/sbinary_2.13-0.5.1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/sbinary_2.13/0.5.1/sbinary_2.13-0.5.1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/sbinary_2.13/0.5.1/sbinary_2.13-0.5.1.jar"
                 ],
                 "sha256": "29ffddb55471910f2c5f82a954683ce1fab3b094900b97adb1f777c44b1afccc",
                 "url": "https://repo.maven.apache.org/maven2/org/scala-sbt/sbinary_2.13/0.5.1/sbinary_2.13-0.5.1.jar"
@@ -1398,7 +1473,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/sbinary_2.13/0.5.1/sbinary_2.13-0.5.1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/sbinary_2.13/0.5.1/sbinary_2.13-0.5.1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/sbinary_2.13/0.5.1/sbinary_2.13-0.5.1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/sbinary_2.13/0.5.1/sbinary_2.13-0.5.1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/sbinary_2.13/0.5.1/sbinary_2.13-0.5.1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/sbinary_2.13/0.5.1/sbinary_2.13-0.5.1-sources.jar"
                 ],
                 "sha256": "2c0514613825d0120b3a4a2c6afbff575d0d32c9e4173e0d6c8776391654cdf2",
                 "url": "https://repo.maven.apache.org/maven2/org/scala-sbt/sbinary_2.13/0.5.1/sbinary_2.13-0.5.1-sources.jar"
@@ -1412,7 +1488,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/test-interface/1.0/test-interface-1.0.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/test-interface/1.0/test-interface-1.0.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/test-interface/1.0/test-interface-1.0.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/test-interface/1.0/test-interface-1.0.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/test-interface/1.0/test-interface-1.0.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/test-interface/1.0/test-interface-1.0.jar"
                 ],
                 "sha256": "15f70b38bb95f3002fec9aea54030f19bb4ecfbad64c67424b5e5fea09cd749e",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/test-interface/1.0/test-interface-1.0.jar"
@@ -1426,7 +1503,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/test-interface/1.0/test-interface-1.0-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/test-interface/1.0/test-interface-1.0-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/test-interface/1.0/test-interface-1.0-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/test-interface/1.0/test-interface-1.0-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/test-interface/1.0/test-interface-1.0-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/test-interface/1.0/test-interface-1.0-sources.jar"
                 ],
                 "sha256": "c314491c9df4f0bd9dd125ef1d51228d70bd466ee57848df1cd1b96aea18a5ad",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/test-interface/1.0/test-interface-1.0-sources.jar"
@@ -1444,7 +1522,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/util-control_2.13/1.6.0-M1/util-control_2.13-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/util-control_2.13/1.6.0-M1/util-control_2.13-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/util-control_2.13/1.6.0-M1/util-control_2.13-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-control_2.13/1.6.0-M1/util-control_2.13-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-control_2.13/1.6.0-M1/util-control_2.13-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/util-control_2.13/1.6.0-M1/util-control_2.13-1.6.0-M1.jar"
                 ],
                 "sha256": "85d5390fa293afff2707db4e2385e24c1637bd425b4f8caca1072ac06a09a62e",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/util-control_2.13/1.6.0-M1/util-control_2.13-1.6.0-M1.jar"
@@ -1462,7 +1541,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/util-control_2.13/1.6.0-M1/util-control_2.13-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/util-control_2.13/1.6.0-M1/util-control_2.13-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/util-control_2.13/1.6.0-M1/util-control_2.13-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-control_2.13/1.6.0-M1/util-control_2.13-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-control_2.13/1.6.0-M1/util-control_2.13-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/util-control_2.13/1.6.0-M1/util-control_2.13-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "123494ad3d699baad9bc2a962300e3f071fae4205ca9f921614dc9f3ee33aa0f",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/util-control_2.13/1.6.0-M1/util-control_2.13-1.6.0-M1-sources.jar"
@@ -1476,7 +1556,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/util-interface/1.6.0-M1/util-interface-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/util-interface/1.6.0-M1/util-interface-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/util-interface/1.6.0-M1/util-interface-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-interface/1.6.0-M1/util-interface-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-interface/1.6.0-M1/util-interface-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/util-interface/1.6.0-M1/util-interface-1.6.0-M1.jar"
                 ],
                 "sha256": "6f8e6efd90b4a21ac669d543434fd0607245a23477d4b115fde98f424b772f5b",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/util-interface/1.6.0-M1/util-interface-1.6.0-M1.jar"
@@ -1490,7 +1571,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/util-interface/1.6.0-M1/util-interface-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/util-interface/1.6.0-M1/util-interface-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/util-interface/1.6.0-M1/util-interface-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-interface/1.6.0-M1/util-interface-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-interface/1.6.0-M1/util-interface-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/util-interface/1.6.0-M1/util-interface-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "e2a90b1ebf624980639286a38367076e65a33047836cb854e2abe33f998c940b",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/util-interface/1.6.0-M1/util-interface-1.6.0-M1-sources.jar"
@@ -1546,7 +1628,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/util-logging_2.13/1.6.0-M1/util-logging_2.13-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/util-logging_2.13/1.6.0-M1/util-logging_2.13-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/util-logging_2.13/1.6.0-M1/util-logging_2.13-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-logging_2.13/1.6.0-M1/util-logging_2.13-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-logging_2.13/1.6.0-M1/util-logging_2.13-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/util-logging_2.13/1.6.0-M1/util-logging_2.13-1.6.0-M1.jar"
                 ],
                 "sha256": "7da8a572d4929cbafcea86add0b6888bfbb438fb80b3dc95951ebea7989ff18f",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/util-logging_2.13/1.6.0-M1/util-logging_2.13-1.6.0-M1.jar"
@@ -1602,7 +1685,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/util-logging_2.13/1.6.0-M1/util-logging_2.13-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/util-logging_2.13/1.6.0-M1/util-logging_2.13-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/util-logging_2.13/1.6.0-M1/util-logging_2.13-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-logging_2.13/1.6.0-M1/util-logging_2.13-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-logging_2.13/1.6.0-M1/util-logging_2.13-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/util-logging_2.13/1.6.0-M1/util-logging_2.13-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "ab6d79a6509ac705ce959097f5c943adc84609170a7a030a5dad60bebdaa3ac3",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/util-logging_2.13/1.6.0-M1/util-logging_2.13-1.6.0-M1-sources.jar"
@@ -1622,7 +1706,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/util-position_2.13/1.6.0-M1/util-position_2.13-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/util-position_2.13/1.6.0-M1/util-position_2.13-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/util-position_2.13/1.6.0-M1/util-position_2.13-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-position_2.13/1.6.0-M1/util-position_2.13-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-position_2.13/1.6.0-M1/util-position_2.13-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/util-position_2.13/1.6.0-M1/util-position_2.13-1.6.0-M1.jar"
                 ],
                 "sha256": "3b4dddf1c3970971dd14f47279eadcca133de9cc804578cba8d0560fa0528152",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/util-position_2.13/1.6.0-M1/util-position_2.13-1.6.0-M1.jar"
@@ -1642,7 +1727,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/util-position_2.13/1.6.0-M1/util-position_2.13-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/util-position_2.13/1.6.0-M1/util-position_2.13-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/util-position_2.13/1.6.0-M1/util-position_2.13-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-position_2.13/1.6.0-M1/util-position_2.13-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-position_2.13/1.6.0-M1/util-position_2.13-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/util-position_2.13/1.6.0-M1/util-position_2.13-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "079d71828667ae76d4413e39d1ef32cb8f096afd76488f5154c34876e0287c72",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/util-position_2.13/1.6.0-M1/util-position_2.13-1.6.0-M1-sources.jar"
@@ -1660,7 +1746,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/util-relation_2.13/1.6.0-M1/util-relation_2.13-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/util-relation_2.13/1.6.0-M1/util-relation_2.13-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/util-relation_2.13/1.6.0-M1/util-relation_2.13-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-relation_2.13/1.6.0-M1/util-relation_2.13-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-relation_2.13/1.6.0-M1/util-relation_2.13-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/util-relation_2.13/1.6.0-M1/util-relation_2.13-1.6.0-M1.jar"
                 ],
                 "sha256": "f4ba22f777ccae86fc3cf2e738a5f266b8f18a131b86067910f879a91b533d58",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/util-relation_2.13/1.6.0-M1/util-relation_2.13-1.6.0-M1.jar"
@@ -1678,7 +1765,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/util-relation_2.13/1.6.0-M1/util-relation_2.13-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/util-relation_2.13/1.6.0-M1/util-relation_2.13-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/util-relation_2.13/1.6.0-M1/util-relation_2.13-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-relation_2.13/1.6.0-M1/util-relation_2.13-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/util-relation_2.13/1.6.0-M1/util-relation_2.13-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/util-relation_2.13/1.6.0-M1/util-relation_2.13-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "a6407320c07cc6a4cb951afe8bfc3c8056eb4194efb6effe5e9341ca78748d08",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/util-relation_2.13/1.6.0-M1/util-relation_2.13-1.6.0-M1-sources.jar"
@@ -1727,7 +1815,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/zinc-apiinfo_2.13/1.6.0-M1/zinc-apiinfo_2.13-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/zinc-apiinfo_2.13/1.6.0-M1/zinc-apiinfo_2.13-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/zinc-apiinfo_2.13/1.6.0-M1/zinc-apiinfo_2.13-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-apiinfo_2.13/1.6.0-M1/zinc-apiinfo_2.13-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-apiinfo_2.13/1.6.0-M1/zinc-apiinfo_2.13-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/zinc-apiinfo_2.13/1.6.0-M1/zinc-apiinfo_2.13-1.6.0-M1.jar"
                 ],
                 "sha256": "a6ee68cf7d229ea218fbdb6450c3b3cfd4a48ac87559cc5917f2f8a948e3309e",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/zinc-apiinfo_2.13/1.6.0-M1/zinc-apiinfo_2.13-1.6.0-M1.jar"
@@ -1776,7 +1865,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/zinc-apiinfo_2.13/1.6.0-M1/zinc-apiinfo_2.13-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/zinc-apiinfo_2.13/1.6.0-M1/zinc-apiinfo_2.13-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/zinc-apiinfo_2.13/1.6.0-M1/zinc-apiinfo_2.13-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-apiinfo_2.13/1.6.0-M1/zinc-apiinfo_2.13-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-apiinfo_2.13/1.6.0-M1/zinc-apiinfo_2.13-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/zinc-apiinfo_2.13/1.6.0-M1/zinc-apiinfo_2.13-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "344b33b463251af7e55a289a51be9494424ef0aa8292db0ee6b7072687fa3ad7",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/zinc-apiinfo_2.13/1.6.0-M1/zinc-apiinfo_2.13-1.6.0-M1-sources.jar"
@@ -1823,7 +1913,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/zinc-classfile_2.13/1.6.0-M1/zinc-classfile_2.13-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/zinc-classfile_2.13/1.6.0-M1/zinc-classfile_2.13-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/zinc-classfile_2.13/1.6.0-M1/zinc-classfile_2.13-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-classfile_2.13/1.6.0-M1/zinc-classfile_2.13-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-classfile_2.13/1.6.0-M1/zinc-classfile_2.13-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/zinc-classfile_2.13/1.6.0-M1/zinc-classfile_2.13-1.6.0-M1.jar"
                 ],
                 "sha256": "b1c1d3f9abe24cf7f07bb45868071d7cb5c305cc8b56ae64463b77c3137829a7",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/zinc-classfile_2.13/1.6.0-M1/zinc-classfile_2.13-1.6.0-M1.jar"
@@ -1870,7 +1961,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/zinc-classfile_2.13/1.6.0-M1/zinc-classfile_2.13-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/zinc-classfile_2.13/1.6.0-M1/zinc-classfile_2.13-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/zinc-classfile_2.13/1.6.0-M1/zinc-classfile_2.13-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-classfile_2.13/1.6.0-M1/zinc-classfile_2.13-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-classfile_2.13/1.6.0-M1/zinc-classfile_2.13-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/zinc-classfile_2.13/1.6.0-M1/zinc-classfile_2.13-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "66daf3c1fc01cd45676f890f0b334a312af77e075593423ef1b1f51cd1800dfe",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/zinc-classfile_2.13/1.6.0-M1/zinc-classfile_2.13-1.6.0-M1-sources.jar"
@@ -1902,7 +1994,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/zinc-classpath_2.13/1.6.0-M1/zinc-classpath_2.13-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/zinc-classpath_2.13/1.6.0-M1/zinc-classpath_2.13-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/zinc-classpath_2.13/1.6.0-M1/zinc-classpath_2.13-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-classpath_2.13/1.6.0-M1/zinc-classpath_2.13-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-classpath_2.13/1.6.0-M1/zinc-classpath_2.13-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/zinc-classpath_2.13/1.6.0-M1/zinc-classpath_2.13-1.6.0-M1.jar"
                 ],
                 "sha256": "6c6b1cff0733055f9242fab339167b2df4e46eb68f7067e2223686743e0bb9a6",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/zinc-classpath_2.13/1.6.0-M1/zinc-classpath_2.13-1.6.0-M1.jar"
@@ -1934,7 +2027,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/zinc-classpath_2.13/1.6.0-M1/zinc-classpath_2.13-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/zinc-classpath_2.13/1.6.0-M1/zinc-classpath_2.13-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/zinc-classpath_2.13/1.6.0-M1/zinc-classpath_2.13-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-classpath_2.13/1.6.0-M1/zinc-classpath_2.13-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-classpath_2.13/1.6.0-M1/zinc-classpath_2.13-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/zinc-classpath_2.13/1.6.0-M1/zinc-classpath_2.13-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "ea3148f06fec0ec76e752d67c5bf8a97dfcfd45cd471538a0767d580246b9662",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/zinc-classpath_2.13/1.6.0-M1/zinc-classpath_2.13-1.6.0-M1-sources.jar"
@@ -1996,7 +2090,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/zinc-compile-core_2.13/1.6.0-M1/zinc-compile-core_2.13-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/zinc-compile-core_2.13/1.6.0-M1/zinc-compile-core_2.13-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/zinc-compile-core_2.13/1.6.0-M1/zinc-compile-core_2.13-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-compile-core_2.13/1.6.0-M1/zinc-compile-core_2.13-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-compile-core_2.13/1.6.0-M1/zinc-compile-core_2.13-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/zinc-compile-core_2.13/1.6.0-M1/zinc-compile-core_2.13-1.6.0-M1.jar"
                 ],
                 "sha256": "714421721b8a011566908d4dc92cd79f5b300dffaea14f142c8d244c29612e62",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/zinc-compile-core_2.13/1.6.0-M1/zinc-compile-core_2.13-1.6.0-M1.jar"
@@ -2058,7 +2153,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/zinc-compile-core_2.13/1.6.0-M1/zinc-compile-core_2.13-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/zinc-compile-core_2.13/1.6.0-M1/zinc-compile-core_2.13-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/zinc-compile-core_2.13/1.6.0-M1/zinc-compile-core_2.13-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-compile-core_2.13/1.6.0-M1/zinc-compile-core_2.13-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-compile-core_2.13/1.6.0-M1/zinc-compile-core_2.13-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/zinc-compile-core_2.13/1.6.0-M1/zinc-compile-core_2.13-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "c57ac5c25b22d1b987d53192edf97d62019062bb41102e9ec5f534bd12a755ec",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/zinc-compile-core_2.13/1.6.0-M1/zinc-compile-core_2.13-1.6.0-M1-sources.jar"
@@ -2122,7 +2218,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/zinc-core_2.13/1.6.0-M1/zinc-core_2.13-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/zinc-core_2.13/1.6.0-M1/zinc-core_2.13-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/zinc-core_2.13/1.6.0-M1/zinc-core_2.13-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-core_2.13/1.6.0-M1/zinc-core_2.13-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-core_2.13/1.6.0-M1/zinc-core_2.13-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/zinc-core_2.13/1.6.0-M1/zinc-core_2.13-1.6.0-M1.jar"
                 ],
                 "sha256": "2fc129518f35d9358a6dafa8342f481fee003388777150ebcf844fec9c75586a",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/zinc-core_2.13/1.6.0-M1/zinc-core_2.13-1.6.0-M1.jar"
@@ -2186,7 +2283,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/zinc-core_2.13/1.6.0-M1/zinc-core_2.13-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/zinc-core_2.13/1.6.0-M1/zinc-core_2.13-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/zinc-core_2.13/1.6.0-M1/zinc-core_2.13-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-core_2.13/1.6.0-M1/zinc-core_2.13-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-core_2.13/1.6.0-M1/zinc-core_2.13-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/zinc-core_2.13/1.6.0-M1/zinc-core_2.13-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "78483313051c7f25e0402d7ccb4a337e1c83617757838a8f49123ecca07a5ae8",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/zinc-core_2.13/1.6.0-M1/zinc-core_2.13-1.6.0-M1-sources.jar"
@@ -2200,7 +2298,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/zinc-persist-core-assembly/1.6.0-M1/zinc-persist-core-assembly-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/zinc-persist-core-assembly/1.6.0-M1/zinc-persist-core-assembly-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/zinc-persist-core-assembly/1.6.0-M1/zinc-persist-core-assembly-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-persist-core-assembly/1.6.0-M1/zinc-persist-core-assembly-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-persist-core-assembly/1.6.0-M1/zinc-persist-core-assembly-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/zinc-persist-core-assembly/1.6.0-M1/zinc-persist-core-assembly-1.6.0-M1.jar"
                 ],
                 "sha256": "ba3c795bbb7df0b150b48c5843cfae227603e58d58d65639a1c39d1a93f1188e",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/zinc-persist-core-assembly/1.6.0-M1/zinc-persist-core-assembly-1.6.0-M1.jar"
@@ -2214,7 +2313,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/zinc-persist-core-assembly/1.6.0-M1/zinc-persist-core-assembly-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/zinc-persist-core-assembly/1.6.0-M1/zinc-persist-core-assembly-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/zinc-persist-core-assembly/1.6.0-M1/zinc-persist-core-assembly-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-persist-core-assembly/1.6.0-M1/zinc-persist-core-assembly-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-persist-core-assembly/1.6.0-M1/zinc-persist-core-assembly-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/zinc-persist-core-assembly/1.6.0-M1/zinc-persist-core-assembly-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "ab982a5d978fd8eb7a58524c6838fb30867adccd5d9e3448ead7f70dd3a93aef",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/zinc-persist-core-assembly/1.6.0-M1/zinc-persist-core-assembly-1.6.0-M1-sources.jar"
@@ -2277,7 +2377,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/zinc-persist_2.13/1.6.0-M1/zinc-persist_2.13-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/zinc-persist_2.13/1.6.0-M1/zinc-persist_2.13-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/zinc-persist_2.13/1.6.0-M1/zinc-persist_2.13-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-persist_2.13/1.6.0-M1/zinc-persist_2.13-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-persist_2.13/1.6.0-M1/zinc-persist_2.13-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/zinc-persist_2.13/1.6.0-M1/zinc-persist_2.13-1.6.0-M1.jar"
                 ],
                 "sha256": "5d3d3f248867c03e52a3437a921f485fd2597d9341ac2f3648e58eec437bd405",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/zinc-persist_2.13/1.6.0-M1/zinc-persist_2.13-1.6.0-M1.jar"
@@ -2340,7 +2441,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/zinc-persist_2.13/1.6.0-M1/zinc-persist_2.13-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/zinc-persist_2.13/1.6.0-M1/zinc-persist_2.13-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/zinc-persist_2.13/1.6.0-M1/zinc-persist_2.13-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-persist_2.13/1.6.0-M1/zinc-persist_2.13-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc-persist_2.13/1.6.0-M1/zinc-persist_2.13-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/zinc-persist_2.13/1.6.0-M1/zinc-persist_2.13-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "aea2cd6dffe16c8a1ecf966f31c473b504a4e675e16644a1b248622cefbd1913",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/zinc-persist_2.13/1.6.0-M1/zinc-persist_2.13-1.6.0-M1-sources.jar"
@@ -2403,7 +2505,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/zinc_2.13/1.6.0-M1/zinc_2.13-1.6.0-M1.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/zinc_2.13/1.6.0-M1/zinc_2.13-1.6.0-M1.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/zinc_2.13/1.6.0-M1/zinc_2.13-1.6.0-M1.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc_2.13/1.6.0-M1/zinc_2.13-1.6.0-M1.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc_2.13/1.6.0-M1/zinc_2.13-1.6.0-M1.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/zinc_2.13/1.6.0-M1/zinc_2.13-1.6.0-M1.jar"
                 ],
                 "sha256": "238d4fabc61b0394917f619b14477a38f50311f1a0e9130b15238fc854079057",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/zinc_2.13/1.6.0-M1/zinc_2.13-1.6.0-M1.jar"
@@ -2466,7 +2569,8 @@
                     "https://repo1.maven.org/maven2/org/scala-sbt/zinc_2.13/1.6.0-M1/zinc_2.13-1.6.0-M1-sources.jar",
                     "https://repo.maven.apache.org/maven2/org/scala-sbt/zinc_2.13/1.6.0-M1/zinc_2.13-1.6.0-M1-sources.jar",
                     "https://maven-central.storage-download.googleapis.com/maven2/org/scala-sbt/zinc_2.13/1.6.0-M1/zinc_2.13-1.6.0-M1-sources.jar",
-                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc_2.13/1.6.0-M1/zinc_2.13-1.6.0-M1-sources.jar"
+                    "https://mirror.bazel.build/repo1.maven.org/maven2/org/scala-sbt/zinc_2.13/1.6.0-M1/zinc_2.13-1.6.0-M1-sources.jar",
+                    "https://scala-ci.typesafe.com/artifactory/scala-integration/org/scala-sbt/zinc_2.13/1.6.0-M1/zinc_2.13-1.6.0-M1-sources.jar"
                 ],
                 "sha256": "ce893c18d3675d5ea61ccdc54a71bf2e4fd3a09da894e629dc2734df9e15ea81",
                 "url": "https://repo1.maven.org/maven2/org/scala-sbt/zinc_2.13/1.6.0-M1/zinc_2.13-1.6.0-M1-sources.jar"
