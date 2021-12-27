@@ -10,7 +10,7 @@ import java.util.Collections
 
 import scala.jdk.CollectionConverters.*
 
-import sbt.internal.inc.{ZincUtil, PlainVirtualFile, MappedFileConverter}
+import sbt.internal.inc.{ZincUtil, PlainVirtualFile, PlainVirtualFileConverter}
 import sbt.internal.inc.classpath.ClassLoaderCache
 import scopt.OParser
 import xsbti.Logger
@@ -85,8 +85,8 @@ object ReplRunner:
 
     val classpath = workArgs.classpath.map(p => runPath.resolve(p).toFile)
 
-    val refs = compilerClasspath.view.concat(classpath).map(f => PlainVirtualFile(f.toPath())).to(Seq)
-    scalaCompiler.console(refs, MappedFileConverter.empty, workArgs.compilerOption, "", "", logger)()
+    val refs = compilerClasspath.view.concat(classpath).map(f => PlainVirtualFile(f.toPath())).to(Seq).distinct
+    scalaCompiler.console(refs, PlainVirtualFileConverter.converter, workArgs.compilerOption, "", "", logger)()
 
   private val topLoader = TopClassLoader(getClass().getClassLoader())
   private val classloaderCache = ClassLoaderCache(URLClassLoader(Array.empty))
