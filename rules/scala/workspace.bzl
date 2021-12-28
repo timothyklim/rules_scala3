@@ -57,7 +57,7 @@ def scala_repositories():
 
     scala2 = "2.13.7"
     scala3 = "3.1.0"
-    scalajs = "1.7.1"
+    scalajs = "1.8.0"
 
     direct_deps = [
         ["scala_compiler_2_13_7", "org.scala-lang:scala-compiler:" + scala2, "a450602f03a4686919e60d1aeced549559f1eaffbaf30ffa7987c8d97e3e79a9"],
@@ -69,10 +69,11 @@ def scala_repositories():
         ["scala_sbt_bridge_3_1_0", "org.scala-lang:scala3-sbt-bridge:" + scala3, "4f0bfee3d96714a0d1b0998bcf416b23af2312c5b45bd530d94ddded9132dffb"],
         ["scala_tasty_core_3_1_0", "org.scala-lang:tasty-core_3:" + scala3, "80c9d1ac1630a22b3b62e0d482f91552397be22eac3ea0e61104c5ca67287647"],
         ["scala_asm_9_2_0", "org.scala-lang.modules:scala-asm:9.2.0-scala-1", "8c34d8f56614901a1f3367b15b38adc8b13107ffd8e141e004f9de1e23db8ea4"],
+        ["scalajs_parallel_collections_1_0_4", "org.scala-lang.modules:scala-parallel-collections_2.13:1.0.4"],
         ["scalajs_compiler_2_13", "org.scala-js:scalajs-compiler_2.13:" + scalajs],
-        ["scalajs_env_nodejs_2_13", "org.scala-js:scalajs-env-nodejs_2.13:1.1.1", ""],
+        ["scalajs_env_nodejs_2_13", "org.scala-js:scalajs-env-nodejs_2.13:1.2.1", ""],
         ["scalajs_ir_2_13", "org.scala-js:scalajs-ir_2.13:" + scalajs],
-        ["scalajs_js_envs_2_13", "org.scala-js:scalajs-js-envs_2.13:1.1.1", ""],
+        ["scalajs_js_envs_2_13", "org.scala-js:scalajs-js-envs_2.13:1.2.1", ""],
         ["scalajs_library_2_13", "org.scala-js:scalajs-library_2.13:" + scalajs, ""],
         ["scalajs_linker_2_13", "org.scala-js:scalajs-linker_2.13:" + scalajs, ""],
         ["scalajs_linker_interface_2_13", "org.scala-js:scalajs-linker-interface_2.13:" + scalajs, ""],
@@ -80,6 +81,8 @@ def scala_repositories():
         ["scalajs_sbt_test_adapter_2_13", "org.scala-js:scalajs-sbt-test-adapter_2.13:" + scalajs, ""],
         ["scalajs_test_bridge_2_13", "org.scala-js:scalajs-test-bridge_2.13:" + scalajs, ""],
         ["scalajs_test_interface_2_13", "org.scala-js:scalajs-test-interface_2.13:" + scalajs, ""],
+        ["scalajs_library_3_1_0_sjs", "org.scala-lang:scala3-library_sjs1_3:" + scala3],
+        ["scalajs_tools_2_13", "org.scala-js:scalajs-tools_2.13:0.6.33"],
     ]
     for dep in direct_deps:
         maybe(jvm_maven_import_external, name = dep[0], artifact = dep[1], artifact_sha256 = dep[2] if len(dep) == 3 else "", server_urls = repositories)

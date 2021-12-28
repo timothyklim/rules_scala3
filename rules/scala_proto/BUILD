@@ -16,8 +16,8 @@ scala_binary(
     name = "worker",
     srcs = ["private/ScalaProtoWorker.scala"],
     main_class = "annex.scala.proto.ScalaProtoWorker",
-    visibility = ["//visibility:public"],
     scala = "//scala:bootstrap_3_1",
+    visibility = ["//visibility:public"],
     deps = [
         "//scala/common/worker",
         "//scala/workers/common",

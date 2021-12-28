@@ -19,18 +19,18 @@ proto_library(
     name = "scalapb",
     srcs = ["scalapb/scalapb.proto"],
     strip_import_prefix = "/" + package_name(),
+    visibility = ["//visibility:public"],
     deps = [
         "@com_google_protobuf//:descriptor_proto",
     ],
-    visibility = ["//visibility:public"],
 )
 
 default_java_toolchain(
     name = "toolchain_hostjdk16",
     configuration = dict(
-      tools = ["@remote_java_tools//:javac_jar"],
-      jvm_opts = ["-Xbootclasspath/p:$(location @remote_java_tools//:javac_jar)"],
-      java_runtime = "@bazel_tools//tools/jdk:jdk",
+        java_runtime = "@bazel_tools//tools/jdk:jdk",
+        jvm_opts = ["-Xbootclasspath/p:$(location @remote_java_tools//:javac_jar)"],
+        tools = ["@remote_java_tools//:javac_jar"],
     ),
     java_runtime = "@bazel_tools//tools/jdk:current_host_java_runtime",
     source_version = "16",

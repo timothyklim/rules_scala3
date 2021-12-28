@@ -8,6 +8,9 @@ scala_binary(
     scala = "//scala:bootstrap_3_1",
     visibility = ["//visibility:public"],
     deps = [
+        "//rules/third_party/jarhelper",
+        "//scala/common/worker",
+        "//scala/workers/common",
         "@annex//:com_github_scopt_scopt_3",
         "@annex//:org_scala_sbt_compiler_interface",
         "@annex//:org_scala_sbt_util_interface",
@@ -17,9 +20,6 @@ scala_binary(
         "@annex//:org_scala_sbt_zinc_core_2_13",
         "@annex//:org_scala_sbt_zinc_persist_2_13",
         "@annex//:org_scala_sbt_zinc_persist_core_assembly",
-        "//rules/third_party/jarhelper",
-        "//scala/common/worker",
-        "//scala/workers/common",
     ],
 )
 
