@@ -1,7 +1,6 @@
 workspace(name = "rules_scala3_test")
 
 load("@bazel_tools//tools/build_defs/repo:jvm.bzl", "jvm_maven_import_external")
-
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 rules_jvm_external_tag = "56975243d79fd7db93a622579c107ad4b6c46f6e"

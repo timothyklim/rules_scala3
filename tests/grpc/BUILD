@@ -12,39 +12,39 @@ proto_library(
 
 scala_proto_library(
     name = "grpc_scala_proto",
-    deps = [
-        ":grpc_proto",
-    ],
     scalapb_options = [
         "grpc",
         "no_lenses",
+    ],
+    deps = [
+        ":grpc_proto",
     ],
 )
 
 scala_proto_library(
     name = "grpc_scala_proto_web",
-    deps = [
-        ":grpc_proto",
-    ],
+    grpc_web = True,
     scalapb_options = [
         "no_lenses",
     ],
-    grpc_web = True,
+    deps = [
+        ":grpc_proto",
+    ],
 )
 
 scala_library(
     name = "grpc",
     srcs = [
-        ":grpc_scala_proto",
         "AuthService.scala",
-    ],
-    scala = "@rules_scala3//scala:zinc_3_1_migration",
-    deps_used_whitelist = [
-        "@com_google_protobuf//java/core",
+        ":grpc_scala_proto",
     ],
     deps_unused_whitelist = [
         "@annex_test//:com_google_protobuf_protobuf_java",
     ],
+    deps_used_whitelist = [
+        "@com_google_protobuf//java/core",
+    ],
+    scala = "@rules_scala3//scala:zinc_3_1_migration",
     deps = [
         "@annex_test//:com_thesamet_scalapb_scalapb_runtime_3",
         "@annex_test//:com_thesamet_scalapb_scalapb_runtime_grpc_3",
@@ -57,25 +57,25 @@ scala_library(
 scala_library(
     name = "grpc_web",
     srcs = [
-        ":grpc_scala_proto_web",
         "AuthServiceGrpcWeb.scala",
-    ],
-    scala = "@rules_scala3//scala:zinc_3_1_migration",
-    deps_used_whitelist = [
-        "@com_google_protobuf//java/core",
+        ":grpc_scala_proto_web",
     ],
     deps_unused_whitelist = [
         "@annex_test//:com_google_protobuf_protobuf_java",
     ],
+    deps_used_whitelist = [
+        "@com_google_protobuf//java/core",
+    ],
+    scala = "@rules_scala3//scala:zinc_3_1_migration",
+    scalacopts = [
+        "-scalajs",
+    ],
     deps = [
+        "@annex_test//:com_thesamet_scalapb_grpcweb_scalapb_grpcweb_sjs1_3",
         "@annex_test//:com_thesamet_scalapb_scalapb_runtime_3",
         "@annex_test//:com_thesamet_scalapb_scalapb_runtime_grpc_3",
-        "@annex_test//:com_thesamet_scalapb_grpcweb_scalapb_grpcweb_sjs1_3",
         "@annex_test//:io_grpc_grpc_api",
         "@annex_test//:io_grpc_grpc_stub",
         "@com_google_protobuf//java/core",
-    ],
-    scalacopts = [
-        "-scalajs",
     ],
 )

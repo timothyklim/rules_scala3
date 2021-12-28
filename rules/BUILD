@@ -45,13 +45,13 @@ bzl_library(
 bzl_library(
     name = "private_bzl",
     srcs = [
-        "@bazel_tools//tools/build_defs/repo:bzl",
         "//rules/common:bzl",
         "//rules/jvm:bzl",
         "//rules/private:bzl",
-        "//rules/scala_proto:bzl",
         "//rules/scala:bzl",
+        "//rules/scala_proto:bzl",
         "//rules/scalafmt:bzl",
+        "@bazel_tools//tools/build_defs/repo:bzl",
     ],
     deps = [
         ":jdk_toolchain_utils",

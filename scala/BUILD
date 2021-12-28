@@ -122,8 +122,8 @@ configure_zinc_scala(
     name = "zinc_3_1_migration",
     compiler_bridge = "@scala_sbt_bridge_3_1_0//jar",
     compiler_classpath = compiler_classpath_3_1,
-    runtime_classpath = runtime_classpath_3_1,
     global_scalacopts = ["-source:3.0-migration"],
+    runtime_classpath = runtime_classpath_3_1,
     version = scala3,
     visibility = ["//visibility:public"],
 )
