@@ -1,4 +1,13 @@
 load("//rules:scala.bzl", "scala_binary", "scala_library")
+load(
+    "@rules_scala3//rules:providers.bzl",
+    _ScalaConfiguration = "ScalaConfiguration",
+    _ScalaInfo = "ScalaInfo",
+)
+load(
+    "//rules/common:private/utils.bzl",
+    _resolve_execution_reqs = "resolve_execution_reqs",
+)
 
 def scalajs_library(name, srcs, deps = [], visibility = None, scalacopts = [], scala = None, deps_used_whitelist = []):
     """Make scalajs library for provided sources"""
@@ -16,29 +25,73 @@ def scalajs_library(name, srcs, deps = [], visibility = None, scalacopts = [], s
         scala = scala,
     )
 
-def scalajs_binary(name, srcs, deps, main_class = "auto", main_method = "main", main_method_with_args = True, module_kind = "no-module", scalacopts = [], scala = None, deps_used_whitelist = [], out = "index.js"):
-    """Compiles scalajs sources"""
-    classes = name + "_classes"
+def _scalajs_link_impl(ctx):
+    out = ctx.actions.declare_file("{}.js".format(ctx.label.name))
+    inputs = []
+    for dep in ctx.attr.deps:
+      if _ScalaInfo in dep:
+        inputs += [dep for dep in dep[JavaInfo].transitive_runtime_jars.to_list()]
 
-    scalajs_library(
-        name = classes,
-        srcs = srcs,
-        deps = deps,
-        visibility = ["//visibility:private"],
-        scalacopts = scalacopts,
-        scala = scala,
-        deps_used_whitelist = deps_used_whitelist,
-    )
-    all_deps = [":" + classes, "@scalajs_library_2_13//jar", "@scalajs_library_3_1_0_sjs//jar"] + deps
-    all_locations = []
-    for dep in all_deps:
-        all_locations.append("$(locations " + dep + ")")
-    all_locations_str = " ".join(all_locations)
+    args = ctx.actions.args()
+    args.add("--main-class", ctx.attr.main_class)
+    args.add("--main-method", ctx.attr.main_method)
+    args.add("--with-args", "true" if ctx.attr.main_method_with_args else "false")
+    args.add("--module", ctx.attr.module_kind)
+    args.add("--dest", out.path)
+    args.add_all(inputs)
 
-    with_args = "true" if main_method_with_args else "false"
-    native.genrule(
-        name = name,
-        outs = [out],
-        cmd = "$(location @rules_scala3//scala/workers/scalajs:scalajs_linker) --main-class {} --main-method {} --with-args {} --module {} --dest $@ {}".format(main_class, main_method, with_args, module_kind, all_locations_str),
-        tools = ["@rules_scala3//scala/workers/scalajs:scalajs_linker"] + all_deps,
+    outputs = [out]
+    ctx.actions.run(
+        mnemonic = "ScalaJsLinker",
+        inputs = inputs,
+        outputs = outputs,
+        executable = ctx.attr._scalajs_linker.files_to_run.executable,
+        # input_manifests = input_manifests,
+        # execution_requirements = _resolve_execution_reqs(ctx, {"no-sandbox": "1", "supports-workers": "1"}),
+        # arguments = worker_args + [args],
+        arguments = [args],
+        use_default_shell_env = True,
     )
+    return [DefaultInfo(files = depset(outputs))]
+
+scalajs_link = rule(
+    attrs = {
+        "data": attr.label_list(
+            doc = "The additional runtime files needed by this library.",
+            allow_files = True,
+        ),
+        "deps_used_whitelist": attr.label_list(
+            doc = "The JVM library dependencies to always consider used for `scala_deps_used` checks.",
+            providers = [JavaInfo],
+        ),
+        "deps_unused_whitelist": attr.label_list(
+            doc = "The JVM library dependencies to always consider unused for `scala_deps_direct` checks.",
+            providers = [JavaInfo],
+        ),
+        "deps": attr.label_list(
+            doc = "The JVM library dependencies.",
+            providers = [JavaInfo],
+        ),
+        "scala": attr.label(
+            default = "//external:default_scala",
+            doc = "The `ScalaConfiguration`. Among other things, this specifies which scala version to use.\n Defaults to the default_scala target specified in the WORKSPACE file.",
+            providers = [
+                _ScalaConfiguration,
+            ],
+        ),
+        "scalacopts": attr.string_list(
+            doc = "The Scalac options.",
+        ),
+        "main_class": attr.string(default = "auto"),
+        "main_method": attr.string(default = "main"),
+        "module_kind": attr.string(default = "no-module"),
+        "main_method_with_args": attr.bool(default = False),
+        "_scalajs_linker": attr.label(
+            default = "@rules_scala3//scala/workers/scalajs:scalajs_linker",
+            allow_files = True,
+            executable = True,
+            cfg = "host",
+        ),
+    },
+    implementation = _scalajs_link_impl,
+)
