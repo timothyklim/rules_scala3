@@ -55,14 +55,14 @@ def scala_repositories():
         url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{}/compiler-bridge_2.13-{}-sources.jar".format(zinc_version, zinc_version),
     )
 
-    scala2 = "2.13.7"
+    scala2 = "2.13.8"
     scala3 = "3.1.0"
     scalajs = "1.8.0"
 
     direct_deps = [
-        ["scala_compiler_2_13_7", "org.scala-lang:scala-compiler:" + scala2, "a450602f03a4686919e60d1aeced549559f1eaffbaf30ffa7987c8d97e3e79a9"],
-        ["scala_library_2_13_7", "org.scala-lang:scala-library:" + scala2, "a8bc08f3b9ff93d0496032bf2677163071b8d212992f41dbf04212e07d91616b"],
-        ["scala_reflect_2_13_7", "org.scala-lang:scala-reflect:" + scala2, "a7bc4eca6970083d426a8d081aec313c7b7207d5f83b6724995e34078edc5cbb"],
+        ["scala_compiler_2_13_7", "org.scala-lang:scala-compiler:" + scala2],
+        ["scala_library_2_13_7", "org.scala-lang:scala-library:" + scala2],
+        ["scala_reflect_2_13_7", "org.scala-lang:scala-reflect:" + scala2],
         ["scala_compiler_3_1_0", "org.scala-lang:scala3-compiler_3:" + scala3, "9a76c166c97db534afb51861d234430a732158bdb413d8e12425e8c72457db60"],
         ["scala_interfaces_3_1_0", "org.scala-lang:scala3-interfaces:" + scala3, "0e344029ace7b1a846aa77e5cd452b7c8a28726b12b7c2baec0a70a038a686e9"],
         ["scala_library_3_1_0", "org.scala-lang:scala3-library_3:" + scala3, "5b513c97181d22c393cf32a51902fce27b9f698d246c7a92df7775f0bb04bec0"],
