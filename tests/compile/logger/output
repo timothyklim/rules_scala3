@@ -19,7 +19,7 @@
 [31m[1mERROR: [0mTraceback (most recent call last):
 	File "/data/home/johndoe/Development/rules_scala/tests/scala/BUILD", line 68, column 26, in <toplevel>
 		configure_bootstrap_scala(
-Error in configure_bootstrap_scala: configure_bootstrap_scala rule 'bootstrap_2_13_7' in package 'scala' conflicts with existing configure_bootstrap_scala rule, defined at /data/home/johndoe/Development/rules_scala/tests/scala/BUILD:25:26
+Error in configure_bootstrap_scala: configure_bootstrap_scala rule 'bootstrap_2_13_8' in package 'scala' conflicts with existing configure_bootstrap_scala rule, defined at /data/home/johndoe/Development/rules_scala/tests/scala/BUILD:25:26
 [31m[1mERROR: [0m/data/home/johndoe/Development/rules_scala/tests/WORKSPACE:247:5: Target '//scala:zinc_2_13' contains an error and its package is in error and referenced by '//external:default_scala'
 [31m[1mERROR: [0mAnalysis of target '//compile/logger:lib' failed; build aborted: Analysis failed
 [32mINFO: [0mElapsed time: 0.066s
