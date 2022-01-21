@@ -19,7 +19,7 @@ config_setting(
     },
 )
 
-scala2 = "2.13.7"
+scala2 = "2.13.8"
 
 compiler_classpath_2_13 = [
     "@scala_compiler_2_13_8//jar",

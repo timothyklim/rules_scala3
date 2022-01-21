@@ -26,7 +26,7 @@ repositories = [
 ]
 
 sbt_version = "1.6.1"
-zinc_version = "1.6.0"
+zinc_version = "1.6.1"
 
 def scala_artifacts():
     return [
@@ -56,31 +56,31 @@ def scala_repositories():
     )
 
     scala2 = "2.13.8"
-    scala3 = "3.1.0"
+    scala3 = "3.1.1"
     scalajs = "1.8.0"
 
     direct_deps = [
         ["scala_compiler_2_13_8", "org.scala-lang:scala-compiler:" + scala2],
         ["scala_library_2_13_8", "org.scala-lang:scala-library:" + scala2],
         ["scala_reflect_2_13_8", "org.scala-lang:scala-reflect:" + scala2],
-        ["scala_compiler_3_1_1", "org.scala-lang:scala3-compiler_3:" + scala3, "9a76c166c97db534afb51861d234430a732158bdb413d8e12425e8c72457db60"],
-        ["scala_interfaces_3_1_1", "org.scala-lang:scala3-interfaces:" + scala3, "0e344029ace7b1a846aa77e5cd452b7c8a28726b12b7c2baec0a70a038a686e9"],
-        ["scala_library_3_1_1", "org.scala-lang:scala3-library_3:" + scala3, "5b513c97181d22c393cf32a51902fce27b9f698d246c7a92df7775f0bb04bec0"],
-        ["scala_sbt_bridge_3_1_1", "org.scala-lang:scala3-sbt-bridge:" + scala3, "4f0bfee3d96714a0d1b0998bcf416b23af2312c5b45bd530d94ddded9132dffb"],
-        ["scala_tasty_core_3_1_1", "org.scala-lang:tasty-core_3:" + scala3, "80c9d1ac1630a22b3b62e0d482f91552397be22eac3ea0e61104c5ca67287647"],
+        ["scala_compiler_3_1_1", "org.scala-lang:scala3-compiler_3:" + scala3],
+        ["scala_interfaces_3_1_1", "org.scala-lang:scala3-interfaces:" + scala3],
+        ["scala_library_3_1_1", "org.scala-lang:scala3-library_3:" + scala3],
+        ["scala_sbt_bridge_3_1_1", "org.scala-lang:scala3-sbt-bridge:" + scala3],
+        ["scala_tasty_core_3_1_1", "org.scala-lang:tasty-core_3:" + scala3],
         ["scala_asm_9_2_0", "org.scala-lang.modules:scala-asm:9.2.0-scala-1", "8c34d8f56614901a1f3367b15b38adc8b13107ffd8e141e004f9de1e23db8ea4"],
         ["scalajs_parallel_collections_1_0_4", "org.scala-lang.modules:scala-parallel-collections_2.13:1.0.4"],
         ["scalajs_compiler_2_13", "org.scala-js:scalajs-compiler_2.13:" + scalajs],
-        ["scalajs_env_nodejs_2_13", "org.scala-js:scalajs-env-nodejs_2.13:1.2.1", ""],
+        ["scalajs_env_nodejs_2_13", "org.scala-js:scalajs-env-nodejs_2.13:1.2.1"],
         ["scalajs_ir_2_13", "org.scala-js:scalajs-ir_2.13:" + scalajs],
-        ["scalajs_js_envs_2_13", "org.scala-js:scalajs-js-envs_2.13:1.2.1", ""],
-        ["scalajs_library_2_13", "org.scala-js:scalajs-library_2.13:" + scalajs, ""],
-        ["scalajs_linker_2_13", "org.scala-js:scalajs-linker_2.13:" + scalajs, ""],
-        ["scalajs_linker_interface_2_13", "org.scala-js:scalajs-linker-interface_2.13:" + scalajs, ""],
-        ["scalajs_logging_2_13", "org.scala-js:scalajs-logging_2.13:1.1.1", ""],
-        ["scalajs_sbt_test_adapter_2_13", "org.scala-js:scalajs-sbt-test-adapter_2.13:" + scalajs, ""],
-        ["scalajs_test_bridge_2_13", "org.scala-js:scalajs-test-bridge_2.13:" + scalajs, ""],
-        ["scalajs_test_interface_2_13", "org.scala-js:scalajs-test-interface_2.13:" + scalajs, ""],
+        ["scalajs_js_envs_2_13", "org.scala-js:scalajs-js-envs_2.13:1.2.1"],
+        ["scalajs_library_2_13", "org.scala-js:scalajs-library_2.13:" + scalajs],
+        ["scalajs_linker_2_13", "org.scala-js:scalajs-linker_2.13:" + scalajs],
+        ["scalajs_linker_interface_2_13", "org.scala-js:scalajs-linker-interface_2.13:" + scalajs],
+        ["scalajs_logging_2_13", "org.scala-js:scalajs-logging_2.13:1.1.1"],
+        ["scalajs_sbt_test_adapter_2_13", "org.scala-js:scalajs-sbt-test-adapter_2.13:" + scalajs],
+        ["scalajs_test_bridge_2_13", "org.scala-js:scalajs-test-bridge_2.13:" + scalajs],
+        ["scalajs_test_interface_2_13", "org.scala-js:scalajs-test-interface_2.13:" + scalajs],
         ["scalajs_library_3_1_1_sjs", "org.scala-lang:scala3-library_sjs1_3:" + scala3],
         ["scalajs_tools_2_13", "org.scala-js:scalajs-tools_2.13:0.6.33"],
     ]
