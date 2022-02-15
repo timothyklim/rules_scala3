@@ -2,20 +2,18 @@
   description = "Bazel rules_scala flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs";
+    nixpkgs.url = "nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
-    java.url = "github:TawasalMessenger/jdk-flake";
-    bazel.url = "github:timothyklim/bazel-flake";
   };
 
-  outputs = { self, nixpkgs, flake-utils, java, bazel }:
+  outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        jdk = java.packages.${system}.jdk_17;
-        bazel-pre = bazel.defaultPackage.${system};
+        jdk = pkgs.openjdk17_headless;
+        bazel = pkgs.bazel_5;
       in
       rec {
-        devShell = pkgs.callPackage ./shell.nix { inherit jdk bazel-pre; };
+        devShell = pkgs.callPackage ./shell.nix { inherit jdk bazel; };
       });
 }

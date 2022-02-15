@@ -63,7 +63,7 @@ _compile_private_attributes = {
     ),
     "_singlejar": attr.label(
         cfg = "host",
-        default = "@bazel_tools//tools/jdk:singlejar",
+        default = "@remote_java_tools//:singlejar_cc_bin",
         executable = True,
     ),
 
@@ -75,7 +75,7 @@ _compile_private_attributes = {
         cfg = "host",
     ),
     "_jar_creator": attr.label(
-        default = Label("@bazel_tools//tools/jdk:ijar"),
+        default = Label("@remote_java_tools//:ijar_cc_binary"),
         executable = True,
         cfg = "host",
     ),

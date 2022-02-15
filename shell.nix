@@ -1,9 +1,9 @@
-{ pkgs, jdk, bazel-pre }:
+{ pkgs, jdk, bazel }:
 
 with pkgs;
 
 mkShell {
   name = "rules_scala-env";
   nativeBuildInputs = [ jdk ];
-  buildInputs = [ bash bazel-pre bazel-buildtools python3 gnumake fd nixpkgs-fmt ];
+  buildInputs = [ bash bazel bazel-buildtools python3 just fd nixpkgs-fmt ];
 }
