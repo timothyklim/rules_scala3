@@ -55,18 +55,25 @@ final class TestReporter(logger: Logger):
 
 final class TestTaskExecutor(logger: Logger):
   def execute(task: Task, failures: mutable.Set[String]): mutable.ListBuffer[Event] =
-    var events = new mutable.ListBuffer[Event]()
+    var events = mutable.ListBuffer[Event]()
+    val pending = mutable.Set.empty[String]
+
     def execute(task: Task): Unit =
+      val name = task.taskDef.fullyQualifiedName
+      pending += name
       val tasks = task.execute(
         event =>
           events += event
           event.status match
-            case Status.Failure | Status.Error =>
-              failures += task.taskDef.fullyQualifiedName
-            case _ =>
+            case Status.Failure | Status.Error => ()
+            case _ => pending -= name
         ,
-        Array(new PrefixedTestingLogger(logger, "    "))
+        Array(PrefixedTestingLogger(logger, "    "))
       )
       tasks.foreach(execute)
+
     execute(task)
+
+    for failed <- pending do failures += failed
+
     events
