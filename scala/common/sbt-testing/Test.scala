@@ -65,7 +65,7 @@ final class TestTaskExecutor(logger: Logger):
         event =>
           events += event
           event.status match
-            case Status.Failure | Status.Error => ()
+            case Status.Failure | Status.Error => failures += name
             case _ => pending -= name
         ,
         Array(PrefixedTestingLogger(logger, "    "))
