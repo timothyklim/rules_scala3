@@ -7,6 +7,7 @@ scala_binary(
     main_class = "rules_scala.workers.zinc.compile.ZincRunner",
     scala = "//scala:bootstrap_3_1",
     visibility = ["//visibility:public"],
+    jvm_flags = ["-Djava.security.manager=allow"],
     deps = [
         "//rules/third_party/jarhelper",
         "//scala/common/worker",

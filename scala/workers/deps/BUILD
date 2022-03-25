@@ -7,6 +7,7 @@ scala_binary(
     main_class = "rules_scala.workers.deps.DepsRunner",
     scala = "//scala:bootstrap_3_1",
     visibility = ["//visibility:public"],
+    jvm_flags = ["-Djava.security.manager=allow"],
     deps = [
         "//scala/common/worker",
         "//scala/workers/common",

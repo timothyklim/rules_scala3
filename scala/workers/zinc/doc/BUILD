@@ -5,6 +5,7 @@ scala_binary(
     name = "doc",
     srcs = glob(["**/*.scala"]),
     visibility = ["//visibility:public"],
+    jvm_flags = ["-Djava.security.manager=allow"],
     deps = [
         "//scala/common/worker",
         "//scala/workers/common",
