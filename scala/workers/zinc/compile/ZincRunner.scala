@@ -6,7 +6,7 @@ import java.lang.ref.WeakReference
 import java.net.URLClassLoader
 import java.nio.file.{Files, NoSuchFileException, Path, Paths}
 import java.text.SimpleDateFormat
-import java.util.{Date, Optional, Properties, List as JList}
+import java.util.{Date, List as JList, Optional, Properties}
 
 import scala.jdk.CollectionConverters.*
 import scala.util.Try
@@ -187,7 +187,6 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
           sys.exit(1)
         case e: NoClassDefFoundError =>
           System.err.println(s"workArgs:$workArgs")
-          println(s"work args:${args.mkString(" ")}")
           System.err.println(e)
           sys.exit(1)
 

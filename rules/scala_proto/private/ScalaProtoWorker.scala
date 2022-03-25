@@ -1,7 +1,7 @@
 package annex.scala.proto
 
 import java.io.{File, FileOutputStream}
-import java.nio.file.{Files, Paths, Path}
+import java.nio.file.{Files, Path, Paths}
 import java.util.jar.{JarEntry, JarFile}
 import java.util.Collections
 
@@ -9,8 +9,8 @@ import scala.annotation.tailrec
 import scala.collection.mutable
 import scala.jdk.CollectionConverters.*
 
-import protocbridge.{ProtocBridge, ProtocRunner, ProtocCodeGenerator}
-import scalapb.{ScalaPbCodeGenerator, GeneratorOption}
+import protocbridge.{ProtocBridge, ProtocCodeGenerator, ProtocRunner}
+import scalapb.{GeneratorOption, ScalaPbCodeGenerator}
 import scalapb.GeneratorOption.*
 import scalapb.grpcweb.GrpcWebCodeGenerator
 import scopt.OParser

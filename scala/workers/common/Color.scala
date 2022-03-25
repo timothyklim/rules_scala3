@@ -2,7 +2,7 @@ package rules_scala
 package workers.common
 
 import xsbti.Problem
-import Console.{RED as CR, YELLOW as CY, GREEN as CG, RESET as CRESET}
+import Console.{GREEN as CG, RED as CR, RESET as CRESET, YELLOW as CY}
 
 object Color:
   def Info(problem: Problem): String = colorProblem(problem, CG)

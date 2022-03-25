@@ -37,4 +37,3 @@ object ScalaJsLinker:
       yield ()
     Await.result(result, Duration.Inf)
 end ScalaJsLinker
-

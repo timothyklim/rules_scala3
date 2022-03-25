@@ -8,7 +8,7 @@ import java.net.URI
 import java.nio.file.*
 import java.nio.file.attribute.BasicFileAttributes
 import java.util.Collections
-import java.util.{List as JList}
+import java.util.List as JList
 import org.jacoco.core.instr.Instrumenter
 import org.jacoco.core.runtime.OfflineInstrumentationAccessGenerator
 import scala.jdk.CollectionConverters.*
@@ -33,8 +33,7 @@ object JacocoInstrumenter extends WorkerMain[Unit]:
       .getList[JList[String]]("jar")
       .asScala
       .flatMap(_.asScala)
-      .map(
-      other =>
+      .map(other =>
         other.split("=") match
           case Array(in, out) => (Paths.get(in), Paths.get(out))
           case _ =>

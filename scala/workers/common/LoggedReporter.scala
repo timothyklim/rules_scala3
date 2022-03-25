@@ -2,7 +2,7 @@ package rules_scala
 package workers.common
 
 import xsbti.{Logger, Problem}
-import sbt.internal.inc.{LoggedReporter as SbtLoggedReporter}
+import sbt.internal.inc.LoggedReporter as SbtLoggedReporter
 import sbt.util.InterfaceUtil
 
 import scala.jdk.OptionConverters.*

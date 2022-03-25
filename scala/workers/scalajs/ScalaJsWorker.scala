@@ -19,14 +19,14 @@ object ScalaJsWorker: // extends WorkerMain[ScalaJsWorker.Arguments]:
   def main(args: Array[String]): Unit =
     val runArgs = Arguments(Bazel.parseParams(args)).getOrElse(throw IllegalArgumentException(s"args is invalid: ${args.mkString(" ")}"))
     ScalaJsLinker.link(runArgs)
-    
+
   final case class Arguments(
       mainClass: Option[String] = None,
       mainMethod: String = "main",
       mainMethodWithArgs: Boolean = true,
       sourcesAndLibs: Vector[Path] = Vector.empty,
       dest: File = File("."),
-      moduleKind: ModuleKind = ModuleKind.NoModule,
+      moduleKind: ModuleKind = ModuleKind.NoModule
   )
   object Arguments:
     private val builder = OParser.builder[Arguments]
@@ -37,19 +37,21 @@ object ScalaJsWorker: // extends WorkerMain[ScalaJsWorker.Arguments]:
       opt[String]("main-method").optional().action((o, c) => c.copy(mainMethod = o)),
       opt[Boolean]("with-args").optional().action((o, c) => c.copy(mainMethodWithArgs = o)),
       opt[File]("dest").required().action((f, c) => c.copy(dest = f)),
-      opt[String]("module").optional().action((m, c) =>
-        c.copy(moduleKind = m match
-          case "no"     => ModuleKind.NoModule
-          case "common" => ModuleKind.CommonJSModule
-          case "es"     => ModuleKind.ESModule
-          case module   => throw IllegalArgumentException(s"Unknown module: $module. Valid modules: no, common, es")
-        )
-      ),
+      opt[String]("module")
+        .optional()
+        .action((m, c) =>
+          c.copy(moduleKind = m match
+            case "no"     => ModuleKind.NoModule
+            case "common" => ModuleKind.CommonJSModule
+            case "es"     => ModuleKind.ESModule
+            case module   => throw IllegalArgumentException(s"Unknown module: $module. Valid modules: no, common, es")
+          )
+        ),
       arg[File]("<file>...")
         .required()
         .unbounded()
         .action((cp, c) => c.copy(sourcesAndLibs = c.sourcesAndLibs :+ cp.toPath))
-        .text("Files with source archives and libraries"),
+        .text("Files with source archives and libraries")
     )
 
     def apply(args: collection.Seq[String]): Option[Arguments] = OParser.parse(parser, args, Arguments())

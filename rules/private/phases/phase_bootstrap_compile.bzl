@@ -34,7 +34,6 @@ def phase_bootstrap_compile(ctx, g):
 
     ctx.actions.run_shell(
         inputs = inputs,
-        tools = [ctx.executable._jar_creator],
         outputs = [g.classpaths.jar],
         command = _strip_margin(
             """
@@ -52,7 +51,6 @@ def phase_bootstrap_compile(ctx, g):
             |  {srcs}
             |""".format(
                 java = ctx.attr._jdk[java_common.JavaRuntimeInfo].java_executable_exec_path,
-                jar_creator = ctx.executable._jar_creator.path,
                 compiler_classpath = compiler_classpath,
                 compile_classpath = compile_classpath,
                 compiler_main_class = compiler_main_class,

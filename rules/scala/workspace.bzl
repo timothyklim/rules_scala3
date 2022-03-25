@@ -34,7 +34,7 @@ def scala_artifacts():
         "org.jacoco:org.jacoco.core:0.8.7",
         "org.scala-lang.modules:scala-xml_3:2.0.1",
         "org.scala-sbt:test-interface:1.0",
-        "org.scala-sbt:util-interface:" + sbt_version,
+        "org.scala-sbt:util-interface:2.0.0-alpha1",
         "org.scala-sbt:util-logging_2.13:" + sbt_version,
         "org.scala-sbt:zinc_2.13:" + zinc_version,
     ]

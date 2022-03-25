@@ -67,8 +67,10 @@ def phase_zinc_compile(ctx, g):
     args.set_param_file_format("multiline")
     args.use_param_file("@%s", use_always = True)
 
-    worker_args = ["--wrapper_script_flag=--jvm_flag={}".format(flag) for flag in scala_configuration.global_jvm_flags]
-    worker_args.append("--wrapper_script_flag=--jvm_flag=-Dfile.encoding=UTF-8")
+    common_flags = [
+      "-Dfile.encoding=UTF-8",
+    ]
+    worker_args = ["--wrapper_script_flag=--jvm_flag={}".format(flag) for flag in common_flags + scala_configuration.global_jvm_flags]
     worker = zinc_configuration.compile_worker
 
     worker_inputs, _, input_manifests = ctx.resolve_command(tools = [worker])

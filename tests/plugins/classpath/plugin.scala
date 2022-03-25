@@ -2,8 +2,8 @@ package plug.it.in
 
 import scala.tools.nsc.Global
 import scala.tools.nsc.Phase
-import scala.tools.nsc.plugins.{Plugin as NscPlugin}
-import scala.tools.nsc.plugins.{PluginComponent as NscPluginComponent}
+import scala.tools.nsc.plugins.Plugin as NscPlugin
+import scala.tools.nsc.plugins.PluginComponent as NscPluginComponent
 
 final class Plugin(override val global: Global) extends NscPlugin:
   override val name: String = Lib.name

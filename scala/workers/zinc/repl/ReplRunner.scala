@@ -1,16 +1,16 @@
 package rules_scala
 package workers.zinc.repl
 
-import workers.common.{Bazel, LogLevel, AnnexLogger, AnnexScalaInstance, FileUtil, TopClassLoader}
+import workers.common.{AnnexLogger, AnnexScalaInstance, Bazel, FileUtil, LogLevel, TopClassLoader}
 
 import java.io.File
-import java.nio.file.{Files, Paths, Path}
+import java.nio.file.{Files, Path, Paths}
 import java.net.URLClassLoader
 import java.util.Collections
 
 import scala.jdk.CollectionConverters.*
 
-import sbt.internal.inc.{ZincUtil, PlainVirtualFile, PlainVirtualFileConverter}
+import sbt.internal.inc.{PlainVirtualFile, PlainVirtualFileConverter, ZincUtil}
 import sbt.internal.inc.classpath.ClassLoaderCache
 import scopt.OParser
 import xsbti.Logger

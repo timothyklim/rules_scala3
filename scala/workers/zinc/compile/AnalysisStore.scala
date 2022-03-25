@@ -7,12 +7,12 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, NoSuchFileException, Path, Paths}
 import java.nio.file.attribute.FileTime
 import java.util.zip.{GZIPInputStream, GZIPOutputStream}
-import java.util.{Optional, Map as JMap}
+import java.util.{Map as JMap, Optional}
 import scala.jdk.CollectionConverters.*
 import sbt.internal.shaded.com.google.protobuf.{GeneratedMessageV3, Parser}
 import sbt.internal.inc.binary.converters.{ProtobufReaders, ProtobufWriters}
 import sbt.internal.inc.text.Mapper
-import sbt.internal.inc.{APIs, Analysis, Relations, SourceInfos, Stamper, Stamps, Schema, Stamp as StampImpl, PlainVirtualFile}
+import sbt.internal.inc.{APIs, Analysis, PlainVirtualFile, Relations, Schema, SourceInfos, Stamp as StampImpl, Stamper, Stamps}
 import xsbti.compile.analysis.{GenericMapper, ReadMapper, ReadWriteMappers, Stamp, WriteMapper}
 import xsbti.compile.{AnalysisContents, AnalysisStore, MiniSetup}
 import xsbti.{PathBasedFile, VirtualFileRef}
