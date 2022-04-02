@@ -12,8 +12,7 @@ build --extra_toolchains=@local_jdk//:all
 build --host_javabase=@local_jdk//:jdk
 build --javabase=@local_jdk//:jdk
 
-# build --strategy=ScalaCompile=worker
-build --strategy=ScalaCompile=local
+build --strategy=ScalaCompile=worker
 build --worker_max_instances=4
 build --worker_sandboxing
 build --verbose_failures
