@@ -12,12 +12,19 @@ build --extra_toolchains=@local_jdk//:all
 build --host_javabase=@local_jdk//:jdk
 build --javabase=@local_jdk//:jdk
 
-build --strategy=ScalaCompile=worker
+# build --strategy=ScalaCompile=worker
+build --strategy=ScalaCompile=local
 build --worker_max_instances=4
 build --worker_sandboxing
 build --verbose_failures
 
-test --test_output=all
-
 build:rules --disk_cache=.bazel_cache
 build:tests --disk_cache=../.bazel_cache
+
+test --test_output=all
+test --jvmopt='-Dfile.encoding=UTF-8'
+
+test --test_env='LC_ALL=en_US.UTF-8'
+test --test_env='LANG=en_US.UTF-8'
+test --jvmopt='-Dsun.jnu.encoding=UTF-8'
+test --jvmopt='-Dfile.encoding=UTF-8'

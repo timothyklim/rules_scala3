@@ -26,8 +26,7 @@ final class JUnitXmlReporter(tasksAndEvents: ListBuffer[(String, ListBuffer[Even
             .count(e => e.status == Ignored || e.status == Skipped || e.status == Pending || e.status == Canceled)
             .toString}"
         time="${(events.map(_.duration).sum / 1000d).toString}">
-          ${(for (e <- events)
-            yield s"""<testcase
+          ${(for e <- events yield s"""<testcase
             classname="${escape(name)}"
             name="${e.selector match
                 case selector: TestSelector => escape(selector.testName.split('.').last)
@@ -68,6 +67,6 @@ final class JUnitXmlReporter(tasksAndEvents: ListBuffer[(String, ListBuffer[Even
       </testsuite>""").mkString("")}
     </testsuites>""")
 
-  def write =
-    Option(System.getenv.get("XML_OUTPUT_FILE"))
-      .foreach(spec => XML.save(spec, result, "UTF-8", true, null))
+  def write = System.getenv.get("XML_OUTPUT_FILE") match
+    case spec: String => XML.save(spec, result, "UTF-8", true, null)
+    case null => ()

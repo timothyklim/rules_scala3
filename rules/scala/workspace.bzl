@@ -56,7 +56,7 @@ def scala_repositories():
     )
 
     scala2 = "2.13.8"
-    scala3 = "3.1.1"
+    scala3 = "3.1.2"
     scalajs = "1.9.0"
 
     direct_deps = [

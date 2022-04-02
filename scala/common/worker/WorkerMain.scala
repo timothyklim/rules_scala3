@@ -3,6 +3,7 @@ package common.worker
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream, InputStream, PrintStream}
 import java.lang.SecurityManager
+import java.nio.charset.StandardCharsets.UTF_8
 import java.security.Permission
 
 import scala.annotation.tailrec
@@ -60,7 +61,7 @@ trait WorkerMain[S]:
                 1
 
           WorkerProtocol.WorkResponse.newBuilder
-            .setOutput(outStream.toString)
+            .setOutput(outStream.toString(UTF_8))
             .setExitCode(code)
             .build
             .writeDelimitedTo(stdout)
