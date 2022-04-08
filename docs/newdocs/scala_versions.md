@@ -7,7 +7,7 @@ This attribute defaults to using the `default_scala` specified via `bind` in the
 ```python
 bind(
     name = "default_scala",
-    actual = "//scala:zinc_3_1_2",
+    actual = "//scala:zinc_3_1_1",
 )
 ```
 
