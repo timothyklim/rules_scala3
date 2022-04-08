@@ -15,7 +15,7 @@ import scala.util.control.NonFatal
 import com.google.devtools.build.buildjar.jarhelper.JarCreator
 import sbt.internal.inc.{Analysis, AnalyzingCompiler, CompileFailed, IncrementalCompilerImpl, Locate, PlainVirtualFile, ZincUtil}
 import sbt.internal.inc.classpath.ClassLoaderCache
-import scopt.OParser
+import scopt.{DefaultOParserSetup, OParser, OParserSetup}
 import xsbti.{Logger, PathBasedFile, VirtualFile}
 import xsbti.compile.{
   AnalysisContents,
