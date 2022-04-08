@@ -239,8 +239,8 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
 
     private val parser = OParser.sequence(
       opt[Boolean]("use_persistence").action((p, c) => c.copy(usePersistence = p)),
-      opt[String]("extracted_file_cache").optional().action((p, c) => c.copy(depsCache = Some(pathFrom(p)))),
-      opt[String]("persistence_dir").optional().action((p, c) => c.copy(persistenceDir = Some(pathFrom(p)))),
+      opt[String]("extracted_file_cache").unbounded().optional().action((p, c) => c.copy(depsCache = Some(pathFrom(p)))),
+      opt[String]("persistence_dir").unbounded().optional().action((p, c) => c.copy(persistenceDir = Some(pathFrom(p)))),
       opt[Int]("max_errors").optional().action((m, c) => c.copy(maxErrors = m))
     )
 
@@ -371,7 +371,10 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
     )
 
     def apply(args: collection.Seq[String]): Option[WorkArguments] =
-      OParser.parse(parser, args, WorkArguments())
+      val setup: OParserSetup = new DefaultOParserSetup:
+        override def showUsageOnError = Some(true)
+        override def errorOnUnknownArgument = false
+      OParser.parse(parser, args, WorkArguments(), setup)
   end WorkArguments
 
   private val topLoader = TopClassLoader(getClass().getClassLoader())
