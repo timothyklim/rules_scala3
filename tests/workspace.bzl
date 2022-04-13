@@ -13,7 +13,7 @@ def test_artifacts():
         "org.scala-js:scalajs-dom_sjs1_3:2.1.0",
         "org.scala-lang.modules:scala-xml_3:2.1.0",
         "org.scala-sbt:compiler-interface:2.0.0-alpha1",
-        "org.scalacheck:scalacheck_3:1.15.4",
+        "org.scalacheck:scalacheck_3:1.16.0",
         "org.scalameta:munit_3:" + munit_version,
         "org.scalameta:munit-scalacheck_3:" + munit_version,
     ]
