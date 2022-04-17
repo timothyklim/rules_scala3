@@ -23,7 +23,8 @@ object ScalaJsWorker: // extends WorkerMain[ScalaJsWorker.Arguments]:
   final case class Arguments(
       mainClass: Option[String] = None,
       mainMethod: String = "main",
-      mainMethodWithArgs: Boolean = true,
+      mainMethodWithArgs: Boolean = false,
+      fullOpt: Boolean = false,
       sourcesAndLibs: Vector[Path] = Vector.empty,
       dest: File = File("."),
       moduleKind: ModuleKind = ModuleKind.NoModule
@@ -36,6 +37,7 @@ object ScalaJsWorker: // extends WorkerMain[ScalaJsWorker.Arguments]:
       opt[Option[String]]("main-class").optional().action((o, c) => c.copy(mainClass = o)),
       opt[String]("main-method").optional().action((o, c) => c.copy(mainMethod = o)),
       opt[Boolean]("with-args").optional().action((o, c) => c.copy(mainMethodWithArgs = o)),
+      opt[Boolean]("full-opt").optional().action((o, c) => c.copy(fullOpt = o)),
       opt[File]("dest").required().action((f, c) => c.copy(dest = f)),
       opt[String]("module")
         .optional()

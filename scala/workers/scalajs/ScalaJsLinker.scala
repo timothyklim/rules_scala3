@@ -12,10 +12,13 @@ import org.scalajs.logging.ScalaConsoleLogger
 object ScalaJsLinker:
 
   def link(args: ScalaJsWorker.Arguments) =
+    val semantics = if args.fullOpt then Semantics.Defaults.optimized else Semantics.Defaults
+    val useClosure = args.fullOpt && args.moduleKind != ModuleKind.ESModule
     val linkerConfig = StandardConfig()
       .withModuleKind(args.moduleKind)
-      .withOptimizer(true)
-      .withSemantics(Semantics.Defaults.optimized)
+      .withClosureCompilerIfAvailable(useClosure)
+      .withOptimizer(args.fullOpt)
+      .withSemantics(semantics)
     val linker = StandardImpl.linker(linkerConfig)
 
     val cache = StandardImpl.irFileCache().newCache

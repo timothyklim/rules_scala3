@@ -36,6 +36,7 @@ def _scalajs_link_impl(ctx):
     args.add("--main-class", ctx.attr.main_class)
     args.add("--main-method", ctx.attr.main_method)
     args.add("--with-args", "true" if ctx.attr.main_method_with_args else "false")
+    args.add("--full-opt", "true" if ctx.attr.full_opt else "false")
     args.add("--module", ctx.attr.module_kind)
     args.add("--dest", out.path)
     args.add_all(inputs)
@@ -86,6 +87,7 @@ scalajs_link = rule(
         "main_method": attr.string(default = "main"),
         "module_kind": attr.string(default = "no-module"),
         "main_method_with_args": attr.bool(default = False),
+        "full_opt": attr.bool(default = False),
         "_scalajs_linker": attr.label(
             default = "@rules_scala3//scala/workers/scalajs:scalajs_linker",
             allow_files = True,
