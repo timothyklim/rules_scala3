@@ -96,7 +96,7 @@ compiler_classpath_3_1 = [
     "@scala_compiler_3_1_2//jar",
     "@scala_interfaces_3_1_2//jar",
     "@scala_tasty_core_3_1_2//jar",
-    "@scala_asm_9_2_0//jar",
+    "@scala_asm_9_3_0//jar",
 ] + runtime_classpath_3_1
 
 configure_bootstrap_scala(

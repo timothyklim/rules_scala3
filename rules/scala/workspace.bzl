@@ -68,7 +68,7 @@ def scala_repositories():
         ["scala_library_3_1_2", "org.scala-lang:scala3-library_3:" + scala3],
         ["scala_sbt_bridge_3_1_2", "org.scala-lang:scala3-sbt-bridge:" + scala3],
         ["scala_tasty_core_3_1_2", "org.scala-lang:tasty-core_3:" + scala3],
-        ["scala_asm_9_2_0", "org.scala-lang.modules:scala-asm:9.2.0-scala-1", "8c34d8f56614901a1f3367b15b38adc8b13107ffd8e141e004f9de1e23db8ea4"],
+        ["scala_asm_9_3_0", "org.scala-lang.modules:scala-asm:9.3.0-scala-1"],
         ["scalajs_parallel_collections_1_0_4", "org.scala-lang.modules:scala-parallel-collections_2.13:1.0.4"],
         ["scalajs_compiler_2_13", "org.scala-js:scalajs-compiler_2.13:" + scalajs],
         ["scalajs_env_nodejs_2_13", "org.scala-js:scalajs-env-nodejs_2.13:1.2.1"],
