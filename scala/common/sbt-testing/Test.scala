@@ -70,7 +70,8 @@ final class TestTaskExecutor(logger: Logger):
         ,
         Array(PrefixedTestingLogger(logger, "    "))
       )
-      tasks.foreach(execute)
+      if tasks.isEmpty then pending -= name
+      else tasks.foreach(execute)
 
     execute(task)
 
