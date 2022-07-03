@@ -25,12 +25,12 @@ repositories = [
     "https://scala-ci.typesafe.com/artifactory/scala-integration/",
 ]
 
-sbt_version = "1.6.2"
-zinc_version = "1.6.1"
+sbt_version = "1.7.0-RC2"
+zinc_version = "1.7.0-M2"
 
 def scala_artifacts():
     return [
-        "com.github.scopt:scopt_3:4.0.1",
+        "com.github.scopt:scopt_3:4.1.0",
         "org.jacoco:org.jacoco.core:0.8.7",
         "org.scala-lang.modules:scala-xml_3:2.1.0",
         "org.scala-sbt:test-interface:1.0",
