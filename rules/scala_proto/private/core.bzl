@@ -71,7 +71,7 @@ def scala_proto_library_implementation(ctx):
         outputs = [srcjar],
         arguments = [ctx.executable._zipper.path, gendir.path, gendir.short_path, srcjar.path],
         command = """$1 c $4 META-INF/= $(find -L $2 -type f | while read v; do echo ${v#"${2%$3}"}=$v; done)""",
-        progress_message = "Bundling compiled Scala into srcjar",
+        progress_message = "Bundling generated scala protobuf classes into srcjar",
         tools = [ctx.executable._zipper],
         execution_requirements = _resolve_execution_reqs(ctx, {}),
         use_default_shell_env = True,
