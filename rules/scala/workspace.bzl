@@ -25,8 +25,8 @@ repositories = [
     "https://scala-ci.typesafe.com/artifactory/scala-integration/",
 ]
 
-sbt_version = "1.7.0-RC2"
-zinc_version = "1.7.0-M2"
+sbt_version = "1.7.1"
+zinc_version = "1.7.1"
 
 def scala_artifacts():
     return [
@@ -51,7 +51,7 @@ def scala_repositories():
     http_archive(
         name = "compiler_bridge_2_13",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
-        sha256 = "9a4c03375f55df5b0fb3db69cbd8b967bfacb313c45a0d6d7bb61fc0a80a1966",
+        sha256 = "36113aa52d9834b98f9a7d79a86409a3dd08c4b7de66d5836d9d25127159068e",
         url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{}/compiler-bridge_2.13-{}-sources.jar".format(zinc_version, zinc_version),
     )
 
