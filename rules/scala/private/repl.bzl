@@ -19,8 +19,8 @@ def scala_repl_implementation(ctx):
 
     args = ctx.actions.args()
     args.add("--compiler_bridge", zinc_configuration.compiler_bridge.short_path)
-    args.add_all(scompiler_classpath.transitive_runtime_jars, map_each = _path, format_each = "--compiler_cp=%s")
-    args.add_all(classpath, map_each = _path, format_each = "--cp=%s")
+    args.add_all(scompiler_classpath.transitive_runtime_jars, map_each = _short_path, format_each = "--compiler_cp=%s")
+    args.add_all(classpath, map_each = _short_path, format_each = "--cp=%s")
     args.add_all(scala_configuration.global_scalacopts, format_each = "--compiler_option=%s")
     args.add_all(ctx.attr.scalacopts, format_each = "--compiler_option=%s")
     args.set_param_file_format("multiline")
@@ -56,5 +56,5 @@ def scala_repl_implementation(ctx):
         ),
     ]
 
-def _path(file):
-    return file.path
+def _short_path(file):
+    return file.short_path

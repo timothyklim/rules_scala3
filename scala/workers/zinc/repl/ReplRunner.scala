@@ -85,9 +85,19 @@ object ReplRunner:
 
     val classpath = workArgs.classpath.map(p => runPath.resolve(p).toFile)
 
-    val refs = compilerClasspath.view.concat(classpath).map(f => PlainVirtualFile(f.toPath())).to(Seq).distinct
+    val allJars = compilerClasspath.view.concat(classpath).distinct
+    val notFound = allJars.filter(f => !f.exists())
+    if notFound.nonEmpty then
+      System.err.println(s"Not found JARs: ${notFound.mkString(", ")}")
+      sys.exit(-1)
+
+    val refs = allJars.map(f => PlainVirtualFile(f.toPath())).to(Seq)
+    val loader = classloaderCache.cachedCustomClassloader(
+      allJars.toList,
+      () => URLClassLoader(allJars.map(_.toURI.toURL).toArray, scalaInstance.loader)
+    )
     scalaCompiler.console(refs, PlainVirtualFileConverter.converter, workArgs.compilerOption, "", "", logger)(
-      loader = Some(scalaInstance.loader),
+      loader = Some(loader),
       bindings = Nil
     )
 
