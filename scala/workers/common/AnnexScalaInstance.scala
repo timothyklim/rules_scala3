@@ -10,7 +10,6 @@ import java.net.{URL, URLClassLoader}
 import java.util.Properties
 
 import scala.util.matching.Regex
-import scala.util.Using
 
 final class TopClassLoader(sbtLoader: ClassLoader) extends ClassLoader(null):
   // We can't use the loadClass overload with two arguments because it's
@@ -29,33 +28,34 @@ final class AnnexScalaInstance(classLoader: ClassLoader, classLoaderCache: Class
 
   override lazy val version: String = actualVersion
   override lazy val actualVersion: String =
-    Using(new URL(s"jar:file://${compilerJar.getAbsolutePath}!/compiler.properties").openStream()) { stream =>
-      val props = new Properties
+    val stream = URL(s"jar:file://${compilerJar.getAbsolutePath}!/compiler.properties").openStream()
+    try
+      val props = Properties()
       props.load(stream)
       props.getProperty("version.number")
-    }.fold(throw _, identity)
+    finally stream.close()
 
   override lazy val compilerJar: File = allJars
     .collectFirst { case jar if isCompiler(jar) => jar }
-    .getOrElse(throw new InvalidScalaProvider(s"Couldn't find 'scala-compiler.jar'"))
+    .getOrElse(throw InvalidScalaProvider(s"Couldn't find 'scala-compiler.jar'"))
   override lazy val compilerJars = Array(compilerJar)
 
-  override lazy val libraryJars: Array[File] = allJars.collect { case jar if isLibraryJar(jar) => jar }.distinct
+  override lazy val libraryJars: Array[File] = allJars.filter(isLibraryJar(_)).distinct
 
   override def otherJars: Array[File] =
     allJars.filterNot(f => compilerJars.contains(f) || libraryJars.contains(f)).distinct
 
   override lazy val loaderLibraryOnly: ClassLoader = classLoaderCache.cachedCustomClassloader(
     libraryJars.toList,
-    () => new URLClassLoader(libraryJars.map(_.toURI.toURL), classLoader)
+    () => URLClassLoader(libraryJars.map(_.toURI.toURL), classLoader)
   )
   override lazy val loaderCompilerOnly: ClassLoader = classLoaderCache.cachedCustomClassloader(
     compilerJars.toList,
-    () => new URLClassLoader(compilerJars.map(_.toURI.toURL), loaderLibraryOnly)
+    () => URLClassLoader(compilerJars.map(_.toURI.toURL), loaderLibraryOnly)
   )
   override lazy val loader: ClassLoader = classLoaderCache.cachedCustomClassloader(
     allJars.toList,
-    () => new URLClassLoader(allJars.map(_.toURI.toURL), loaderLibraryOnly)
+    () => URLClassLoader(allJars.map(_.toURI.toURL), loaderLibraryOnly)
   )
 
 object AnnexScalaInstance:

@@ -23,7 +23,7 @@ scala_library(
     deps_unused_whitelist = [
         "@annex_test//:com_google_protobuf_protobuf_java",
     ],
-    scala = "@rules_scala3//scala:zinc_3_1_migration",
+    scala = "@rules_scala3//scala:zinc_3_2_migration",
     deps = [
         "@annex_test//:com_thesamet_scalapb_scalapb_runtime_3",
     ],

@@ -74,19 +74,22 @@ object ReplRunner:
     val workerArgs = Bazel.parseParams(Files.readAllLines(replArgFile).asScala)
     val workArgs = ReplWorkArguments(workerArgs).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${workerArgs.mkString(" ")}"))
 
-    val urls = workArgs.classpath.map(p => runPath.resolve(p).toUri.toURL)
-
     val compilerClasspath = workArgs.compilerClasspath.map(p => runPath.resolve(p).toFile)
     val scalaInstance = AnnexScalaInstance(topLoader, classloaderCache, compilerClasspath.toArray)
 
     val logger = AnnexLogger(runArgs.logLevel)
 
-    val scalaCompiler = ZincUtil.scalaCompiler(scalaInstance, runPath.resolve(workArgs.compilerBridge).toFile)
+    val scalaCompiler = ZincUtil
+      .scalaCompiler(scalaInstance, runPath.resolve(workArgs.compilerBridge).toFile)
+      .withClassLoaderCache(classloaderCache)
 
     val classpath = workArgs.classpath.map(p => runPath.resolve(p).toFile)
 
     val refs = compilerClasspath.view.concat(classpath).map(f => PlainVirtualFile(f.toPath())).to(Seq).distinct
-    scalaCompiler.console(refs, PlainVirtualFileConverter.converter, workArgs.compilerOption, "", "", logger)()
+    scalaCompiler.console(refs, PlainVirtualFileConverter.converter, workArgs.compilerOption, "", "", logger)(
+      loader = Some(scalaInstance.loader),
+      bindings = Nil
+    )
 
   private val topLoader = TopClassLoader(getClass().getClassLoader())
   private val classloaderCache = ClassLoaderCache(URLClassLoader(Array.empty))

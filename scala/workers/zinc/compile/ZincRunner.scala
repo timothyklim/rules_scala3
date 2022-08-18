@@ -138,8 +138,7 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
     val scalaCompiler = ZincUtil
       .scalaCompiler(scalaInstance, workArgs.compilerBridge)
       .withClassLoaderCache(classloaderCache)
-    val compilers =
-      ZincUtil.compilers(scalaInstance, ClasspathOptionsUtil.boot, None, scalaCompiler)
+    val compilers = ZincUtil.compilers(scalaInstance, ClasspathOptionsUtil.boot, None, scalaCompiler)
 
     val depMap = deps.collect { case ExternalDep(_, classpath, files) => classpath -> files }.toMap
     val lookup = AnxPerClasspathEntryLookup(file =>

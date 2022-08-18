@@ -69,7 +69,7 @@ alias(
     visibility = ["//visibility:public"],
 )
 
-scala3 = "3.1.1"
+scala3 = "3.2.0"
 
 scala3_global_scalacopts = [
     "-deprecation",
@@ -87,49 +87,49 @@ scala3_global_scalacopts = [
     # "-Xfatal-warnings",
 ]
 
-runtime_classpath_3_1 = [
+runtime_classpath_3_2 = [
     "@scala_library_3_2_0//jar",
     "@scala_library_2_13_8//jar",
 ]
 
-compiler_classpath_3_1 = [
+compiler_classpath_3_2 = [
     "@scala_compiler_3_2_0//jar",
     "@scala_interfaces_3_2_0//jar",
     "@scala_tasty_core_3_2_0//jar",
     "@scala_asm_9_3_0//jar",
-] + runtime_classpath_3_1
+] + runtime_classpath_3_2
 
 configure_bootstrap_scala(
-    name = "bootstrap_3_1",
-    compiler_classpath = compiler_classpath_3_1,
+    name = "bootstrap_3_2",
+    compiler_classpath = compiler_classpath_3_2,
     global_scalacopts = scala3_global_scalacopts,
-    runtime_classpath = runtime_classpath_3_1,
+    runtime_classpath = runtime_classpath_3_2,
     version = scala3,
     visibility = ["//visibility:public"],
 )
 
 configure_zinc_scala(
-    name = "zinc_3_1",
+    name = "zinc_3_2",
     compiler_bridge = "@scala_sbt_bridge_3_2_0//jar",
-    compiler_classpath = compiler_classpath_3_1,
+    compiler_classpath = compiler_classpath_3_2,
     global_scalacopts = scala3_global_scalacopts,
-    runtime_classpath = runtime_classpath_3_1,
+    runtime_classpath = runtime_classpath_3_2,
     version = scala3,
     visibility = ["//visibility:public"],
 )
 
 configure_zinc_scala(
-    name = "zinc_3_1_migration",
+    name = "zinc_3_2_migration",
     compiler_bridge = "@scala_sbt_bridge_3_2_0//jar",
-    compiler_classpath = compiler_classpath_3_1,
+    compiler_classpath = compiler_classpath_3_2,
     global_scalacopts = ["-source:3.0-migration"],
-    runtime_classpath = runtime_classpath_3_1,
+    runtime_classpath = runtime_classpath_3_2,
     version = scala3,
     visibility = ["//visibility:public"],
 )
 
 alias(
-    name = "3_1",
-    actual = ":zinc_3_1",
+    name = "3_2",
+    actual = ":zinc_3_2",
     visibility = ["//visibility:public"],
 )

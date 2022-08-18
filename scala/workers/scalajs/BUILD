@@ -4,7 +4,7 @@ scala_binary(
     name = "scalajs_linker",
     srcs = glob(["*.scala"]),
     main_class = "rules_scala.workers.scalajs.ScalaJsWorker",
-    scala = "//scala:bootstrap_3_1",
+    scala = "//scala:bootstrap_3_2",
     visibility = ["//visibility:public"],
     jvm_flags = ["-Djava.security.manager=allow"],
     deps = [

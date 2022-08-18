@@ -4,7 +4,7 @@ load("//rules:scalafmt.bzl", "scala_format_test")
 scala_library(
     name = "common",
     srcs = glob(["**/*.scala"]),
-    scala = "//scala:bootstrap_3_1",
+    scala = "//scala:bootstrap_3_2",
     visibility = ["//visibility:public"],
     deps = [
         "@annex//:com_github_scopt_scopt_3",

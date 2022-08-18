@@ -44,7 +44,7 @@ scala_library(
     deps_used_whitelist = [
         "@com_google_protobuf//java/core",
     ],
-    scala = "@rules_scala3//scala:zinc_3_1_migration",
+    scala = "@rules_scala3//scala:zinc_3_2_migration",
     deps = [
         "@annex_test//:com_thesamet_scalapb_scalapb_runtime_3",
         "@annex_test//:com_thesamet_scalapb_scalapb_runtime_grpc_3",
@@ -66,7 +66,7 @@ scala_library(
     deps_used_whitelist = [
         "@com_google_protobuf//java/core",
     ],
-    scala = "@rules_scala3//scala:zinc_3_1_migration",
+    scala = "@rules_scala3//scala:zinc_3_2_migration",
     scalacopts = [
         "-scalajs",
     ],

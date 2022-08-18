@@ -17,7 +17,7 @@ scala_binary(
     name = "scalafmt",
     srcs = glob(["scalafmt/**/*.scala"]),
     main_class = "annex.scalafmt.ScalafmtRunner",
-    scala = "//scala:bootstrap_3_1",
+    scala = "//scala:bootstrap_3_2",
     visibility = ["//visibility:public"],
     jvm_flags = ["-Djava.security.manager=allow"],
     deps = [

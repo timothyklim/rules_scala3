@@ -15,27 +15,27 @@ final class AnnexLogger(level: LogLevel) extends Logger:
   override def debug(msg: Supplier[String]): Unit =
     level match
       case LogLevel.Debug => System.err.println(format(msg.get))
-      case _              =>
+      case _              => ()
 
   override def error(msg: Supplier[String]): Unit =
     level match
       case LogLevel.Debug | LogLevel.Error | LogLevel.Info | LogLevel.Warn => System.err.println(format(msg.get))
-      case _                                                               =>
+      case _                                                               => ()
 
   override def info(msg: Supplier[String]): Unit =
     level match
       case LogLevel.Debug | LogLevel.Info => System.err.println(format(msg.get))
-      case _                              =>
+      case _                              => ()
 
   override def trace(err: Supplier[Throwable]): Unit =
     level match
       case LogLevel.Debug | LogLevel.Error | LogLevel.Info | LogLevel.Warn =>
-        val trace = new StringWriter()
-        err.get.printStackTrace(new PrintWriter(trace))
+        val trace = StringWriter()
+        err.get.printStackTrace(PrintWriter(trace))
         println(format(trace.toString))
-      case _ =>
+      case _ => ()
 
   override def warn(msg: Supplier[String]): Unit =
     level match
       case LogLevel.Debug | LogLevel.Info | LogLevel.Warn => System.err.println(format(msg.get))
-      case _                                              =>
+      case _                                              => ()
