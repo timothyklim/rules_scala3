@@ -406,6 +406,12 @@ scala_repl = rule(
             "scalacopts": attr.string_list(
                 doc = "The Scalac options.",
             ),
+            "initial_commands": attr.string(
+                doc = "Initial commands",
+            ),
+            "cleanup_commands": attr.string(
+                doc = "Cleanup commands",
+            ),
         },
     ),
     doc = """

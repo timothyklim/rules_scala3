@@ -33,7 +33,9 @@ final case class ReplWorkArguments(
     classpath: Vector[Path] = Vector.empty,
     compilerBridge: Path = Paths.get("."),
     compilerOption: Vector[String] = Vector.empty,
-    compilerClasspath: Vector[Path] = Vector.empty
+    compilerClasspath: Vector[Path] = Vector.empty,
+    initialCommands: String = "",
+    cleanupCommands: String = "",
 )
 object ReplWorkArguments:
   private val builder = OParser.builder[ReplWorkArguments]
@@ -58,7 +60,15 @@ object ReplWorkArguments:
       .unbounded()
       .optional()
       .action((cp, c) => c.copy(compilerClasspath = c.compilerClasspath :+ cp.toPath()))
-      .text("Compiler classpath")
+      .text("Compiler classpath"),
+    opt[String]("initial_commands")
+      .optional()
+      .action((cmd, c) => c.copy(initialCommands = cmd))
+      .text("Initial commands"),
+    opt[String]("cleanup_commands")
+      .optional()
+      .action((cmd, c) => c.copy(cleanupCommands = cmd))
+      .text("Cleanup commands")
   )
 
   def apply(args: collection.Seq[String]): Option[ReplWorkArguments] =
@@ -96,7 +106,14 @@ object ReplRunner:
       allJars.toList,
       () => URLClassLoader(allJars.map(_.toURI.toURL).toArray, scalaInstance.loader)
     )
-    scalaCompiler.console(refs, PlainVirtualFileConverter.converter, workArgs.compilerOption, "", "", logger)(
+    scalaCompiler.console(
+      refs,
+      PlainVirtualFileConverter.converter,
+      workArgs.compilerOption,
+      initialCommands = workArgs.initialCommands,
+      cleanupCommands = workArgs.cleanupCommands,
+      logger
+    )(
       loader = Some(loader),
       bindings = Nil
     )

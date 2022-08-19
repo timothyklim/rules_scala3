@@ -23,6 +23,10 @@ def scala_repl_implementation(ctx):
     args.add_all(classpath, map_each = _short_path, format_each = "--cp=%s")
     args.add_all(scala_configuration.global_scalacopts, format_each = "--compiler_option=%s")
     args.add_all(ctx.attr.scalacopts, format_each = "--compiler_option=%s")
+    if ctx.attr.initial_commands != None:
+        args.add("--initial_commands", ctx.attr.initial_commands)
+    if ctx.attr.cleanup_commands != None:
+        args.add("--cleanup_commands", ctx.attr.cleanup_commands)
     args.set_param_file_format("multiline")
     args_file = ctx.actions.declare_file("{}/repl.params".format(ctx.label.name))
     ctx.actions.write(args_file, args)
