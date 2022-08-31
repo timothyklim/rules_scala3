@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-22.05";
     flake-utils.url = "github:numtide/flake-utils";
-    bazel.url = "github:timothyklim/bazel-flake/jdk19";
+    bazel.url = "github:timothyklim/bazel-flake";
     java.url = "github:TawasalMessenger/jdk-flake";
   };
 
@@ -12,8 +12,8 @@
     flake-utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        jdk = java.packages."${system}".openjdk_19;
-        bazel-pre = bazel.defaultPackage."${system}";
+        jdk = java.packages.${system}.openjdk_19;
+        bazel-pre = bazel.packages.${system}.default;
       in
       rec {
         devShell = pkgs.callPackage ./shell.nix { inherit jdk bazel-pre; };
