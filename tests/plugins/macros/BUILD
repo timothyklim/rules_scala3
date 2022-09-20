@@ -6,7 +6,7 @@ scala_library(
     scala = "//scala:2_13",
     deps = [
         ":macro_bad",
-        "@scala_reflect_2_13_8//jar",
+        "@scala_reflect_2_13_9//jar",
     ],
 )
 
@@ -17,7 +17,7 @@ scala_library(
     scala = "//scala:2_13",
     deps = [
         ":util",
-        "@scala_reflect_2_13_8//jar",
+        "@scala_reflect_2_13_9//jar",
     ],
 )
 
@@ -28,7 +28,7 @@ scala_library(
     scala = "//scala:2_13",
     deps = [
         ":macro",
-        "@scala_reflect_2_13_8//jar",
+        "@scala_reflect_2_13_9//jar",
     ],
 )
 
@@ -38,7 +38,7 @@ scala_library(
     scala = "//scala:2_13",
     deps = [
         ":util",
-        "@scala_reflect_2_13_8//jar",
+        "@scala_reflect_2_13_9//jar",
     ],
 )
 
@@ -46,7 +46,7 @@ scala_library(
     name = "util",
     srcs = ["MacroUtil.scala"],
     scala = "//scala:2_13",
-    deps = ["@scala_reflect_2_13_8//jar"],
+    deps = ["@scala_reflect_2_13_9//jar"],
 )
 
 scala_binary(

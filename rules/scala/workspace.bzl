@@ -55,14 +55,14 @@ def scala_repositories():
         url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{}/compiler-bridge_2.13-{}-sources.jar".format(zinc_version, zinc_version),
     )
 
-    scala2 = "2.13.8"
-    scala3 = "3.2.0"
-    scalajs = "1.10.1"
+    scala2 = "2.13.9"
+    scala3 = "3.2.1-RC2"
+    scalajs = "1.11.0"
 
     direct_deps = [
-        ["scala_compiler_2_13_8", "org.scala-lang:scala-compiler:" + scala2],
-        ["scala_library_2_13_8", "org.scala-lang:scala-library:" + scala2],
-        ["scala_reflect_2_13_8", "org.scala-lang:scala-reflect:" + scala2],
+        ["scala_compiler_2_13_9", "org.scala-lang:scala-compiler:" + scala2],
+        ["scala_library_2_13_9", "org.scala-lang:scala-library:" + scala2],
+        ["scala_reflect_2_13_9", "org.scala-lang:scala-reflect:" + scala2],
         ["scala_compiler_3_2_0", "org.scala-lang:scala3-compiler_3:" + scala3],
         ["scala_interfaces_3_2_0", "org.scala-lang:scala3-interfaces:" + scala3],
         ["scala_library_3_2_0", "org.scala-lang:scala3-library_3:" + scala3],

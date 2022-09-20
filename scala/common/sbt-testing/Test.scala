@@ -13,10 +13,10 @@ final class TestFrameworkLoader(loader: ClassLoader, logger: Logger):
       try Some(Class.forName(className, true, loader).getDeclaredConstructor().newInstance())
       catch
         case _: ClassNotFoundException => None
-        case NonFatal(e)               => throw new Exception(s"Failed to load framework $className", e)
+        case NonFatal(e)               => throw Exception(s"Failed to load framework $className", e)
     framework.map {
       case framework: Framework => framework
-      case _                    => throw new Exception(s"$className does not implement ${classOf[Framework].getName}")
+      case _                    => throw Exception(s"$className does not implement ${classOf[Framework].getName}")
     }
 
 object TestHelper:
@@ -31,11 +31,11 @@ object TestHelper:
     finally runner.done()
 
   def taskDef(test: TestDefinition, scopeAndTestName: String) =
-    new TaskDef(
+    TaskDef(
       test.name,
       test.fingerprint,
       false,
-      Array(new TestWildcardSelector(scopeAndTestName.replace("::", " ")))
+      Array(TestWildcardSelector(scopeAndTestName.replace("::", " ")))
     )
 
 final class TestReporter(logger: Logger):

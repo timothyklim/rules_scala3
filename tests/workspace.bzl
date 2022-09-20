@@ -9,11 +9,11 @@ def test_artifacts():
         "com.thesamet.scalapb:scalapb-runtime_3:" + scalapb_version,
         "com.thesamet.scalapb:scalapb-runtime-grpc_3:" + scalapb_version,
         "com.thesamet.scalapb.grpcweb:scalapb-grpcweb_sjs1_3:0.6.4",
-        "io.grpc:grpc-netty:1.49.0",
+        "io.grpc:grpc-netty:1.49.1",
         "org.scala-js:scalajs-dom_sjs1_3:2.3.0",
         "org.scala-lang.modules:scala-xml_3:2.1.0",
         "org.scala-sbt:compiler-interface:2.0.0-alpha1",
-        "org.scalacheck:scalacheck_3:1.16.0",
+        "org.scalacheck:scalacheck_3:1.17.0",
         "org.scalameta:munit_3:" + munit_version,
         "org.scalameta:munit-scalacheck_3:" + munit_version,
     ]
