@@ -35,7 +35,7 @@ final case class ReplWorkArguments(
     compilerOption: Vector[String] = Vector.empty,
     compilerClasspath: Vector[Path] = Vector.empty,
     initialCommands: String = "",
-    cleanupCommands: String = "",
+    cleanupCommands: String = ""
 )
 object ReplWorkArguments:
   private val builder = OParser.builder[ReplWorkArguments]

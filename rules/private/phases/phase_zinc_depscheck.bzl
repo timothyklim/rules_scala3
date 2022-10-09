@@ -24,6 +24,8 @@ def phase_zinc_depscheck(ctx, g):
     deps_checks = {}
     labeled_jars = depset(transitive = [dep[_LabeledJars].values for dep in ctx.attr.deps])
     worker_inputs, _, worker_input_manifests = ctx.resolve_command(tools = [deps_configuration.worker])
+    for dep in ctx.attr.deps:
+        print("dep: {}".format(dep))
     for name in ("direct", "used"):
         deps_check = ctx.actions.declare_file("{}/depscheck_{}.success".format(ctx.label.name, name))
         deps_args = ctx.actions.args()

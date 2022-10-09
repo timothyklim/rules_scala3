@@ -89,7 +89,9 @@ object DepsRunner extends WorkerMain[Unit]:
         val pathsMap = new mutable.HashMap[String, String](initialCapacity = groups.size, loadFactor = 0.75)
 
         for group <- groups do
-          val depLabel = group.label.tail
+          val depLabel = group.label.tail match
+            case label if label.startsWith("@//") => label.tail
+            case label                            => label
 
           depLabelsMap.put(depLabel, group.jars.toSet)
 

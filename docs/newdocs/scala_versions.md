@@ -16,21 +16,21 @@ We provide two means of creating the `ScalaConfiguration`: `configure_bootstrap_
 Example:
 
 ```python
-compiler_classpath_2_13_9 = [
-    "@scala_compiler_2_13_9//jar",
-    "@scala_library_2_13_9//jar",
-    "@scala_reflect_2_13_9//jar",
+compiler_classpath_2_13_10 = [
+    "@scala_compiler_2_13_10//jar",
+    "@scala_library_2_13_10//jar",
+    "@scala_reflect_2_13_10//jar",
 ]
 
-runtime_classpath_2_13_9 = [
-    "@scala_library_2_13_9//jar",
+runtime_classpath_2_13_10 = [
+    "@scala_library_2_13_10//jar",
 ]
 
 # This creates a basic ScalaConfiguration that relies on the scalac compiler
 configure_bootstrap_scala(
-    name = "bootstrap_2_13_9",
-    compiler_classpath = compiler_classpath_2_13_9,
-    runtime_classpath = runtime_classpath_2_13_9,
+    name = "bootstrap_2_13_10",
+    compiler_classpath = compiler_classpath_2_13_10,
+    runtime_classpath = runtime_classpath_2_13_10,
     version = "2.13.3",
     visibility = ["//visibility:public"],
 )
@@ -41,9 +41,9 @@ scala_library(
     srcs = [
         "@compiler_bridge_2_13//:src",
     ],
-    scala = ":bootstrap_2_13_9",
+    scala = ":bootstrap_2_13_10",
     visibility = ["//visibility:public"],
-    deps = compiler_classpath_2_13_9 + [
+    deps = compiler_classpath_2_13_10 + [
         "@scala_annex_org_scala_sbt_compiler_interface//jar",
         "@scala_annex_org_scala_sbt_util_interface//jar",
     ],
@@ -53,8 +53,8 @@ scala_library(
 configure_zinc_scala(
     name = "zinc_2_13",
     compiler_bridge = ":compiler_bridge_2_13",
-    compiler_classpath = compiler_classpath_2_13_9,
-    runtime_classpath = runtime_classpath_2_13_9,
+    compiler_classpath = compiler_classpath_2_13_10,
+    runtime_classpath = runtime_classpath_2_13_10,
     version = "2.13.3",
     visibility = ["//visibility:public"],
 )
@@ -68,7 +68,7 @@ For example:
 scala_library(
   name = "example_compiled_with_scalac",
   srcs = glob(["**/*.scala"])
-  scala = "<package>:bootstrap_2_13_9
+  scala = "<package>:bootstrap_2_13_10
 )
 
 scala_library(

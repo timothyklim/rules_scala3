@@ -43,7 +43,7 @@ object ScalafmtRunner extends WorkerMain[Unit]:
   final case class WorkArguments(
       config: Path = Paths.get("."),
       input: Path = Paths.get("."),
-      output: Path = Paths.get("."),
+      output: Path = Paths.get(".")
   )
   object WorkArguments:
     private val builder = OParser.builder[WorkArguments]
@@ -52,7 +52,7 @@ object ScalafmtRunner extends WorkerMain[Unit]:
     private val parser = OParser.sequence(
       opt[String]("config").required().action((p, c) => c.copy(config = pathFrom(p))),
       arg[String]("<input>").required().action((p, c) => c.copy(input = pathFrom(p))),
-      arg[String]("<output>").required().action((p, c) => c.copy(output = pathFrom(p))),
+      arg[String]("<output>").required().action((p, c) => c.copy(output = pathFrom(p)))
     )
 
     def apply(args: collection.Seq[String]): Option[WorkArguments] =

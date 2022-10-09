@@ -1,26 +1,27 @@
 load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 load("@bazel_skylib//lib:paths.bzl", "paths")
 load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
-load("@io_bazel_skydoc//stardoc:stardoc.bzl", "stardoc")
+# load("@io_bazel_skydoc//stardoc:stardoc.bzl", "stardoc")
 
-[
-    stardoc(
-        name = paths.replace_extension(file, "_doc").replace("/", "_"),
-        out = paths.replace_extension(file, ".md").replace("/", "_"),
-        input = file,
-        deps = [
-            ":bzl_internal",
-            "@rules_scala3//rules:bzl",
-        ],
-    )
-    for file in glob(["**/*.bzl"])
-]
+# TODO
+# [
+#     stardoc(
+#         name = paths.replace_extension(file, "_doc").replace("/", "_"),
+#         out = paths.replace_extension(file, ".md").replace("/", "_"),
+#         input = file,
+#         deps = [
+#             ":bzl_internal",
+#             "@rules_scala3//rules:bzl",
+#         ],
+#     )
+#     for file in glob(["**/*.bzl"])
+# ]
 
-pkg_tar(
-    name = "docs",
-    srcs = [paths.replace_extension(file, ".md").replace("/", "_") for file in glob(["**/*.bzl"])],
-    mode = "0644",
-)
+# pkg_tar(
+#     name = "docs",
+#     srcs = [paths.replace_extension(file, ".md").replace("/", "_") for file in glob(["**/*.bzl"])],
+#     mode = "0644",
+# )
 
 bzl_library(
     name = "bzl",
