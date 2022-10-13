@@ -1,0 +1,20 @@
+name: Build Nix package on Ubuntu
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Cache install Nix packages
+        uses: mtoohey31/cache-flake-attrs@v2
+        with:
+          flake_paths: .#devShell.x86_64-linux
+          key: ${{ runner.os }}-nix-${{ hashFiles('./flake.lock') }}
+
+      - name: Run specs
+        run: >
+          nix develop --experimental-features "nix-command flakes" --command
+          bash -c "./tests/scala3/scala2-interop/test && ./tests/scala3/compiler/test"
