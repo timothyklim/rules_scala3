@@ -19,5 +19,5 @@ jobs:
 
       - name: Run specs
         run: >
-          nix develop --experimental-features "nix-command flakes" --command
-          bash -c "./tests/scala3/scala2-interop/test && ./tests/scala3/compiler/test"
+          nix develop --experimental-features "nix-command flakes"
+          --command bash -c ./scripts/test.sh
