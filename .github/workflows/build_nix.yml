@@ -20,4 +20,7 @@ jobs:
       - name: Run specs
         run: >
           nix develop --experimental-features "nix-command flakes"
-          --command bash -c ./scripts/test.sh
+          --command bash -c ./scripts/test.sh &> log.txt; cat log.txt
+
+      - name: Check for errors
+        run: grep -F "[31m" log.txt && exit 1
