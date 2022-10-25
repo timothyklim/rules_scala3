@@ -5,7 +5,7 @@
     nixpkgs.url = "nixpkgs/nixos-22.05";
     flake-utils.url = "github:numtide/flake-utils";
     bazel.url = "github:timothyklim/bazel-flake";
-    java.url = "github:TawasalMessenger/jdk-flake";
+    java.url = "github:timothyklim/jdk-flake";
   };
 
   outputs = { self, nixpkgs, flake-utils, bazel, java }:
