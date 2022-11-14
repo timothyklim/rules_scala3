@@ -25,8 +25,8 @@ repositories = [
     "https://scala-ci.typesafe.com/artifactory/scala-integration/",
 ]
 
-sbt_version = "1.7.2"
-zinc_version = "1.7.2"
+sbt_version = "1.8.0"
+zinc_version = "1.8.0"
 
 def scala_artifacts():
     return [
@@ -55,7 +55,7 @@ def scala_repositories():
     )
 
     scala2 = "2.13.10"
-    scala3 = "3.2.1-RC4"
+    scala3 = "3.2.1"
     scalajs = "1.11.0"
 
     direct_deps = [

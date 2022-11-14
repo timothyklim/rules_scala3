@@ -9,7 +9,7 @@ def test_artifacts():
         "com.thesamet.scalapb:scalapb-runtime_3:" + scalapb_version,
         "com.thesamet.scalapb:scalapb-runtime-grpc_3:" + scalapb_version,
         "com.thesamet.scalapb.grpcweb:scalapb-grpcweb_sjs1_3:0.6.4",
-        "io.grpc:grpc-netty:1.50.0",
+        "io.grpc:grpc-netty:1.50.2",
         "org.scala-js:scalajs-dom_sjs1_3:2.3.0",
         "org.scala-lang.modules:scala-xml_3:2.1.0",
         "org.scala-sbt:compiler-interface:1.7.2",
