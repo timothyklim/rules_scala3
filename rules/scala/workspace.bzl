@@ -56,7 +56,7 @@ def scala_repositories():
 
     scala2 = "2.13.10"
     scala3 = "3.2.1"
-    scalajs = "1.11.0"
+    scalajs = "1.12.0"
 
     direct_deps = [
         ["scala_compiler_2_13_10", "org.scala-lang:scala-compiler:" + scala2],
