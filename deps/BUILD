@@ -1,0 +1,14 @@
+load("//rules:scala.bzl", "scala_binary")
+
+scala_binary(
+    name = "deps",
+    srcs = glob(["*.scala"]),
+    main_class = "rules_scala3.deps.Deps",
+    scala = "//scala:bootstrap_3_2",
+    visibility = ["//visibility:public"],
+    # jvm_flags = ["-Djava.security.manager=allow"],
+    deps = [
+        "@annex//:org_scala_sbt_librarymanagement_core_3",
+        "@annex//:org_scala_sbt_librarymanagement_coursier_3",
+    ],
+)

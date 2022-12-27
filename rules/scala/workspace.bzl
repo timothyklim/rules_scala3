@@ -32,6 +32,8 @@ def scala_artifacts():
         "com.github.scopt:scopt_3:4.1.0",
         "org.jacoco:org.jacoco.core:0.8.10",
         "org.scala-lang.modules:scala-xml_3:2.2.0",
+        "org.scala-sbt:librarymanagement-core_3:2.0.0-alpha12",
+        "org.scala-sbt:librarymanagement-coursier_3:2.0.0-alpha6",
         "org.scala-sbt:test-interface:1.0",
         "org.scala-sbt:util-interface:1.9.0",
         "org.scala-sbt:util-logging_2.13:" + sbt_version,
@@ -44,7 +46,7 @@ def scala_repositories():
         artifacts = scala_artifacts(),
         repositories = repositories,
         fetch_sources = True,
-        maven_install_json = "@rules_scala3//:annex_install.json",
+        maven_install_json =   "@rules_scala3//:annex_install.json",
     )
 
     http_archive(

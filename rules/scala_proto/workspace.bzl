@@ -20,5 +20,5 @@ def scala_proto_repositories():
             "https://mirror.bazel.build/repo1.maven.org/maven2",
         ],
         fetch_sources = True,
-        maven_install_json = "@rules_scala3//:annex_proto_install.json",
+        maven_install_json =   "@rules_scala3//:annex_proto_install.json",
     )

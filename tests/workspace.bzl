@@ -9,7 +9,7 @@ def test_artifacts():
         "com.thesamet.scalapb:scalapb-runtime_3:" + scalapb_version,
         "com.thesamet.scalapb:scalapb-runtime-grpc_3:" + scalapb_version,
         "com.thesamet.scalapb.grpcweb:scalapb-grpcweb_sjs1_3:0.7.0",
-        "io.grpc:grpc-netty:1.56.1",
+        "io.grpc:grpc-netty:1.57.0",
         "org.scala-js:scalajs-dom_sjs1_3:2.6.0",
         "org.scala-lang.modules:scala-xml_3:2.2.0",
         "org.scala-sbt:compiler-interface:1.9.3",
@@ -28,5 +28,5 @@ def test_dependencies():
             "https://mirror.bazel.build/repo1.maven.org/maven2",
         ],
         fetch_sources = True,
-        maven_install_json = "@rules_scala3_test//:annex_test_install.json",
+        maven_install_json =   "@rules_scala3_test//:annex_test_install.json",
     )
