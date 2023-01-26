@@ -25,13 +25,13 @@ repositories = [
     "https://scala-ci.typesafe.com/artifactory/scala-integration/",
 ]
 
-sbt_version = "1.8.0"
+sbt_version = "1.8.2"
 zinc_version = "1.8.0"
 
 def scala_artifacts():
     return [
         "com.github.scopt:scopt_3:4.1.0",
-        "org.jacoco:org.jacoco.core:0.8.7",
+        "org.jacoco:org.jacoco.core:0.8.8",
         "org.scala-lang.modules:scala-xml_3:2.1.0",
         "org.scala-sbt:test-interface:1.0",
         "org.scala-sbt:util-interface:" + sbt_version,
@@ -55,7 +55,7 @@ def scala_repositories():
     )
 
     scala2 = "2.13.10"
-    scala3 = "3.2.1"
+    scala3 = "3.3.0-RC1"
     scalajs = "1.12.0"
 
     direct_deps = [
@@ -86,13 +86,13 @@ def scala_repositories():
     for dep in direct_deps:
         maybe(jvm_maven_import_external, name = dep[0], artifact = dep[1], artifact_sha256 = dep[2] if len(dep) == 3 else "", server_urls = repositories)
 
-    protobuf_tag = "21.5"
-    rules_proto_tag = "4.0.0-3.20.0"
+    protobuf_tag = "21.12"
+    rules_proto_tag = "5.3.0-21.7"
     skylib_tag = "1.3.0"
     rules_deps = [
         ["bazel_skylib", None, "https://github.com/bazelbuild/bazel-skylib/releases/download/{version}/bazel-skylib-{version}.tar.gz".format(version = skylib_tag), "74d544d96f4a5bb630d465ca8bbcfe231e3594e5aae57e1edbf17a6eb3ca2506"],
-        ["com_google_protobuf", "protobuf-" + protobuf_tag, "https://github.com/protocolbuffers/protobuf/archive/v{}.tar.gz".format(protobuf_tag), "4a7e87e4166c358c63342dddcde6312faee06ea9d5bb4e2fa87d3478076f6639"],
-        ["rules_proto", "rules_proto-" + rules_proto_tag, "https://github.com/bazelbuild/rules_proto/archive/{}.tar.gz".format(rules_proto_tag), "e017528fd1c91c5a33f15493e3a398181a9e821a804eb7ff5acdd1d2d6c2b18d"],
+        ["com_google_protobuf", "protobuf-" + protobuf_tag, "https://github.com/protocolbuffers/protobuf/archive/v{}.tar.gz".format(protobuf_tag), "22fdaf641b31655d4b2297f9981fa5203b2866f8332d3c6333f6b0107bb320de"],
+        ["rules_proto", "rules_proto-" + rules_proto_tag, "https://github.com/bazelbuild/rules_proto/archive/{}.tar.gz".format(rules_proto_tag), "dc3fb206a2cb3441b485eb1e423165b231235a1ea9b031b4433cf7bc1fa460dd"],
     ]
     for dep in rules_deps:
         maybe(http_archive, name = dep[0], strip_prefix = dep[1], url = dep[2], sha256 = dep[3] if len(dep) == 4 else "")

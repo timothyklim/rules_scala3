@@ -2,11 +2,11 @@ workspace(name = "rules_scala3")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-rules_jvm_external_tag = "56975243d79fd7db93a622579c107ad4b6c46f6e"
+rules_jvm_external_tag = "4.5"
 
 http_archive(
     name = "rules_jvm_external",
-    sha256 = "b4e3a2acfbeacefe4073d68ef830ad79a847b1861682a64b4e555dfa48465b46",
+    sha256 = "6e9f2b94ecb6aa7e7ec4a0fbf882b226ff5257581163e88bf70ae521555ad271",
     strip_prefix = "rules_jvm_external-{}".format(rules_jvm_external_tag),
     url = "https://github.com/bazelbuild/rules_jvm_external/archive/{}.tar.gz".format(rules_jvm_external_tag),
 )
