@@ -12,7 +12,7 @@
     flake-utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        jdk = java.packages.${system}.openjdk_19;
+        jdk = java.packages.${system}.openjdk_20;
         bazel-pre = bazel.packages.${system}.default;
       in
       rec {

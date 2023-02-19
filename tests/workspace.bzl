@@ -1,6 +1,6 @@
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
-scalapb_version = "0.11.12"
+scalapb_version = "0.11.13"
 munit_version = "1.0.0-M7"
 
 def test_artifacts():
@@ -8,9 +8,9 @@ def test_artifacts():
         "com.thesamet.scalapb:lenses_3:" + scalapb_version,
         "com.thesamet.scalapb:scalapb-runtime_3:" + scalapb_version,
         "com.thesamet.scalapb:scalapb-runtime-grpc_3:" + scalapb_version,
-        "com.thesamet.scalapb.grpcweb:scalapb-grpcweb_sjs1_3:0.6.4",
-        "io.grpc:grpc-netty:1.52.1",
-        "org.scala-js:scalajs-dom_sjs1_3:2.3.0",
+        "com.thesamet.scalapb.grpcweb:scalapb-grpcweb_sjs1_3:0.6.5",
+        "io.grpc:grpc-netty:1.53.0",
+        "org.scala-js:scalajs-dom_sjs1_3:2.4.0",
         "org.scala-lang.modules:scala-xml_3:2.1.0",
         "org.scala-sbt:compiler-interface:1.8.0",
         "org.scalacheck:scalacheck_3:1.17.0",
