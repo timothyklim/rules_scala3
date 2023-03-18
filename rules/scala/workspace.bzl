@@ -89,10 +89,12 @@ def scala_repositories():
     protobuf_tag = "21.12"
     rules_proto_tag = "5.3.0-21.7"
     skylib_tag = "1.3.0"
+    rules_python_tag = "0.19.0"
     rules_deps = [
         ["bazel_skylib", None, "https://github.com/bazelbuild/bazel-skylib/releases/download/{version}/bazel-skylib-{version}.tar.gz".format(version = skylib_tag), "74d544d96f4a5bb630d465ca8bbcfe231e3594e5aae57e1edbf17a6eb3ca2506"],
         ["com_google_protobuf", "protobuf-" + protobuf_tag, "https://github.com/protocolbuffers/protobuf/archive/v{}.tar.gz".format(protobuf_tag), "22fdaf641b31655d4b2297f9981fa5203b2866f8332d3c6333f6b0107bb320de"],
         ["rules_proto", "rules_proto-" + rules_proto_tag, "https://github.com/bazelbuild/rules_proto/archive/{}.tar.gz".format(rules_proto_tag), "dc3fb206a2cb3441b485eb1e423165b231235a1ea9b031b4433cf7bc1fa460dd"],
+        ["rules_python", "rules_python-" + rules_python_tag, "https://github.com/bazelbuild/rules_python/releases/download/{version}/rules_python-{version}.tar.gz".format(version = rules_python_tag)],
     ]
     for dep in rules_deps:
         maybe(http_archive, name = dep[0], strip_prefix = dep[1], url = dep[2], sha256 = dep[3] if len(dep) == 4 else "")

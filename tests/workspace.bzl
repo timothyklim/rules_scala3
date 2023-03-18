@@ -8,7 +8,7 @@ def test_artifacts():
         "com.thesamet.scalapb:lenses_3:" + scalapb_version,
         "com.thesamet.scalapb:scalapb-runtime_3:" + scalapb_version,
         "com.thesamet.scalapb:scalapb-runtime-grpc_3:" + scalapb_version,
-        "com.thesamet.scalapb.grpcweb:scalapb-grpcweb_sjs1_3:0.6.5",
+        "com.thesamet.scalapb.grpcweb:scalapb-grpcweb_sjs1_3:0.6.6",
         "io.grpc:grpc-netty:1.53.0",
         "org.scala-js:scalajs-dom_sjs1_3:2.4.0",
         "org.scala-lang.modules:scala-xml_3:2.1.0",

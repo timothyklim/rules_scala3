@@ -4,7 +4,7 @@ load("//rules:scala.bzl", "scala_library")
 scala_library(
     name = "worker",
     srcs = glob(["**/*.scala"]),
-    scala = "//scala:bootstrap_3_2",
+    scala = "//scala:bootstrap_3_3",
     visibility = ["//visibility:public"],
     deps = [
         "//scala/workers/common",
