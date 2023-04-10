@@ -9,13 +9,20 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, bazel, java }:
-    flake-utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
-      let
-        pkgs = import nixpkgs { inherit system; };
-        jdk = java.packages.${system}.openjdk_21;
-        bazel-pre = bazel.packages.${system}.default;
-      in
-      rec {
-        devShell = pkgs.callPackage ./shell.nix { inherit jdk bazel-pre; };
-      });
+    with flake-utils.lib; eachSystem [
+      system.aarch64-darwin
+      system.aarch64-linux
+      system.x86_64-darwin
+      system.x86_64-linux
+    ]
+      (system:
+        let
+          pkgs = import nixpkgs { inherit system; };
+          jdk = java.packages.${system}.openjdk_21;
+          bazel-pre = bazel.packages.${system}.default;
+        in
+        rec {
+          devShell = pkgs.callPackage ./shell.nix { inherit jdk bazel-pre; };
+          formatter = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
+        });
 }

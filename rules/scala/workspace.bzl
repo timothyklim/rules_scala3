@@ -46,7 +46,7 @@ def scala_repositories():
         artifacts = scala_artifacts(),
         repositories = repositories,
         fetch_sources = True,
-        maven_install_json =   "@rules_scala3//:annex_install.json",
+        maven_install_json = "@rules_scala3//:annex_install.json",
     )
 
     http_archive(
