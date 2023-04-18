@@ -55,7 +55,7 @@ def scala_repositories():
     )
 
     scala2 = "2.13.10"
-    scala3 = "3.3.0-RC3"
+    scala3 = "3.3.0-RC4"
     scalajs = "1.13.0"
 
     direct_deps = [
@@ -67,7 +67,7 @@ def scala_repositories():
         ["scala_library_3_3_0", "org.scala-lang:scala3-library_3:" + scala3],
         ["scala_sbt_bridge_3_3_0", "org.scala-lang:scala3-sbt-bridge:" + scala3],
         ["scala_tasty_core_3_3_0", "org.scala-lang:tasty-core_3:" + scala3],
-        ["scala_asm_9_3_0", "org.scala-lang.modules:scala-asm:9.4.0-scala-1"],
+        ["scala_asm_9_3_0", "org.scala-lang.modules:scala-asm:9.5.0-scala-1"],
         ["scalajs_parallel_collections_1_0_4", "org.scala-lang.modules:scala-parallel-collections_2.13:1.0.4"],
         ["scalajs_compiler_2_13", "org.scala-js:scalajs-compiler_2.13:" + scalajs],
         ["scalajs_env_nodejs_2_13", "org.scala-js:scalajs-env-nodejs_2.13:1.2.1"],
