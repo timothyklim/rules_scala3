@@ -26,7 +26,7 @@ repositories = [
 ]
 
 sbt_version = "1.8.2"
-zinc_version = "1.8.0"
+zinc_version = "1.9.0-M2"
 
 def scala_artifacts():
     return [
@@ -55,7 +55,7 @@ def scala_repositories():
     )
 
     scala2 = "2.13.10"
-    scala3 = "3.3.0-RC5"
+    scala3 = "3.3.0-RC6"
     scalajs = "1.13.1"
 
     direct_deps = [
