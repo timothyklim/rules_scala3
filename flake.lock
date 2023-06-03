@@ -42,11 +42,11 @@
         "src": "src"
       },
       "locked": {
-        "lastModified": 1684807587,
-        "narHash": "sha256-BdxeGAZsaeHDtdepi5Ln9fkHe+FmtA7AahkyLEJlsCo=",
+        "lastModified": 1685327368,
+        "narHash": "sha256-zadVudj236frMS/PKmDB6vUNu23kDRtQKv40oOv15HM=",
         "owner": "timothyklim",
         "repo": "bazel-flake",
-        "rev": "cafcd78b23cc6cbc8b74cebad8efb831fc892ab5",
+        "rev": "540bb9e3928a63d79259c529fafe6bec96ab7d3c",
         "type": "github"
       },
       "original": {
@@ -96,11 +96,11 @@
         "systems": "systems_3"
       },
       "locked": {
-        "lastModified": 1681202837,
-        "narHash": "sha256-H+Rh19JDwRtpVPAWp64F+rlEtxUWBAQW28eAi3SRSzg=",
+        "lastModified": 1685518550,
+        "narHash": "sha256-o2d0KcvaXzTrPRIo0kOLV0/QXHhDQ5DTi+OxcjO8xqY=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "cfacdce06f30d2b68473a46042957675eebb3401",
+        "rev": "a1720a10a6cfe8234c0e93907ffe81be440f4cef",
         "type": "github"
       },
       "original": {
@@ -662,11 +662,11 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1684894566,
-        "narHash": "sha256-DG1A+4vdrRW25lDomfJb4W1xFJMK0yJFWh1vGr8dQYE=",
+        "lastModified": 1685799557,
+        "narHash": "sha256-vZXt0CA/SRn6HCCIlSOMkfsfWz7uqw/mEyaHKIhSVgg=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "1ecb1e39990d6193ff3a814293a086a9599d522f",
+        "rev": "a5d3131c66d52a3cc427a6d3f573bffea51b3833",
         "type": "github"
       },
       "original": {
@@ -686,16 +686,16 @@
     "src": {
       "flake": false,
       "locked": {
-        "lastModified": 1683313658,
-        "narHash": "sha256-HL8hrOBjFOuxDDAMbi2FiVyBD2M5b3PsNO0/4chdlnk=",
+        "lastModified": 1685106243,
+        "narHash": "sha256-juXQGdNIUIc9YqifVGQfKNzzBgTBWMt1ePNkal6gFpc=",
         "owner": "bazelbuild",
         "repo": "bazel",
-        "rev": "c5c102ec7200f2c906ca8cc0083173e44921b551",
+        "rev": "47d08c348c0c154e462a160e0c2665f7abe99ab8",
         "type": "github"
       },
       "original": {
         "owner": "bazelbuild",
-        "ref": "7.0.0-pre.20230502.1",
+        "ref": "7.0.0-pre.20230517.4",
         "repo": "bazel",
         "type": "github"
       }

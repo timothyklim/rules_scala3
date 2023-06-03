@@ -69,7 +69,7 @@ alias(
     visibility = ["//visibility:public"],
 )
 
-scala3 = "3.3.0"
+scala3 = "3.3.1-RC1"
 
 scala3_global_scalacopts = [
     "-deprecation",
@@ -96,7 +96,7 @@ compiler_classpath_3_3 = [
     "@scala_compiler_3_3_0//jar",
     "@scala_interfaces_3_3_0//jar",
     "@scala_tasty_core_3_3_0//jar",
-    "@scala_asm_9_3_0//jar",
+    "@scala_asm_9_5_0//jar",
 ] + runtime_classpath_3_3
 
 configure_bootstrap_scala(
