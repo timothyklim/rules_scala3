@@ -25,7 +25,7 @@ repositories = [
     "https://scala-ci.typesafe.com/artifactory/scala-integration/",
 ]
 
-sbt_version = "1.9.0"
+sbt_version = "1.9.2"
 
 def scala_artifacts():
     return [
@@ -33,8 +33,8 @@ def scala_artifacts():
         "org.jacoco:org.jacoco.core:0.8.8",
         "org.scala-lang.modules:scala-xml_3:2.1.0",
         "org.scala-sbt:test-interface:1.0",
-        "org.scala-sbt:util-interface:" + sbt_version,
-        "org.scala-sbt:util-logging_2.13:" + sbt_version,
+        "org.scala-sbt:util-interface:1.9.0",
+        "org.scala-sbt:util-logging_2.13:1.9.0",
         "org.scala-sbt:zinc_2.13:" + sbt_version,
     ]
 
@@ -58,14 +58,14 @@ def scala_repositories():
     scalajs = "1.13.1"
 
     direct_deps = [
-        ["scala_compiler_2_13_10", "org.scala-lang:scala-compiler:" + scala2],
-        ["scala_library_2_13_10", "org.scala-lang:scala-library:" + scala2],
-        ["scala_reflect_2_13_10", "org.scala-lang:scala-reflect:" + scala2],
-        ["scala_compiler_3_3_0", "org.scala-lang:scala3-compiler_3:" + scala3],
-        ["scala_interfaces_3_3_0", "org.scala-lang:scala3-interfaces:" + scala3],
-        ["scala_library_3_3_0", "org.scala-lang:scala3-library_3:" + scala3],
-        ["scala_sbt_bridge_3_3_0", "org.scala-lang:scala3-sbt-bridge:" + scala3],
-        ["scala_tasty_core_3_3_0", "org.scala-lang:tasty-core_3:" + scala3],
+        ["scala_compiler_2_13_11", "org.scala-lang:scala-compiler:" + scala2],
+        ["scala_library_2_13_11", "org.scala-lang:scala-library:" + scala2],
+        ["scala_reflect_2_13_11", "org.scala-lang:scala-reflect:" + scala2],
+        ["scala_compiler_3_3_1", "org.scala-lang:scala3-compiler_3:" + scala3],
+        ["scala_interfaces_3_3_1", "org.scala-lang:scala3-interfaces:" + scala3],
+        ["scala_library_3_3_1", "org.scala-lang:scala3-library_3:" + scala3],
+        ["scala_sbt_bridge_3_3_1", "org.scala-lang:scala3-sbt-bridge:" + scala3],
+        ["scala_tasty_core_3_3_1", "org.scala-lang:tasty-core_3:" + scala3],
         ["scala_asm_9_5_0", "org.scala-lang.modules:scala-asm:9.5.0-scala-1"],
         ["scalajs_parallel_collections_1_0_4", "org.scala-lang.modules:scala-parallel-collections_2.13:1.0.4"],
         ["scalajs_compiler_2_13", "org.scala-js:scalajs-compiler_2.13:" + scalajs],
@@ -79,7 +79,7 @@ def scala_repositories():
         ["scalajs_sbt_test_adapter_2_13", "org.scala-js:scalajs-sbt-test-adapter_2.13:" + scalajs],
         ["scalajs_test_bridge_2_13", "org.scala-js:scalajs-test-bridge_2.13:" + scalajs],
         ["scalajs_test_interface_2_13", "org.scala-js:scalajs-test-interface_2.13:" + scalajs],
-        ["scalajs_library_3_3_0_sjs", "org.scala-lang:scala3-library_sjs1_3:" + scala3],
+        ["scalajs_library_3_3_1_sjs", "org.scala-lang:scala3-library_sjs1_3:" + scala3],
         ["scalajs_tools_2_13", "org.scala-js:scalajs-tools_2.13:0.6.33"],
     ]
     for dep in direct_deps:

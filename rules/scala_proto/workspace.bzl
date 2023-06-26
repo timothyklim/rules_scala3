@@ -7,7 +7,7 @@ def scala_proto_artifacts():
     return [
         "com.thesamet.scalapb:compilerplugin_3:0.11.13",
         "com.thesamet.scalapb:protoc-bridge_2.13:0.9.6",
-        "com.thesamet.scalapb.grpcweb:scalapb-grpcweb-code-gen_3:0.6.6",
+        "com.thesamet.scalapb.grpcweb:scalapb-grpcweb-code-gen_3:0.7.0",
     ]
 
 def scala_proto_repositories():

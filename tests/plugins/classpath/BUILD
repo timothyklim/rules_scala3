@@ -39,8 +39,8 @@ scala_library(
     tags = ["manual"],
     deps = [
         ":plugin-lib",
-        "@scala_compiler_2_13_10//jar",
-        "@scala_reflect_2_13_10//jar",
+        "@scala_compiler_2_13_11//jar",
+        "@scala_reflect_2_13_11//jar",
     ],
 )
 

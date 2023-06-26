@@ -28,5 +28,5 @@ scala_library(
 scala_library(
     name = "fatal_glob",
     srcs = ["Deprecated.scala"],
-    scala = "//scala:zinc_2_13_10_fatal_deprecation_opt",
+    scala = "//scala:zinc_2_13_11_fatal_deprecation_opt",
 )
