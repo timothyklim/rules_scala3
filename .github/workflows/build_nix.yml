@@ -7,6 +7,8 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
 
       - id: bazel-rev
         run: echo "::set-output name=out::$(jq -r '.nodes.bazel.locked.rev' flake.lock)"
