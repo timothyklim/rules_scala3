@@ -29,3 +29,7 @@ scala-fmt:
 	scalafmt -c .scalafmt.conf --non-interactive
 
 fmt: scala-fmt nix-fmt bzl-fmt
+
+clean:
+  bazel clean --expunge
+  bazel sync --configure

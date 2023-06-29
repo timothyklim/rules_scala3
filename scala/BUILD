@@ -69,7 +69,7 @@ alias(
     visibility = ["//visibility:public"],
 )
 
-scala3 = "3.3.1-RC1"
+scala3 = "3.3.1-RC2"
 
 scala3_global_scalacopts = [
     "-deprecation",
@@ -82,9 +82,17 @@ scala3_global_scalacopts = [
     "-source:future",
     # "-language:strictEquality",
     # "-language:existentials",
-    # "-Ysafe-init",
+    "-Ysafe-init",
     # "-Yexplicit-nulls",
     # "-Xfatal-warnings",
+    "-Wconf:any:warning",
+    "-Wunused:imports",
+    "-Wunused:locals",
+    "-Wunused:privates",
+    "-Wunused:params",
+    "-Wunused:unsafe-warn-patvars",
+    "-Wunused:linted",
+    "-Wunused:implicits",
 ]
 
 runtime_classpath_3_3 = [
@@ -129,7 +137,7 @@ configure_zinc_scala(
 )
 
 alias(
-    name = "3_2",
+    name = "3_3",
     actual = ":zinc_3_3",
     visibility = ["//visibility:public"],
 )
