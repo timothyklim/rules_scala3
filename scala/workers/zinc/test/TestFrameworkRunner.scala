@@ -3,7 +3,6 @@ package workers.zinc.test
 
 import common.sbt_testing.*
 
-import java.io.PrintWriter
 import java.io.ObjectOutputStream
 import java.nio.file.Path
 import sbt.testing.{Event, Framework, Logger}

@@ -3,7 +3,7 @@ package workers.zinc.test
 
 import common.sbt_testing.{TestAnnotatedFingerprint, TestDefinition, TestSubclassFingerprint}
 
-import sbt.testing.{AnnotatedFingerprint, Fingerprint, Framework, SubclassFingerprint, SuiteSelector}
+import sbt.testing.{AnnotatedFingerprint, Framework, SubclassFingerprint}
 import scala.collection.mutable
 import xsbt.api.Discovery
 import xsbti.api.{AnalyzedClass, ClassLike, Definition}

@@ -6,14 +6,12 @@ import java.net.URLClassLoader
 import java.nio.file.{FileAlreadyExistsException, Files, Path, Paths}
 import java.nio.file.attribute.FileTime
 import java.time.Instant
-import java.util.Collections
 import java.util.regex.Pattern
 import java.util.zip.GZIPInputStream
 
 import scala.jdk.CollectionConverters.*
 import scala.util.control.NonFatal
 
-import org.scalatools.testing.Framework
 import sbt.internal.inc.binary.converters.ProtobufReaders
 import sbt.internal.inc.Schema
 import scopt.OParser
