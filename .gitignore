@@ -1,4 +1,5 @@
 bazel-*
+.direnv/
 *.gen.scala
 *.swp
 *.idea

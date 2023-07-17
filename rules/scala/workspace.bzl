@@ -30,11 +30,11 @@ sbt_version = "1.9.2"
 def scala_artifacts():
     return [
         "com.github.scopt:scopt_3:4.1.0",
-        "org.jacoco:org.jacoco.core:0.8.8",
-        "org.scala-lang.modules:scala-xml_3:2.1.0",
+        "org.jacoco:org.jacoco.core:0.8.10",
+        "org.scala-lang.modules:scala-xml_3:2.2.0",
         "org.scala-sbt:test-interface:1.0",
         "org.scala-sbt:util-interface:1.9.0",
-        "org.scala-sbt:util-logging_2.13:1.9.0",
+        "org.scala-sbt:util-logging_2.13:" + sbt_version,
         "org.scala-sbt:zinc_2.13:" + sbt_version,
     ]
 
