@@ -10,7 +10,7 @@ import scala.collection.mutable
 import scala.jdk.CollectionConverters.*
 
 import protocbridge.{ProtocBridge, ProtocCodeGenerator, ProtocRunner}
-import scalapb.{GeneratorOption, ScalaPbCodeGenerator}
+import scalapb.ScalaPbCodeGenerator
 import scalapb.GeneratorOption.*
 import scalapb.grpcweb.GrpcWebCodeGenerator
 import scopt.OParser
