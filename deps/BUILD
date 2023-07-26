@@ -9,7 +9,7 @@ scala_binary(
     scala = "//scala:bootstrap_3_3",
     visibility = ["//visibility:public"],
     deps = [
-        "@annex//:org_scala_sbt_librarymanagement_core_3",
-        "@annex//:org_scala_sbt_librarymanagement_coursier_3",
+        "@deps//:org_scala_sbt_librarymanagement_core_3",
+        "@deps//:org_scala_sbt_librarymanagement_coursier_3",
     ],
 )

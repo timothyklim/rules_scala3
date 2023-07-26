@@ -11,6 +11,29 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_jvm_external/archive/{}.tar.gz".format(rules_jvm_external_tag),
 )
 
+load("@rules_jvm_external//:defs.bzl", "maven_install")
+
+maven_install(
+    name = "deps",
+    artifacts = [
+        "org.scala-sbt:librarymanagement-core_3:2.0.0-alpha12",
+        "org.scala-sbt:librarymanagement-coursier_3:2.0.0-alpha6",
+    ],
+    repositories = [
+        "https://repo1.maven.org/maven2",
+        "https://repo.maven.apache.org/maven2",
+        "https://maven-central.storage-download.googleapis.com/maven2",
+        "https://mirror.bazel.build/repo1.maven.org/maven2",
+        "https://scala-ci.typesafe.com/artifactory/scala-integration/",
+    ],
+    maven_install_json = "@//:deps_install.json",
+)
+
+load("@deps//:defs.bzl", "pinned_maven_install")
+pinned_maven_install()
+
+# ---
+
 load("//rules/scala:workspace.bzl", "scala_register_toolchains", "scala_repositories")
 
 scala_repositories()
