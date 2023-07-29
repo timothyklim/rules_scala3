@@ -1,11 +1,14 @@
 package rules_scala3.deps
 
-import sbt.librarymanagement.ModuleID
+import java.io.File
 import scala.util.matching.Regex.Groups
+
+import sbt.librarymanagement.ModuleID
 
 case class GroupId(grp: String):
   override def toString: String = grp
   def toUnixPath: String = grp.replaceAll("\\.", "/").replaceAll("-", "_")
+  def toPath: String = grp.replaceAll("\\.", File.separator).replaceAll("-", "_")
 
 case class Coordinates(groupId: GroupId, artifactId: String, version: Option[String]):
   override def toString: String = version match

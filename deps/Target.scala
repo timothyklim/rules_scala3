@@ -32,7 +32,7 @@ final case class Target(
             .map { c =>
               if coordinates.groupId == c.groupId
               then s"\":${c.cleanName}\""
-              else s"\"${vars.treeOfBUILDsBazelPath}/${c.groupId.toUnixPath}:${c.cleanName}\""
+              else s"\"${vars.targetsTreeBazelPath}/${c.groupId.toUnixPath}:${c.cleanName}\""
             }
             .sorted
             .mkString(",\n        ")
@@ -59,7 +59,7 @@ object Target:
 
     def asString(using vars: Vars): String = this match
       case Public => "//visibility:public"
-      case SubPackages => s"${vars.treeOfBUILDsBazelPath}:__subpackages__"
+      case SubPackages => s"${vars.targetsTreeBazelPath}:__subpackages__"
 
   def apply(
       moduleReport: ModuleReport,

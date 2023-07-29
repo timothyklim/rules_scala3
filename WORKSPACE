@@ -16,6 +16,7 @@ load("@rules_jvm_external//:defs.bzl", "maven_install")
 maven_install(
     name = "deps",
     artifacts = [
+        "com.github.scopt:scopt_3:4.1.0",
         "org.scala-sbt:librarymanagement-core_3:2.0.0-alpha12",
         "org.scala-sbt:librarymanagement-coursier_3:2.0.0-alpha6",
     ],
