@@ -1,8 +1,10 @@
 package rules_scala3.deps
 
+import java.io.File
+import java.nio.file.{Files, StandardOpenOption}
+
 import sbt.librarymanagement.{DependencyBuilders, ModuleID}, DependencyBuilders.OrganizationArtifactName
 import sbt.librarymanagement.syntax.*
-import java.io.{File, FileWriter}
 
 object MakeTree:
   def apply(dependencies: Vector[ModuleID], replacements: Map[OrganizationArtifactName, String]): Unit =
@@ -13,9 +15,7 @@ object MakeTree:
   private def writeToFile(path: File, content: String): Unit =
     val dirname = path.getParentFile
     if !dirname.exists then dirname.mkdirs
-    val writer = new FileWriter(path)
-    try writer.write(content)
-    finally writer.close
+    Files.writeString(path.toPath(), content, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)
 
   private def writeTree(
       targets: Vector[Target],

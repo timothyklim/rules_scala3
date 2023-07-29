@@ -28,13 +28,14 @@ trait WorkerMain[S]:
         val stdout = System.out
         val stderr = System.err
 
-        System.setSecurityManager(new SecurityManager:
-          override def checkPermission(permission: Permission): Unit =
-            permission.getName match
-              case Exit(code) =>
-                stderr.println(s"ScalaCompile worker startup failure: permission=$permission, args=${args.mkString("[", ", ", "]")}")
-                throw ExitTrapped(code.toInt)
-              case _ => ()
+        System.setSecurityManager(
+          new SecurityManager:
+            override def checkPermission(permission: Permission): Unit =
+              permission.getName match
+                case Exit(code) =>
+                  stderr.println(s"ScalaCompile worker startup failure: permission=$permission, args=${args.mkString("[", ", ", "]")}")
+                  throw ExitTrapped(code.toInt)
+                case _ => ()
         )
 
         val outStream = ByteArrayOutputStream()
