@@ -1,11 +1,11 @@
-load("//rules:scala.bzl", "scala_binary", "scala_library")
+load("@rules_scala3//rules:scala.bzl", "scala_library")
 load(
     "@rules_scala3//rules:providers.bzl",
     _ScalaConfiguration = "ScalaConfiguration",
     _ScalaInfo = "ScalaInfo",
 )
 load(
-    "//rules/common:private/utils.bzl",
+    "@rules_scala3//rules/common:private/utils.bzl",
     _resolve_execution_reqs = "resolve_execution_reqs",
 )
 
@@ -29,8 +29,8 @@ def _scalajs_link_impl(ctx):
     out = ctx.actions.declare_file("{}.js".format(ctx.label.name))
     inputs = []
     for dep in ctx.attr.deps:
-      if _ScalaInfo in dep:
-        inputs += [dep for dep in dep[JavaInfo].transitive_runtime_jars.to_list()]
+        if _ScalaInfo in dep:
+            inputs += [dep for dep in dep[JavaInfo].transitive_runtime_jars.to_list()]
 
     args = ctx.actions.args()
     args.add("--main-class", ctx.attr.main_class)

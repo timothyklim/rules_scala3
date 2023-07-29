@@ -4,10 +4,10 @@ load("//rules:scalafmt.bzl", "scala_format_test")
 scala_binary(
     name = "compile",
     srcs = glob(["**/*.scala"]),
+    jvm_flags = ["-Djava.security.manager=allow"],
     main_class = "rules_scala.workers.zinc.compile.ZincRunner",
     scala = "//scala:bootstrap_3_3",
     visibility = ["//visibility:public"],
-    jvm_flags = ["-Djava.security.manager=allow"],
     deps = [
         "//rules/third_party/jarhelper",
         "//scala/common/worker",

@@ -3,7 +3,7 @@ def _jar_artifact_impl(ctx):
     ctx.download(
         output = ctx.path("jar/%s" % jar_name),
         url = ctx.attr.urls,
-        executable = False
+        executable = False,
     )
     build_file_contents = """
 package(default_visibility = ['//visibility:public'])
@@ -20,7 +20,7 @@ jar_artifact = repository_rule(
         "artifact": attr.string(mandatory = True),
         "urls": attr.string_list(mandatory = True),
     },
-    implementation = _jar_artifact_impl
+    implementation = _jar_artifact_impl,
 )
 
 def jar_artifact_callback(hash):

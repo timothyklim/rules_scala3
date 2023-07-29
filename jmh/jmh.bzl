@@ -1,20 +1,23 @@
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
-load("//rules:scala.bzl", "scala_library")
-load("//rules/common:private/utils.bzl", _safe_name = "safe_name")
+load("@rules_scala3//rules:scala.bzl", "scala_library")
+load("@rules_scala3//rules/common:private/utils.bzl", _safe_name = "safe_name")
 
 def _jmh_benchmark(ctx):
     info = ctx.attr.src[JavaInfo]
+    classpath = info.transitive_runtime_deps
 
     input_bytecode_dir = ctx.actions.declare_directory("{}_bytecode".format(_safe_name(ctx.attr.name)))
     output_source_dir = ctx.actions.declare_directory("{}_src".format(_safe_name(ctx.attr.name)))
     output_resource_dir = ctx.actions.declare_directory("{}_resources".format(_safe_name(ctx.attr.name)))
 
     class_jar = info.outputs.jars[0].class_jar
+    cp = [class_jar] + classpath.to_list()
     ctx.actions.run_shell(
-        inputs = [class_jar],
+        inputs = cp,
         outputs = [input_bytecode_dir],
-        arguments = [class_jar.path, input_bytecode_dir.path],
-        command = "unzip $1 -d $2",
+        command = "\n".join(["unzip -o -q {} -d {}".format(f.path, input_bytecode_dir.path) for f in cp] + [
+            "rm -rf {}/META-INF".format(input_bytecode_dir.path),
+        ]),
         progress_message = "Unzip classes from jar",
         use_default_shell_env = True,
     )
@@ -49,10 +52,10 @@ generate_jmh_benchmark = rule(
     attrs = {
         "src": attr.label(mandatory = True, providers = [[JavaInfo]]),
         "generator_type": attr.string(
-            default = "asm",
+            default = "default",
             mandatory = False,
         ),
-        "_generator": attr.label(executable = True, cfg = "exec", default = "@//jmh:generator"),
+        "_generator": attr.label(executable = True, cfg = "exec", default = "@rules_scala3//jmh:generator"),
         "_zipper": attr.label(cfg = "exec", default = "@bazel_tools//tools/zip:zipper", executable = True),
     },
     outputs = {
@@ -62,41 +65,41 @@ generate_jmh_benchmark = rule(
 )
 
 def scala_jmh_benchmark(**kwargs):
-  name = kwargs["name"]
-  deps = kwargs.get("deps", [])
-  lib = "%s_generator" % name
+    name = kwargs["name"]
+    deps = kwargs.get("deps", [])
+    lib = "%s_generator" % name
 
-  scala_library(
-      name = lib,
-      srcs = kwargs["srcs"],
-      deps = deps + [
-          "@//3rdparty/jvm/org/openjdk/jmh:jmh_core",
-      ],
-      runtime_deps = kwargs.get("runtime_deps", []),
-      resources = kwargs.get("resources", []),
-      resource_jars = kwargs.get("resource_jars", []),
-      scala = "//scala:bootstrap_3_3",
-  )
+    scala_library(
+        name = lib,
+        srcs = kwargs["srcs"],
+        deps = deps + [
+            "@rules_scala3//3rdparty/jvm/org/openjdk/jmh:jmh_core",
+        ],
+        runtime_deps = kwargs.get("runtime_deps", []),
+        resources = kwargs.get("resources", []),
+        resource_jars = kwargs.get("resource_jars", []),
+        scala = "@rules_scala3//scala:bootstrap_3_3",
+    )
 
-  codegen = name + "_codegen"
-  generate_jmh_benchmark(
-      name = codegen,
-      src = lib,
-      generator_type = kwargs.get("generator_type", "asm"),
-  )
-  compiled_lib = name + "_compiled_jmh_lib"
-  java_library(
-      name = compiled_lib,
-      srcs = ["%s.srcjar" % codegen],
-      deps = deps + [
-          "@//3rdparty/jvm/org/openjdk/jmh:jmh_core",
-          lib,
-      ],
-      runtime_deps = ["%s_resources.jar" % codegen],
-  )
-  java_binary(
-      name = name,
-      runtime_deps = [compiled_lib],
-      data = kwargs.get("data", []),
-      main_class = "org.openjdk.jmh.Main",
-  )
+    codegen = name + "_codegen"
+    generate_jmh_benchmark(
+        name = codegen,
+        src = lib,
+        generator_type = kwargs.get("generator_type", "default"),
+    )
+    compiled_lib = name + "_compiled_jmh_lib"
+    java_library(
+        name = compiled_lib,
+        srcs = ["%s.srcjar" % codegen],
+        deps = deps + [
+            "@rules_scala3//3rdparty/jvm/org/openjdk/jmh:jmh_core",
+            lib,
+        ],
+        runtime_deps = ["%s_resources.jar" % codegen],
+    )
+    java_binary(
+        name = name,
+        runtime_deps = [compiled_lib],
+        data = kwargs.get("data", []),
+        main_class = "org.openjdk.jmh.Main",
+    )

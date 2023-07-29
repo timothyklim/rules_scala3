@@ -15,10 +15,10 @@ toolchain_type(
 scala_binary(
     name = "worker",
     srcs = ["private/ScalaProtoWorker.scala"],
+    jvm_flags = ["-Djava.security.manager=allow"],
     main_class = "annex.scala.proto.ScalaProtoWorker",
     scala = "//scala:bootstrap_3_3",
     visibility = ["//visibility:public"],
-    jvm_flags = ["-Djava.security.manager=allow"],
     deps = [
         "//scala/common/worker",
         "//scala/workers/common",
