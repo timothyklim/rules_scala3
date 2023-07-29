@@ -92,7 +92,7 @@ scalajs_link = rule(
             default = "@rules_scala3//scala/workers/scalajs:scalajs_linker",
             allow_files = True,
             executable = True,
-            cfg = "host",
+            cfg = "exec",
         ),
     },
     implementation = _scalajs_link_impl,

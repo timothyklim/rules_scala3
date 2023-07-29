@@ -149,7 +149,7 @@ declare_zinc_configuration = rule(
             default = "@rules_scala3//scala/workers/zinc/compile",
             allow_files = True,
             executable = True,
-            cfg = "host",
+            cfg = "exec",
         ),
     },
     doc = "Creates a `ZincConfiguration`.",

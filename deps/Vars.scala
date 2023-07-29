@@ -2,7 +2,7 @@ package rules_scala3.deps
 
 import java.io.File
 
-case class Vars(
+final case class Vars(
     projectRoot: File,
     depsDirName: String,
     bazelExtFileName: String,
