@@ -16,6 +16,7 @@ load("@rules_jvm_external//:defs.bzl", "maven_install")
 maven_install(
     name = "deps",
     artifacts = [
+        "com.github.scopt:scopt_3:4.1.0",
         "org.scala-sbt:librarymanagement-core_3:2.0.0-alpha12",
         "org.scala-sbt:librarymanagement-coursier_3:2.0.0-alpha6",
     ],
@@ -26,7 +27,7 @@ maven_install(
         "https://mirror.bazel.build/repo1.maven.org/maven2",
         "https://scala-ci.typesafe.com/artifactory/scala-integration/",
     ],
-    maven_install_json = "@//:deps_install.json",
+    maven_install_json = "//:deps_install.json",
 )
 
 load("@deps//:defs.bzl", "pinned_maven_install")

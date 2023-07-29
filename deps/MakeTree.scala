@@ -11,7 +11,7 @@ object MakeTree:
   def apply(dependencies: Vector[ModuleID], replacements: Map[OrganizationArtifactName, String])(using vars: Vars): Unit =
     val targets = Resolve(dependencies, replacements.map((k, v) => (k % "0.1.0").toUvCoordinates.withCleanName -> v))
     val bazelExtContent = BazelExt(targets)
-    recreate(vars.treeOfBUILDsFile.toPath())
+    recreate(vars.targetsTreeFile.toPath())
     writeTree(targets, bazelExtContent)
 
   private def recreate(path: Path): Unit =
@@ -44,7 +44,7 @@ object MakeTree:
     targets
       .groupBy(_.coordinates.groupId)
       .foreach { (group, targets) =>
-        val file = new File(vars.treeOfBUILDsFile, group.toUnixPath + File.separator + vars.buildFileName)
-        val content = vars.buildFileHeader + targets.map(_.toBzl()).mkString
+        val file = new File(vars.targetsTreeFile, group.toPath + File.separator + vars.targetsFileName)
+        val content = vars.targetsHeader + targets.map(_.toBzl()).mkString
         writeToFile(file, content)
       }
