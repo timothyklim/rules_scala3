@@ -1,67 +1,33 @@
 package rules_scala3.deps
 
 import java.io.File
-
-import lmcoursier.*
-import sbt.internal.librarymanagement.cross.CrossVersionUtil
-import sbt.internal.util.ConsoleLogger
-import sbt.librarymanagement.*
-import sbt.librarymanagement.Configurations.Component
-import sbt.librarymanagement.Resolver.{DefaultMavenRepository, JCenterRepository, JavaNet2Repository}
 import sbt.librarymanagement.syntax.*
 
-object Deps:
-  def main(args: Array[String]): Unit =
-    // https://github.com/coursier/sbt-coursier/blob/3df025313bf010d80b8b9288c76fa6a3cb13c7d0/modules/lm-coursier/src/test/scala/lmcoursier/ResolutionSpec.scala
-
-    lazy val log = ConsoleLogger()
-
-    val lmEngine = CoursierDependencyResolution(CoursierConfiguration().withResolvers(resolvers))
-
-    // val module = "commons-io" % "commons-io" % "2.5"
-    // lm.retrieve(module, scalaModuleInfo = None, File("/tmp/target"), log)
-
-    val stubModule = "com.example" % "foo" % "0.1.0" % "compile"
-    val dependencies = Vector(
-      "com.typesafe.scala-logging" % "scala-logging_2.12" % "3.7.2" % "compile",
-      "org.scalatest" % "scalatest_2.12" % "3.0.4" % "test"
-    ).map(_.withIsTransitive(false))
-    val coursierModule = module(lmEngine, stubModule, dependencies, Some("2.12.4"))
-    val resolution =
-      lmEngine.update(coursierModule, UpdateConfiguration(), UnresolvedWarningConfiguration(), log)
-    val r = resolution.right.get
-    println(s"r:$r")
-  end main
-
-  def resolvers = Vector(
-    DefaultMavenRepository,
-    JavaNet2Repository,
-    JCenterRepository,
-    Resolver.sbtPluginRepo("releases")
+@main def Deps(args: String*): Unit =
+  // parse args
+  vars = Vars(
+    projectRoot = new File("/home/name_snrl/work/forks/rules_scala3"),
+    depsDirName = "3rdparty",
+    bazelExtFileName = "workspace.bzl",
+    buildFilesDirName = "jvm",
+    buildFileName = "BUILD",
+    scalaVersion = "3.3.0",
+    buildFileHeader = """load("@io_bazel_rules_scala//scala:scala_import.bzl", "scala_import")"""
   )
 
-  def configurations = Vector(Compile, Test, Runtime, Provided, Optional, Component)
+// Replacements are not handled by `librarymanagement`. any Scala prefix in the name will be dropped.
+// It also doesn't matter whether you use double `%` to get the Scala version or not.
+  val replacements = Map(
+      "org.scala-lang" % "scala-compiler" -> "@io_bazel_rules_scala_scala_compiler//:io_bazel_rules_scala_scala_compiler",
+      "org.scala-lang" % "scala-library" -> "@io_bazel_rules_scala_scala_library//:io_bazel_rules_scala_scala_library",
+      "org.scala-lang" % "scala-reflect" -> "@io_bazel_rules_scala_scala_reflect//:io_bazel_rules_scala_scala_reflect",
+      "org.scala-lang.modules" % "scala-parser-combinators" -> "@io_bazel_rules_scala_scala_parser_combinators//:io_bazel_rules_scala_scala_parser_combinators",
+      "org.scala-lang.modules" % "scala-xml" -> "@io_bazel_rules_scala_scala_xml//:io_bazel_rules_scala_scala_xml",
+  )
 
-  def module(
-      lmEngine: DependencyResolution,
-      moduleId: ModuleID,
-      deps: Vector[ModuleID],
-      scalaFullVersion: Option[String],
-      overrideScalaVersion: Boolean = true
-    ): ModuleDescriptor =
-      val scalaModuleInfo = scalaFullVersion map { fv =>
-        ScalaModuleInfo(
-          scalaFullVersion = fv,
-          scalaBinaryVersion = CrossVersionUtil.binaryScalaVersion(fv),
-          configurations = configurations,
-          checkExplicit = true,
-          filterImplicit = false,
-          overrideScalaVersion = overrideScalaVersion
-        )
-      }
+  val dependencies = Vector(
+    "org.scala-sbt" % "librarymanagement-core_3" % "2.0.0-alpha12",
+    "org.scala-sbt" % "librarymanagement-coursier_3" % "2.0.0-alpha6",
+  )
 
-      val moduleSetting = ModuleDescriptorConfiguration(moduleId, ModuleInfo("foo"))
-        .withDependencies(deps)
-        .withConfigurations(configurations)
-        .withScalaModuleInfo(scalaModuleInfo)
-      lmEngine.moduleDescriptor(moduleSetting)
+  MakeTree(dependencies, replacements)

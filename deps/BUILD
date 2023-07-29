@@ -4,6 +4,8 @@ scala_binary(
     name = "deps",
     srcs = glob(["*.scala"]),
     main_class = "rules_scala3.deps.Deps",
+    resource_strip_prefix = package_name(),
+    resources = ["templates/jar_artifact_callback.bzl"],
     scala = "//scala:bootstrap_3_3",
     visibility = ["//visibility:public"],
     # jvm_flags = ["-Djava.security.manager=allow"],
