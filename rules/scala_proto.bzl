@@ -15,7 +15,7 @@ scala_proto_library = rule(
             "protoc": attr.label(
                 doc = "protoc compiler",
                 default = "@com_google_protobuf//:protoc",
-                cfg = "host",
+                cfg = "exec",
                 allow_single_file = True,
                 executable = True,
             ),
@@ -23,7 +23,7 @@ scala_proto_library = rule(
                 doc = "ScalaPB gen options: flat_package, java_conversions, grpc, single_line_to_proto_string, ascii_format_to_string, no_lenses",
             ),
             "grpc_web": attr.bool(default = False),
-            "_zipper": attr.label(cfg = "host", default = "@bazel_tools//tools/zip:zipper", executable = True),
+            "_zipper": attr.label(cfg = "exec", default = "@bazel_tools//tools/zip:zipper", executable = True),
         },
     ),
     doc = """
@@ -52,7 +52,7 @@ scala_proto_toolchain = rule(
             doc = "The compiler to use to generate Scala form proto sources",
             allow_files = True,
             executable = True,
-            cfg = "host",
+            cfg = "exec",
         ),
         "compiler_supports_workers": attr.bool(default = False),
     },

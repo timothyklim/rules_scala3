@@ -59,10 +59,10 @@ _compile_private_attributes = {
     ),
     "_host_javabase": attr.label(
         default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
-        cfg = "host",
+        cfg = "exec",
     ),
     "_singlejar": attr.label(
-        cfg = "host",
+        cfg = "exec",
         default = "@remote_java_tools//:singlejar_cc_bin",
         executable = True,
     ),
@@ -72,12 +72,12 @@ _compile_private_attributes = {
     "_jdk": attr.label(
         default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
         providers = [java_common.JavaRuntimeInfo],
-        cfg = "host",
+        cfg = "exec",
     ),
     "_jar_creator": attr.label(
         default = Label("@remote_java_tools//:ijar_cc_binary"),
         executable = True,
-        cfg = "host",
+        cfg = "exec",
     ),
 }
 
@@ -188,11 +188,11 @@ _testing_private_attributes = {
     # in https://github.com/bazelbuild/bazel/blob/0.22.0/src/main/java/com/google/devtools/build/lib/bazel/rules/java/BazelJavaTestRule.java#L69-L76
     "_jacocorunner": attr.label(
         default = Label("@bazel_tools//tools/jdk:JacocoCoverage"),
-        cfg = "host",
+        cfg = "exec",
     ),
     "_lcov_merger": attr.label(
         default = Label("@bazel_tools//tools/test/CoverageOutputGenerator/java/com/google/devtools/coverageoutputgenerator:Main"),
-        cfg = "host",
+        cfg = "exec",
     ),
 }
 
@@ -376,7 +376,7 @@ _scala_repl_private_attributes = _dicts.add(
     _runtime_private_attributes,
     {
         "_runner": attr.label(
-            cfg = "host",
+            cfg = "exec",
             executable = True,
             default = "@rules_scala3//scala/workers/zinc/repl",
         ),
@@ -538,19 +538,19 @@ _configure_zinc_scala = rule(
             default = "@rules_scala3//scala/workers/zinc/compile",
             allow_files = True,
             executable = True,
-            cfg = "host",
+            cfg = "exec",
         ),
         "_deps_worker": attr.label(
             default = "@rules_scala3//scala/workers/deps",
             allow_files = True,
             executable = True,
-            cfg = "host",
+            cfg = "exec",
         ),
         "_code_coverage_instrumentation_worker": attr.label(
             default = "@rules_scala3//scala/workers/jacoco/instrumenter",
             allow_files = True,
             executable = True,
-            cfg = "host",
+            cfg = "exec",
         ),
     },
     implementation = _configure_zinc_scala_implementation,

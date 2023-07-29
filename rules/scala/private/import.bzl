@@ -10,7 +10,7 @@ scala_import_private_attributes = {
     ),
     "_host_javabase": attr.label(
         default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
-        cfg = "host",
+        cfg = "exec",
     ),
 }
 

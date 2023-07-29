@@ -10,7 +10,7 @@ scala_format_attributes = {
         doc = "The Scalafmt configuration file.",
     ),
     "_fmt": attr.label(
-        cfg = "host",
+        cfg = "exec",
         default = "@rules_scala3//rules/scalafmt",
         executable = True,
     ),

@@ -4,10 +4,10 @@ load("//rules:scalafmt.bzl", "scala_format_test")
 scala_binary(
     name = "instrumenter",
     srcs = glob(["**/*.scala"]),
+    jvm_flags = ["-Djava.security.manager=allow"],
     main_class = "rules_scala.workers.jacoco.instrumenter.JacocoInstrumenter",
     scala = "//scala:bootstrap_3_3",
     visibility = ["//visibility:public"],
-    jvm_flags = ["-Djava.security.manager=allow"],
     deps = [
         "//scala/common/worker",
         "@annex//:com_github_scopt_scopt_3",

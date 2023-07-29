@@ -17,7 +17,7 @@ def phase_bootstrap_compile(ctx, g):
     if g.classpaths.plugin:
         fail("plugins aren't supported for bootstrap_scala rules")
     if g.classpaths.src_jars:
-        fail("source jars supported for bootstrap_scala rules")
+        fail("source jars aren't supported for bootstrap_scala rules")
 
     inputs = depset(
         ctx.files.srcs,
@@ -38,8 +38,6 @@ def phase_bootstrap_compile(ctx, g):
         command = _strip_margin(
             """
             |set -eo pipefail
-            |
-            |mkdir -p tmp/classes
             |
             |{java} \\
             |  -Dscala.usejavacp=true \\
