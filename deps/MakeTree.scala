@@ -1,7 +1,8 @@
 package rules_scala3.deps
 
 import java.io.File
-import java.nio.file.{Files, StandardOpenOption}
+import java.nio.file.{Files, Path, StandardOpenOption}
+import java.util.Comparator
 
 import sbt.librarymanagement.{DependencyBuilders, ModuleID}, DependencyBuilders.OrganizationArtifactName
 import sbt.librarymanagement.syntax.*
@@ -10,7 +11,18 @@ object MakeTree:
   def apply(dependencies: Vector[ModuleID], replacements: Map[OrganizationArtifactName, String])(using vars: Vars): Unit =
     val targets = Resolve(dependencies, replacements.map((k, v) => (k % "0.1.0").toUvCoordinates.withCleanName -> v))
     val bazelExtContent = BazelExt(targets)
+    recreate(vars.treeOfBUILDsFile.toPath())
     writeTree(targets, bazelExtContent)
+
+  private def recreate(path: Path): Unit =
+    if path.toFile().exists() then
+      Files
+        .walk(path)
+        .map(_.toFile)
+        .sorted(Comparator.reverseOrder())
+        .parallel()
+        .forEach(_.delete)
+    Files.createDirectories(path)
 
   private def writeToFile(path: File, content: String): Unit =
     val dirname = path.getParentFile

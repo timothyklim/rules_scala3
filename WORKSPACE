@@ -1,7 +1,6 @@
 workspace(name = "rules_scala3")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-load("@bazel_tools//tools/build_defs/repo:jvm.bzl", "jvm_maven_import_external")
 
 rules_jvm_external_tag = "4.5"
 
@@ -25,6 +24,10 @@ load("@annex//:defs.bzl", annex_pinned_maven_install = "pinned_maven_install")
 annex_pinned_maven_install()
 
 scala_register_toolchains()
+
+load("//3rdparty:workspace.bzl", "maven_dependencies")
+
+maven_dependencies()
 
 load("//rules/scalafmt:workspace.bzl", "scalafmt_default_config", "scalafmt_repositories")
 
