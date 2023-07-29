@@ -3,16 +3,6 @@ package rules_scala3.deps
 import sbt.librarymanagement.{ModuleID, ModuleReport}
 import java.io.File
 
-var vars = Vars(
-  projectRoot = new File(""),
-  depsDirName = "",
-  bazelExtFileName = "",
-  buildFilesDirName = "",
-  buildFileName = "",
-  scalaVersion = "",
-  buildFileHeader = ""
-)
-
 enum Language(val asString: String):
   case Scala extends Language("scala")
   case Java extends Language("java")

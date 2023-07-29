@@ -7,7 +7,7 @@ import sbt.librarymanagement.{ModuleDescriptorConfiguration, ModuleID, ModuleInf
 import scala.collection.mutable.HashMap
 
 object Resolve:
-  def apply(dependencies: Vector[ModuleID], replacements: Map[Coordinates, String]): Vector[Target] =
+  def apply(dependencies: Vector[ModuleID], replacements: Map[Coordinates, String])(using vars: Vars): Vector[Target] =
     val csConfig = CoursierConfiguration()
       .withScalaVersion(Some(vars.scalaVersion))
       .withClasspathOrder(false) // it just gets in the way and creates duplicates.

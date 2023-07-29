@@ -7,7 +7,7 @@ import sbt.librarymanagement.{DependencyBuilders, ModuleID}, DependencyBuilders.
 import sbt.librarymanagement.syntax.*
 
 object MakeTree:
-  def apply(dependencies: Vector[ModuleID], replacements: Map[OrganizationArtifactName, String]): Unit =
+  def apply(dependencies: Vector[ModuleID], replacements: Map[OrganizationArtifactName, String])(using vars: Vars): Unit =
     val targets = Resolve(dependencies, replacements.map((k, v) => (k % "0.1.0").toUvCoordinates.withCleanName -> v))
     val bazelExtContent = BazelExt(targets)
     writeTree(targets, bazelExtContent)
@@ -20,7 +20,7 @@ object MakeTree:
   private def writeTree(
       targets: Vector[Target],
       bazelExtContent: String
-  ): Unit =
+  )(using vars: Vars): Unit =
     // create bazel extension file
     writeToFile(vars.bazelExtFile, bazelExtContent)
 
@@ -33,6 +33,6 @@ object MakeTree:
       .groupBy(_.coordinates.groupId)
       .foreach { (group, targets) =>
         val file = new File(vars.treeOfBUILDsFile, group.toUnixPath + File.separator + vars.buildFileName)
-        val content = vars.buildFileHeader + targets.map(_.toBzl).mkString
+        val content = vars.buildFileHeader + targets.map(_.toBzl()).mkString
         writeToFile(file, content)
       }

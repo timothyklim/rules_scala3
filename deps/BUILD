@@ -8,7 +8,6 @@ scala_binary(
     resources = ["templates/jar_artifact_callback.bzl"],
     scala = "//scala:bootstrap_3_3",
     visibility = ["//visibility:public"],
-    # jvm_flags = ["-Djava.security.manager=allow"],
     deps = [
         "@annex//:org_scala_sbt_librarymanagement_core_3",
         "@annex//:org_scala_sbt_librarymanagement_coursier_3",

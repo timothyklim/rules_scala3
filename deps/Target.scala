@@ -2,7 +2,7 @@ package rules_scala3.deps
 
 import sbt.librarymanagement.{Artifact, ModuleID, ModuleReport}
 
-case class Target(
+final case class Target(
     coordinates: Coordinates,
     replacement_label: Option[String],
     lang: Language,
@@ -14,7 +14,7 @@ case class Target(
     url: String,
     deps: Vector[Coordinates]
 ):
-  def toBzl: String =
+  def toBzl()(using vars: Vars): String =
     replacement_label match
       case Some(replacement_label) =>
         s"""\n${lang.asString}_import(
@@ -53,9 +53,13 @@ case class Target(
            |)\n""".stripMargin
 
 object Target:
-  enum Visibility(val asString: String):
-    case Public extends Visibility("//visibility:public")
-    case SubPackages extends Visibility(s"${vars.treeOfBUILDsBazelPath}:__subpackages__")
+  enum Visibility:
+    case Public extends Visibility
+    case SubPackages extends Visibility
+
+    def asString(using vars: Vars): String = this match
+      case Public => "//visibility:public"
+      case SubPackages => s"${vars.treeOfBUILDsBazelPath}:__subpackages__"
 
   def apply(
       moduleReport: ModuleReport,
