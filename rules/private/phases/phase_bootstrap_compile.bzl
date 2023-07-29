@@ -38,6 +38,7 @@ def phase_bootstrap_compile(ctx, g):
         command = _strip_margin(
             """
             |set -eo pipefail
+            |
             |{java} \\
             |  -Dscala.usejavacp=true \\
             |  -classpath {compiler_classpath} \\
