@@ -34,7 +34,7 @@ trait WorkerMain[S]:
               case Exit(code) =>
                 stderr.println(s"ScalaCompile worker startup failure: permission=$permission, args=${args.mkString("[", ", ", "]")}")
                 throw ExitTrapped(code.toInt)
-              case _ =>
+              case _ => ()
         )
 
         val outStream = ByteArrayOutputStream()

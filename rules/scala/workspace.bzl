@@ -25,7 +25,7 @@ repositories = [
     "https://scala-ci.typesafe.com/artifactory/scala-integration/",
 ]
 
-sbt_version = "1.9.2"
+sbt_version = "1.9.3"
 
 def scala_artifacts():
     return [
