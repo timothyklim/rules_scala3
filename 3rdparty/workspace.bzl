@@ -11,7 +11,12 @@ package(default_visibility = ['//visibility:public'])
 filegroup(
     name = 'jar',
     srcs = ['{jar_name}'],
-    visibility = ['//visibility:public']
+    visibility = ['//visibility:public'],
+)
+alias(
+    name = "file",
+    actual = ":jar",
+    visibility = ["//visibility:public"],
 )\n""".format(artifact = ctx.attr.artifact, jar_name = jar_name)
     ctx.file(ctx.path("jar/BUILD"), build_file_contents, False)
     return None

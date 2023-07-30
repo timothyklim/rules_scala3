@@ -80,8 +80,9 @@ object JmhRunner:
     val zipInputStream = ZipInputStream(Files.newInputStream(zipFilePath))
 
     def extractEntry(entry: ZipEntry): Unit =
-      val filePath = destDirectory.resolve(entry.getName)
-      if entry.getName.endsWith(".class") then
+      val name = entry.getName
+      if !name.startsWith("META-INF") && name.endsWith(".class") then
+        val filePath = destDirectory.resolve(name)
         try Files.createDirectories(filePath.getParent)
         catch case _: FileAlreadyExistsException => ()
         try Files.copy(zipInputStream, filePath)
