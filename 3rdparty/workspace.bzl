@@ -4,7 +4,7 @@ def _jar_artifact_impl(ctx):
     ctx.download(
         output = ctx.path("jar/%s" % jar_name),
         url = ctx.attr.urls,
-        executable = False
+        executable = False,
     )
     build_file_contents = """
 package(default_visibility = ['//visibility:public'])
@@ -21,7 +21,7 @@ jar_artifact = repository_rule(
         "artifact": attr.string(mandatory = True),
         "urls": attr.string_list(mandatory = True),
     },
-    implementation = _jar_artifact_impl
+    implementation = _jar_artifact_impl,
 )
 
 def jar_artifact_callback(hash):
@@ -35,6 +35,7 @@ def jar_artifact_callback(hash):
 
 def list_dependencies():
     return [
+        {"artifact":"com.github.scopt:scopt_3:4.1.0","url":"https://repo1.maven.org/maven2/com/github/scopt/scopt_3/4.1.0/scopt_3-4.1.0.jar","name":"com_github_scopt_scopt_3","actual":"@com_github_scopt_scopt_3//jar","bind": "jar/com/github/scopt/scopt_3"},
         {"artifact":"net.sf.jopt-simple:jopt-simple:5.0.4","url":"https://repo1.maven.org/maven2/net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar","name":"net_sf_jopt_simple_jopt_simple","actual":"@net_sf_jopt_simple_jopt_simple//jar","bind": "jar/net/sf/jopt_simple/jopt_simple"},
         {"artifact":"org.apache.commons:commons-math3:3.2","url":"https://repo1.maven.org/maven2/org/apache/commons/commons-math3/3.2/commons-math3-3.2.jar","name":"org_apache_commons_commons_math3","actual":"@org_apache_commons_commons_math3//jar","bind": "jar/org/apache/commons/commons_math3"},
         {"artifact":"org.openjdk.jmh:jmh-core:1.36","url":"https://repo1.maven.org/maven2/org/openjdk/jmh/jmh-core/1.36/jmh-core-1.36.jar","name":"org_openjdk_jmh_jmh_core","actual":"@org_openjdk_jmh_jmh_core//jar","bind": "jar/org/openjdk/jmh/jmh_core"},

@@ -211,7 +211,7 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
 
     val jarCreator = JarCreator(workArgs.outputJar)
     jarCreator.addDirectory(classesOutputDir)
-    jarCreator.setCompression(true)
+    jarCreator.setCompression(false)
     jarCreator.setNormalize(true)
     jarCreator.setVerbose(false)
     for main <- mains.headOption do jarCreator.setMainClass(main)

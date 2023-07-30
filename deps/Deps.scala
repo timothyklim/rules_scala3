@@ -24,6 +24,7 @@ object Deps:
       "org.openjdk.jmh" % "jmh-generator-bytecode" % jmhV,
       "org.openjdk.jmh" % "jmh-generator-reflection" % jmhV,
       "org.openjdk.jmh" % "jmh-generator-asm" % jmhV,
+      "com.github.scopt" %% "scopt" % "4.1.0",
     )
 
     MakeTree(dependencies, replacements)

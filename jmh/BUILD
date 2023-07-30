@@ -1,19 +1,18 @@
 load("@rules_scala3//jmh:jmh.bzl", "scala_jmh_benchmark")
-load("@rules_java//java:defs.bzl", "java_binary")
+load("@rules_scala3//rules:scala.bzl", "scala_binary")
 
-java_binary(
-    name = "generator",
-    main_class = "org.openjdk.jmh.generators.bytecode.JmhBytecodeGenerator",
+scala_binary(
+    name = "runner",
+    main_class = "rules_scala3.jmh.JmhRunner",
+    srcs = ["JmhRunner.scala"],
     visibility = ["//visibility:public"],
-    runtime_deps = [
+    scala = "//scala:bootstrap_3_3",
+    deps = [
+        "@rules_scala3//rules/third_party/jarhelper",
+        "@rules_scala3//3rdparty/jvm/com/github/scopt",
         "@rules_scala3//3rdparty/jvm/org/openjdk/jmh:jmh_core",
         "@rules_scala3//3rdparty/jvm/org/openjdk/jmh:jmh_generator_asm",
         "@rules_scala3//3rdparty/jvm/org/openjdk/jmh:jmh_generator_bytecode",
         "@rules_scala3//3rdparty/jvm/org/openjdk/jmh:jmh_generator_reflection",
     ],
-)
-
-scala_jmh_benchmark(
-    name = "test",
-    srcs = ["ArrayBench.scala"],
 )

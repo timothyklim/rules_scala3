@@ -49,6 +49,10 @@ load("@annex_proto//:defs.bzl", annex_proto_pinned_maven_install = "pinned_maven
 
 annex_proto_pinned_maven_install()
 
+load("@rules_scala3//3rdparty:workspace.bzl", "maven_dependencies")
+
+maven_dependencies()
+
 load("@rules_scala3//rules/scalafmt:workspace.bzl", "scalafmt_default_config", "scalafmt_repositories")
 
 scalafmt_repositories()

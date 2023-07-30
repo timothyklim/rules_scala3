@@ -260,7 +260,7 @@ public class JarCreator extends JarHelper {
     for (int i = 1; i < args.length; i++) {
       createJar.addDirectory(args[i]);
     }
-    createJar.setCompression(true);
+    createJar.setCompression(false);
     createJar.setNormalize(true);
     createJar.setVerbose(true);
     long start = System.currentTimeMillis();

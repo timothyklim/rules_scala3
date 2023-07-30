@@ -3,48 +3,23 @@ load("@rules_scala3//rules:scala.bzl", "scala_library")
 load("@rules_scala3//rules/common:private/utils.bzl", _safe_name = "safe_name")
 
 def _jmh_benchmark(ctx):
+    tmp = ctx.actions.declare_directory("{}/tmp".format(_safe_name(ctx.label.name)))
+
     info = ctx.attr.src[JavaInfo]
-    classpath = info.transitive_runtime_deps
+    cp = [info.outputs.jars[0].class_jar] + info.transitive_runtime_deps.to_list()
 
-    input_bytecode_dir = ctx.actions.declare_directory("{}_bytecode".format(_safe_name(ctx.attr.name)))
-    output_source_dir = ctx.actions.declare_directory("{}_src".format(_safe_name(ctx.attr.name)))
-    output_resource_dir = ctx.actions.declare_directory("{}_resources".format(_safe_name(ctx.attr.name)))
-
-    class_jar = info.outputs.jars[0].class_jar
-    cp = [class_jar] + classpath.to_list()
-    ctx.actions.run_shell(
-        inputs = cp,
-        outputs = [input_bytecode_dir],
-        command = "\n".join(["unzip -o -q {} -d {}".format(f.path, input_bytecode_dir.path) for f in cp] + [
-            "rm -rf {}/META-INF".format(input_bytecode_dir.path),
-        ]),
-        progress_message = "Unzip classes from jar",
-        use_default_shell_env = True,
-    )
+    args = ctx.actions.args()
+    args.add_all([j.path for j in cp], format_each = "--cp=%s")
+    args.add("--generator", ctx.attr.generator_type)
+    args.add("--sources_jar", ctx.outputs.srcjar.path)
+    args.add("--resources_jar", ctx.outputs.resources_jar.path)
+    args.add("--tmp", tmp.path)
     ctx.actions.run(
-        outputs = [output_source_dir, output_resource_dir],
-        inputs = [input_bytecode_dir],
-        executable = ctx.executable._generator,
-        arguments = [input_bytecode_dir.path, output_source_dir.path, output_resource_dir.path, ctx.attr.generator_type],
-        progress_message = "Generating benchmark code for %s" % ctx.label,
-    )
-    ctx.actions.run_shell(
-        inputs = [output_source_dir],
-        outputs = [ctx.outputs.srcjar],
-        arguments = [ctx.executable._zipper.path, output_source_dir.path, output_source_dir.short_path, ctx.outputs.srcjar.path],
-        command = """$1 c $4 META-INF/= $(find -L $2 -type f | while read v; do echo ${v#"$2/"}=$v; done)""",
-        progress_message = "Bundling generated Java sources into srcjar",
-        tools = [ctx.executable._zipper],
-        use_default_shell_env = True,
-    )
-    ctx.actions.run_shell(
-        inputs = [output_resource_dir],
-        outputs = [ctx.outputs.resources_jar],
-        arguments = [ctx.executable._zipper.path, output_resource_dir.path, output_resource_dir.short_path, ctx.outputs.resources_jar.path],
-        command = """$1 c $4 META-INF/= $(find -L $2 -type f | while read v; do echo ${v#"$2/"}=$v; done)""",
-        progress_message = "Bundling generated resources into jar",
-        tools = [ctx.executable._zipper],
-        use_default_shell_env = True,
+        outputs = [ctx.outputs.srcjar, ctx.outputs.resources_jar, tmp],
+        inputs = cp,
+        executable = ctx.executable._runner,
+        arguments = [args],
+        progress_message = "Generating JMH code for %s" % ctx.label,
     )
 
 generate_jmh_benchmark = rule(
@@ -55,7 +30,7 @@ generate_jmh_benchmark = rule(
             default = "default",
             mandatory = False,
         ),
-        "_generator": attr.label(executable = True, cfg = "exec", default = "@rules_scala3//jmh:generator"),
+        "_runner": attr.label(executable = True, cfg = "exec", default = "@rules_scala3//jmh:runner"),
         "_zipper": attr.label(cfg = "exec", default = "@bazel_tools//tools/zip:zipper", executable = True),
     },
     outputs = {
