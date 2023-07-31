@@ -4,7 +4,7 @@ load("@rules_proto//proto:defs.bzl", "proto_library")
 genrule(
     name = "scalapb_proto",
     srcs = [
-        "@annex_test//:com_thesamet_scalapb_scalapb_runtime_3",
+        "//3rdparty/jvm/com/thesamet/scalapb:scalapb_runtime",
     ],
     outs = ["scalapb/scalapb.proto"],
     cmd = """

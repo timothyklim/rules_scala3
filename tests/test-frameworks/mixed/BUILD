@@ -10,7 +10,7 @@ scala_test(
         "@junit_interface//jar",
     ],
     deps = [
-        "@annex_test//:org_scalacheck_scalacheck_2_13",
+        "//3rdparty/jvm/org/scalacheck:scalacheck",
         "@junit//jar",
     ],
 )

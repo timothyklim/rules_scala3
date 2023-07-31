@@ -21,10 +21,10 @@ scala_library(
     name = "events_scala",
     srcs = [":events_scala_proto"],
     deps_unused_whitelist = [
-        "@annex_test//:com_google_protobuf_protobuf_java",
+        "//3rdparty/jvm/com/google/protobuf:protobuf_java",
     ],
     scala = "@rules_scala3//scala:zinc_3_3_migration",
     deps = [
-        "@annex_test//:com_thesamet_scalapb_scalapb_runtime_3",
+        "//3rdparty/jvm/com/thesamet/scalapb:scalapb_runtime",
     ],
 )

@@ -63,13 +63,9 @@ annex_scalafmt_pinned_maven_install()
 
 scalafmt_default_config()
 
-load(":workspace.bzl", "test_dependencies")
+load("//3rdparty:workspace.bzl", "maven_dependencies")
 
-test_dependencies()
-
-load("@annex_test//:defs.bzl", annex_test_pinned_maven_install = "pinned_maven_install")
-
-annex_test_pinned_maven_install()
+maven_dependencies()
 
 jvm_maven_import_external(
     name = "junit",

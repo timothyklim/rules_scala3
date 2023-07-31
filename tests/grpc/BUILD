@@ -39,17 +39,17 @@ scala_library(
         ":grpc_scala_proto",
     ],
     deps_unused_whitelist = [
-        "@annex_test//:com_google_protobuf_protobuf_java",
+        "//3rdparty/jvm/com/google/protobuf:protobuf_java",
     ],
     deps_used_whitelist = [
         "@com_google_protobuf//java/core",
     ],
     scala = "@rules_scala3//scala:zinc_3_3_migration",
     deps = [
-        "@annex_test//:com_thesamet_scalapb_scalapb_runtime_3",
-        "@annex_test//:com_thesamet_scalapb_scalapb_runtime_grpc_3",
-        "@annex_test//:io_grpc_grpc_api",
-        "@annex_test//:io_grpc_grpc_stub",
+        "//3rdparty/jvm/com/thesamet/scalapb:scalapb_runtime",
+        "//3rdparty/jvm/com/thesamet/scalapb:scalapb_runtime_grpc",
+        "//3rdparty/jvm/io/grpc:grpc_api",
+        "//3rdparty/jvm/io/grpc:grpc_stub",
         "@com_google_protobuf//java/core",
     ],
 )
@@ -61,7 +61,7 @@ scala_library(
         ":grpc_scala_proto_web",
     ],
     deps_unused_whitelist = [
-        "@annex_test//:com_google_protobuf_protobuf_java",
+        "//3rdparty/jvm/com/google/protobuf:protobuf_java",
     ],
     deps_used_whitelist = [
         "@com_google_protobuf//java/core",
@@ -71,11 +71,11 @@ scala_library(
         "-scalajs",
     ],
     deps = [
-        "@annex_test//:com_thesamet_scalapb_grpcweb_scalapb_grpcweb_sjs1_3",
-        "@annex_test//:com_thesamet_scalapb_scalapb_runtime_3",
-        "@annex_test//:com_thesamet_scalapb_scalapb_runtime_grpc_3",
-        "@annex_test//:io_grpc_grpc_api",
-        "@annex_test//:io_grpc_grpc_stub",
+        "//3rdparty/jvm/com/thesamet/scalapb:protobuf_runtime_scala_sjs1",
+        "//3rdparty/jvm/com/thesamet/scalapb:scalapb_runtime",
+        "//3rdparty/jvm/com/thesamet/scalapb:scalapb_runtime_grpc",
+        "//3rdparty/jvm/io/grpc:grpc_api",
+        "//3rdparty/jvm/io/grpc:grpc_stub",
         "@com_google_protobuf//java/core",
     ],
 )
