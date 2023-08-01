@@ -335,7 +335,6 @@ def make_scala_test(*extras):
                         "munit.Framework",
                         "org.scalacheck.ScalaCheckFramework",
                         "org.scalatest.tools.Framework",
-                        "org.specs2.runner.Specs2Framework",
                         "utest.runner.Framework",
                     ],
                 ),

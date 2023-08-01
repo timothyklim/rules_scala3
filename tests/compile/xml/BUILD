@@ -8,5 +8,5 @@ scala_binary(
 scala_binary(
     name = "good",
     srcs = ["Main.scala"],
-    deps = ["@annex_test//:org_scala_lang_modules_scala_xml_2_13"],
+    deps = ["//3rdparty/jvm/org/scala_lang/modules:scala_xml"],
 )

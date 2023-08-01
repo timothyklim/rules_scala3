@@ -5,8 +5,8 @@ scala_test(
     srcs = ["MunitSpec.scala"],
     jvm_flags = ["-Dfile.encoding=UTF-8"],
     deps = [
-        "@annex_test//:org_scalacheck_scalacheck_3",
-        "@annex_test//:org_scalameta_munit_3",
-        "@annex_test//:org_scalameta_munit_scalacheck_3",
+        "//3rdparty/jvm/org/scalacheck:scalacheck",
+        "//3rdparty/jvm/org/scalameta:munit",
+        "//3rdparty/jvm/org/scalameta:munit_scalacheck",
     ],
 )

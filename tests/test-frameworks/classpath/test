@@ -1,7 +1,0 @@
-#!/usr/bin/env -S bash -e
-. "$(dirname "$0")"/../../common.sh
-
-bazel test :context
-
-! bazel test :bad || false
-bazel test :good

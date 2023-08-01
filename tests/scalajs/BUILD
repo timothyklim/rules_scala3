@@ -7,7 +7,7 @@ scala_library(
         "-scalajs",
     ],
     deps = [
-        "@annex_test//:org_scala_js_scalajs_dom_sjs1_3",
+        "//3rdparty/jvm/org/scala_js:scalajs_dom_sjs1",
         # "@scalajs_library_2_13",
     ],
 )

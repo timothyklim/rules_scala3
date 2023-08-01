@@ -23,9 +23,7 @@ object TestHelper:
   def withRunner[A](framework: Framework, scopeAndTestName: String, classLoader: ClassLoader, arguments: Seq[String])(
       f: Runner => A
   ) =
-    val options =
-      if framework.name == "specs2" then Array("-ex", scopeAndTestName.replaceAll(".*::", ""))
-      else Array.empty[String]
+    val options = Array.empty[String]
     val runner = framework.runner(arguments.toArray, options, classLoader)
     try f(runner)
     finally runner.done()
