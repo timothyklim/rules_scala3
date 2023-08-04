@@ -3,23 +3,30 @@ package rules_scala3.deps
 import lmcoursier.{CoursierConfiguration, CoursierDependencyResolution}
 import sbt.internal.util.ConsoleLogger
 import sbt.librarymanagement.syntax.*
-import sbt.librarymanagement.{ModuleDescriptorConfiguration, ModuleID, ModuleInfo, UnresolvedWarningConfiguration, UpdateConfiguration}
+import sbt.librarymanagement.{Configurations, ScalaModuleInfo, UnresolvedWarningConfiguration, UpdateConfiguration}
+import sbt.internal.librarymanagement.cross.CrossVersionUtil
 import scala.collection.mutable.HashMap
 
 object Resolve:
   def apply()(using vars: Vars)(using cfg: DepsCfg): Vector[Target] =
     val csConfig = CoursierConfiguration()
-      .withScalaVersion(Some(vars.scalaVersion))
       .withClasspathOrder(false) // it just gets in the way and creates duplicates.
       .withResolvers(cfg.getResolvers)
 
-    val moduleConfig = ModuleDescriptorConfiguration("com.example" % "foo" % "0.1.0", ModuleInfo("foo"))
-      .withDependencies(cfg.getDependencies)
+    val scalaModuleInfo = ScalaModuleInfo(
+      scalaFullVersion = vars.scalaVersion,
+      scalaBinaryVersion = CrossVersionUtil.binaryScalaVersion(vars.scalaVersion),
+      configurations = Configurations.default,
+      // https://github.com/sbt/librarymanagement/blob/develop/ivy/src/main/scala/sbt/internal/librarymanagement/IvyScalaUtil.scala
+      checkExplicit = true,
+      filterImplicit = true,
+      overrideScalaVersion = true
+    )
 
     val lmEngine = CoursierDependencyResolution(csConfig)
 
     val resolution = lmEngine.update(
-      module = lmEngine.moduleDescriptor(moduleConfig),
+      module = lmEngine.moduleDescriptor("com.example" % "foo" % "0.1.0", cfg.getDependencies, Some(scalaModuleInfo)),
       configuration = UpdateConfiguration(),
       uwconfig = UnresolvedWarningConfiguration(),
       log = ConsoleLogger()
