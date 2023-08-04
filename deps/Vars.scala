@@ -9,8 +9,7 @@ case class Vars(
     destination: String = "3rdparty",
     bazelExtName: String = "workspace.bzl",
     targetsDirName: String = "jvm",
-    targetsFileName: String = "BUILD",
-    targetsHeader: String = """load("@rules_scala3//rules:scala.bzl", "scala_import")""" // TODO rewrite to file
+    targetsFileName: String = "BUILD"
 ):
   def depsFile: File = new File(projectRoot, destination)
   def bazelExtFile: File = new File(depsFile, bazelExtName)
@@ -51,10 +50,7 @@ object Vars:
     opt[String]("targets-file-name")
       .action((value, vars) => vars.copy(targetsFileName = value))
       .text("""The name of the file that contains the dependency targets.
-              |Default: BUILD""".stripMargin),
-    opt[String]("targets-header")
-      .action((value, vars) => vars.copy(targetsHeader = value))
-      .text("Header of BUILD files")
+              |Default: BUILD""".stripMargin)
   )
 
   def apply(args: Seq[String]): Option[Vars] = OParser.parse(parser, args, Vars())
