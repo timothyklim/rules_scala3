@@ -4,12 +4,11 @@ import java.io.File
 import java.nio.file.{Files, Path, StandardOpenOption}
 import java.util.Comparator
 
-import sbt.librarymanagement.{DependencyBuilders, ModuleID}, DependencyBuilders.OrganizationArtifactName
 import sbt.librarymanagement.syntax.*
 
 object MakeTree:
-  def apply(dependencies: Vector[ModuleID], replacements: Map[OrganizationArtifactName, String])(using vars: Vars): Unit =
-    val targets = Resolve(dependencies, replacements.map((k, v) => (k % "0.1.0").toUvCoordinates.withCleanName -> v))
+  def apply()(using vars: Vars)(using cfg: DepsCfg): Unit =
+    val targets = Resolve()
     val bazelExtContent = BazelExt(targets)
     recreate(vars.targetsTreeFile.toPath())
     writeTree(targets, bazelExtContent)
