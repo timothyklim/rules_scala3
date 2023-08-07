@@ -5,6 +5,6 @@ java_import(
         "//external:jar/org/hamcrest/hamcrest_core"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//visibility:public"
     ]
 )
