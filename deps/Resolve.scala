@@ -7,13 +7,14 @@ import sbt.librarymanagement.{ModuleDescriptorConfiguration, ModuleID, ModuleInf
 import scala.collection.mutable.HashMap
 
 object Resolve:
-  def apply(dependencies: Vector[ModuleID], replacements: Map[Coordinates, String])(using vars: Vars): Vector[Target] =
+  def apply()(using vars: Vars)(using cfg: DepsCfg): Vector[Target] =
     val csConfig = CoursierConfiguration()
       .withScalaVersion(Some(vars.scalaVersion))
       .withClasspathOrder(false) // it just gets in the way and creates duplicates.
+      .withResolvers(cfg.getResolvers)
 
     val moduleConfig = ModuleDescriptorConfiguration("com.example" % "foo" % "0.1.0", ModuleInfo("foo"))
-      .withDependencies(dependencies)
+      .withDependencies(cfg.getDependencies)
 
     val lmEngine = CoursierDependencyResolution(csConfig)
 
@@ -29,9 +30,9 @@ object Resolve:
       case Right(resolution) =>
         val modules = resolution.configurations.head.modules
           // filter out dependencies of replacement
-          .map(_.filterCallers(replacements))
+          .map(_.filterCallers(cfg.getReplacements))
           .filterNot { moduleReport =>
-            moduleReport.callers.isEmpty && !dependencies
+            moduleReport.callers.isEmpty && !cfg.getDependencies
               .map(_.toUvCoordinates.withCleanName)
               .contains(moduleReport.module.toUvCoordinates.withCleanName)
           }
@@ -55,8 +56,8 @@ object Resolve:
           .map { moduleReport =>
             Target(
               moduleReport = moduleReport,
-              replacement_label = replacements.get(moduleReport.module.toUvCoordinates.withCleanName),
-              isDirect = dependencies.map(_.cleanName).contains(moduleReport.module.cleanName),
+              replacement_label = cfg.getReplacements.get(moduleReport.module.toUvCoordinates.withCleanName),
+              isDirect = cfg.getDependencies.map(_.cleanName).contains(moduleReport.module.cleanName),
               module_deps = modules_deps.toMap.getOrElse(moduleReport.module.toCoordinates, Vector.empty).sortBy(_.toString)
             )
           }
