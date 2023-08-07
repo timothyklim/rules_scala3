@@ -7,7 +7,7 @@ import java.util.Comparator
 import sbt.librarymanagement.syntax.*
 
 object MakeTree:
-  def apply()(using vars: Vars)(using cfg: DepsCfg): Unit =
+  def apply()(using vars: Vars, cfg: DepsCfg): Unit =
     val targets = Resolve()
     val bazelExtContent = BazelExt(targets)
     recreate(vars.targetsTreeFile.toPath())
@@ -31,7 +31,7 @@ object MakeTree:
   private def writeTree(
       targets: Vector[Target],
       bazelExtContent: String
-  )(using vars: Vars)(using cfg: DepsCfg): Unit =
+  )(using vars: Vars, cfg: DepsCfg): Unit =
     // create bazel extension file
     writeToFile(vars.bazelExtFile, bazelExtContent)
 
