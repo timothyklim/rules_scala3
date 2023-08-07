@@ -31,7 +31,7 @@ object MakeTree:
   private def writeTree(
       targets: Vector[Target],
       bazelExtContent: String
-  )(using vars: Vars): Unit =
+  )(using vars: Vars)(using cfg: DepsCfg): Unit =
     // create bazel extension file
     writeToFile(vars.bazelExtFile, bazelExtContent)
 
@@ -44,6 +44,6 @@ object MakeTree:
       .groupBy(_.coordinates.groupId)
       .foreach { (group, targets) =>
         val file = new File(vars.targetsTreeFile, group.toPath + File.separator + vars.targetsFileName)
-        val content = vars.targetsHeader + targets.map(_.toBzl()).mkString
+        val content = cfg.targetsHeader + targets.map(_.toBzl()).mkString
         writeToFile(file, content)
       }

@@ -6,7 +6,8 @@ import sbt.librarymanagement.syntax.*
 case class DepsCfg private (
     resolvers: Vector[Resolver],
     replacements: Map[OrganizationArtifactName, String],
-    dependencies: Vector[ModuleID]
+    dependencies: Vector[ModuleID],
+    targetsHeader: String
 ):
   def getResolvers = resolvers
   def getReplacements: Map[Coordinates, String] = replacements.map((k, v) => (k % "0.1.0").toUvCoordinates.withCleanName -> v)
@@ -16,5 +17,6 @@ object DepsCfg:
   def apply(
       resolvers: Vector[Resolver] = Resolver.defaults,
       replacements: Map[OrganizationArtifactName, String] = Map.empty,
-      dependencies: Vector[ModuleID] = Vector.empty
-  ): DepsCfg = new DepsCfg(resolvers, replacements, dependencies)
+      dependencies: Vector[ModuleID] = Vector.empty,
+      targetsHeader: String = """load("@rules_scala3//rules:scala.bzl", "scala_import")"""
+  ): DepsCfg = new DepsCfg(resolvers, replacements, dependencies, targetsHeader)
