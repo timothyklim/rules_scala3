@@ -8,7 +8,7 @@ import sbt.internal.librarymanagement.cross.CrossVersionUtil
 import scala.collection.mutable.HashMap
 
 object Resolve:
-  def apply()(using vars: Vars)(using cfg: DepsCfg): Vector[Target] =
+  def apply()(using vars: Vars, cfg: DepsCfg): Vector[Target] =
     val csConfig = CoursierConfiguration()
       .withClasspathOrder(false) // it just gets in the way and creates duplicates.
       .withResolvers(cfg.getResolvers)
