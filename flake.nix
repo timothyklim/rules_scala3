@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "nixpkgs/release-23.05";
     flake-utils.url = "github:numtide/flake-utils";
-    bazel.url = "github:timothyklim/bazel-flake/jdk21";
+    bazel.url = "github:timothyklim/bazel-flake";
     java.url = "github:timothyklim/jdk-flake";
   };
 
