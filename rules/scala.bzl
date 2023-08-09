@@ -55,20 +55,14 @@ load(
 
 _compile_private_attributes = {
     "_java_toolchain": attr.label(
-        default = Label("@bazel_tools//tools/jdk:current_java_toolchain"),
-    ),
-    "_host_javabase": attr.label(
-        default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
-        cfg = "exec",
+        default = "@bazel_tools//tools/jdk:current_java_toolchain",
+        providers = [java_common.JavaToolchainInfo],
     ),
     "_singlejar": attr.label(
         cfg = "exec",
         default = "@remote_java_tools//:singlejar_cc_bin",
         executable = True,
     ),
-
-    # TODO: push java and jar_creator into a provider for the
-    # bootstrap compile phase
     "_jdk": attr.label(
         default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
         providers = [java_common.JavaRuntimeInfo],
@@ -259,7 +253,7 @@ def make_scala_library(*extras):
             *[extra["outputs"] for extra in extras]
         ),
         implementation = _scala_library_implementation,
-        toolchains = ['@bazel_tools//tools/jdk:toolchain_type']
+        toolchains = ["@bazel_tools//tools/jdk:toolchain_type"],
     )
 
 scala_library = make_scala_library()
@@ -301,6 +295,7 @@ To run the program: `bazel run <target>`
             *[extra["outputs"] for extra in extras]
         ),
         implementation = _scala_binary_implementation,
+        toolchains = ["@bazel_tools//tools/jdk:toolchain_type"],
     )
 
 scala_binary = make_scala_binary()
@@ -366,6 +361,7 @@ To build and run a specific test: `bazel test <target> --test_filter=<filter_exp
         ),
         test = True,
         implementation = _scala_test_implementation,
+        toolchains = ["@bazel_tools//tools/jdk:toolchain_type"],
     )
 
 scala_test = make_scala_test()
@@ -444,7 +440,6 @@ Creates a Scala JVM library.
 Use this only for libraries with macros. Otherwise, use `java_import`.
 """,
     implementation = _scala_import_implementation,
-    toolchains = ['@bazel_tools//tools/jdk:toolchain_type']
 )
 
 scaladoc = rule(

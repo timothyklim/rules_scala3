@@ -20,6 +20,7 @@ maven_install(
         "org.scala-sbt:librarymanagement-core_3:2.0.0-alpha12",
         "org.scala-sbt:librarymanagement-coursier_3:2.0.0-alpha6",
     ],
+    maven_install_json = "//:deps_install.json",
     repositories = [
         "https://repo1.maven.org/maven2",
         "https://repo.maven.apache.org/maven2",
@@ -27,10 +28,10 @@ maven_install(
         "https://mirror.bazel.build/repo1.maven.org/maven2",
         "https://scala-ci.typesafe.com/artifactory/scala-integration/",
     ],
-    maven_install_json = "//:deps_install.json",
 )
 
 load("@deps//:defs.bzl", "pinned_maven_install")
+
 pinned_maven_install()
 
 # ---

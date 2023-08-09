@@ -1,16 +1,7 @@
-load(
-    "@bazel_tools//tools/jdk:toolchain_utils.bzl",
-    "find_java_runtime_toolchain",
-    "find_java_toolchain",
-)
-
 scala_import_private_attributes = {
     "_java_toolchain": attr.label(
-        default = Label("@bazel_tools//tools/jdk:current_java_toolchain"),
-    ),
-    "_host_javabase": attr.label(
-        default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
-        cfg = "exec",
+        default = "@bazel_tools//tools/jdk:current_java_toolchain",
+        providers = [java_common.JavaToolchainInfo],
     ),
 }
 
@@ -53,7 +44,7 @@ def scala_import_implementation(ctx):
             ctx.actions,
             output_source_jar = ctx.actions.declare_file("%s-src.jar" % ctx.attr.name),
             source_jars = _src_jar,
-            java_toolchain = find_java_toolchain(ctx, ctx.attr._java_toolchain),
+            java_toolchain = ctx.attr._java_toolchain[java_common.JavaToolchainInfo],
         )
 
         output_jar = _jar[0]
