@@ -259,6 +259,7 @@ def make_scala_library(*extras):
             *[extra["outputs"] for extra in extras]
         ),
         implementation = _scala_library_implementation,
+        toolchains = ['@bazel_tools//tools/jdk:toolchain_type']
     )
 
 scala_library = make_scala_library()
