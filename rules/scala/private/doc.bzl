@@ -31,11 +31,11 @@ def scaladoc_implementation(ctx):
     html = ctx.actions.declare_directory("html")
     tmp = ctx.actions.declare_directory("tmp")
 
-    classpath = depset(transitive = [dep[JavaInfo].transitive_deps for dep in ctx.attr.deps])
+    classpath = depset(transitive = [dep[JavaInfo].transitive_compile_time_jars for dep in ctx.attr.deps])
     compiler_classpath = depset(
         transitive =
-            [scompiler_classpath.transitive_runtime_deps] +
-            [dep[JavaInfo].transitive_runtime_deps for dep in ctx.attr.compiler_deps],
+            [scompiler_classpath.transitive_runtime_jars] +
+            [dep[JavaInfo].transitive_runtime_jars for dep in ctx.attr.compiler_deps],
     )
 
     srcs = [file for file in ctx.files.srcs if file.extension.lower() in ["java", "scala"]]

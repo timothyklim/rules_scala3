@@ -6,7 +6,7 @@ def _jmh_benchmark(ctx):
     tmp = ctx.actions.declare_directory("{}/tmp".format(_safe_name(ctx.label.name)))
 
     info = ctx.attr.src[JavaInfo]
-    cp = [info.outputs.jars[0].class_jar] + info.transitive_runtime_deps.to_list()
+    cp = [info.outputs.jars[0].class_jar] + info.transitive_runtime_jars.to_list()
 
     args = ctx.actions.args()
     args.add_all([j.path for j in cp], format_each = "--cp=%s")

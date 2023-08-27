@@ -14,8 +14,8 @@ def scala_repl_implementation(ctx):
         _collect(JavaInfo, scala_configuration.compiler_classpath),
     )
 
-    classpath = depset(transitive = [dep[JavaInfo].transitive_runtime_deps for dep in ctx.attr.deps])
-    runner_classpath = ctx.attr._runner[JavaInfo].transitive_runtime_deps
+    classpath = depset(transitive = [dep[JavaInfo].transitive_runtime_jars for dep in ctx.attr.deps])
+    runner_classpath = ctx.attr._runner[JavaInfo].transitive_runtime_jars
 
     args = ctx.actions.args()
     args.add("--compiler_bridge", zinc_configuration.compiler_bridge.short_path)
@@ -45,7 +45,7 @@ def scala_repl_implementation(ctx):
 
     files = depset(
         [args_file, zinc_configuration.compiler_bridge] + launcher_files,
-        transitive = [classpath, runner_classpath, scompiler_classpath.transitive_runtime_deps],
+        transitive = [classpath, runner_classpath, scompiler_classpath.transitive_runtime_jars],
     )
     return [
         DefaultInfo(

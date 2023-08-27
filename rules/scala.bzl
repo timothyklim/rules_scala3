@@ -440,6 +440,7 @@ Creates a Scala JVM library.
 Use this only for libraries with macros. Otherwise, use `java_import`.
 """,
     implementation = _scala_import_implementation,
+    toolchains = ["@bazel_tools//tools/jdk:toolchain_type"],
 )
 
 scaladoc = rule(

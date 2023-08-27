@@ -31,7 +31,7 @@ def phase_test_launcher(ctx, g):
         coverage_replacements[jar] if jar in coverage_replacements else jar
         for jar in g.javainfo.java_info.transitive_runtime_jars.to_list()
     ])
-    runner_jars = depset(transitive = [ctx.attr.runner[JavaInfo].transitive_runtime_deps, coverage_runner_jars])
+    runner_jars = depset(transitive = [ctx.attr.runner[JavaInfo].transitive_runtime_jars, coverage_runner_jars])
     all_jars = [test_jars, runner_jars]
 
     args = ctx.actions.args()
@@ -40,10 +40,10 @@ def phase_test_launcher(ctx, g):
     if ctx.attr.isolation == "classloader":
         shared_deps = java_common.merge(_collect(JavaInfo, ctx.attr.shared_deps))
         args.add("--isolation", "classloader")
-        args.add_all("--shared_classpath", shared_deps.transitive_runtime_deps, map_each = _test_launcher_short_path)
+        args.add_all("--shared_classpath", shared_deps.transitive_runtime_jars, map_each = _test_launcher_short_path)
     elif ctx.attr.isolation == "process":
         subprocess_executable = ctx.actions.declare_file("{}/subprocess".format(ctx.label.name))
-        subprocess_runner_jars = ctx.attr.subprocess_runner[JavaInfo].transitive_runtime_deps
+        subprocess_runner_jars = ctx.attr.subprocess_runner[JavaInfo].transitive_runtime_jars
         all_jars.append(subprocess_runner_jars)
         files += _write_launcher(
             ctx,
