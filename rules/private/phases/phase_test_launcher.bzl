@@ -29,7 +29,7 @@ def phase_test_launcher(ctx, g):
 
     test_jars = depset(direct = [
         coverage_replacements[jar] if jar in coverage_replacements else jar
-        for jar in g.javainfo.java_info.transitive_runtime_deps.to_list()
+        for jar in g.javainfo.java_info.transitive_runtime_jars.to_list()
     ])
     runner_jars = depset(transitive = [ctx.attr.runner[JavaInfo].transitive_runtime_deps, coverage_runner_jars])
     all_jars = [test_jars, runner_jars]

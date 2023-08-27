@@ -28,7 +28,7 @@ def phase_binary_launcher(ctx, g):
         ctx,
         "{}/".format(ctx.label.name),
         ctx.outputs.bin,
-        g.javainfo.java_info.transitive_runtime_deps,
+        g.javainfo.java_info.transitive_runtime_jars,
         jvm_flags = [ctx.expand_location(f, ctx.attr.data) for f in jvm_flags],
         main_class = main_class,
     )
@@ -40,7 +40,7 @@ def phase_binary_launcher(ctx, g):
             files = inputs + files,
             transitive_files = depset(
                 order = "default",
-                transitive = [ctx.attr._target_jdk[java_common.JavaRuntimeInfo].files, g.javainfo.java_info.transitive_runtime_deps],
+                transitive = [ctx.attr._target_jdk[java_common.JavaRuntimeInfo].files, g.javainfo.java_info.transitive_runtime_jars],
             ),
             collect_default = True,
         ),

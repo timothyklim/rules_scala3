@@ -25,34 +25,36 @@ def phase_javainfo(ctx, g):
             (_ScalaConfiguration in scala and scala[_ScalaConfiguration].version.startswith("3.")) or \
             (g.init.scala_configuration.version.startswith("3."))
 
-    if len(ctx.attr.srcs) == 0 and len(ctx.attr.resources) == 0:
-        java_info = java_common.merge([g.classpaths.sdeps, sexports])
-    else:
-        compile_jar = ctx.outputs.jar
-        if not macro:
-            compile_jar = java_common.run_ijar(
-                ctx.actions,
-                jar = ctx.outputs.jar,
-                target_label = ctx.label,
-                java_toolchain = ctx.attr._java_toolchain[java_common.JavaToolchainInfo],
-            )
-
-        source_jar = java_common.pack_sources(
+    compile_jar = ctx.outputs.jar
+    if not macro:
+        compile_jar = java_common.run_ijar(
             ctx.actions,
-            output_source_jar = ctx.outputs.src_jar,
-            sources = ctx.files.srcs,
+            jar = ctx.outputs.jar,
+            target_label = ctx.label,
             java_toolchain = ctx.attr._java_toolchain[java_common.JavaToolchainInfo],
         )
 
-        java_info = JavaInfo(
-            compile_jar = compile_jar,
-            neverlink = getattr(ctx.attr, "neverlink", False),
-            output_jar = ctx.outputs.jar,
-            source_jar = source_jar,
-            exports = [sexports],
-            runtime_deps = [sruntime_deps] + scala_configuration_runtime_deps,
-            deps = [g.classpaths.sdeps],
-        )
+    if len(ctx.attr.srcs) == 0 and len(ctx.attr.resources) == 0:
+        sources = []
+    else:
+        sources = ctx.files.srcs
+
+    source_jar = java_common.pack_sources(
+        ctx.actions,
+        output_source_jar = ctx.outputs.src_jar,
+        sources = sources,
+        java_toolchain = ctx.attr._java_toolchain[java_common.JavaToolchainInfo],
+    )
+
+    java_info = JavaInfo(
+        compile_jar = compile_jar,
+        neverlink = getattr(ctx.attr, "neverlink", False),
+        output_jar = ctx.outputs.jar,
+        source_jar = source_jar,
+        exports = [sexports],
+        runtime_deps = [sruntime_deps] + scala_configuration_runtime_deps,
+        deps = [g.classpaths.sdeps],
+    )
 
     scala_info = _ScalaInfo(
         macro = macro,
