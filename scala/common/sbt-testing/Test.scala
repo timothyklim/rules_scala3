@@ -5,7 +5,7 @@ import sbt.testing.{Event, Fingerprint, Framework, Logger, Runner, Status, Task,
 import scala.collection.mutable
 import scala.util.control.NonFatal
 
-final class TestDefinition(val name: String, val fingerprint: Fingerprint & Serializable) extends Serializable
+final case class TestDefinition(name: String, fingerprint: Fingerprint)
 
 final class TestFrameworkLoader(loader: ClassLoader, logger: Logger):
   def load(className: String) =

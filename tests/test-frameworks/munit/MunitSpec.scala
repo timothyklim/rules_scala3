@@ -8,3 +8,8 @@ final class MunitSpec extends FunSuite with ScalaCheckSuite:
       assertEquals(num, num)
     }
   }
+
+final class Munit2Spec extends FunSuite:
+  test("assertEquals") {
+    assertEquals(true, true)
+  }

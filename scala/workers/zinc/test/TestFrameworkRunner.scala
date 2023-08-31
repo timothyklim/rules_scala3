@@ -1,38 +1,37 @@
 package rules_scala
 package workers.zinc.test
 
-import common.sbt_testing.*
-
 import java.io.ObjectOutputStream
 import java.nio.file.Path
-import sbt.testing.{Event, Framework, Logger}
-import scala.collection.mutable
 
-final class BasicTestRunner(framework: Framework, classLoader: ClassLoader, logger: Logger) extends TestFrameworkRunner:
+import scala.collection.mutable
+import scala.concurrent.{Future, Await, ExecutionContext}
+import scala.concurrent.duration.Duration
+import scala.concurrent.ExecutionContext.Implicits.global
+
+import sbt.testing.{Event, Framework, Logger, Task}
+
+import common.sbt_testing.*
+
+final case class FinishedTask(name: String, events: collection.Seq[Event], failures: collection.Set[String])
+
+final class BasicTestRunner(framework: Framework, classLoader: ClassLoader, parallel: Boolean, logger: Logger) extends TestFrameworkRunner:
   def execute(tests: Seq[TestDefinition], scopeAndTestName: String, arguments: Seq[String]) =
-    var tasksAndEvents = mutable.ListBuffer[(String, mutable.ListBuffer[Event])]()
     ClassLoaders.withContextClassLoader(classLoader) {
       TestHelper.withRunner(framework, scopeAndTestName, classLoader, arguments) { runner =>
-        val reporter = TestReporter(logger)
+        given reporter: TestReporter = TestReporter(logger)
         val tasks = runner.tasks(tests.map(TestHelper.taskDef(_, scopeAndTestName)).toArray)
         reporter.pre(framework, tasks)
-        val taskExecutor = TestTaskExecutor(logger)
-        val failures = mutable.Set[String]()
-        for task <- tasks do
-          reporter.preTask(task)
-          val events = taskExecutor.execute(task, failures)
-          reporter.postTask()
-          tasksAndEvents += ((task.taskDef.fullyQualifiedName, events))
-        reporter.post(failures.toSeq)
-        JUnitXmlReporter(tasksAndEvents).write
-        !failures.nonEmpty
+        given taskExecutor: TestTaskExecutor = TestTaskExecutor(logger)
+
+        val (tasksAndEvents, failures) = TestFrameworkRunner.run(tasks, parallel = parallel)
+        TestFrameworkRunner.report(tasksAndEvents, failures)
       }
     }
 
-final class ClassLoaderTestRunner(framework: Framework, classLoaderProvider: () => ClassLoader, logger: Logger) extends TestFrameworkRunner:
+final class ClassLoaderTestRunner(framework: Framework, classLoaderProvider: () => ClassLoader, parallel: Boolean, logger: Logger) extends TestFrameworkRunner:
   def execute(tests: Seq[TestDefinition], scopeAndTestName: String, arguments: Seq[String]) =
-    var tasksAndEvents = mutable.ListBuffer[(String, mutable.ListBuffer[Event])]()
-    val reporter = TestReporter(logger)
+    given reporter: TestReporter = TestReporter(logger)
 
     val classLoader = framework.getClass.getClassLoader
     ClassLoaders.withContextClassLoader(classLoader) {
@@ -42,36 +41,31 @@ final class ClassLoaderTestRunner(framework: Framework, classLoaderProvider: () 
       }
     }
 
-    val taskExecutor = TestTaskExecutor(logger)
-    val failures = mutable.Set[String]()
-    tests.foreach { test =>
+    given taskExecutor: TestTaskExecutor = TestTaskExecutor(logger)
+    val totalTasksAndEvents = mutable.ListBuffer[(String, collection.Seq[Event])]()
+    val totalFailures = mutable.Set[String]()
+
+    for test <- tests do
       val classLoader = classLoaderProvider()
       val isolatedFramework = TestFrameworkLoader(classLoader, logger).load(framework.getClass.getName).get
       TestHelper.withRunner(isolatedFramework, scopeAndTestName, classLoader, arguments) { runner =>
         ClassLoaders.withContextClassLoader(classLoader) {
           val tasks = runner.tasks(Array(TestHelper.taskDef(test, scopeAndTestName)))
-          for task <- tasks do
-            reporter.preTask(task)
-            val events = taskExecutor.execute(task, failures)
-            reporter.postTask()
-            tasksAndEvents += ((task.taskDef.fullyQualifiedName, events))
+          val (tasksAndEvents, failures) = TestFrameworkRunner.run(tasks, parallel = parallel)
+          totalTasksAndEvents ++= tasksAndEvents
+          totalFailures ++= failures
         }
       }
-    }
-    reporter.post(failures)
-    JUnitXmlReporter(tasksAndEvents).write
-    !failures.nonEmpty
 
-final class ProcessCommand(
-    val executable: String,
-    val arguments: Seq[String]
-) extends Serializable
+    TestFrameworkRunner.report(totalTasksAndEvents, totalFailures)
+
+final case class ProcessCommand(executable: String, arguments: Seq[String])
 
 final class ProcessTestRunner(
     framework: Framework,
     classpath: Seq[Path],
     command: ProcessCommand,
-    logger: Logger & Serializable
+    logger: Logger
 ) extends TestFrameworkRunner:
   def execute(tests: Seq[TestDefinition], scopeAndTestName: String, arguments: Seq[String]) =
     val reporter = TestReporter(logger)
@@ -112,3 +106,30 @@ final class ProcessTestRunner(
 
 sealed trait TestFrameworkRunner:
   def execute(tests: Seq[TestDefinition], scopeAndTestName: String, arguments: Seq[String]): Boolean
+
+object TestFrameworkRunner:
+  def run(tasks: collection.Seq[Task], parallel: Boolean)(using taskExecutor: TestTaskExecutor, reporter: TestReporter): (mutable.ListBuffer[(String, collection.Seq[Event])], collection.Set[String]) =
+    val finishedTasks =
+      if parallel then Await.result(Future.sequence(tasks.map(t => Future(runTask(t)))), Duration.Inf)
+      else tasks.map(runTask(_))
+
+    val failures = mutable.Set.empty[String]
+    var tasksAndEvents = mutable.ListBuffer[(String, collection.Seq[Event])]()
+    for task <- finishedTasks do
+      failures ++= task.failures
+      tasksAndEvents += ((task.name, task.events))
+
+    (tasksAndEvents, failures)
+  end run
+
+  def report(tasksAndEvents: mutable.ListBuffer[(String, collection.Seq[Event])], failures: collection.Set[String])(using reporter: TestReporter): Boolean =
+    reporter.post(failures)
+    JUnitXmlReporter(tasksAndEvents).write
+    !failures.nonEmpty
+
+  private def runTask(task: Task)(using taskExecutor: TestTaskExecutor, reporter: TestReporter): FinishedTask =
+    reporter.preTask(task)
+    val failures = mutable.Set[String]()
+    val events = taskExecutor.execute(task, failures)
+    reporter.postTask()
+    FinishedTask(name = task.taskDef.fullyQualifiedName, events, failures)

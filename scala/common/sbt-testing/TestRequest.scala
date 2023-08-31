@@ -3,11 +3,11 @@ package common.sbt_testing
 
 import sbt.testing.Logger
 
-final class TestRequest(
+final case class TestRequest(
     val framework: String,
     val test: TestDefinition,
     val scopeAndTestName: String,
     val classpath: Seq[String],
-    val logger: Logger & Serializable,
+    val logger: Logger,
     val testArgs: Seq[String]
-) extends Serializable
+)

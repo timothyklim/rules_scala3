@@ -35,6 +35,7 @@ def phase_test_launcher(ctx, g):
     all_jars = [test_jars, runner_jars]
 
     args = ctx.actions.args()
+    args.add("--parallel", ctx.attr.parallel)
     args.add("--apis", g.compile.zinc_info.apis.short_path)
     args.add_all(ctx.attr.frameworks, format_each = "--framework=%s")
     if ctx.attr.isolation == "classloader":

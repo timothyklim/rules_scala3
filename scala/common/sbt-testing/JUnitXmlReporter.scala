@@ -2,12 +2,13 @@ package rules_scala
 package common.sbt_testing
 
 import java.io.{PrintWriter, StringWriter}
-import sbt.testing.{Event, Status, TestSelector}
-import Status.{Canceled, Error, Failure, Ignored, Pending, Skipped}
-import scala.collection.mutable.ListBuffer
+
 import scala.xml.{Elem, Utility, XML}
 
-final class JUnitXmlReporter(tasksAndEvents: ListBuffer[(String, ListBuffer[Event])]):
+import sbt.testing.{Event, Status, TestSelector}
+import Status.{Canceled, Error, Failure, Ignored, Pending, Skipped}
+
+final class JUnitXmlReporter(tasksAndEvents: collection.Seq[(String, collection.Seq[Event])]):
   private def escape(info: String): String =
     info match
       case str: String => Utility.escape(str)

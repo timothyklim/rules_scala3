@@ -335,6 +335,7 @@ def make_scala_test(*extras):
                     ],
                 ),
                 "runner": attr.label(default = "@rules_scala3//scala/workers/zinc/test"),
+                "parallel": attr.bool(default = True),
                 "subprocess_runner": attr.label(default = "@rules_scala3//scala/common/sbt-testing:subprocess"),
             },
             _extras_attributes(extras),
