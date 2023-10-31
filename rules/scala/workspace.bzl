@@ -3,6 +3,13 @@ load("@bazel_tools//tools/build_defs/repo:jvm.bzl", "jvm_maven_import_external")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
+# compatibility
+load("//scala3:repositories.bzl", _scala_register_toolchains = "scala_register_toolchains")
+
+scala_register_toolchains = _scala_register_toolchains
+
+# ---
+
 _SRC_FILEGROUP_BUILD_FILE_CONTENT = """
 filegroup(
     name = "src",
@@ -97,7 +104,3 @@ def scala_repositories():
     ]
     for dep in rules_deps:
         maybe(http_archive, name = dep[0], strip_prefix = dep[1], url = dep[2], sha256 = dep[3] if len(dep) == 4 else "")
-
-def scala_register_toolchains():
-    # reserved for future use
-    return ()

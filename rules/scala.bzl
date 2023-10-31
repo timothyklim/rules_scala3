@@ -19,7 +19,6 @@ load(
 )
 load(
     "//rules/private:phases.bzl",
-    _adjust_phases = "adjust_phases",
     _phase_binary_deployjar = "phase_binary_deployjar",
     _phase_binary_launcher = "phase_binary_launcher",
     _phase_classpaths = "phase_classpaths",
@@ -253,7 +252,10 @@ def make_scala_library(*extras):
             *[extra["outputs"] for extra in extras]
         ),
         implementation = _scala_library_implementation,
-        toolchains = ["@bazel_tools//tools/jdk:toolchain_type"],
+        toolchains = [
+            "@rules_scala3//scala3:toolchain_type",
+            "@bazel_tools//tools/jdk:toolchain_type",
+        ],
     )
 
 scala_library = make_scala_library()
@@ -295,7 +297,10 @@ To run the program: `bazel run <target>`
             *[extra["outputs"] for extra in extras]
         ),
         implementation = _scala_binary_implementation,
-        toolchains = ["@bazel_tools//tools/jdk:toolchain_type"],
+        toolchains = [
+            "@rules_scala3//scala3:toolchain_type",
+            "@bazel_tools//tools/jdk:toolchain_type",
+        ],
     )
 
 scala_binary = make_scala_binary()
@@ -362,7 +367,10 @@ To build and run a specific test: `bazel test <target> --test_filter=<filter_exp
         ),
         test = True,
         implementation = _scala_test_implementation,
-        toolchains = ["@bazel_tools//tools/jdk:toolchain_type"],
+        toolchains = [
+            "@rules_scala3//scala3:toolchain_type",
+            "@bazel_tools//tools/jdk:toolchain_type",
+        ],
     )
 
 scala_test = make_scala_test()
@@ -441,7 +449,10 @@ Creates a Scala JVM library.
 Use this only for libraries with macros. Otherwise, use `java_import`.
 """,
     implementation = _scala_import_implementation,
-    toolchains = ["@bazel_tools//tools/jdk:toolchain_type"],
+    toolchains = [
+        "@rules_scala3//scala3:toolchain_type",
+        "@bazel_tools//tools/jdk:toolchain_type",
+    ],
 )
 
 scaladoc = rule(
