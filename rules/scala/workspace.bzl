@@ -4,7 +4,7 @@ load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 # compatibility
-load("//scala3:repositories.bzl", _scala_register_toolchains = "scala_register_toolchains")
+load("//scala3:repositories.bzl", _scala_register_toolchains = "scala3_register_toolchains")
 
 scala_register_toolchains = _scala_register_toolchains
 

@@ -1,5 +1,12 @@
 """This module implements the `scala_toolchain`."""
 
+attrs = {
+    "enable_semanticdb": attr.bool(
+        default = False,
+        doc = "Enable SemanticDB",
+    ),
+}
+
 def _scala_toolchain_impl(ctx):
     toolchain_info = platform_common.ToolchainInfo(
         enable_semanticdb = ctx.attr.enable_semanticdb,
@@ -9,12 +16,7 @@ def _scala_toolchain_impl(ctx):
 scala_toolchain = rule(
     implementation = _scala_toolchain_impl,
     fragments = ["java"],
-    attrs = {
-        "enable_semanticdb": attr.bool(
-            default = False,
-            doc = "Enable SemanticDB",
-        ),
-    },
+    attrs = attrs,
     doc = """Declares a Scala toolchain.
 
     Example:
