@@ -1,12 +1,12 @@
 load(
     "@rules_scala3//rules:providers.bzl",
-    _DepsConfiguration = "DepsConfiguration",
     _LabeledJars = "LabeledJars",
 )
 load(
     "@rules_scala3//rules/common:private/utils.bzl",
     _resolve_execution_reqs = "resolve_execution_reqs",
 )
+load("//rules/common:private/get_toolchain.bzl", "get_toolchain")
 
 #
 # PHASE: depscheck
@@ -16,14 +16,14 @@ load(
 #
 
 def phase_zinc_depscheck(ctx, g):
-    if _DepsConfiguration not in ctx.attr.scala:
-        return
+    toolchain = get_toolchain(ctx)
 
-    deps_configuration = ctx.attr.scala[_DepsConfiguration]
+    if not toolchain.is_zinc:
+        return
 
     deps_checks = {}
     labeled_jars = depset(transitive = [dep[_LabeledJars].values for dep in ctx.attr.deps])
-    worker_inputs, _, worker_input_manifests = ctx.resolve_command(tools = [deps_configuration.worker])
+    worker_inputs, _, worker_input_manifests = ctx.resolve_command(tools = [toolchain.deps_worker])
     for name in ("direct", "used"):
         deps_check = ctx.actions.declare_file("{}/depscheck_{}.success".format(ctx.label.name, name))
         deps_args = ctx.actions.args()
@@ -41,7 +41,7 @@ def phase_zinc_depscheck(ctx, g):
             mnemonic = "ScalaCheckDeps",
             inputs = [g.compile.used] + worker_inputs,
             outputs = [deps_check],
-            executable = deps_configuration.worker.files_to_run.executable,
+            executable = toolchain.deps_worker.files_to_run.executable,
             input_manifests = worker_input_manifests,
             execution_requirements = _resolve_execution_reqs(ctx, {"supports-workers": "1"}),
             arguments = [deps_args],
@@ -50,9 +50,9 @@ def phase_zinc_depscheck(ctx, g):
         deps_checks[name] = deps_check
 
     outputs = []
-    if deps_configuration.direct == "error":
+    if toolchain.deps_direct == "error":
         outputs.append(deps_checks["direct"])
-    if deps_configuration.used == "error":
+    if toolchain.deps_used == "error":
         outputs.append(deps_checks["used"])
 
     g.out.output_groups["depscheck"] = depset(outputs)
@@ -60,7 +60,6 @@ def phase_zinc_depscheck(ctx, g):
     return struct(
         checks = deps_checks,
         outputs = outputs,
-        toolchain = deps_configuration,
     )
 
 def _depscheck_labeled_group(labeled_jars):

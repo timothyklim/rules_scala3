@@ -1,10 +1,9 @@
+load("//scala3:defs.bzl", "worker_scala_library")
 load("//rules:scalafmt.bzl", "scala_format_test")
-load("//rules:scala.bzl", "scala_library")
 
-scala_library(
+worker_scala_library(
     name = "worker",
     srcs = glob(["**/*.scala"]),
-    scala = "//scala:bootstrap_3_3",
     visibility = ["//visibility:public"],
     deps = [
         "//scala/workers/common",

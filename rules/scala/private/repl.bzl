@@ -1,27 +1,21 @@
-load("@bazel_skylib//lib:dicts.bzl", _dicts = "dicts")
-load(
-    "@rules_scala3//rules:providers.bzl",
-    _ScalaConfiguration = "ScalaConfiguration",
-    _ZincConfiguration = "ZincConfiguration",
-)
 load("//rules/common:private/utils.bzl", "write_launcher", _collect = "collect")
+load("//rules/common:private/get_toolchain.bzl", "get_toolchain")
 
 def scala_repl_implementation(ctx):
-    scala_configuration = ctx.attr.scala[_ScalaConfiguration]
-    zinc_configuration = ctx.attr.scala[_ZincConfiguration]
+    toolchain = get_toolchain(ctx)
 
     scompiler_classpath = java_common.merge(
-        _collect(JavaInfo, scala_configuration.compiler_classpath),
+        _collect(JavaInfo, toolchain.compiler_classpath),
     )
 
     classpath = depset(transitive = [dep[JavaInfo].transitive_runtime_jars for dep in ctx.attr.deps])
     runner_classpath = ctx.attr._runner[JavaInfo].transitive_runtime_jars
 
     args = ctx.actions.args()
-    args.add("--compiler_bridge", zinc_configuration.compiler_bridge.short_path)
+    args.add("--compiler_bridge", toolchain.compiler_bridge.short_path)
     args.add_all(scompiler_classpath.transitive_runtime_jars, map_each = _short_path, format_each = "--compiler_cp=%s")
     args.add_all(classpath, map_each = _short_path, format_each = "--cp=%s")
-    args.add_all(scala_configuration.global_scalacopts, format_each = "--compiler_option=%s")
+    args.add_all(toolchain.global_scalacopts, format_each = "--compiler_option=%s")
     args.add_all(ctx.attr.scalacopts, format_each = "--compiler_option=%s")
     if ctx.attr.initial_commands != None:
         args.add(ctx.attr.initial_commands, format = "--initial_commands=%s")
@@ -44,7 +38,7 @@ def scala_repl_implementation(ctx):
     )
 
     files = depset(
-        [args_file, zinc_configuration.compiler_bridge] + launcher_files,
+        [args_file, toolchain.compiler_bridge] + launcher_files,
         transitive = [classpath, runner_classpath, scompiler_classpath.transitive_runtime_jars],
     )
     return [

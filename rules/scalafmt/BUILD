@@ -1,5 +1,9 @@
 load("//rules:scala.bzl", "scala_binary")
 load("//rules:scalafmt.bzl", "scala_format_test")
+load(
+    ":ext.bzl",
+    _add_non_default_format_phase_singleton = "add_non_default_format_phase_singleton",
+)
 
 filegroup(
     name = "runner",
@@ -39,11 +43,6 @@ filegroup(
     name = "bzl",
     srcs = glob(["**/*.bzl"]),
     visibility = ["//rules:__pkg__"],
-)
-
-load(
-    ":ext.bzl",
-    _add_non_default_format_phase_singleton = "add_non_default_format_phase_singleton",
 )
 
 _add_non_default_format_phase_singleton(

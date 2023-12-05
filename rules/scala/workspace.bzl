@@ -3,6 +3,13 @@ load("@bazel_tools//tools/build_defs/repo:jvm.bzl", "jvm_maven_import_external")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
+# compatibility
+load("//scala3:repositories.bzl", _scala_register_toolchains = "scala3_register_toolchains")
+
+scala_register_toolchains = _scala_register_toolchains
+
+# ---
+
 _SRC_FILEGROUP_BUILD_FILE_CONTENT = """
 filegroup(
     name = "src",
@@ -32,8 +39,6 @@ def scala_artifacts():
         "com.github.scopt:scopt_3:4.1.0",
         "org.jacoco:org.jacoco.core:0.8.10",
         "org.scala-lang.modules:scala-xml_3:2.2.0",
-        "org.scala-sbt:librarymanagement-core_3:2.0.0-alpha12",
-        "org.scala-sbt:librarymanagement-coursier_3:2.0.0-alpha6",
         "org.scala-sbt:test-interface:1.0",
         "org.scala-sbt:util-interface:1.9.0",
         "org.scala-sbt:util-logging_2.13:" + sbt_version,
@@ -99,7 +104,3 @@ def scala_repositories():
     ]
     for dep in rules_deps:
         maybe(http_archive, name = dep[0], strip_prefix = dep[1], url = dep[2], sha256 = dep[3] if len(dep) == 4 else "")
-
-def scala_register_toolchains():
-    # reserved for future use
-    return ()

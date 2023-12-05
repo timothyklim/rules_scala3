@@ -1,10 +1,9 @@
-load("//rules:scala.bzl", "scala_library")
+load("//scala3:defs.bzl", "worker_scala_library")
 load("//rules:scalafmt.bzl", "scala_format_test")
 
-scala_library(
+worker_scala_library(
     name = "common",
     srcs = glob(["**/*.scala"]),
-    scala = "//scala:bootstrap_3_3",
     visibility = ["//visibility:public"],
     deps = [
         "@annex//:com_github_scopt_scopt_3",

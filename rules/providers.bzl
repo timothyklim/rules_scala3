@@ -59,7 +59,7 @@ ScalaInfo = provider(
     doc = "Scala library.",
     fields = {
         "macro": "whether the jar contains macros",
-        "scala_configuration": "ScalaConfiguration associated with this output",
+        "toolchain": "toolchain associated with this output",
     },
 )
 
@@ -111,11 +111,11 @@ def _reconfigure_deps_configuration_implementation(ctx):
         worker = original_config.worker,
     )]
     if ScalaConfiguration in ctx.attr.provider:
-        providers += [ctx.attr.provider[ScalaConfiguration]]
+        providers.append(ctx.attr.provider[ScalaConfiguration])
     if ZincConfiguration in ctx.attr.provider:
-        providers += [ctx.attr.provider[ZincConfiguration]]
+        providers.append(ctx.attr.provider[ZincConfiguration])
     if ScalaRulePhase in ctx.attr.provider:
-        providers += [ctx.attr.provider[ScalaRulePhase]]
+        providers.append(ctx.attr.provider[ScalaRulePhase])
 
     return providers
 

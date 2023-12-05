@@ -1,12 +1,11 @@
-load("//rules:scala.bzl", "scala_binary")
+load("//scala3:defs.bzl", "worker_scala_binary")
 load("//rules:scalafmt.bzl", "scala_format_test")
 
-scala_binary(
+worker_scala_binary(
     name = "instrumenter",
     srcs = glob(["**/*.scala"]),
     jvm_flags = ["-Djava.security.manager=allow"],
     main_class = "rules_scala.workers.jacoco.instrumenter.JacocoInstrumenter",
-    scala = "//scala:bootstrap_3_3",
     visibility = ["//visibility:public"],
     deps = [
         "//scala/common/worker",

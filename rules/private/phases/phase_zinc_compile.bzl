@@ -1,13 +1,12 @@
 load(
     "@rules_scala3//rules:providers.bzl",
-    _ScalaConfiguration = "ScalaConfiguration",
-    _ZincConfiguration = "ZincConfiguration",
     _ZincInfo = "ZincInfo",
 )
 load(
     "@rules_scala3//rules/common:private/utils.bzl",
     _resolve_execution_reqs = "resolve_execution_reqs",
 )
+load("//rules/common:private/get_toolchain.bzl", "get_toolchain")
 
 #
 # PHASE: compile
@@ -16,8 +15,7 @@ load(
 #
 
 def phase_zinc_compile(ctx, g):
-    scala_configuration = ctx.attr.scala[_ScalaConfiguration]
-    zinc_configuration = ctx.attr.scala[_ZincConfiguration]
+    toolchain = get_toolchain(ctx)
 
     apis = ctx.actions.declare_file("{}/apis.gz".format(ctx.label.name))
     infos = ctx.actions.declare_file("{}/infos.gz".format(ctx.label.name))
@@ -40,10 +38,10 @@ def phase_zinc_compile(ctx, g):
 
     args = ctx.actions.args()
     args.add_all(depset(transitive = [zinc.deps for zinc in zincs]), map_each = _compile_analysis)
-    args.add("--compiler_bridge", zinc_configuration.compiler_bridge)
+    args.add("--compiler_bridge", toolchain.compiler_bridge)
     args.add_all(g.classpaths.compiler, format_each = "--compiler_cp=%s")
     args.add_all(g.classpaths.compile, format_each = "--cp=%s")
-    args.add_all(scala_configuration.global_scalacopts, format_each = "--compiler_option=%s")
+    args.add_all(toolchain.global_scalacopts, format_each = "--compiler_option=%s")
     args.add_all(ctx.attr.scalacopts, format_each = "--compiler_option=%s")
     args.add_all(javacopts, format_each = "--java_compiler_option=%s")
     args.add(ctx.label, format = "--label=%s")
@@ -58,17 +56,17 @@ def phase_zinc_compile(ctx, g):
     args.add_all(g.classpaths.plugin, format_each = "--plugin=%s")
     args.add_all(g.classpaths.src_jars, format_each = "--source_jar=%s")
     args.add("--tmp", tmp.path)
-    args.add("--log_level", zinc_configuration.log_level)
+    args.add("--log_level", toolchain.zinc_log_level)
     args.add_all(g.classpaths.srcs)
     args.set_param_file_format("multiline")
     args.use_param_file("@%s", use_always = True)
 
-    worker_args = scala_configuration.global_jvm_flags
-    worker = zinc_configuration.compile_worker
+    worker_args = toolchain.global_jvm_flags
+    worker = toolchain.compile_worker
 
     worker_inputs, _, input_manifests = ctx.resolve_command(tools = [worker])
     inputs = depset(
-        [zinc_configuration.compiler_bridge] + ctx.files.data + ctx.files.srcs + worker_inputs,
+        [toolchain.compiler_bridge] + ctx.files.data + ctx.files.srcs + worker_inputs,
         transitive = [
             g.classpaths.plugin,
             g.classpaths.compile,
