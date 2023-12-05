@@ -1,16 +1,9 @@
 load(
-    "@rules_scala3//rules:providers.bzl",
-    _ScalaConfiguration = "ScalaConfiguration",
-    _ZincConfiguration = "ZincConfiguration",
-)
-load(
     "//rules/common:private/utils.bzl",
     _collect = "collect",
-)
-load(
-    "//rules/common:private/utils.bzl",
     _resolve_execution_reqs = "resolve_execution_reqs",
 )
+load("//rules/common:private/get_toolchain.bzl", "get_toolchain")
 
 scaladoc_private_attributes = {
     "_runner": attr.label(
@@ -21,11 +14,10 @@ scaladoc_private_attributes = {
 }
 
 def scaladoc_implementation(ctx):
-    scala_configuration = ctx.attr.scala[_ScalaConfiguration]
-    zinc_configuration = ctx.attr.scala[_ZincConfiguration]
+    toolchain = get_toolchain(ctx)
 
     scompiler_classpath = java_common.merge(
-        _collect(JavaInfo, scala_configuration.compiler_classpath),
+        _collect(JavaInfo, toolchain.compiler_classpath),
     )
 
     html = ctx.actions.declare_directory("html")
@@ -44,7 +36,7 @@ def scaladoc_implementation(ctx):
     scalacopts = ["-doc-title", ctx.attr.title or ctx.label] + ctx.attr.scalacopts
 
     args = ctx.actions.args()
-    args.add("--compiler_bridge", zinc_configuration.compiler_bridge)
+    args.add("--compiler_bridge", toolchain.compiler_bridge)
     args.add_all("--compiler_cp", compiler_classpath)
     args.add_all("--cp", classpath)
     args.add_all(scalacopts, format_each = "--option=%s")
@@ -55,7 +47,7 @@ def scaladoc_implementation(ctx):
     args.set_param_file_format("multiline")
     args.use_param_file("@%s", use_always = True)
 
-    runner_inputs, _, input_manifests = ctx.resolve_command(tools = [ctx.attr._runner])
+    _, _, input_manifests = ctx.resolve_command(tools = [ctx.attr._runner])
 
     ctx.actions.run(
         arguments = [args],
@@ -63,7 +55,7 @@ def scaladoc_implementation(ctx):
         execution_requirements = _resolve_execution_reqs(ctx, {"supports-workers": "1"}),
         input_manifests = input_manifests,
         inputs = depset(
-            src_jars + srcs + [zinc_configuration.compiler_bridge],
+            src_jars + srcs + [toolchain.compiler_bridge],
             transitive = [classpath, compiler_classpath],
         ),
         mnemonic = "ScalaDoc",

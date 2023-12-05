@@ -1,22 +1,58 @@
 """This module implements the `scala_toolchain`."""
 
-attrs = {
-    "enable_semanticdb": attr.bool(
-        default = False,
-        doc = "Enable SemanticDB",
-    ),
-}
+load(
+    "//scala3/private:toolchain_constants.bzl",
+    _toolchain_attrs = "SCALA_TOOLCHAIN_ATTRS",
+)
+load(
+    "//rules:private_proxy.bzl",
+    _phase_bootstrap_compile = "phase_bootstrap_compile",
+    _phase_zinc_compile = "phase_zinc_compile",
+    _phase_zinc_depscheck = "phase_zinc_depscheck",
+)
 
 def _scala_toolchain_impl(ctx):
+    if ctx.attr.is_zinc:
+        phases = [
+            ("=", "compile", "compile", _phase_zinc_compile),
+            ("+", "compile", "depscheck", _phase_zinc_depscheck),
+        ]
+    else:
+        phases = [
+            ("=", "compile", "compile", _phase_bootstrap_compile),
+        ]
+
+    global_scalacopts = ctx.attr.global_scalacopts
+    if ctx.attr.enable_semanticdb:
+        global_scalacopts.append("-Xsemanticdb")
+
+    if not ctx.attr.deps_direct in ["off", "warn", "error"]:
+        fail("Argument `deps_direct` of `scala_toolchains` must be one of off, warn, error.")
+
+    if not ctx.attr.deps_used in ["off", "warn", "error"]:
+        fail("Argument `deps_used` of `scala_toolchains` must be one of off, warn, error.")
+
     toolchain_info = platform_common.ToolchainInfo(
-        enable_semanticdb = ctx.attr.enable_semanticdb,
+        is_zinc = ctx.attr.is_zinc,
+        zinc_log_level = ctx.attr.zinc_log_level,
+        compiler_bridge = ctx.file.compiler_bridge,
+        compiler_classpath = ctx.attr.compiler_classpath,
+        runtime_classpath = ctx.attr.runtime_classpath,
+        global_plugins = ctx.attr.global_plugins,
+        global_scalacopts = global_scalacopts,
+        global_jvm_flags = ctx.attr.global_jvm_flags,
+        phases = phases,
+        compile_worker = ctx.attr._compile_worker,
+        coverage_instrumentation_worker = ctx.attr._code_coverage_instrumentation_worker,
+        deps_worker = ctx.attr._deps_worker,
+        deps_direct = ctx.attr.deps_direct,
+        deps_used = ctx.attr.deps_used,
     )
     return [toolchain_info]
 
 scala_toolchain = rule(
     implementation = _scala_toolchain_impl,
-    fragments = ["java"],
-    attrs = attrs,
+    attrs = _toolchain_attrs,
     doc = """Declares a Scala toolchain.
 
     Example:
@@ -24,10 +60,23 @@ scala_toolchain = rule(
     ```python
     # Some BUILD file in your project where you define toolchain
     load('@rules_scala3//scala3:toolchain.bzl', 'rust_toolchain')
+    load('//scala3:repositories.bzl', _default_scalacopts = 'GLOBAL_SCALACOPTS')
 
     scala_toolchain(
         name = "custom_toolchain_impl",
-        enable_semanticdb = True,
+        global_scalacopts = _default_scalacopts + [
+            "-some-option",
+        ],
+        compiler_bridge = "//my_custom_bridge:jar",
+        compiler_classpath = [
+            "//my_custom_deps:scala_compiler_3_jar",
+            "//my_custom_deps:scala_library_3_jar",
+            "//my_custom_deps:scala_library_2_jar",
+        ],
+        runtime_classpath = [
+            "//my_custom_deps:scala_library_3_jar",
+            "//my_custom_deps:scala_library_2_jar",
+        ],
     )
 
     toolchain(
@@ -37,9 +86,11 @@ scala_toolchain = rule(
     )
     ```
 
-    Then, either add the label of the toolchain rule to `register_toolchains` in the WORKSPACE, or pass \
-    it to the `"--extra_toolchains"` flag for Bazel, and it will be used.
+    Then, either add the label of the toolchain rule to `register_toolchains` in the
+    WORKSPACE, or pass it to the `"--extra_toolchains"` flag for Bazel, and it will
+    be used.
 
-    For usage see <https://docs.bazel.build/versions/main/toolchains.html#toolchain-definitions>.
+    For usage see
+    <https://docs.bazel.build/versions/main/toolchains.html#toolchain-definitions>.
     """,
 )

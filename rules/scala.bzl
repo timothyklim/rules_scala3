@@ -126,8 +126,7 @@ _compile_attributes = {
         doc = "The JARs to merge into the output JAR.",
     ),
     "scala": attr.label(
-        default = "//external:default_scala",
-        doc = "The `ScalaConfiguration`. Among other things, this specifies which scala version to use.\n Defaults to the default_scala target specified in the WORKSPACE file.",
+        doc = "Specify the scala compiler. If not specified, the toolchain will be used.",
         providers = [
             _ScalaConfiguration,
         ],
@@ -401,8 +400,7 @@ scala_repl = rule(
                 doc = "The JVM runtime flags.",
             ),
             "scala": attr.label(
-                default = "//external:default_scala",
-                doc = "The `ScalaConfiguration`.",
+                doc = "Specify the scala compiler. If not specified, the toolchain will be used.",
                 providers = [
                     _ScalaConfiguration,
                     _ZincConfiguration,
@@ -429,6 +427,9 @@ To run: `bazel run <target>`
         "bin": "%{name}-bin",
     },
     implementation = _scala_repl_implementation,
+    toolchains = [
+        "@rules_scala3//scala3:toolchain_type",
+    ],
 )
 
 scala_import = rule(
@@ -467,7 +468,7 @@ scaladoc = rule(
                 ".srcjar",
             ]),
             "scala": attr.label(
-                default = "@scala",
+                doc = "Specify the scala compiler. If not specified, the toolchain will be used.",
                 providers = [
                     _ScalaConfiguration,
                     _ZincConfiguration,
@@ -481,6 +482,9 @@ scaladoc = rule(
 Generates Scaladocs.
 """,
     implementation = _scaladoc_implementation,
+    toolchains = [
+        "@rules_scala3//scala3:toolchain_type",
+    ],
 )
 
 ##

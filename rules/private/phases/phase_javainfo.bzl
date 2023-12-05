@@ -1,6 +1,5 @@
 load(
     "@rules_scala3//rules:providers.bzl",
-    _ScalaConfiguration = "ScalaConfiguration",
     _ScalaInfo = "ScalaInfo",
 )
 load(
@@ -18,12 +17,13 @@ load(
 def phase_javainfo(ctx, g):
     sruntime_deps = java_common.merge(_collect(JavaInfo, ctx.attr.runtime_deps))
     sexports = java_common.merge(_collect(JavaInfo, getattr(ctx.attr, "exports", [])))
-    scala_configuration_runtime_deps = _collect(JavaInfo, g.init.scala_configuration.runtime_classpath)
+    scala_configuration_runtime_deps = _collect(JavaInfo, g.init.toolchain.runtime_classpath)
 
-    scala = getattr(ctx.attr, "scala", [])
-    macro = getattr(ctx.attr, "macro", False) or \
-            (_ScalaConfiguration in scala and scala[_ScalaConfiguration].version.startswith("3.")) or \
-            (g.init.scala_configuration.version.startswith("3."))
+    # TODO Do we need the "macro" attribute if we stop supporting scala 2?
+    macro = True
+    #macro = getattr(ctx.attr, "macro", False) or \
+    #        (_ScalaConfiguration in scala and scala[_ScalaConfiguration].version.startswith("3.")) or \
+    #        (g.init.toolchain.version.startswith("3."))
 
     compile_jar = ctx.outputs.jar
     if not macro:
@@ -58,7 +58,7 @@ def phase_javainfo(ctx, g):
 
     scala_info = _ScalaInfo(
         macro = macro,
-        scala_configuration = g.init.scala_configuration,
+        toolchain = g.init.toolchain,
     )
 
     output_group_info = OutputGroupInfo(

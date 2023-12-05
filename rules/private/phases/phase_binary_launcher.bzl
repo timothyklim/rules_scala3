@@ -2,7 +2,7 @@ load(
     "//rules/common:private/utils.bzl",
     _write_launcher = "write_launcher",
 )
-load("//rules:providers.bzl", _ScalaConfiguration = "ScalaConfiguration")
+load("//rules/common:private/get_toolchain.bzl", "get_toolchain")
 
 #
 # PHASE: binary_launcher
@@ -11,6 +11,8 @@ load("//rules:providers.bzl", _ScalaConfiguration = "ScalaConfiguration")
 #
 
 def phase_binary_launcher(ctx, g):
+    toolchain = get_toolchain(ctx)
+
     inputs = ctx.files.data
 
     if ctx.attr.main_class != "":
@@ -22,7 +24,7 @@ def phase_binary_launcher(ctx, g):
 
     jvm_flags = []
     jvm_flags += ctx.attr.jvm_flags
-    jvm_flags += ctx.attr.scala[_ScalaConfiguration].global_jvm_flags
+    jvm_flags += toolchain.global_jvm_flags
 
     files = _write_launcher(
         ctx,

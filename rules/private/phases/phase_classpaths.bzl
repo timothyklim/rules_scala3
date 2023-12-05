@@ -1,6 +1,5 @@
 load(
     "@rules_scala3//rules:providers.bzl",
-    _ScalaConfiguration = "ScalaConfiguration",
     _ScalaInfo = "ScalaInfo",
 )
 load(
@@ -11,18 +10,19 @@ load(
 
 def phase_classpaths(ctx, g):
     plugin_skip_jars = java_common.merge(
-        _collect(JavaInfo, g.init.scala_configuration.compiler_classpath +
-                           g.init.scala_configuration.runtime_classpath),
+        _collect(JavaInfo, g.init.toolchain.compiler_classpath +
+                           g.init.toolchain.runtime_classpath),
     ).transitive_runtime_jars.to_list()
 
     actual_plugins = []
-    for plugin in ctx.attr.plugins + g.init.scala_configuration.global_plugins:
+    for plugin in ctx.attr.plugins + g.init.toolchain.global_plugins:
         deps = [dep for dep in plugin[JavaInfo].transitive_runtime_jars.to_list() if dep not in plugin_skip_jars]
         if len(deps) == 1:
             actual_plugins.extend(deps)
         else:
             # scalac expects each plugin to be fully isolated, so we need to
             # smash everything together with singlejar
+            # buildifier: disable=print
             print("WARNING! " +
                   "It is slightly inefficient to use a JVM target with " +
                   "dependencies directly as a scalac plugin. Please " +
@@ -48,14 +48,14 @@ def phase_classpaths(ctx, g):
         if _ScalaInfo in dep and dep[_ScalaInfo].macro
     ]
     sdeps = java_common.merge(
-        _collect(JavaInfo, g.init.scala_configuration.runtime_classpath + ctx.attr.deps),
+        _collect(JavaInfo, g.init.toolchain.runtime_classpath + ctx.attr.deps),
     )
     compile_classpath = depset(
         order = "preorder",
         transitive = sdep_classpath + [sdeps.transitive_compile_time_jars],
     )
     compiler_classpath = java_common.merge(
-        _collect(JavaInfo, g.init.scala_configuration.compiler_classpath),
+        _collect(JavaInfo, g.init.toolchain.compiler_classpath),
     ).transitive_runtime_jars
 
     srcs = [file for file in ctx.files.srcs if file.extension.lower() in ["java", "scala"]]

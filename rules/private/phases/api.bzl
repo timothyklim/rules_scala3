@@ -1,22 +1,24 @@
 load(
     "@rules_scala3//rules:providers.bzl",
-    _ScalaConfiguration = "ScalaConfiguration",
     _ScalaRulePhase = "ScalaRulePhase",
 )
+load("//rules/common:private/get_toolchain.bzl", "get_toolchain")
 
 def run_phases(ctx, phases):
+    toolchain = get_toolchain(ctx)
+
     phase_providers = [
         p[_ScalaRulePhase]
-        for p in [ctx.attr.scala] + ctx.attr.plugins + ctx.attr._phase_providers
+        for p in ctx.attr.plugins + ctx.attr._phase_providers
         if _ScalaRulePhase in p
     ]
 
-    if phase_providers != []:
-        phases = adjust_phases(phases, [p for pp in phase_providers for p in pp.phases])
+    if phase_providers != [] or toolchain.phases != []:
+        phases = adjust_phases(phases, [p for pp in phase_providers for p in pp.phases] + toolchain.phases)
 
     gd = {
         "init": struct(
-            scala_configuration = ctx.attr.scala[_ScalaConfiguration],
+            toolchain = toolchain,
         ),
         "out": struct(
             output_groups = {},

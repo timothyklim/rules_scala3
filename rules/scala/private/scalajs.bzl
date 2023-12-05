@@ -4,10 +4,6 @@ load(
     _ScalaConfiguration = "ScalaConfiguration",
     _ScalaInfo = "ScalaInfo",
 )
-load(
-    "@rules_scala3//rules/common:private/utils.bzl",
-    _resolve_execution_reqs = "resolve_execution_reqs",
-)
 
 def scalajs_library(name, srcs, deps = [], visibility = None, scalacopts = [], scala = None, deps_used_whitelist = []):
     """Make scalajs library for provided sources"""
@@ -74,8 +70,7 @@ scalajs_link = rule(
             providers = [JavaInfo],
         ),
         "scala": attr.label(
-            default = "//external:default_scala",
-            doc = "The `ScalaConfiguration`. Among other things, this specifies which scala version to use.\n Defaults to the default_scala target specified in the WORKSPACE file.",
+            doc = "Specify the scala compiler. If not specified, the toolchain will be used.",
             providers = [
                 _ScalaConfiguration,
             ],
@@ -96,4 +91,7 @@ scalajs_link = rule(
         ),
     },
     implementation = _scalajs_link_impl,
+    toolchains = [
+        "@rules_scala3//scala3:toolchain_type",
+    ],
 )

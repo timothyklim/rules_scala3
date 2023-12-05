@@ -1,8 +1,4 @@
 load(
-    "@rules_scala3//rules:providers.bzl",
-    _CodeCoverageConfiguration = "CodeCoverageConfiguration",
-)
-load(
     "@rules_scala3//rules/private:coverage_replacements_provider.bzl",
     _coverage_replacements_provider = "coverage_replacements_provider",
 )
@@ -10,19 +6,20 @@ load(
     "@rules_scala3//rules/common:private/utils.bzl",
     _resolve_execution_reqs = "resolve_execution_reqs",
 )
+load("//rules/common:private/get_toolchain.bzl", "get_toolchain")
 
 def phase_coverage_jacoco(ctx, g):
+    toolchain = get_toolchain(ctx)
+
     if not ctx.configuration.coverage_enabled:
         return
 
-    if _CodeCoverageConfiguration not in ctx.attr.scala:
-        #print("WARNING: code coverage is not supported by scala configuration: %s " % ctx.attr.scala)
+    if not toolchain.is_zinc:
+        #print("WARNING: code coverage is not supported by scala configuration: %s " % toolchain)
         return
 
-    code_coverage_configuration = ctx.attr.scala[_CodeCoverageConfiguration]
-
     worker_inputs, _, worker_input_manifests = ctx.resolve_command(
-        tools = [code_coverage_configuration.instrumentation_worker],
+        tools = [toolchain.coverage_instrumentation_worker],
     )
 
     args = ctx.actions.args()
@@ -42,7 +39,7 @@ def phase_coverage_jacoco(ctx, g):
         mnemonic = "JacocoInstrumenter",
         inputs = [in_out_pair[0] for in_out_pair in in_out_pairs] + worker_inputs,
         outputs = [in_out_pair[1] for in_out_pair in in_out_pairs],
-        executable = code_coverage_configuration.instrumentation_worker.files_to_run.executable,
+        executable = toolchain.coverage_instrumentation_worker.files_to_run.executable,
         input_manifests = worker_input_manifests,
         execution_requirements = _resolve_execution_reqs(ctx, {"supports-workers": "1"}),
         arguments = [args],
