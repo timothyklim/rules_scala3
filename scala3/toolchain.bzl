@@ -1,14 +1,14 @@
 """This module implements the `scala_toolchain`."""
 
 load(
-    "//scala3/private:toolchain_constants.bzl",
-    _toolchain_attrs = "SCALA_TOOLCHAIN_ATTRS",
-)
-load(
     "//rules:private_proxy.bzl",
     _phase_bootstrap_compile = "phase_bootstrap_compile",
     _phase_zinc_compile = "phase_zinc_compile",
     _phase_zinc_depscheck = "phase_zinc_depscheck",
+)
+load(
+    "//scala3/private:toolchain_constants.bzl",
+    _toolchain_attrs = "SCALA_TOOLCHAIN_ATTRS",
 )
 
 def _scala_toolchain_impl(ctx):
@@ -24,7 +24,7 @@ def _scala_toolchain_impl(ctx):
 
     global_scalacopts = ctx.attr.global_scalacopts
     if ctx.attr.enable_semanticdb:
-        global_scalacopts.append("-Xsemanticdb")
+        global_scalacopts = global_scalacopts + ["-Xsemanticdb"]
 
     if not ctx.attr.deps_direct in ["off", "warn", "error"]:
         fail("Argument `deps_direct` of `scala_toolchains` must be one of off, warn, error.")
