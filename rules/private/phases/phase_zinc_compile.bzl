@@ -1,5 +1,7 @@
+load("@bazel_skylib//lib:paths.bzl", "paths")
 load(
     "@rules_scala3//rules:providers.bzl",
+    _SemanticdbInfo = "SemanticdbInfo",
     _ZincInfo = "ZincInfo",
 )
 load(
@@ -16,6 +18,35 @@ load("//rules/common:private/get_toolchain.bzl", "get_toolchain")
 
 def phase_zinc_compile(ctx, g):
     toolchain = get_toolchain(ctx)
+
+    semanticdb_files = []
+    semanticdb_scalacopts = []
+    if toolchain.enable_semanticdb:
+        semanticdb_scalacopts.append("-Xsemanticdb")
+
+        target_output_path = paths.dirname(ctx.outputs.jar.path)
+
+        semanticdb_intpath = "_scalac/" + ctx.label.name + "/classes" if toolchain.semanticdb_bundle_in_jar == True else "_semanticdb/" + ctx.label.name
+
+        semanticdb_target_root = "%s/%s" % (target_output_path, semanticdb_intpath)
+
+        if not toolchain.semanticdb_bundle_in_jar:
+            semanticdb_scalacopts.append("-semanticdb-target:" + semanticdb_target_root)
+
+            # declare all the semanticdb files
+            semanticdb_outpath = "META-INF/semanticdb"
+
+            for source_file in ctx.files.srcs:
+                if source_file.extension == "scala":
+                    output_filename = "%s/%s/%s.semanticdb" % (semanticdb_intpath, semanticdb_outpath, source_file.path)
+                    semanticdb_files.append(ctx.actions.declare_file(output_filename))
+
+        semanticdb_info = _SemanticdbInfo(
+            semanticdb_enabled = True,
+            target_root = None if toolchain.semanticdb_bundle_in_jar else semanticdb_target_root,
+            is_bundled_in_jar = toolchain.semanticdb_bundle_in_jar,
+        )
+        g.out.providers.append(semanticdb_info)
 
     apis = ctx.actions.declare_file("{}/apis.gz".format(ctx.label.name))
     infos = ctx.actions.declare_file("{}/infos.gz".format(ctx.label.name))
@@ -43,6 +74,7 @@ def phase_zinc_compile(ctx, g):
     args.add_all(g.classpaths.compile, format_each = "--cp=%s")
     args.add_all(toolchain.global_scalacopts, format_each = "--compiler_option=%s")
     args.add_all(ctx.attr.scalacopts, format_each = "--compiler_option=%s")
+    args.add_all(semanticdb_scalacopts, format_each = "--compiler_option=%s")
     args.add_all(javacopts, format_each = "--java_compiler_option=%s")
     args.add(ctx.label, format = "--label=%s")
     args.add("--main_manifest", mains_file)
@@ -74,7 +106,7 @@ def phase_zinc_compile(ctx, g):
         ] + [zinc.deps_files for zinc in zincs],
     )
 
-    outputs = [g.classpaths.jar, mains_file, apis, infos, relations, setup, stamps, used, tmp]
+    outputs = [g.classpaths.jar, mains_file, apis, infos, relations, setup, stamps, used, tmp] + semanticdb_files
 
     # todo: different execution path for nosrc jar?
     ctx.actions.run(

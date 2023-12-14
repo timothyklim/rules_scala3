@@ -5,6 +5,10 @@ SCALA_TOOLCHAIN_ATTRS = {
         default = False,
         doc = "Enable SemanticDB.",
     ),
+    "semanticdb_bundle_in_jar": attr.bool(
+        default = False,
+        doc = "Whether semanticdb should be generated inside the output jar file or separately.",
+    ),
     "is_zinc": attr.bool(
         default = True,
         doc = "Use zinc compiler?",

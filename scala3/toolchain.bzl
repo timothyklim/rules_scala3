@@ -22,10 +22,6 @@ def _scala_toolchain_impl(ctx):
             ("=", "compile", "compile", _phase_bootstrap_compile),
         ]
 
-    global_scalacopts = ctx.attr.global_scalacopts
-    if ctx.attr.enable_semanticdb:
-        global_scalacopts = global_scalacopts + ["-Xsemanticdb"]
-
     if not ctx.attr.deps_direct in ["off", "warn", "error"]:
         fail("Argument `deps_direct` of `scala_toolchains` must be one of off, warn, error.")
 
@@ -33,13 +29,15 @@ def _scala_toolchain_impl(ctx):
         fail("Argument `deps_used` of `scala_toolchains` must be one of off, warn, error.")
 
     toolchain_info = platform_common.ToolchainInfo(
+        enable_semanticdb = ctx.attr.enable_semanticdb,
+        semanticdb_bundle_in_jar = ctx.attr.semanticdb_bundle_in_jar,
         is_zinc = ctx.attr.is_zinc,
         zinc_log_level = ctx.attr.zinc_log_level,
         compiler_bridge = ctx.file.compiler_bridge,
         compiler_classpath = ctx.attr.compiler_classpath,
         runtime_classpath = ctx.attr.runtime_classpath,
         global_plugins = ctx.attr.global_plugins,
-        global_scalacopts = global_scalacopts,
+        global_scalacopts = ctx.attr.global_scalacopts,
         global_jvm_flags = ctx.attr.global_jvm_flags,
         phases = phases,
         compile_worker = ctx.attr._compile_worker,

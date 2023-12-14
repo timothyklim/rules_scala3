@@ -144,6 +144,7 @@ config_setting(name = "deps_used_error", flag_values = {{ ":deps_used": "error" 
 scala_toolchain(
     name = "toolchain_impl",
     enable_semanticdb = {enable_semanticdb},
+    semanticdb_bundle_in_jar = {semanticdb_bundle_in_jar},
     is_zinc = {is_zinc},
     zinc_log_level = "{zinc_log_level}",
     compiler_bridge = "{compiler_bridge}",
@@ -173,6 +174,7 @@ toolchain(
 
     repository_ctx.file("BUILD.bazel", build_content.format(
         enable_semanticdb = repository_ctx.attr.enable_semanticdb,
+        semanticdb_bundle_in_jar = repository_ctx.attr.semanticdb_bundle_in_jar,
         is_zinc = repository_ctx.attr.is_zinc,
         zinc_log_level = repository_ctx.attr.zinc_log_level,
         compiler_bridge = compiler_bridge,
