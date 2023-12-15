@@ -29,6 +29,7 @@ def _scala_toolchain_impl(ctx):
         fail("Argument `deps_used` of `scala_toolchains` must be one of off, warn, error.")
 
     toolchain_info = platform_common.ToolchainInfo(
+        scala_version = ctx.attr.scala_version,
         enable_semanticdb = ctx.attr.enable_semanticdb,
         semanticdb_bundle_in_jar = ctx.attr.semanticdb_bundle_in_jar,
         is_zinc = ctx.attr.is_zinc,
@@ -50,7 +51,13 @@ def _scala_toolchain_impl(ctx):
 
 scala_toolchain = rule(
     implementation = _scala_toolchain_impl,
-    attrs = _toolchain_attrs,
+    attrs = dict(
+        scala_version = attr.string(
+            mandatory = True,
+            doc = "Scala version.",
+        ),
+        **_toolchain_attrs
+    ),
     doc = """Declares a Scala toolchain.
 
     Example:

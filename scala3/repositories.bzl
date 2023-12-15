@@ -98,8 +98,10 @@ def _scala3_toolchain_repository_impl(repository_ctx):
         repository_ctx.name,
     ))
 
-    # TODO load maven deps, like `rules_scala_toolchain_deps_repositories` does
-    # `scala_version` should be used to resolve deps
+    # TODO load maven deps, like `rules_scala_toolchain_deps_repositories` does.
+    # `repository_ctx.attr.scala_version` should be used to resolve deps and
+    # determine the full version
+    scala_version = "3.3.1"
     compiler_bridge = repository_ctx.attr.compiler_bridge or "@scala_sbt_bridge_3_3_1//jar"
 
     compiler_classpath = repository_ctx.attr.compiler_classpath or [
@@ -143,6 +145,7 @@ config_setting(name = "deps_used_error", flag_values = {{ ":deps_used": "error" 
 
 scala_toolchain(
     name = "toolchain_impl",
+    scala_version = "{scala_version}",
     enable_semanticdb = {enable_semanticdb},
     semanticdb_bundle_in_jar = {semanticdb_bundle_in_jar},
     is_zinc = {is_zinc},
@@ -173,6 +176,7 @@ toolchain(
 """
 
     repository_ctx.file("BUILD.bazel", build_content.format(
+        scala_version = scala_version,
         enable_semanticdb = repository_ctx.attr.enable_semanticdb,
         semanticdb_bundle_in_jar = repository_ctx.attr.semanticdb_bundle_in_jar,
         is_zinc = repository_ctx.attr.is_zinc,
