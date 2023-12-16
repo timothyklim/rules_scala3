@@ -20,6 +20,7 @@ maven_install(
         "org.scala-sbt:librarymanagement-core_3:2.0.0-alpha12",
         "org.scala-sbt:librarymanagement-coursier_3:2.0.0-alpha6",
     ],
+    fetch_sources = True,
     maven_install_json = "//:deps_install.json",
     repositories = [
         "https://repo1.maven.org/maven2",
@@ -53,6 +54,18 @@ scala_register_toolchains(default_compiler = "bootstrap")
 load("//3rdparty:workspace.bzl", "maven_dependencies")
 
 maven_dependencies()
+
+load("//mezel_compatibility:repositories.bzl", "mezel_compatibility_repository")
+
+mezel_compatibility_repository(
+    name = "mezel",
+    mezel_version = "216327ab2fc6d5866f13ace1bf75c9d1abdcd8a6",
+    sha256 = "dbdb144fc943670dc1b715629f939d8f5010ae1b2ab889b3620866ce19cda1df",
+)
+
+load("@mezel//rules:load_mezel.bzl", "load_mezel")
+
+load_mezel()
 
 load("//rules/scalafmt:workspace.bzl", "scalafmt_default_config", "scalafmt_repositories")
 
