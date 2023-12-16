@@ -134,10 +134,20 @@ def _mezel_aspect_impl(target, ctx):
         if OutputGroupInfo in dependency and hasattr(dependency[OutputGroupInfo], "bsp_info")
     ]
 
+    # TODO: add .diagnosticsproto generation to rules and it would be
+    # nice to move this to a separate phase along with semanticdb generation
+    diagnostics = ctx.actions.declare_file("{}.diagnosticsproto".format(ctx.label.name))
+    ctx.actions.run_shell(
+        mnemonic = "Scalac",
+        command = "touch $1",
+        arguments = [diagnostics.path],
+        outputs = [diagnostics],
+    )
+
     return [
         OutputGroupInfo(
             bsp_info = depset(
-                [scalac_options_file, sources_file, dependency_sources_file, build_target_file],
+                [scalac_options_file, sources_file, dependency_sources_file, build_target_file, diagnostics],
                 transitive = transitive_output_files,
             ),
             bsp_info_deps = depset(
