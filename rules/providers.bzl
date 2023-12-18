@@ -193,3 +193,11 @@ LabeledJars = provider(
         "values": "The preorder depset of label and jars.",
     },
 )
+
+SemanticdbInfo = provider(
+    fields = {
+        "semanticdb_enabled": "boolean",
+        "target_root": "directory containing the semanticdb files (relative to execroot).",
+        "is_bundled_in_jar": "boolean: whether the semanticdb files are bundled inside the jar",
+    },
+)

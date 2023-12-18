@@ -9,8 +9,11 @@ load(
     _ZincConfiguration = "ZincConfiguration",
 )
 
-def _gen_toolchain(scala):
+def _gen_toolchain(scala, toolchain):
     toolchain_info = platform_common.ToolchainInfo(
+        scala_version = scala[_ScalaConfiguration].version,
+        enable_semanticdb = toolchain.enable_semanticdb,
+        semanticdb_bundle_in_jar = toolchain.semanticdb_bundle_in_jar,
         is_zinc = True if _ZincConfiguration in scala else False,
         zinc_log_level = scala[_ZincConfiguration].log_level if _ZincConfiguration in scala else None,
         compiler_bridge = scala[_ZincConfiguration].compiler_bridge if _ZincConfiguration in scala else None,
@@ -42,9 +45,15 @@ def get_toolchain(ctx):
     """
 
     if getattr(ctx.attr, "_worker_rule", False):
-        return _gen_toolchain(ctx.attr._scala)
+        stub_toolchain = platform_common.ToolchainInfo(
+            enable_semanticdb = False,
+            semanticdb_bundle_in_jar = False,
+        )
+        return _gen_toolchain(ctx.attr._scala, stub_toolchain)
+
+    toolchain = ctx.toolchains["@rules_scala3//scala3:toolchain_type"]
 
     if getattr(ctx.attr, "scala", False):
-        return _gen_toolchain(ctx.attr.scala)
+        return _gen_toolchain(ctx.attr.scala, toolchain)
 
-    return ctx.toolchains["@rules_scala3//scala3:toolchain_type"]
+    return toolchain

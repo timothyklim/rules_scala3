@@ -1,7 +1,6 @@
 "A module defining `worker_scala_library` rules"
 
 load("@bazel_skylib//lib:dicts.bzl", _dicts = "dicts")
-load("//rules:providers.bzl", _ScalaConfiguration = "ScalaConfiguration")
 load("//rules:jvm.bzl", _labeled_jars = "labeled_jars")
 load(
     "//rules:private_proxy.bzl",
@@ -16,6 +15,7 @@ load(
     _phase_singlejar = "phase_singlejar",
     _run_phases = "run_phases",
 )
+load("//rules:providers.bzl", _ScalaConfiguration = "ScalaConfiguration")
 
 _compile_private_attributes = {
     "_java_toolchain": attr.label(
