@@ -101,7 +101,7 @@ def _scala3_toolchain_repository_impl(repository_ctx):
     # TODO load maven deps, like `rules_scala_toolchain_deps_repositories` does.
     # `repository_ctx.attr.scala_version` should be used to resolve deps and
     # determine the full version
-    scala_version = "3.3.1"
+    scala_version = "3.3.2-RC1"
     compiler_bridge = repository_ctx.attr.compiler_bridge or "@scala_sbt_bridge_3_3_1//jar"
 
     compiler_classpath = repository_ctx.attr.compiler_classpath or [
