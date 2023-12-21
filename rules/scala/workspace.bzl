@@ -32,7 +32,7 @@ repositories = [
     "https://scala-ci.typesafe.com/artifactory/scala-integration/",
 ]
 
-sbt_version = "1.9.5"
+zinc_version = "1.9.5"
 
 def scala_artifacts():
     return [
@@ -41,8 +41,8 @@ def scala_artifacts():
         "org.scala-lang.modules:scala-xml_3:2.2.0",
         "org.scala-sbt:test-interface:1.0",
         "org.scala-sbt:util-interface:1.9.0",
-        "org.scala-sbt:util-logging_2.13:" + sbt_version,
-        "org.scala-sbt:zinc_2.13:" + sbt_version,
+        "org.scala-sbt:util-logging_2.13:1.9.8",
+        "org.scala-sbt:zinc_2.13:" + zinc_version,
     ]
 
 def scala_repositories():
@@ -57,7 +57,7 @@ def scala_repositories():
     http_archive(
         name = "compiler_bridge_2_13",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
-        url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{v}/compiler-bridge_2.13-{v}-sources.jar".format(v = sbt_version),
+        url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{v}/compiler-bridge_2.13-{v}-sources.jar".format(v = zinc_version),
     )
 
     scala2 = "2.13.12"
@@ -95,12 +95,12 @@ def scala_repositories():
     protobuf_tag = "21.12"
     rules_proto_tag = "5.3.0-21.7"
     skylib_tag = "1.3.0"
-    rules_python_tag = "0.19.0"
+    rules_python_tag = "0.25.0"
     rules_deps = [
-        ["bazel_skylib", None, "https://github.com/bazelbuild/bazel-skylib/releases/download/{version}/bazel-skylib-{version}.tar.gz".format(version = skylib_tag), "74d544d96f4a5bb630d465ca8bbcfe231e3594e5aae57e1edbf17a6eb3ca2506"],
+        ["bazel_skylib", None, "https://github.com/bazelbuild/bazel-skylib/releases/download/{v}/bazel-skylib-{v}.tar.gz".format(v = skylib_tag), "74d544d96f4a5bb630d465ca8bbcfe231e3594e5aae57e1edbf17a6eb3ca2506"],
         ["com_google_protobuf", "protobuf-" + protobuf_tag, "https://github.com/protocolbuffers/protobuf/archive/v{}.tar.gz".format(protobuf_tag), "22fdaf641b31655d4b2297f9981fa5203b2866f8332d3c6333f6b0107bb320de"],
         ["rules_proto", "rules_proto-" + rules_proto_tag, "https://github.com/bazelbuild/rules_proto/archive/{}.tar.gz".format(rules_proto_tag), "dc3fb206a2cb3441b485eb1e423165b231235a1ea9b031b4433cf7bc1fa460dd"],
-        ["rules_python", "rules_python-" + rules_python_tag, "https://github.com/bazelbuild/rules_python/releases/download/{version}/rules_python-{version}.tar.gz".format(version = rules_python_tag), "ffc7b877c95413c82bfd5482c017edcf759a6250d8b24e82f41f3c8b8d9e287e"],
+        ["rules_python", "rules_python-" + rules_python_tag, "https://github.com/bazelbuild/rules_python/releases/download/{v}/rules_python-{v}.tar.gz".format(v = rules_python_tag), "5868e73107a8e85d8f323806e60cad7283f34b32163ea6ff1020cf27abef6036"],
     ]
     for dep in rules_deps:
         maybe(http_archive, name = dep[0], strip_prefix = dep[1], url = dep[2], sha256 = dep[3] if len(dep) == 4 else "")
