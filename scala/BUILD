@@ -22,13 +22,13 @@ config_setting(
 scala2 = "2.13.11"
 
 compiler_classpath_2_13 = [
-    "@scala_compiler_2_13_11//jar",
-    "@scala_library_2_13_11//jar",
-    "@scala_reflect_2_13_11//jar",
+    "@scala_compiler_2_13//jar",
+    "@scala_library_2_13//jar",
+    "@scala_reflect_2_13//jar",
 ]
 
 runtime_classpath_2_13 = [
-    "@scala_library_2_13_11//jar",
+    "@scala_library_2_13//jar",
 ]
 
 configure_bootstrap_scala(
@@ -96,15 +96,16 @@ scala3_global_scalacopts = [
 ]
 
 runtime_classpath_3_3 = [
-    "@scala_library_3_3_1//jar",
-    "@scala_library_2_13_11//jar",
+    "@scala3_library//jar",
+    "@scala_library_2_13//jar",
 ]
 
 compiler_classpath_3_3 = [
-    "@scala_compiler_3_3_1//jar",
-    "@scala_interfaces_3_3_1//jar",
-    "@scala_tasty_core_3_3_1//jar",
-    "@scala_asm_9_5_0//jar",
+    "@scala3_compiler//jar",
+    "@scala3_interfaces//jar",
+    "@scala_tasty_core_3//jar",
+    "@scala_asm//jar",
+    "@org_scala_sbt_compiler_interface//jar",
 ] + runtime_classpath_3_3
 
 configure_bootstrap_scala(

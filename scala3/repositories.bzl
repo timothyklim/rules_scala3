@@ -102,20 +102,21 @@ def _scala3_toolchain_repository_impl(repository_ctx):
     # `repository_ctx.attr.scala_version` should be used to resolve deps and
     # determine the full version
     scala_version = "3.3.2-RC1"
-    compiler_bridge = repository_ctx.attr.compiler_bridge or "@scala_sbt_bridge_3_3_1//jar"
+    compiler_bridge = repository_ctx.attr.compiler_bridge or "@scala3_sbt_bridge//jar"
 
     compiler_classpath = repository_ctx.attr.compiler_classpath or [
-        "@scala_compiler_3_3_1//jar",
-        "@scala_interfaces_3_3_1//jar",
-        "@scala_tasty_core_3_3_1//jar",
-        "@scala_asm_9_5_0//jar",
-        "@scala_library_3_3_1//jar",
-        "@scala_library_2_13_11//jar",
+        "@scala3_compiler//jar",
+        "@scala3_interfaces//jar",
+        "@scala_tasty_core_3//jar",
+        "@scala_asm//jar",
+        "@scala3_library//jar",
+        "@scala_library_2_13//jar",
+        "@org_scala_sbt_compiler_interface//jar",
     ]
 
     runtime_classpath = repository_ctx.attr.runtime_classpath or [
-        "@scala_library_3_3_1//jar",
-        "@scala_library_2_13_11//jar",
+        "@scala3_library//jar",
+        "@scala_library_2_13//jar",
     ]
 
     # TODO replace with repository_ctx.template()

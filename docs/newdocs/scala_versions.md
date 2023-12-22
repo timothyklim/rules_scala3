@@ -17,7 +17,7 @@ Example:
 
 ```python
 compiler_classpath_2_13_11 = [
-    "@scala_compiler_2_13_11//jar",
+    "@scala_compiler_2_13//jar",
     "@scala_library_2_13_11//jar",
     "@scala_reflect_2_13_11//jar",
 ]

@@ -12,8 +12,8 @@ scala_library(
         "@annex//:org_scala_sbt_compiler_interface",
         "@annex//:org_scala_sbt_test_interface",
         "@annex//:org_scala_sbt_zinc_apiinfo_2_13",
-        "@annex//:org_scala_sbt_zinc_core_2_13",
-        "@annex//:org_scala_sbt_zinc_persist_2_13",
+        "@annex//:org_scala_sbt_zinc_core_3",
+        "@annex//:org_scala_sbt_zinc_persist_3",
         "@annex//:org_scala_sbt_zinc_persist_core_assembly",
     ],
 )

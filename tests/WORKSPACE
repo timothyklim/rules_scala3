@@ -48,9 +48,16 @@ load("@annex_proto//:defs.bzl", annex_proto_pinned_maven_install = "pinned_maven
 
 annex_proto_pinned_maven_install()
 
-load("@rules_scala3//3rdparty:workspace.bzl", "maven_dependencies")
+# load("@rules_scala3//3rdparty:workspace.bzl", "maven_dependencies")
+load(":workspace.bzl", "test_dependencies")
 
-maven_dependencies()
+test_dependencies()
+
+load("@annex_test//:defs.bzl", annex_test_pinned_maven_install = "pinned_maven_install")
+
+annex_test_pinned_maven_install()
+
+# maven_dependencies()
 
 load("@rules_scala3//rules/scalafmt:workspace.bzl", "scalafmt_default_config", "scalafmt_repositories")
 

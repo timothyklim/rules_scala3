@@ -74,7 +74,7 @@ scala_toolchain = rule(
         ],
         compiler_bridge = "//my_custom_bridge:jar",
         compiler_classpath = [
-            "//my_custom_deps:scala_compiler_3_jar",
+            "//my_custom_deps:scala3_compiler_jar",
             "//my_custom_deps:scala_library_3_jar",
             "//my_custom_deps:scala_library_2_jar",
         ],
