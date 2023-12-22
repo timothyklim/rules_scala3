@@ -5,7 +5,7 @@ scala_binary(
     name = "runner",
     srcs = ["JmhRunner.scala"],
     main_class = "rules_scala3.jmh.JmhRunner",
-    scala = "//scala:bootstrap_3_3",
+    scala = "//scala:bootstrap_3",
     visibility = ["//visibility:public"],
     deps = [
         "@rules_scala3//3rdparty/jvm/com/github/scopt",

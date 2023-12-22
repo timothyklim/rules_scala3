@@ -96,7 +96,7 @@ worker_scala_library = rule(
             "_worker_rule": attr.bool(default = True),
             # TODO should be removed
             "_scala": attr.label(
-                default = "//scala:bootstrap_3_3",
+                default = "//scala:bootstrap_3",
                 doc = "The `ScalaConfiguration`. Among other things, this specifies which scala version to use.\n Defaults to the default_scala target specified in the WORKSPACE file.",
                 providers = [
                     _ScalaConfiguration,

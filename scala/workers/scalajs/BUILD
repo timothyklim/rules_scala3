@@ -5,7 +5,7 @@ scala_binary(
     srcs = glob(["*.scala"]),
     jvm_flags = ["-Djava.security.manager=allow"],
     main_class = "rules_scala.workers.scalajs.ScalaJsWorker",
-    scala = "//scala:bootstrap_3_3",
+    scala = "//scala:bootstrap_3",
     visibility = ["//visibility:public"],
     deps = [
         "//scala/common/worker",
@@ -16,7 +16,7 @@ scala_binary(
         "@scalajs_linker_2_13",
         "@scalajs_linker_interface_2_13",
         "@scalajs_logging_2_13",
-        "@scalajs_parallel_collections_1_0_4",
+        "@scalajs_parallel_collections",
         "@scalajs_sbt_test_adapter_2_13",
         "@scalajs_test_bridge_2_13",
         "@scalajs_test_interface_2_13",

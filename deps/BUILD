@@ -6,7 +6,7 @@ scala_binary(
     main_class = "rules_scala3.deps.Deps",
     resource_strip_prefix = package_name(),
     resources = ["templates/jar_artifact_callback.bzl"],
-    scala = "//scala:bootstrap_3_3",
+    scala = "//scala:bootstrap_3",
     visibility = ["//visibility:public"],
     deps = [
         "@deps//:com_github_scopt_scopt_3",

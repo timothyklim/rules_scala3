@@ -17,7 +17,7 @@ scala_binary(
     srcs = ["private/ScalaProtoWorker.scala"],
     jvm_flags = ["-Djava.security.manager=allow"],
     main_class = "annex.scala.proto.ScalaProtoWorker",
-    scala = "//scala:bootstrap_3_3",
+    scala = "//scala:bootstrap_3",
     visibility = ["//visibility:public"],
     deps = [
         "//scala/common/worker",

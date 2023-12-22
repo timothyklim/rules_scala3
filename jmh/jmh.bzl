@@ -53,7 +53,7 @@ def scala_jmh_benchmark(**kwargs):
         runtime_deps = kwargs.get("runtime_deps", []),
         resources = kwargs.get("resources", []),
         resource_jars = kwargs.get("resource_jars", []),
-        scala = "@rules_scala3//scala:bootstrap_3_3",
+        scala = "@rules_scala3//scala:bootstrap_3",
     )
 
     codegen = name + "_codegen"
