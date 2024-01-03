@@ -90,8 +90,9 @@ object DepsRunner extends WorkerMain[Unit]:
 
         for group <- groups do
           val depLabel = group.label.tail match
-            case label if label.startsWith("@//") => label.tail
-            case label                            => label
+            case label if label.startsWith("@@//") => label.drop(2)
+            case label if label.startsWith("@//")  => label.drop(1)
+            case label                             => label
 
           depLabelsMap.put(depLabel, group.jars.toSet)
 
