@@ -5,6 +5,9 @@ scala_binary(
     name = "repl",
     srcs = glob(["**/*.scala"]),
     visibility = ["//visibility:public"],
+    runtime_deps = [
+        "@annex//:org_jline_jline_reader",
+    ],
     deps = [
         "//scala/workers/common",
         "@annex//:com_github_scopt_scopt_3",
