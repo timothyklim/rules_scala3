@@ -67,10 +67,19 @@ def _mezel_aspect_impl(target, ctx):
         fail("Expected exactly one output class jar, got {}".format(output_class_jars))
     output_class_jar = output_class_jars[0]
 
+    def non_self(file):
+        return file.owner != target.label
+
+    def external_dep(file):
+        return file.owner not in ignore
+
+    def depcheck(file):
+        return non_self(file) and external_dep(file)
+
     transitive_compile_jars = target[JavaInfo].transitive_compile_time_jars.to_list()
-    cp_jars = [x.path for x in transitive_compile_jars if x.owner != target.label]
+    cp_jars = [x.path for x in transitive_compile_jars if non_self(x)]
     transitive_source_jars = target[JavaInfo].transitive_source_jars.to_list()
-    src_jars = [x.path for x in transitive_source_jars if x.owner not in ignore]
+    src_jars = [x.path for x in transitive_source_jars if depcheck(x)]
 
     raw_plugins = target_attrs.plugins if target_attrs.plugins else []
     plugins = [
@@ -135,6 +144,16 @@ def _mezel_aspect_impl(target, ctx):
         if OutputGroupInfo in dependency and hasattr(dependency[OutputGroupInfo], "bsp_info")
     ]
 
+    transitive_info_deps = [
+        target[JavaInfo].transitive_compile_time_jars,
+        target[JavaInfo].transitive_source_jars,
+    ] + [x[JavaInfo].compile_jars for x in raw_plugins]
+
+    bsp_info_deps = depset(
+        [x for x in scala_compile_classpath if depcheck(x)],
+        transitive = [depset([x for x in xs.to_list() if depcheck(x)]) for xs in transitive_info_deps],
+    )
+
     # TODO: add .diagnosticsproto generation to rules and it would be
     # nice to move this to a separate phase along with semanticdb generation
     diagnostics = ctx.actions.declare_file("{}.diagnosticsproto".format(ctx.label.name))
@@ -151,13 +170,7 @@ def _mezel_aspect_impl(target, ctx):
                 [scalac_options_file, sources_file, dependency_sources_file, build_target_file, diagnostics],
                 transitive = transitive_output_files,
             ),
-            bsp_info_deps = depset(
-                scala_compile_classpath,
-                transitive = [
-                    target[JavaInfo].transitive_compile_time_jars,
-                    target[JavaInfo].transitive_source_jars,
-                ] + [x[JavaInfo].compile_jars for x in raw_plugins],
-            ),
+            bsp_info_deps = bsp_info_deps,
         ),
         BuildTargetInfo(output = files),
     ]
