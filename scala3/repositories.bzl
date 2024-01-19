@@ -77,10 +77,11 @@ def scala3_register_toolchains(
             "name": "scala3_bootstrap_toolchain",
             "is_zinc": False,
         },
-        #{
-        #    "name": "scala3_bsp_toolchain",
-        #    "enable_semanticdb": True,
-        #},
+        {
+            "name": "scala3_mezel_toolchain",
+            "enable_semanticdb": True,
+            "global_scalacopts": ["-Xfatal-warnings"],
+        },
     ]
 
     kwargs.update(global_scalacopts = global_scalacopts)
