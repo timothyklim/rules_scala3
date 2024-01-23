@@ -154,20 +154,10 @@ def _mezel_aspect_impl(target, ctx):
         transitive = [depset([x for x in xs.to_list() if depcheck(x)]) for xs in transitive_info_deps],
     )
 
-    # TODO: add .diagnosticsproto generation to rules and it would be
-    # nice to move this to a separate phase along with semanticdb generation
-    diagnostics = ctx.actions.declare_file("{}.diagnosticsproto".format(ctx.label.name))
-    ctx.actions.run_shell(
-        mnemonic = "Scalac",
-        command = "touch $1",
-        arguments = [diagnostics.path],
-        outputs = [diagnostics],
-    )
-
     return [
         OutputGroupInfo(
             bsp_info = depset(
-                [scalac_options_file, sources_file, dependency_sources_file, build_target_file, diagnostics],
+                [scalac_options_file, sources_file, dependency_sources_file, build_target_file],
                 transitive = transitive_output_files,
             ),
             bsp_info_deps = bsp_info_deps,
