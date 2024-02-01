@@ -77,10 +77,13 @@ UNMANDATORY_TOOLCHAIN_ATTRS = SCALA_TOOLCHAIN_ATTRS | {
     "compiler_bridge": attr.label(
         doc = "Set zinc compiler bridge.",
     ),
-    "compiler_classpath": attr.label_list(
+    "compiler_classpath": attr.string_list(
         doc = "Sets compiler classpath.",
     ),
-    "runtime_classpath": attr.label_list(
+    "runtime_classpath": attr.string_list(
         doc = "Sets runtime classpath.",
+    ),
+    "global_plugins": attr.string_list(
+        doc = "Sets compiler plugins for all targets using this toolchain.",
     ),
 }
