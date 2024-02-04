@@ -451,7 +451,6 @@ Use this only for libraries with macros. Otherwise, use `java_import`.
 """,
     implementation = _scala_import_implementation,
     toolchains = [
-        "@rules_scala3//scala3:toolchain_type",
         "@bazel_tools//tools/jdk:toolchain_type",
     ],
 )
