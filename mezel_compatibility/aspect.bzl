@@ -38,8 +38,7 @@ def _mezel_aspect_impl(target, ctx):
 
     opts = toolchain_opts + target_opts
 
-    # hardcode the latest supported metals version
-    compiler_version = "3.3.1"
+    compiler_version = toolchain.scala_version
 
     semanticdb_target_root = target[SemanticdbInfo].target_root
 
