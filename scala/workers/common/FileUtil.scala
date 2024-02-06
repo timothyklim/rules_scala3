@@ -76,18 +76,20 @@ object FileUtil:
     val fileStream = Files.newInputStream(archive)
     try
       val zipStream = ZipInputStream(fileStream)
-      @tailrec
-      def next(files: List[Path]): List[Path] =
+
+      @tailrec def next(files: List[Path]): List[Path] =
         zipStream.getNextEntry match
           case null => files
-          case entry if entry.isDirectory =>
-            zipStream.closeEntry()
-            next(files)
-          case entry =>
-            val file = output.resolve(entry.getName)
-            Files.createDirectories(file.getParent)
-            Files.copy(zipStream, file, StandardCopyOption.REPLACE_EXISTING)
-            zipStream.closeEntry()
-            next(file :: files)
+          case entry: ZipEntry =>
+            if entry.isDirectory then
+              zipStream.closeEntry()
+              next(files)
+            else
+              val file = output.resolve(entry.getName)
+              Files.createDirectories(file.getParent)
+              Files.copy(zipStream, file, StandardCopyOption.REPLACE_EXISTING)
+              zipStream.closeEntry()
+              next(file :: files)
+
       next(Nil)
     finally fileStream.close()

@@ -64,7 +64,13 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
   override def work(workerArgs: Arguments, args: collection.Seq[String]): Unit =
     val workArgs = WorkArguments(args).getOrElse(throw IllegalArgumentException(s"work args is invalid: ${args.mkString(" ")}"))
 
-    val logger = AnnexLogger(workArgs.logLevel)
+    given ctx: ZincContext = ZincContext(
+      rootDir = Paths.get("").toAbsolutePath,
+      tmpDir = workArgs.tmpDir.toAbsolutePath,
+      depsCache = workerArgs.depsCache.map(_.toAbsolutePath).orNull
+    )
+
+    given logger: AnnexLogger = AnnexLogger(workArgs.logLevel)
 
     val sourcesDir = workArgs.tmpDir.resolve("src")
     val sources: collection.Seq[File] = workArgs.sources ++ workArgs.sourceJars.zipWithIndex
@@ -77,7 +83,9 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
     val analyses = workerArgs.usePersistence match
       case true =>
         workArgs.analysis
-          .flatMap(arg => arg.jars.map(jar => jar -> (classesDir.resolve(labelToPath(arg.label)), DepAnalysisFiles(arg.apis, arg.relations))))
+          .flatMap: arg =>
+            arg.jars.distinct.map :jar =>
+              jar -> (classesDir.resolve(labelToPath(arg.label)), DepAnalysisFiles(arg.apis, arg.relations))
           .toMap
       case false => Map.empty
     val deps = Dep.create(workerArgs.depsCache, workArgs.classpath, analyses)
@@ -94,16 +102,17 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
     val analysisStore = AnxAnalysisStore(analysisFiles, analysesFormat)
 
     val persistence = workerArgs.persistenceDir.fold[ZincPersistence](NullPersistence) { rootDir =>
-      val path = workArgs.label.replaceAll("^/+", "").replaceAll(raw"[^\w/]", "_")
+      val path = labelToPath(workArgs.label)
       FilePersistence(rootDir.resolve(path), analysisFiles, workArgs.outputJar)
     }
 
     val classesOutputDir = classesDir.resolve(labelToPath(workArgs.label))
+    Files.createDirectories(classesOutputDir)
     try
       persistence.load()
       if Files.exists(workArgs.outputJar) then
-        try FileUtil.extractZip(workArgs.outputJar, classesOutputDir)
-        finally FileUtil.delete(classesOutputDir)
+        FileUtil.extractZip(workArgs.outputJar, classesOutputDir)
+        Files.delete(workArgs.outputJar)
     catch
       case NonFatal(e) =>
         logger.warn(() => s"Failed to load cached analysis: $e")
@@ -112,7 +121,7 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
         Files.delete(analysisFiles.relations)
         Files.delete(analysisFiles.sourceInfos)
         Files.delete(analysisFiles.stamps)
-    Files.createDirectories(classesOutputDir)
+        FileUtil.delete(classesOutputDir)
 
     val previousResult = Try(analysisStore.get())
       .fold(
@@ -140,7 +149,11 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
       .withClassLoaderCache(classloaderCache)
     val compilers = ZincUtil.compilers(scalaInstance, ClasspathOptionsUtil.boot, None, scalaCompiler)
 
-    val depMap = deps.collect { case ExternalDep(_, classpath, files) => classpath -> files }.toMap
+    val depMap = deps
+      .collect:
+        case ExternalDep(_, classpath, files) => classpath -> files
+        case ExternalCachedDep(_, _, classpath, files) => classpath -> files
+      .toMap
     val lookup = AnxPerClasspathEntryLookup(file =>
       depMap
         .get(file)
@@ -258,7 +271,7 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
       debug: Boolean = false,
       javaCompilerOption: Vector[String] = Vector.empty,
       label: String = "",
-      logLevel: LogLevel = LogLevel.Warn,
+      logLevel: LogLevel = LogLevel.Debug,
       mainManifest: File = new File("."),
       outputApis: Path = Paths.get("."),
       outputInfos: Path = Paths.get("."),
@@ -381,8 +394,8 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
 
   private val compilerCache = CompilerCache.fresh
 
-  private def labelToPath(label: String): Path =
-    Paths.get(label.replaceAll("^/+", "").replaceAll(raw"[^\w/]", "_"))
+private def labelToPath(label: String): Path =
+  Paths.get(label.replaceAll("^/+", "").replaceAll(raw"[^\w/]", "_").dropWhile(ch => ch == '/' || ch == '_'))
 
 final class AnxPerClasspathEntryLookup(analyses: Path => Option[CompileAnalysis]) extends PerClasspathEntryLookup:
   private val Empty = Optional.empty[CompileAnalysis]

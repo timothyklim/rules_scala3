@@ -6,29 +6,31 @@ import java.io.{File, InputStream, OutputStream, OutputStreamWriter}
 import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, NoSuchFileException, Path, Paths}
 import java.nio.file.attribute.FileTime
-import java.util.zip.{GZIPInputStream, GZIPOutputStream}
 import java.util.{Map as JMap, Optional}
-import scala.jdk.CollectionConverters.*
-import sbt.internal.shaded.com.google.protobuf.{GeneratedMessageV3, Parser}
+import java.util.zip.{GZIPInputStream, GZIPOutputStream}
+import sbt.internal.inc.{APIs, Analysis, PlainVirtualFile, Relations, Schema, SourceInfos, Stamp as StampImpl, Stamper, Stamps}
 import sbt.internal.inc.binary.converters.{ProtobufReaders, ProtobufWriters}
 import sbt.internal.inc.text.Mapper
-import sbt.internal.inc.{APIs, Analysis, PlainVirtualFile, Relations, Schema, SourceInfos, Stamp as StampImpl, Stamper, Stamps}
-import xsbti.compile.analysis.{GenericMapper, ReadMapper, ReadWriteMappers, Stamp, WriteMapper}
-import xsbti.compile.{AnalysisContents, AnalysisStore, MiniSetup}
+import sbt.internal.shaded.com.google.protobuf.{GeneratedMessageV3, Parser}
+import scala.collection.mutable
+import scala.jdk.CollectionConverters.*
 import xsbti.{PathBasedFile, VirtualFileRef}
+import xsbti.compile.{AnalysisContents, AnalysisStore, MiniSetup}
+import xsbti.compile.analysis.{GenericMapper, ReadMapper, ReadWriteMappers, Stamp, WriteMapper}
+import workers.common.AnnexLogger
 
 final case class AnalysisFiles(apis: Path, miniSetup: Path, relations: Path, sourceInfos: Path, stamps: Path)
 
 object AnxAnalysisStore:
-  trait Format:
+  sealed trait Format:
     def read[A <: GeneratedMessageV3](parser: Parser[A], inputStream: InputStream): A
     def write(message: GeneratedMessageV3, stream: OutputStream): Unit
 
   object BinaryFormat extends Format:
     def read[A <: GeneratedMessageV3](parser: Parser[A], stream: InputStream) =
-      parser.parseFrom(new GZIPInputStream(stream))
+      parser.parseFrom(GZIPInputStream(stream))
     def write(message: GeneratedMessageV3, stream: OutputStream): Unit =
-      val gzip = new GZIPOutputStream(stream, true)
+      val gzip = GZIPOutputStream(stream, true)
       message.writeTo(gzip)
       gzip.finish()
 
@@ -36,14 +38,14 @@ object AnxAnalysisStore:
     def read[A <: GeneratedMessageV3](parser: Parser[A], stream: InputStream) =
       parser.parseFrom(stream)
     def write(message: GeneratedMessageV3, stream: OutputStream): Unit =
-      val writer = new OutputStreamWriter(stream, StandardCharsets.US_ASCII)
+      val writer = OutputStreamWriter(stream, StandardCharsets.US_ASCII)
       try writer.write(message.toString)
       finally writer.close()
 
-trait Readable[A]:
+sealed trait Readable[A]:
   def read(file: Path): A
 
-trait Writeable[A]:
+sealed trait Writeable[A]:
   def write(file: Path, value: A): Unit
 
 final class Store[A](readStream: InputStream => A, writeStream: (OutputStream, A) => Unit) extends Readable[A] with Writeable[A]:
@@ -82,10 +84,10 @@ final class AnxAnalysisStore(files: AnalysisFiles, analyses: AnxAnalyses) extend
     val miniSetup = analysisContents.getMiniSetup
     analyses.miniSetup.write(files.miniSetup, miniSetup)
 
-final class AnxAnalyses(format: AnxAnalysisStore.Format):
-  private val mappers = AnxMapper.mappers(Paths.get(""))
-  private val reader = new ProtobufReaders(mappers.getReadMapper, Schema.Version.V1_1)
-  private val writer = new ProtobufWriters(mappers.getWriteMapper)
+final class AnxAnalyses(format: AnxAnalysisStore.Format)(using ctx: ZincContext, logger: AnnexLogger):
+  private val mappers = AnxMapper.mappers()
+  private val reader = ProtobufReaders(mappers.getReadMapper, Schema.Version.V1_1)
+  private val writer = ProtobufWriters(mappers.getWriteMapper)
 
   def apis =
     new Store[APIs](
@@ -151,8 +153,9 @@ final class AnxAnalyses(format: AnxAnalysisStore.Format):
 
 object AnxMapper:
   val rootPlaceholder = Paths.get("_ROOT_")
+  val tmpPlaceholder = Paths.get("_TMP_")
 
-  def mappers(root: Path) = new ReadWriteMappers(new AnxReadMapper(root), new AnxWriteMapper(root))
+  def mappers()(using ctx: ZincContext, logger: AnnexLogger) = ReadWriteMappers(AnxReadMapper(), AnxWriteMapper())
 
   def hashStamp(file: Path): Stamp =
     val newTime = Files.getLastModifiedTime(file)
@@ -163,19 +166,19 @@ object AnxMapper:
         stampCache += (file -> (newTime, stamp))
         stamp
 
-  private val stampCache = new scala.collection.mutable.HashMap[Path, (FileTime, Stamp)]
+  private val stampCache = mutable.HashMap.empty[Path, (FileTime, Stamp)]
 
-final class AnxWriteMapper(root: Path) extends WriteMapper:
-  private val rootAbs = root.toAbsolutePath
-
+final class AnxWriteMapper()(using ctx: ZincContext) extends WriteMapper:
   private def mapFile(file: Path): Path =
-    if file.startsWith(rootAbs) then AnxMapper.rootPlaceholder.resolve(rootAbs.relativize(file))
+    if file.startsWith(ctx.tmpDir) then AnxMapper.tmpPlaceholder.resolve(ctx.tmpDir.relativize(file))
+    else if file.startsWith(ctx.rootDir) then AnxMapper.rootPlaceholder.resolve(ctx.rootDir.relativize(file))
     else file
 
   private def mapFile(file: VirtualFileRef): VirtualFileRef =
-    file match
-      case file: PathBasedFile => PlainVirtualFile(mapFile(file.toPath))
-      case _                   => file
+    val path = file match
+      case file: PathBasedFile => file.toPath
+      case _                   => Paths.get(file.toString)
+    PlainVirtualFile(mapFile(path))
 
   override def mapSourceFile(sourceFile: VirtualFileRef): VirtualFileRef = mapFile(sourceFile)
   override def mapBinaryFile(binaryFile: VirtualFileRef): VirtualFileRef = mapFile(binaryFile)
@@ -188,24 +191,27 @@ final class AnxWriteMapper(root: Path) extends WriteMapper:
   override def mapOutputDir(outputDir: Path): Path = mapFile(outputDir)
   override def mapSourceDir(sourceDir: Path): Path = mapFile(sourceDir)
 
-  override def mapProductStamp(file: VirtualFileRef, productStamp: Stamp) =
-    StampImpl.fromString(s"lastModified(${JarHelper.DEFAULT_TIMESTAMP})")
+  override def mapProductStamp(file: VirtualFileRef, productStamp: Stamp): Stamp = productStamp
+  // StampImpl.fromString(s"lastModified(${JarHelper.DEFAULT_TIMESTAMP})")
   override def mapSourceStamp(file: VirtualFileRef, sourceStamp: Stamp): Stamp = sourceStamp
-  override def mapBinaryStamp(file: VirtualFileRef, binaryStamp: Stamp) = binaryStamp
+  override def mapBinaryStamp(file: VirtualFileRef, binaryStamp: Stamp): Stamp = binaryStamp
 
   override def mapMiniSetup(miniSetup: MiniSetup): MiniSetup = miniSetup
 
-final class AnxReadMapper(root: Path) extends ReadMapper:
-  private val rootAbs = root.toAbsolutePath
-
+final class AnxReadMapper()(using ctx: ZincContext, logger: AnnexLogger) extends ReadMapper:
   private def mapFile(file: Path): Path =
-    if file.startsWith(AnxMapper.rootPlaceholder) then rootAbs.resolve(AnxMapper.rootPlaceholder.relativize(file))
-    else file
+    val path =
+      if file.startsWith(AnxMapper.tmpPlaceholder) then ctx.tmpDir.resolve(AnxMapper.tmpPlaceholder.relativize(file))
+      else if file.startsWith(AnxMapper.rootPlaceholder) then ctx.rootDir.resolve(AnxMapper.rootPlaceholder.relativize(file))
+      else file
+    if !path.toFile().exists() then logger.debug(() => s"File `$path` not found")
+    path
 
   private def mapFile(file: VirtualFileRef): VirtualFileRef =
-    file match
-      case file: PathBasedFile => PlainVirtualFile(mapFile(file.toPath))
-      case _                   => file
+    val path = file match
+      case file: PathBasedFile => file.toPath
+      case _                   => Paths.get(file.toString)
+    PlainVirtualFile(mapFile(path))
 
   override def mapSourceFile(sourceFile: VirtualFileRef): VirtualFileRef = mapFile(sourceFile)
   override def mapBinaryFile(binaryFile: VirtualFileRef): VirtualFileRef = mapFile(binaryFile)
@@ -218,17 +224,19 @@ final class AnxReadMapper(root: Path) extends ReadMapper:
   override def mapOutputDir(outputDir: Path): Path = mapFile(outputDir)
   override def mapSourceDir(sourceDir: Path): Path = mapFile(sourceDir)
 
-  override def mapProductStamp(file: VirtualFileRef, productStamp: Stamp): Stamp =
-    file match
-      case file: PathBasedFile => Stamper.forLastModifiedP(file.toPath())
-      case _                   => productStamp
+  override def mapProductStamp(file: VirtualFileRef, productStamp: Stamp): Stamp = productStamp
+  // file match
+  //   case file: PathBasedFile => Stamper.forLastModifiedP(file.toPath())
+  //   case _                   => productStamp
   override def mapSourceStamp(file: VirtualFileRef, sourceStamp: Stamp): Stamp = sourceStamp
-  override def mapBinaryStamp(file: VirtualFileRef, binaryStamp: Stamp): Stamp =
-    file match
-      case file: PathBasedFile =>
-        val filePath = file.toPath()
-        if AnxMapper.hashStamp(filePath) == binaryStamp then Stamper.forLastModifiedP(filePath)
-        else binaryStamp
-      case _ => binaryStamp
+  override def mapBinaryStamp(file: VirtualFileRef, binaryStamp: Stamp): Stamp = binaryStamp
+  // val res = file match
+  //   case file: PathBasedFile =>
+  //     val filePath = file.toPath()
+  //     if AnxMapper.hashStamp(filePath) == binaryStamp then Stamper.forLastModifiedP(filePath)
+  //     else binaryStamp
+  //   case _ => binaryStamp
+  // println(s"mapBinaryStamp file:$file binaryStamp:$binaryStamp res:$res")
+  // res
 
   override def mapMiniSetup(miniSetup: MiniSetup): MiniSetup = miniSetup

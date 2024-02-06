@@ -152,7 +152,7 @@ def _compile_analysis(analysis):
     return [
         "--analysis",
         ",".join([
-            "_{}".format(analysis.label),
+            str(analysis.label),
             analysis.apis.path,
             analysis.relations.path,
         ] + [jar.path for jar in analysis.jars]),

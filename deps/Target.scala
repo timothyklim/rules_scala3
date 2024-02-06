@@ -58,7 +58,7 @@ object Target:
     case SubPackages extends Visibility
 
     def asString(using vars: Vars): String = this match
-      case Public => "//visibility:public"
+      case Public      => "//visibility:public"
       case SubPackages => s"${vars.targetsTreeBazelPath}:__subpackages__"
 
   def apply(

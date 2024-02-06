@@ -1,11 +1,11 @@
 package rules_scala3.jmh
 
 import java.io.File
-import java.nio.file.{Path, Files, Paths, StandardCopyOption, FileAlreadyExistsException}
+import java.nio.file.{FileAlreadyExistsException, Files, Path, Paths, StandardCopyOption}
 import java.util.zip.{ZipEntry, ZipInputStream}
 
 import scala.concurrent.duration.Duration
-import scala.concurrent.{Future, Await, ExecutionContext}
+import scala.concurrent.{Await, ExecutionContext, Future}
 
 import com.google.devtools.build.buildjar.jarhelper.JarCreator
 import org.openjdk.jmh.generators.bytecode.JmhBytecodeGenerator
@@ -30,26 +30,26 @@ object JmhWorkArguments:
 
   private val parser = OParser.sequence(
     opt[File]("cp")
-        .required()
-        .unbounded()
-        .action((cp, c) => c.copy(classpath = c.classpath :+ cp.toPath))
-        .text("Compilation classpath"),
+      .required()
+      .unbounded()
+      .action((cp, c) => c.copy(classpath = c.classpath :+ cp.toPath))
+      .text("Compilation classpath"),
     opt[String]("generator")
-        .optional()
-        .action((g, c) => c.copy(generator = Generator.from(g)))
-        .text("JMH generator"),
+      .optional()
+      .action((g, c) => c.copy(generator = Generator.from(g)))
+      .text("JMH generator"),
     opt[File]("sources_jar")
-        .required()
-        .action((jar, c) => c.copy(sourcesJar = jar.toPath))
-        .text("Output sources jar"),
+      .required()
+      .action((jar, c) => c.copy(sourcesJar = jar.toPath))
+      .text("Output sources jar"),
     opt[File]("resources_jar")
-        .required()
-        .action((jar, c) => c.copy(resourcesJar = jar.toPath))
-        .text("Output resources jar"),
+      .required()
+      .action((jar, c) => c.copy(resourcesJar = jar.toPath))
+      .text("Output resources jar"),
     opt[File]("tmp")
-        .required()
-        .action((tmp, c) => c.copy(tmpDir = tmp.toPath))
-        .text("Temporary directory"),
+      .required()
+      .action((tmp, c) => c.copy(tmpDir = tmp.toPath))
+      .text("Temporary directory")
   )
 
   def apply(args: collection.Seq[String]): Option[JmhWorkArguments] =
@@ -71,10 +71,14 @@ object JmhRunner:
 
     JmhBytecodeGenerator.main(Array(bytecodeDir.toString, sourcesDir.toString, resourcesDir.toString, workArgs.generator.toString.toLowerCase))
 
-    Future.sequence(Seq(
-      Future(createJar(outputJar = workArgs.sourcesJar, dir = sourcesDir)),
-      Future(createJar(outputJar = workArgs.resourcesJar, dir = resourcesDir))
-    )).await()
+    Future
+      .sequence(
+        Seq(
+          Future(createJar(outputJar = workArgs.sourcesJar, dir = sourcesDir)),
+          Future(createJar(outputJar = workArgs.resourcesJar, dir = resourcesDir))
+        )
+      )
+      .await()
 
   def unzip(zipFilePath: Path, destDirectory: Path): Unit =
     val zipInputStream = ZipInputStream(Files.newInputStream(zipFilePath))
@@ -88,8 +92,7 @@ object JmhRunner:
         try Files.copy(zipInputStream, filePath)
         catch case _: FileAlreadyExistsException => ()
 
-    while
-      zipInputStream.getNextEntry() match
+    while zipInputStream.getNextEntry() match
         case entry: ZipEntry =>
           extractEntry(entry)
           true

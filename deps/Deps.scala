@@ -26,11 +26,11 @@ object Deps:
         "org.scala-lang" % "scala-reflect" -> "@scala_reflect_2_13_11//jar"
       ),
       dependencies = Vector(
-        "org.openjdk.jmh" % "jmh-core" % jmhV,
-        "org.openjdk.jmh" % "jmh-generator-bytecode" % jmhV,
-        "org.openjdk.jmh" % "jmh-generator-reflection" % jmhV,
-        "org.openjdk.jmh" % "jmh-generator-asm" % jmhV,
-        "com.github.scopt" %% "scopt" % "4.1.0",
+        "org.openjdk.jmh"   % "jmh-core"                 % jmhV,
+        "org.openjdk.jmh"   % "jmh-generator-bytecode"   % jmhV,
+        "org.openjdk.jmh"   % "jmh-generator-reflection" % jmhV,
+        "org.openjdk.jmh"   % "jmh-generator-asm"        % jmhV,
+        "com.github.scopt" %% "scopt"                    % "4.1.0"
       )
     )
 

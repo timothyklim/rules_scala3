@@ -5,7 +5,7 @@ import java.io.ObjectOutputStream
 import java.nio.file.Path
 
 import scala.collection.mutable
-import scala.concurrent.{Future, Await, ExecutionContext}
+import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -29,7 +29,8 @@ final class BasicTestRunner(framework: Framework, classLoader: ClassLoader, para
       }
     }
 
-final class ClassLoaderTestRunner(framework: Framework, classLoaderProvider: () => ClassLoader, parallel: Boolean, logger: Logger) extends TestFrameworkRunner:
+final class ClassLoaderTestRunner(framework: Framework, classLoaderProvider: () => ClassLoader, parallel: Boolean, logger: Logger)
+    extends TestFrameworkRunner:
   def execute(tests: Seq[TestDefinition], scopeAndTestName: String, arguments: Seq[String]) =
     given reporter: TestReporter = TestReporter(logger)
 
@@ -108,7 +109,10 @@ sealed trait TestFrameworkRunner:
   def execute(tests: Seq[TestDefinition], scopeAndTestName: String, arguments: Seq[String]): Boolean
 
 object TestFrameworkRunner:
-  def run(tasks: collection.Seq[Task], parallel: Boolean)(using taskExecutor: TestTaskExecutor, reporter: TestReporter): (mutable.ListBuffer[(String, collection.Seq[Event])], collection.Set[String]) =
+  def run(tasks: collection.Seq[Task], parallel: Boolean)(
+      using taskExecutor: TestTaskExecutor,
+      reporter: TestReporter
+  ): (mutable.ListBuffer[(String, collection.Seq[Event])], collection.Set[String]) =
     val finishedTasks =
       if parallel then Await.result(Future.sequence(tasks.map(t => Future(runTask(t)))), Duration.Inf)
       else tasks.map(runTask(_))
@@ -122,7 +126,9 @@ object TestFrameworkRunner:
     (tasksAndEvents, failures)
   end run
 
-  def report(tasksAndEvents: mutable.ListBuffer[(String, collection.Seq[Event])], failures: collection.Set[String])(using reporter: TestReporter): Boolean =
+  def report(tasksAndEvents: mutable.ListBuffer[(String, collection.Seq[Event])], failures: collection.Set[String])(
+      using reporter: TestReporter
+  ): Boolean =
     reporter.post(failures)
     JUnitXmlReporter(tasksAndEvents).write
     !failures.nonEmpty
