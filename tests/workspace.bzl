@@ -1,6 +1,6 @@
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
-scalapb_version = "0.11.14"
+scalapb_version = "0.11.15"
 munit_version = "1.0.0-M11"
 
 def test_artifacts():
@@ -12,7 +12,7 @@ def test_artifacts():
         "io.grpc:grpc-netty:1.57.0",
         "org.scala-js:scalajs-dom_sjs1_3:2.8.0",
         "org.scala-lang.modules:scala-xml_3:2.2.0",
-        "org.scala-sbt:compiler-interface:1.9.5",
+        "org.scala-sbt:compiler-interface:2.0.0-alpha10",
         "org.scalacheck:scalacheck_3:1.17.0",
         "org.scalameta:munit_3:" + munit_version,
         "org.scalameta:munit-scalacheck_3:" + munit_version,

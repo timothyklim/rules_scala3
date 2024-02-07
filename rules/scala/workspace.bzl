@@ -45,7 +45,7 @@ def scala_artifacts():
         "org.scala-sbt:util-interface:" + sbt_version,
         "org.scala-sbt:util-logging_3:" + sbt_version,
         "org.scala-sbt:zinc_3:" + zinc_version,
-        "org.scalameta:munit_3:1.0.0-M10",
+        "org.scalameta:munit_3:1.0.0-M11",
     ]
 
 def scala_repositories():

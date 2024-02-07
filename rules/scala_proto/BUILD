@@ -26,6 +26,7 @@ scala_binary(
         "@annex_proto//:com_thesamet_scalapb_compilerplugin_3",
         "@annex_proto//:com_thesamet_scalapb_grpcweb_scalapb_grpcweb_code_gen_3",
         "@annex_proto//:com_thesamet_scalapb_protoc_bridge_2_13",
+        "@annex_proto//:com_thesamet_scalapb_protoc_gen_2_13",
     ],
 )
 
