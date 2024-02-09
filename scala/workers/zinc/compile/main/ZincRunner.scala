@@ -250,7 +250,7 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
     import builder.*
 
     private val parser = OParser.sequence(
-      opt[Boolean]("use_persistence").action((p, c) => c.copy(usePersistence = p)),
+      opt[Boolean]("use_persistence").unbounded().action((p, c) => c.copy(usePersistence = p)),
       opt[String]("extracted_file_cache").unbounded().optional().action((p, c) => c.copy(depsCache = Some(pathFrom(p)))),
       opt[String]("persistence_dir").unbounded().optional().action((p, c) => c.copy(persistenceDir = Some(pathFrom(p)))),
       opt[Int]("max_errors").optional().action((m, c) => c.copy(maxErrors = m))
