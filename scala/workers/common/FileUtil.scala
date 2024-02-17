@@ -3,7 +3,7 @@ package workers.common
 
 import scala.annotation.tailrec
 import java.io.IOException
-import java.nio.channels.FileChannel
+import java.nio.channels.{FileChannel, FileLock}
 import java.nio.file.{FileAlreadyExistsException, FileVisitResult, Files, OpenOption, Path, SimpleFileVisitor, StandardCopyOption, StandardOpenOption}
 import java.nio.file.attribute.BasicFileAttributes
 import java.security.SecureRandom
@@ -52,8 +52,15 @@ object FileUtil:
     try Files.createFile(lockFile)
     catch case _: FileAlreadyExistsException => ()
     val channel = FileChannel.open(lockFile, StandardOpenOption.WRITE)
+
+    @tailrec def tryLock(): FileLock = channel.tryLock() match
+      case lock: FileLock => lock
+      case null =>
+        Thread.sleep(100)
+        tryLock()
+
     try
-      val lock = channel.lock()
+      val lock = getLock()
       try f
       finally lock.release()
     finally channel.close()
