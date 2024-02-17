@@ -60,7 +60,7 @@ object FileUtil:
         tryLock()
 
     try
-      val lock = getLock()
+      val lock = tryLock()
       try f
       finally lock.release()
     finally channel.close()
