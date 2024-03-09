@@ -96,12 +96,12 @@ def scala_repositories():
     for dep in direct_deps:
         maybe(jvm_maven_import_external, name = dep[0], artifact = dep[1], artifact_sha256 = dep[2] if len(dep) == 3 else "", server_urls = repositories)
 
-    protobuf_tag = "25.3"
+    protobuf_tag = "21.12"
     rules_proto_tag = "5.3.0-21.7"
     skylib_tag = "1.5.0"
     rules_deps = [
         ["bazel_skylib", None, "https://github.com/bazelbuild/bazel-skylib/releases/download/{v}/bazel-skylib-{v}.tar.gz".format(v = skylib_tag), "cd55a062e763b9349921f0f5db8c3933288dc8ba4f76dd9416aac68acee3cb94"],
-        ["com_google_protobuf", "protobuf-" + protobuf_tag, "https://github.com/protocolbuffers/protobuf/archive/v{}.tar.gz".format(protobuf_tag), "d19643d265b978383352b3143f04c0641eea75a75235c111cc01a1350173180e"],
+        ["com_google_protobuf", "protobuf-" + protobuf_tag, "https://github.com/protocolbuffers/protobuf/archive/v{}.tar.gz".format(protobuf_tag), "22fdaf641b31655d4b2297f9981fa5203b2866f8332d3c6333f6b0107bb320de"],
         ["rules_proto", "rules_proto-" + rules_proto_tag, "https://github.com/bazelbuild/rules_proto/archive/{}.tar.gz".format(rules_proto_tag), "dc3fb206a2cb3441b485eb1e423165b231235a1ea9b031b4433cf7bc1fa460dd"],
     ]
     for dep in rules_deps:
