@@ -58,6 +58,7 @@ object TestRunnerArguments:
 
 final case class TestWorkArguments(
     parallel: Boolean = false,
+    parallelN: Int = 1,
     apis: Path = Paths.get("."),
     subprocessExec: Path = Paths.get("."),
     isolation: Isolation = Isolation.None,
@@ -71,6 +72,7 @@ object TestWorkArguments:
 
   private val parser = OParser.sequence(
     opt[Boolean]("parallel").optional().action((v, c) => c.copy(parallel = v)),
+    opt[Int]("parallel-n").optional().action((v, c) => c.copy(parallelN = Math.max(1, v))),
     opt[File]("apis").required().action((f, c) => c.copy(apis = f.toPath)).text("APIs file"),
     opt[File]("subprocess_exec").optional().action((f, c) => c.copy(subprocessExec = f.toPath)).text("Executable for SubprocessTestRunner"),
     opt[Isolation]("isolation").optional().action((iso, c) => c.copy(isolation = iso)).text("Test isolation"),
@@ -133,7 +135,7 @@ object TestRunner:
         ProtobufReaders(ReadMapper.getEmptyMapper, Schema.Version.V1_1).fromApis(shouldStoreApis = true)(raw)
       catch case NonFatal(e) => throw Exception(s"Failed to load APIs from $apisFile", e)
 
-    val loader = TestFrameworkLoader(classLoader, logger)
+    val loader = TestFrameworkLoader(classLoader)
     val frameworks = workArgs.frameworks.flatMap(loader.load)
 
     val testClass = sys.env
@@ -163,11 +165,11 @@ object TestRunner:
           case Isolation.ClassLoader =>
             val urls = classpath.filterNot(sharedClasspath.toSet).map(_.toUri.toURL).toArray
             def classLoaderProvider() = URLClassLoader(urls, sharedClassLoader)
-            ClassLoaderTestRunner(framework, classLoaderProvider, parallel = workArgs.parallel, logger)
+            ClassLoaderTestRunner(framework, classLoaderProvider, parallel = workArgs.parallel, parallelN = workArgs.parallelN, logger)
           case Isolation.Process =>
             val executable = runPath.resolve(workArgs.subprocessExec)
             ProcessTestRunner(framework, classpath, ProcessCommand(executable.toString, runArgs.subprocessArg), logger)
-          case Isolation.None => BasicTestRunner(framework, classLoader, parallel = workArgs.parallel, logger)
+          case Isolation.None => BasicTestRunner(framework, classLoader, parallel = workArgs.parallel, parallelN = workArgs.parallelN, logger)
         try runner.execute(filteredTests, testScopeAndName.getOrElse(""), runArgs.frameworkArgs)
         catch
           case e: Throwable =>

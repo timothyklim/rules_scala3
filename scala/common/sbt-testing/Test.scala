@@ -7,7 +7,7 @@ import scala.util.control.NonFatal
 
 final case class TestDefinition(name: String, fingerprint: Fingerprint)
 
-final class TestFrameworkLoader(loader: ClassLoader, logger: Logger):
+final class TestFrameworkLoader(loader: ClassLoader):
   def load(className: String) =
     val framework =
       try Some(Class.forName(className, true, loader).getDeclaredConstructor().newInstance())
@@ -37,7 +37,7 @@ object TestHelper:
     )
 
 final class TestReporter(logger: Logger):
-  def post(failures: Traversable[String]) =
+  def post(failures: Iterable[String]) =
     if failures.nonEmpty then
       logger.error(s"${failures.size} ${if failures.size == 1 then "failure" else "failures"}:")
       failures.toSeq.sorted.foreach(name => logger.error(s"    $name"))
@@ -45,7 +45,7 @@ final class TestReporter(logger: Logger):
 
   def postTask() = logger.info("")
 
-  def pre(framework: Framework, tasks: Traversable[Task]) =
+  def pre(framework: Framework, tasks: Iterable[Task]) =
     logger.info(s"${framework.getClass.getName}: ${tasks.size} tests")
     logger.info("")
 
@@ -53,7 +53,7 @@ final class TestReporter(logger: Logger):
 
 final class TestTaskExecutor(logger: Logger):
   def execute(task: Task, failures: mutable.Set[String]): mutable.ListBuffer[Event] =
-    var events = mutable.ListBuffer[Event]()
+    val events = mutable.ListBuffer[Event]()
     val pending = mutable.Set.empty[String]
 
     def execute(task: Task): Unit =

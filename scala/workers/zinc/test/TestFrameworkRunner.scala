@@ -15,7 +15,7 @@ import common.sbt_testing.*
 
 final case class FinishedTask(name: String, events: collection.Seq[Event], failures: collection.Set[String])
 
-final class BasicTestRunner(framework: Framework, classLoader: ClassLoader, parallel: Boolean, logger: Logger) extends TestFrameworkRunner:
+final class BasicTestRunner(framework: Framework, classLoader: ClassLoader, parallel: Boolean, parallelN: Int, logger: Logger) extends TestFrameworkRunner:
   def execute(tests: Seq[TestDefinition], scopeAndTestName: String, arguments: Seq[String]) =
     ClassLoaders.withContextClassLoader(classLoader) {
       TestHelper.withRunner(framework, scopeAndTestName, classLoader, arguments) { runner =>
@@ -24,12 +24,12 @@ final class BasicTestRunner(framework: Framework, classLoader: ClassLoader, para
         reporter.pre(framework, tasks)
         given taskExecutor: TestTaskExecutor = TestTaskExecutor(logger)
 
-        val (tasksAndEvents, failures) = TestFrameworkRunner.run(tasks, parallel = parallel)
+        val (tasksAndEvents, failures) = TestFrameworkRunner.run(tasks, parallel = parallel, parallelN = parallelN)
         TestFrameworkRunner.report(tasksAndEvents, failures)
       }
     }
 
-final class ClassLoaderTestRunner(framework: Framework, classLoaderProvider: () => ClassLoader, parallel: Boolean, logger: Logger)
+final class ClassLoaderTestRunner(framework: Framework, classLoaderProvider: () => ClassLoader, parallel: Boolean, parallelN: Int, logger: Logger)
     extends TestFrameworkRunner:
   def execute(tests: Seq[TestDefinition], scopeAndTestName: String, arguments: Seq[String]) =
     given reporter: TestReporter = TestReporter(logger)
@@ -48,11 +48,11 @@ final class ClassLoaderTestRunner(framework: Framework, classLoaderProvider: () 
 
     for test <- tests do
       val classLoader = classLoaderProvider()
-      val isolatedFramework = TestFrameworkLoader(classLoader, logger).load(framework.getClass.getName).get
+      val isolatedFramework = TestFrameworkLoader(classLoader).load(framework.getClass.getName).get
       TestHelper.withRunner(isolatedFramework, scopeAndTestName, classLoader, arguments) { runner =>
         ClassLoaders.withContextClassLoader(classLoader) {
           val tasks = runner.tasks(Array(TestHelper.taskDef(test, scopeAndTestName)))
-          val (tasksAndEvents, failures) = TestFrameworkRunner.run(tasks, parallel = parallel)
+          val (tasksAndEvents, failures) = TestFrameworkRunner.run(tasks, parallel = parallel, parallelN = parallelN)
           totalTasksAndEvents ++= tasksAndEvents
           totalFailures ++= failures
         }
@@ -109,12 +109,15 @@ sealed trait TestFrameworkRunner:
   def execute(tests: Seq[TestDefinition], scopeAndTestName: String, arguments: Seq[String]): Boolean
 
 object TestFrameworkRunner:
-  def run(tasks: collection.Seq[Task], parallel: Boolean)(
+  def run(tasks: collection.Seq[Task], parallel: Boolean, parallelN: Int)(
       using taskExecutor: TestTaskExecutor,
       reporter: TestReporter
   ): (mutable.ListBuffer[(String, collection.Seq[Event])], collection.Set[String]) =
     val finishedTasks =
-      if parallel then Await.result(Future.sequence(tasks.map(t => Future(runTask(t)))), Duration.Inf)
+      if parallel then
+        val fut = Future.traverse(tasks.grouped(parallelN)): xs =>
+          Future.sequence(xs.map(t => Future(runTask(t))))
+        Await.result(fut, Duration.Inf).flatten
       else tasks.map(runTask(_))
 
     val failures = mutable.Set.empty[String]
