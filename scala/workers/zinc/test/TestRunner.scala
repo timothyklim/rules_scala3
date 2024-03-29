@@ -58,7 +58,7 @@ object TestRunnerArguments:
 
 final case class TestWorkArguments(
     parallel: Boolean = false,
-    parallelN: Int = 1,
+    parallelN: Option[Int] = None,
     apis: Path = Paths.get("."),
     subprocessExec: Path = Paths.get("."),
     isolation: Isolation = Isolation.None,
@@ -72,7 +72,7 @@ object TestWorkArguments:
 
   private val parser = OParser.sequence(
     opt[Boolean]("parallel").optional().action((v, c) => c.copy(parallel = v)),
-    opt[Int]("parallel-n").optional().action((v, c) => c.copy(parallelN = Math.max(1, v))),
+    opt[Int]("parallel-n").optional().action((v, c) => c.copy(parallelN = Some(Math.max(1, v)))),
     opt[File]("apis").required().action((f, c) => c.copy(apis = f.toPath)).text("APIs file"),
     opt[File]("subprocess_exec").optional().action((f, c) => c.copy(subprocessExec = f.toPath)).text("Executable for SubprocessTestRunner"),
     opt[Isolation]("isolation").optional().action((iso, c) => c.copy(isolation = iso)).text("Test isolation"),

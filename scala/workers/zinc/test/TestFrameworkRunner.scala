@@ -15,7 +15,7 @@ import common.sbt_testing.*
 
 final case class FinishedTask(name: String, events: collection.Seq[Event], failures: collection.Set[String])
 
-final class BasicTestRunner(framework: Framework, classLoader: ClassLoader, parallel: Boolean, parallelN: Int, logger: Logger) extends TestFrameworkRunner:
+final class BasicTestRunner(framework: Framework, classLoader: ClassLoader, parallel: Boolean, parallelN: Option[Int], logger: Logger) extends TestFrameworkRunner:
   def execute(tests: Seq[TestDefinition], scopeAndTestName: String, arguments: Seq[String]) =
     ClassLoaders.withContextClassLoader(classLoader) {
       TestHelper.withRunner(framework, scopeAndTestName, classLoader, arguments) { runner =>
@@ -29,7 +29,7 @@ final class BasicTestRunner(framework: Framework, classLoader: ClassLoader, para
       }
     }
 
-final class ClassLoaderTestRunner(framework: Framework, classLoaderProvider: () => ClassLoader, parallel: Boolean, parallelN: Int, logger: Logger)
+final class ClassLoaderTestRunner(framework: Framework, classLoaderProvider: () => ClassLoader, parallel: Boolean, parallelN: Option[Int], logger: Logger)
     extends TestFrameworkRunner:
   def execute(tests: Seq[TestDefinition], scopeAndTestName: String, arguments: Seq[String]) =
     given reporter: TestReporter = TestReporter(logger)
@@ -109,13 +109,14 @@ sealed trait TestFrameworkRunner:
   def execute(tests: Seq[TestDefinition], scopeAndTestName: String, arguments: Seq[String]): Boolean
 
 object TestFrameworkRunner:
-  def run(tasks: collection.Seq[Task], parallel: Boolean, parallelN: Int)(
+  def run(tasks: collection.Seq[Task], parallel: Boolean, parallelN: Option[Int])(
       using taskExecutor: TestTaskExecutor,
       reporter: TestReporter
   ): (mutable.ListBuffer[(String, collection.Seq[Event])], collection.Set[String]) =
     val finishedTasks =
       if parallel then
-        val fut = Future.traverse(tasks.grouped(parallelN)): xs =>
+        val xs = parallelN.fold(Seq(tasks))(tasks.grouped(_).toSeq)
+        val fut = Future.traverse(xs): xs =>
           Future.sequence(xs.map(t => Future(runTask(t))))
         Await.result(fut, Duration.Inf).flatten
       else tasks.map(runTask(_))
