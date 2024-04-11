@@ -92,6 +92,7 @@ object DepsRunner extends WorkerMain[Unit]:
           val depLabel = group.label.tail match
             case label if label.startsWith("@@//") => label.drop(2)
             case label if label.startsWith("@//")  => label.drop(1)
+            case label if label.startsWith("@@")   => label.drop(1)
             case label                             => label
 
           depLabelsMap.put(depLabel, group.jars.toSet)
@@ -118,13 +119,12 @@ object DepsRunner extends WorkerMain[Unit]:
         val unusedWhitelist = workArgs.unusedWhitelist.map(_.tail)
         usedPaths
           .diff(Set.concat(directLabels, unusedWhitelist).flatMap(depLabelToPaths))
-          .flatMap { path =>
+          .flatMap: path =>
             pathToLabel.get(path) match
               case res @ None =>
                 System.err.println(s"Warning: There is a reference to $path, but no dependency of $label provides it")
                 res
               case res => res
-          }
       else Nil
     for depLabel <- add do
       println(s"Target '$depLabel' is used but isn't explicitly declared, please add it to the deps.")
