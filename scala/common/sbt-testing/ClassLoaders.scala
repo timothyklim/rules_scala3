@@ -3,6 +3,8 @@ package common.sbt_testing
 
 import java.net.{URL, URLClassLoader}
 
+import scala.language.unsafeNulls
+
 object ClassLoaders:
   def withContextClassLoader[A](classLoader: ClassLoader)(f: => A) =
     val thread = Thread.currentThread

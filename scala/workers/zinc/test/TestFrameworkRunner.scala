@@ -4,6 +4,7 @@ package workers.zinc.test
 import java.io.ObjectOutputStream
 import java.nio.file.Path
 
+import scala.language.unsafeNulls
 import scala.collection.mutable
 import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.concurrent.duration.Duration

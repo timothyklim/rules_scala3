@@ -1,9 +1,11 @@
 package rules_scala
 package common.sbt_testing
 
-import sbt.testing.{Event, Fingerprint, Framework, Logger, Runner, Status, Task, TaskDef, TestWildcardSelector}
+import scala.language.unsafeNulls
 import scala.collection.mutable
 import scala.util.control.NonFatal
+
+import sbt.testing.{Event, Fingerprint, Framework, Logger, Runner, Status, Task, TaskDef, TestWildcardSelector}
 
 final case class TestDefinition(name: String, fingerprint: Fingerprint)
 

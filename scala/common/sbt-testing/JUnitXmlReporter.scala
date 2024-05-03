@@ -3,6 +3,7 @@ package common.sbt_testing
 
 import java.io.{PrintWriter, StringWriter}
 
+import scala.language.unsafeNulls
 import scala.xml.{Elem, Utility, XML}
 
 import sbt.testing.{Event, Status, TestSelector}

@@ -9,6 +9,7 @@ import java.time.Instant
 import java.util.regex.Pattern
 import java.util.zip.GZIPInputStream
 
+import scala.language.unsafeNulls
 import scala.jdk.CollectionConverters.*
 import scala.util.control.NonFatal
 

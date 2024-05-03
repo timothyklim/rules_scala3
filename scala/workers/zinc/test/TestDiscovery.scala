@@ -1,12 +1,14 @@
 package rules_scala
 package workers.zinc.test
 
-import common.sbt_testing.{TestAnnotatedFingerprint, TestDefinition, TestSubclassFingerprint}
+import scala.collection.mutable
+import scala.language.unsafeNulls
 
 import sbt.testing.{AnnotatedFingerprint, Framework, SubclassFingerprint}
-import scala.collection.mutable
 import xsbt.api.Discovery
 import xsbti.api.{AnalyzedClass, ClassLike, Definition}
+
+import common.sbt_testing.{TestAnnotatedFingerprint, TestDefinition, TestSubclassFingerprint}
 
 final class TestDiscovery(framework: Framework):
   private val (annotatedPrints, subclassPrints) =

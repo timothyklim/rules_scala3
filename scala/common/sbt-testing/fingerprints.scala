@@ -1,6 +1,8 @@
 package rules_scala
 package common.sbt_testing
 
+import scala.language.unsafeNulls
+
 import sbt.testing.{AnnotatedFingerprint, SubclassFingerprint}
 
 sealed trait TestFingerprint extends Serializable
