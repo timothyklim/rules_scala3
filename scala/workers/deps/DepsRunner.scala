@@ -89,12 +89,7 @@ object DepsRunner extends WorkerMain[Unit]:
         val pathsMap = new mutable.HashMap[String, String](initialCapacity = groups.size, loadFactor = 0.75)
 
         for group <- groups do
-          val depLabel = group.label.tail match
-            case label if label.startsWith("@@//") => label.drop(2)
-            case label if label.startsWith("@//")  => label.drop(1)
-            case label if label.startsWith("@@")   => label.drop(1)
-            case label                             => label
-
+          val depLabel = normalizeLabel(group.label.tail)
           depLabelsMap.put(depLabel, group.jars.toSet)
 
           for path <- group.jars do pathsMap.put(path, depLabel)
@@ -106,7 +101,8 @@ object DepsRunner extends WorkerMain[Unit]:
     val remove =
       if workArgs.checkUsed then
         val usedWhitelist = workArgs.usedWhitelist.map(_.tail)
-        directLabels.diff(usedWhitelist).filterNot(depLabel => depLabelToPaths(depLabel).exists(usedPaths))
+        directLabels.diff(usedWhitelist).filterNot: depLabel =>
+          depLabelToPaths.get(normalizeLabel(depLabel)).fold(false)(_.exists(usedPaths))
       else Nil
 
     for depLabel <- remove do
@@ -118,7 +114,9 @@ object DepsRunner extends WorkerMain[Unit]:
       if workArgs.checkDirect then
         val unusedWhitelist = workArgs.unusedWhitelist.map(_.tail)
         usedPaths
-          .diff(Set.concat(directLabels, unusedWhitelist).flatMap(depLabelToPaths))
+          .diff:
+            Set.concat(directLabels, unusedWhitelist).flatMap: label =>
+              depLabelToPaths.get(normalizeLabel(label)).fold(Set.empty)(identity)
           .flatMap: path =>
             pathToLabel.get(path) match
               case res @ None =>
@@ -137,3 +135,9 @@ object DepsRunner extends WorkerMain[Unit]:
 
   private val EmptyLabelsMap = Map.empty[String, collection.Set[String]]
   private val EmptyPathsMap = Map.empty[String, String]
+
+  private def normalizeLabel(label: String): String = label match
+    case label if label.startsWith("@@//") => label.drop(2)
+    case label if label.startsWith("@//")  => label.drop(1)
+    case label if label.startsWith("@@")   => label.drop(1)
+    case label                             => label

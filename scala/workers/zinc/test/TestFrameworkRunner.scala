@@ -115,7 +115,7 @@ object TestFrameworkRunner:
       reporter: TestReporter
   ): (mutable.ListBuffer[(String, collection.Seq[Event])], collection.Set[String]) =
     val finishedTasks =
-      if parallel then
+      if parallel && tasks.size > 1 then
         val xs = parallelN.fold(Seq(tasks))(tasks.grouped(_).toSeq)
         val fut = Future.traverse(xs): xs =>
           Future.sequence(xs.map(t => Future(runTask(t))))
