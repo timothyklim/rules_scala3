@@ -1,5 +1,17 @@
+load("@rules_proto//proto:defs.bzl", "proto_library")
 load("//rules:scala.bzl", "scala_test", "scala_library")
 load("//scala3:defs.bzl", "worker_scala_binary")
+
+proto_library(
+    name = "diagnostics_proto",
+    srcs = ["protobuf/diagnostics.proto"],
+)
+
+java_proto_library(
+    name = "diagnostics_java_proto",
+    visibility = ["//visibility:public"],
+    deps = [":diagnostics_proto"],
+)
 
 worker_scala_binary(
     name = "compile",
@@ -20,6 +32,7 @@ worker_scala_binary(
         "@rules_scala3//rules/third_party/jarhelper",
         "@rules_scala3//scala/common/worker",
         "@rules_scala3//scala/workers/common",
+        ":diagnostics_java_proto",
     ],
 )
 
@@ -40,6 +53,7 @@ scala_library(
         "@rules_scala3//rules/third_party/jarhelper",
         "@rules_scala3//scala/common/worker",
         "@rules_scala3//scala/workers/common",
+        ":diagnostics_java_proto",
     ],
     scala = "@//:zinc_3",
 )

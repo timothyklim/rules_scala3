@@ -80,6 +80,7 @@ def scala3_register_toolchains(
         {
             "name": "scala3_mezel_toolchain",
             "enable_semanticdb": True,
+            "enable_diagnostics": True,
             "global_scalacopts": ["-Xfatal-warnings"],
         },
     ]
@@ -148,6 +149,7 @@ config_setting(name = "deps_used_error", flag_values = {{ ":deps_used": "error" 
 scala_toolchain(
     name = "toolchain_impl",
     scala_version = "{scala_version}",
+    enable_diagnostics = {enable_diagnostics},
     enable_semanticdb = {enable_semanticdb},
     semanticdb_bundle_in_jar = {semanticdb_bundle_in_jar},
     is_zinc = {is_zinc},

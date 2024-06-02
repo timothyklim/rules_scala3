@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat
 import java.util.{Date, List as JList, Optional, Properties}
 
 import scala.jdk.CollectionConverters.*
+import scala.jdk.OptionConverters.RichOptional
 import scala.util.Try
 import scala.util.control.NonFatal
 
@@ -16,7 +17,7 @@ import com.google.devtools.build.buildjar.jarhelper.JarCreator
 import sbt.internal.inc.{Analysis, AnalyzingCompiler, CompileFailed, IncrementalCompilerImpl, Locate, PlainVirtualFile, ZincUtil}
 import sbt.internal.inc.classpath.ClassLoaderCache
 import scopt.{DefaultOParserSetup, OParser, OParserSetup}
-import xsbti.{Logger, PathBasedFile, VirtualFile}
+import xsbti.{Logger, PathBasedFile, Problem, Severity, VirtualFile}
 import xsbti.compile.{
   AnalysisContents,
   ClasspathOptionsUtil,
@@ -35,6 +36,41 @@ import xsbti.compile.{
 
 import rules_scala.common.worker.WorkerMain
 import rules_scala.workers.common.*
+import rules_scala.workers.zinc.diagnostics.Diagnostics;
+
+extension (problem: Problem)
+  def toDiagnostic: Diagnostics.Diagnostic =
+    def e =
+      val path = problem.position.sourcePath.toScala.fold("no data")(identity)
+      val line = problem.position.line.toScala.fold("no data")(identity)
+      val pointer = problem.position.pointer.toScala.fold("no data")(identity)
+      sys.error(s"The compilation Problem($path:$line:$pointer) does not contain enough information. Failed to create compilation diagnostics.")
+
+    Diagnostics.Diagnostic.newBuilder
+      .setSeverity {
+        problem.severity match
+          case Severity.Error => Diagnostics.Severity.ERROR
+          case Severity.Warn  => Diagnostics.Severity.WARNING
+          case Severity.Info  => Diagnostics.Severity.INFORMATION
+      }
+      .setMessage(problem.message)
+      .setRange {
+        Diagnostics.Range.newBuilder
+          .setStart(
+            Diagnostics.Position.newBuilder
+              .setLine(problem.position.startLine().toScala.fold(e)(identity) - 1)
+              .setCharacter(problem.position.startColumn().toScala.fold(e)(identity))
+              .build
+          )
+          .setEnd(
+            Diagnostics.Position.newBuilder
+              .setLine(problem.position.endLine().toScala.fold(e)(identity) - 1)
+              .setCharacter(problem.position.endColumn().toScala.fold(e)(identity))
+              .build
+          )
+          .build
+      }
+      .build
 
 final case class AnalysisArgument(label: String, apis: Path, relations: Path, jars: Vector[Path])
 object AnalysisArgument:
@@ -71,6 +107,8 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
     )
 
     given logger: AnnexLogger = AnnexLogger(workArgs.logLevel)
+
+    val reporter = LoggedReporter(logger)
 
     val sourcesDir = workArgs.tmpDir.resolve("src")
     val sources: collection.Seq[File] = workArgs.sources ++ workArgs.sourceJars.zipWithIndex
@@ -167,7 +205,6 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
 
     val setup =
       val incOptions = IncOptions.create()
-      val reporter = LoggedReporter(logger)
       val skip = false
       val zincFile: Path = null
 
@@ -201,6 +238,27 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
           System.err.println(s"workArgs:$workArgs")
           System.err.println(e)
           sys.exit(1)
+      finally
+        // create compiler diagnostics
+        if workArgs.enableDiagnostics then
+          val targetDiagnostics: Diagnostics.TargetDiagnostics =
+            Diagnostics.TargetDiagnostics.newBuilder.addAllDiagnostics {
+              reporter.problems
+                .groupBy(
+                  _.position.sourcePath.toScala
+                    .fold(sys.error("The compilation problem does not contain the path to the source. Failed to create compilation diagnostics."))(
+                      identity
+                    )
+                )
+                .map { case (path, problems) =>
+                  Diagnostics.FileDiagnostics.newBuilder
+                    .setPath("workspace-root://" + path)
+                    .addAllDiagnostics(problems.map(_.toDiagnostic).toList.asJava)
+                    .build
+                }
+                .asJava
+            }.build
+          Files.write(workArgs.diagnosticsFile, targetDiagnostics.toByteArray)
 
     // create analyses
     analysisStore.set(AnalysisContents.create(compileResult.analysis, compileResult.setup))
@@ -272,6 +330,8 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
       javaCompilerOption: Vector[String] = Vector.empty,
       label: String = "",
       logLevel: LogLevel = LogLevel.Debug,
+      enableDiagnostics: Boolean = false,
+      diagnosticsFile: Path = Paths.get("."),
       mainManifest: File = new File("."),
       outputApis: Path = Paths.get("."),
       outputInfos: Path = Paths.get("."),
@@ -379,7 +439,19 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
         .unbounded()
         .optional()
         .action((s, c) => c.copy(sources = c.sources :+ s))
-        .text("Source files")
+        .text("Source files"),
+      opt[Boolean]("enable_diagnostics").action((value, c) => c.copy(enableDiagnostics = value)),
+      opt[File]("diagnostics_file")
+        .optional()
+        .action((value, c) => c.copy(diagnosticsFile = value.toPath))
+        .text("Compilation diagnostics file"),
+
+      checkConfig { c =>
+        if c.enableDiagnostics && c.diagnosticsFile == Paths.get(".") then
+          failure("If enable_diagnostics is true, diagnostics_file must be specified")
+        else
+          success
+      }
     )
 
     def apply(args: collection.Seq[String]): Option[WorkArguments] =

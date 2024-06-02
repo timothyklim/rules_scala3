@@ -12,6 +12,7 @@ load(
 def _gen_toolchain(scala, toolchain):
     toolchain_info = platform_common.ToolchainInfo(
         scala_version = scala[_ScalaConfiguration].version,
+        enable_diagnostics = toolchain.enable_diagnostics,
         enable_semanticdb = toolchain.enable_semanticdb,
         semanticdb_bundle_in_jar = toolchain.semanticdb_bundle_in_jar,
         is_zinc = True if _ZincConfiguration in scala else False,
@@ -46,6 +47,7 @@ def get_toolchain(ctx):
 
     if getattr(ctx.attr, "_worker_rule", False):
         stub_toolchain = platform_common.ToolchainInfo(
+            enable_diagnostics = False,
             enable_semanticdb = False,
             semanticdb_bundle_in_jar = False,
         )

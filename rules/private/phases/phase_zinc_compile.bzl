@@ -89,6 +89,10 @@ def phase_zinc_compile(ctx, g):
     args.add_all(g.classpaths.src_jars, format_each = "--source_jar=%s")
     args.add("--tmp", tmp.path)
     args.add("--log_level", toolchain.zinc_log_level)
+    args.add("--enable_diagnostics", toolchain.enable_diagnostics)
+    if toolchain.enable_diagnostics:
+        diagnostics_file = ctx.actions.declare_file("{}.diagnosticsproto".format(ctx.label.name))
+        args.add("--diagnostics_file", diagnostics_file)
     args.add_all(g.classpaths.srcs)
     args.set_param_file_format("multiline")
     args.use_param_file("@%s", use_always = True)
@@ -106,7 +110,7 @@ def phase_zinc_compile(ctx, g):
         ] + [zinc.deps_files for zinc in zincs],
     )
 
-    outputs = [g.classpaths.jar, mains_file, apis, infos, relations, setup, stamps, used, tmp] + semanticdb_files
+    outputs = [g.classpaths.jar, mains_file, apis, infos, relations, setup, stamps, used, tmp] + semanticdb_files + ([diagnostics_file] if toolchain.enable_diagnostics else [])
 
     # todo: different execution path for nosrc jar?
     ctx.actions.run(

@@ -30,6 +30,7 @@ def _scala_toolchain_impl(ctx):
 
     toolchain_info = platform_common.ToolchainInfo(
         scala_version = ctx.attr.scala_version,
+        enable_diagnostics = ctx.attr.enable_diagnostics,
         enable_semanticdb = ctx.attr.enable_semanticdb,
         semanticdb_bundle_in_jar = ctx.attr.semanticdb_bundle_in_jar,
         is_zinc = ctx.attr.is_zinc,
