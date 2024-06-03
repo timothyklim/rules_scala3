@@ -1,6 +1,10 @@
 "A module containing some constants related to the toolchain"
 
 SCALA_TOOLCHAIN_ATTRS = {
+    "enable_diagnostics": attr.bool(
+        default = False,
+        doc = "Enable compiler diagnostic report.",
+    ),
     "enable_semanticdb": attr.bool(
         default = False,
         doc = "Enable SemanticDB.",
