@@ -182,6 +182,7 @@ toolchain(
     repository_ctx.file("BUILD.bazel", build_content.format(
         scala_version = scala_version,
         enable_semanticdb = repository_ctx.attr.enable_semanticdb,
+        enable_diagnostics = repository_ctx.attr.enable_diagnostics,
         semanticdb_bundle_in_jar = repository_ctx.attr.semanticdb_bundle_in_jar,
         is_zinc = repository_ctx.attr.is_zinc,
         zinc_log_level = repository_ctx.attr.zinc_log_level,

@@ -205,6 +205,11 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
 
     val setup =
       val incOptions = IncOptions.create()
+        .withEnabled(true)
+        .withPipelining(true)
+        // .withStrictMode(true)
+        // .withRelationsDebug(true)
+        // .withApiDebug(true)
       val skip = false
       val zincFile: Path = null
 
