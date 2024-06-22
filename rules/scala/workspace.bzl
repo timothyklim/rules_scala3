@@ -32,20 +32,20 @@ repositories = [
     "https://scala-ci.typesafe.com/artifactory/scala-integration/",
 ]
 
-sbt_version = "2.0.0-alpha9"
-zinc_version = "2.0.0-alpha13"
+sbt_version = "2.0.0-alpha10"
+zinc_version = "2.0.0-alpha14"
 
 def scala_artifacts():
     return [
         "com.github.scopt:scopt_3:4.1.0",
         "org.jacoco:org.jacoco.core:0.8.10",
         "org.jline:jline-reader:3.24.1",
-        "org.scala-lang.modules:scala-xml_3:2.2.0",
+        "org.scala-lang.modules:scala-xml_3:2.3.0",
         "org.scala-sbt:test-interface:1.0",
         "org.scala-sbt:util-interface:" + sbt_version,
         "org.scala-sbt:util-logging_3:" + sbt_version,
         "org.scala-sbt:zinc_3:" + zinc_version,
-        "org.scalameta:munit_3:1.0.0-M11",
+        "org.scalameta:munit_3:1.0.0",
     ]
 
 def scala_repositories():
@@ -64,7 +64,7 @@ def scala_repositories():
     )
 
     scala2 = "2.13.14"
-    scala3 = "3.5.0-RC1"
+    scala3 = "3.5.0-RC2"
     scalajs = "1.16.0"
 
     direct_deps = [

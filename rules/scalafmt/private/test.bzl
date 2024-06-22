@@ -46,6 +46,7 @@ def build_format(ctx):
             args.set_param_file_format("multiline")
             args.use_param_file("@%s", use_always = True)
             ctx.actions.run(
+                mnemonic = "ScalaFmt",
                 arguments = [args],
                 executable = ctx.executable._fmt,
                 outputs = [file],
@@ -53,7 +54,6 @@ def build_format(ctx):
                 inputs = [ctx.file.config, src],
                 tools = runner_inputs,
                 execution_requirements = _resolve_execution_reqs(ctx, {"supports-workers": "1"}),
-                mnemonic = "ScalaFmt",
             )
             manifest_content.append("{} {}".format(src.short_path, file.short_path))
 

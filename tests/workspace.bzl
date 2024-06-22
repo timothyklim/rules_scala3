@@ -1,7 +1,7 @@
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
-scalapb_version = "0.11.15"
-munit_version = "1.0.0-M11"
+scalapb_version = "0.11.17"
+munit_version = "1.0.0"
 
 def test_artifacts():
     return [
@@ -9,11 +9,11 @@ def test_artifacts():
         "com.thesamet.scalapb:scalapb-runtime_3:" + scalapb_version,
         "com.thesamet.scalapb:scalapb-runtime-grpc_3:" + scalapb_version,
         "com.thesamet.scalapb.grpcweb:scalapb-grpcweb_sjs1_3:0.7.0",
-        "io.grpc:grpc-netty:1.62.2",
+        "io.grpc:grpc-netty:1.64.0",
         "org.scala-js:scalajs-dom_sjs1_3:2.8.0",
-        "org.scala-lang.modules:scala-xml_3:2.2.0",
-        "org.scala-sbt:compiler-interface:2.0.0-alpha13",
-        "org.scalacheck:scalacheck_3:1.17.0",
+        "org.scala-lang.modules:scala-xml_3:2.3.0",
+        "org.scala-sbt:compiler-interface:2.0.0-alpha14",
+        "org.scalacheck:scalacheck_3:1.18.0",
         "org.scalameta:munit_3:" + munit_version,
         "org.scalameta:munit-scalacheck_3:" + munit_version,
     ]
