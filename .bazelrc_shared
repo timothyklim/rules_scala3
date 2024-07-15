@@ -2,7 +2,6 @@ common --announce_rc
 common --color=yes
 
 build --experimental_strict_action_env
-build --extra_toolchains=@local_jdk//:all
 
 build --strategy=ScalaCompile=worker
 build --worker_max_instances=4
@@ -13,9 +12,3 @@ build:rules --disk_cache=.bazel_cache
 build:tests --disk_cache=../.bazel_cache
 
 test --test_output=all
-test --jvmopt='-Dfile.encoding=UTF-8'
-
-test --test_env='LC_ALL=en_US.UTF-8'
-test --test_env='LANG=en_US.UTF-8'
-test --jvmopt='-Dsun.jnu.encoding=UTF-8'
-test --jvmopt='-Dfile.encoding=UTF-8'

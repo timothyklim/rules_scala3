@@ -3,8 +3,7 @@ package workers.zinc.compile
 
 import workers.common.FileUtil
 
-import java.nio.file.Files
-import java.nio.file.Path
+import java.nio.file.{Files, Path}
 
 trait ZincPersistence:
   def load(): Unit

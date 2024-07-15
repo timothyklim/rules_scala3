@@ -1,1 +1,4 @@
-final class B
+package test
+
+def test(): Unit =
+  println(A.Item)
