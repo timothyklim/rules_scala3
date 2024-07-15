@@ -31,7 +31,9 @@ import xsbti.compile.{
   MiniSetup,
   PerClasspathEntryLookup,
   PreviousResult,
-  Setup
+  ScalaJSFiles,
+  Setup,
+  TastyFiles
 }
 
 import rules_scala.common.worker.WorkerMain
@@ -113,7 +115,6 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
     val sourcesDir = workArgs.tmpDir.resolve("src")
     val sources: collection.Seq[File] = workArgs.sources ++ workArgs.sourceJars.zipWithIndex
       .flatMap((jar, i) => FileUtil.extractZip(jar, sourcesDir.resolve(i.toString)))
-      .map(_.toFile)
 
     // extract upstream classes
     val classesDir = workArgs.tmpDir.resolve("classes")
@@ -126,7 +127,7 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
               jar -> (classesDir.resolve(labelToPath(arg.label)), DepAnalysisFiles(arg.apis, arg.relations))
           .toMap
       case false => Map.empty
-    val deps = Dep.create(workerArgs.depsCache, workArgs.classpath, analyses)
+    val deps = Deps.create(workerArgs.depsCache, workArgs.classpath, analyses)
 
     // load persisted files
     val analysisFiles = AnalysisFiles(
@@ -139,10 +140,9 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
     val analysesFormat = AnxAnalyses(if workArgs.debug then AnxAnalysisStore.TextFormat else AnxAnalysisStore.BinaryFormat)
     val analysisStore = AnxAnalysisStore(analysisFiles, analysesFormat)
 
-    val persistence = workerArgs.persistenceDir.fold[ZincPersistence](NullPersistence) { rootDir =>
+    val persistence = workerArgs.persistenceDir.fold[ZincPersistence](NullPersistence): rootDir =>
       val path = labelToPath(workArgs.label)
       FilePersistence(rootDir.resolve(path), analysisFiles, workArgs.outputJar)
-    }
 
     val classesOutputDir = classesDir.resolve(labelToPath(workArgs.label))
     Files.createDirectories(classesOutputDir)
@@ -192,21 +192,20 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
         case ExternalDep(_, classpath, files) => classpath -> files
         case ExternalCachedDep(_, _, classpath, files) => classpath -> files
       .toMap
-    val lookup = AnxPerClasspathEntryLookup(file =>
+    val lookup = AnxPerClasspathEntryLookup: file =>
       depMap
         .get(file)
-        .map(files =>
+        .map: files =>
           Analysis.Empty.copy(
             apis = analysesFormat.apis.read(files.apis),
             relations = analysesFormat.relations.read(files.relations)
           )
-        )
-    )
 
     val setup =
       val incOptions = IncOptions.create()
         .withEnabled(true)
         .withPipelining(true)
+        .withAuxiliaryClassFiles(Array(TastyFiles.instance(), ScalaJSFiles.instance()))
         // .withStrictMode(true)
         // .withRelationsDebug(true)
         // .withApiDebug(true)
@@ -272,7 +271,7 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
     val analysis = compileResult.analysis.asInstanceOf[Analysis]
 
     val usedDeps =
-      deps.filter(Dep.used(deps, analysis.relations, lookup)).filter(_.file != scalaInstance.libraryJar.toPath)
+      deps.filter(Deps.used(deps, analysis.relations, lookup)).filter(_.file != scalaInstance.libraryJar.toPath)
     Files.write(workArgs.outputUsed, usedDeps.map(_.file.toString).sorted.asJava)
 
     // create jar

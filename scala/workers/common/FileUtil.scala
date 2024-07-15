@@ -1,13 +1,14 @@
 package rules_scala
 package workers.common
 
-import scala.annotation.tailrec
-import java.io.IOException
+import java.io.{IOException, File}
 import java.nio.channels.{FileChannel, FileLock}
 import java.nio.file.{FileAlreadyExistsException, FileVisitResult, Files, OpenOption, Path, SimpleFileVisitor, StandardCopyOption, StandardOpenOption}
 import java.nio.file.attribute.BasicFileAttributes
 import java.security.SecureRandom
 import java.util.zip.{ZipEntry, ZipInputStream, ZipOutputStream}
+
+import scala.annotation.tailrec
 
 class CopyFileVisitor(source: Path, target: Path) extends SimpleFileVisitor[Path]:
   override def preVisitDirectory(directory: Path, attributes: BasicFileAttributes) =
@@ -84,7 +85,7 @@ object FileUtil:
     try
       val zipStream = ZipInputStream(fileStream)
 
-      @tailrec def next(files: List[Path]): List[Path] =
+      @tailrec def next(files: List[File]): List[File] =
         zipStream.getNextEntry match
           case null => files
           case entry: ZipEntry =>
@@ -96,7 +97,7 @@ object FileUtil:
               Files.createDirectories(file.getParent)
               Files.copy(zipStream, file, StandardCopyOption.REPLACE_EXISTING)
               zipStream.closeEntry()
-              next(file :: files)
+              next(file.toFile :: files)
 
       next(Nil)
     finally fileStream.close()

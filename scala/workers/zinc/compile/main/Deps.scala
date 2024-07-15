@@ -24,7 +24,7 @@ final case class DepAnalysisFiles(apis: Path, relations: Path)
 final case class ExternalDep(file: Path, classpath: Path, analysis: DepAnalysisFiles) extends Dep
 final case class ExternalCachedDep(cachedPath: Path, file: Path, classpath: Path, analysis: DepAnalysisFiles) extends Dep
 
-object Dep:
+object Deps:
   def sha1(file: Path): String =
     val digest = MessageDigest.getInstance("SHA1")
     BigInteger(1, digest.digest(Files.readAllBytes(file))).toString(16)

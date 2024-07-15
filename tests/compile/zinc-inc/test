@@ -1,5 +1,7 @@
 #!/usr/bin/env -S bash -e
 . "$(dirname "$0")"/../../common.sh
 
-# rm -fr "$(bazel info execution_root)/.bazel-zinc"
-bazel build --noworker_sandboxing --worker_extra_flag=ScalaCompile=--persistence_dir=/tmp/.bazel-zinc --worker_extra_flag=ScalaCompile=--extracted_file_cache=/tmp/.bazel-zinc-outputs :lib
+rm -rf /tmp/.bazel-zinc/zinc-inc /tmp/.bazel-zinc-outputs/zinc-inc
+
+bazel build --noworker_sandboxing --worker_extra_flag=ScalaCompile=--persistence_dir=/tmp/.bazel-zinc/zinc-inc --worker_extra_flag=ScalaCompile=--extracted_file_cache=/tmp/.bazel-zinc-outputs/zinc-inc :lib
+bazel build --sandbox_debug --define=a2=true --noworker_sandboxing --worker_extra_flag=ScalaCompile=--persistence_dir=/tmp/.bazel-zinc/zinc-inc --worker_extra_flag=ScalaCompile=--extracted_file_cache=/tmp/.bazel-zinc-outputs/zinc-inc :lib
