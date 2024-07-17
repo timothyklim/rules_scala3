@@ -67,7 +67,7 @@ alias(
     visibility = ["//visibility:public"],
 )
 
-scala3 = "3.4.0"
+scala3 = "3.5.1-RC1"
 
 scala3_global_scalacopts = [
     "-deprecation",

@@ -17,6 +17,6 @@ configure_zinc_scala(
     compiler_bridge = "@scala3_sbt_bridge//jar",
     compiler_classpath = compiler_classpath_3,
     runtime_classpath = runtime_classpath_3,
-    version = "3.4.0",
+    version = "3.5.1-RC1",
     visibility = ["//visibility:public"],
 )
