@@ -63,7 +63,7 @@ def scala_repositories():
         url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{v}/compiler-bridge_2.13-{v}-sources.jar".format(v = zinc_version),
     )
 
-    scala2 = "2.13.15"
+    scala2 = "2.13.14"
     scala3 = "3.5.1-RC2"
     scalajs = "1.16.0"
 
