@@ -45,7 +45,7 @@ def scala_artifacts():
         "org.scala-sbt:util-interface:" + sbt_version,
         "org.scala-sbt:util-logging_3:" + sbt_version,
         "org.scala-sbt:zinc_3:" + zinc_version,
-        "org.scalameta:munit_3:1.0.0",
+        "org.scalameta:munit_3:1.0.2",
     ]
 
 def scala_repositories():
@@ -63,7 +63,7 @@ def scala_repositories():
         url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{v}/compiler-bridge_2.13-{v}-sources.jar".format(v = zinc_version),
     )
 
-    scala2 = "2.13.14"
+    scala2 = "2.13.15"
     scala3 = "3.5.2-RC1"
     scalajs = "1.16.0"
 
