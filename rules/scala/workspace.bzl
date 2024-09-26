@@ -60,6 +60,7 @@ def scala_repositories():
     http_archive(
         name = "compiler_bridge_2_13",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
+        integrity = "sha256-IxsWuIbybsISVqMAoBdrIPUQdIEKE9BPymZSrcxVb70=",
         url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{v}/compiler-bridge_2.13-{v}-sources.jar".format(v = zinc_version),
     )
 
@@ -79,7 +80,7 @@ def scala_repositories():
         ["scala3_library_sjs1_3", "org.scala-lang:scala3-library_sjs1_3:" + scala3],
         ["scala3_library", "org.scala-lang:scala3-library_3:" + scala3],
         ["scala3_sbt_bridge", "org.scala-lang:scala3-sbt-bridge:" + scala3],
-        ["scalajs_compiler_2_13", "org.scala-js:scalajs-compiler_2.13:" + scalajs],
+        ["scalajs_compiler_2_13", "org.scala-js:scalajs-compiler_2.13.15:" + scalajs],
         ["scalajs_env_nodejs_2_13", "org.scala-js:scalajs-env-nodejs_2.13:1.2.1"],
         ["scalajs_ir_2_13", "org.scala-js:scalajs-ir_2.13:" + scalajs],
         ["scalajs_js_envs_2_13", "org.scala-js:scalajs-js-envs_2.13:1.2.1"],
