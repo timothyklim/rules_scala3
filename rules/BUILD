@@ -52,7 +52,6 @@ bzl_library(
         "//rules/scala:bzl",
         "//rules/scala_proto:bzl",
         "//rules/scalafmt:bzl",
-        "@bazel_tools//tools/build_defs/repo:bzl",
     ],
     deps = [
         ":jdk_toolchain_utils",
