@@ -117,7 +117,7 @@ configure_bootstrap_scala(
 
 configure_zinc_scala(
     name = "zinc_3",
-    compiler_bridge = "@scala3_sbt_bridge_3//jar",
+    compiler_bridge = "@scala3_sbt_bridge//jar",
     compiler_classpath = compiler_classpath_3,
     global_scalacopts = scala3_global_scalacopts,
     runtime_classpath = runtime_classpath_3,
@@ -127,7 +127,7 @@ configure_zinc_scala(
 
 configure_zinc_scala(
     name = "zinc_3_migration",
-    compiler_bridge = "@scala3_sbt_bridge_3//jar",
+    compiler_bridge = "@scala3_sbt_bridge//jar",
     compiler_classpath = compiler_classpath_3,
     global_scalacopts = ["-source:3.0-migration"],
     runtime_classpath = runtime_classpath_3,
