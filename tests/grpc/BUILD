@@ -1,6 +1,6 @@
 load("@rules_proto//proto:defs.bzl", "proto_library")
-load("@rules_scala3//rules:scala_proto.bzl", "scala_proto_library")
 load("@rules_scala3//rules:scala.bzl", "scala_library")
+load("@rules_scala3//rules:scala_proto.bzl", "scala_proto_library")
 
 proto_library(
     name = "grpc_proto",

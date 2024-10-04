@@ -1,9 +1,9 @@
-load("@rules_scala3//rules:scala.bzl", "scala_library")
 load(
     "@rules_scala3//rules:providers.bzl",
     _ScalaConfiguration = "ScalaConfiguration",
     _ScalaInfo = "ScalaInfo",
 )
+load("@rules_scala3//rules:scala.bzl", "scala_library")
 
 def scalajs_library(name, srcs, deps = [], visibility = None, scalacopts = [], scala = None, deps_used_whitelist = []):
     """Make scalajs library for provided sources"""

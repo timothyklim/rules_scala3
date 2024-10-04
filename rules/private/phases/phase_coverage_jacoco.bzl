@@ -1,10 +1,10 @@
 load(
-    "@rules_scala3//rules/private:coverage_replacements_provider.bzl",
-    _coverage_replacements_provider = "coverage_replacements_provider",
-)
-load(
     "@rules_scala3//rules/common:private/utils.bzl",
     _resolve_execution_reqs = "resolve_execution_reqs",
+)
+load(
+    "@rules_scala3//rules/private:coverage_replacements_provider.bzl",
+    _coverage_replacements_provider = "coverage_replacements_provider",
 )
 load("//rules/common:private/get_toolchain.bzl", "get_toolchain")
 

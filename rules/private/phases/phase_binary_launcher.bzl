@@ -1,8 +1,8 @@
+load("//rules/common:private/get_toolchain.bzl", "get_toolchain")
 load(
     "//rules/common:private/utils.bzl",
     _write_launcher = "write_launcher",
 )
-load("//rules/common:private/get_toolchain.bzl", "get_toolchain")
 
 #
 # PHASE: binary_launcher

@@ -1,5 +1,5 @@
-load("//scala3:defs.bzl", "worker_scala_library")
 load("//rules:scalafmt.bzl", "scala_format_test")
+load("//scala3:defs.bzl", "worker_scala_library")
 
 worker_scala_library(
     name = "common",

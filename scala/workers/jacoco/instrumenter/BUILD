@@ -1,5 +1,5 @@
-load("//scala3:defs.bzl", "worker_scala_binary")
 load("//rules:scalafmt.bzl", "scala_format_test")
+load("//scala3:defs.bzl", "worker_scala_binary")
 
 worker_scala_binary(
     name = "instrumenter",

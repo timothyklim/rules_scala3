@@ -4,8 +4,8 @@ load("//rules:scalafmt.bzl", "scala_format_test")
 scala_binary(
     name = "repl",
     srcs = glob(["**/*.scala"]),
-    visibility = ["//visibility:public"],
     main_class = "rules_scala.workers.zinc.repl.ReplRunner",
+    visibility = ["//visibility:public"],
     runtime_deps = [
         "@annex//:org_jline_jline_reader",
     ],

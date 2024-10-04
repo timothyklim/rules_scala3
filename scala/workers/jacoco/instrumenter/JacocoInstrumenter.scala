@@ -8,45 +8,44 @@ import java.net.URI
 import java.nio.file.*
 import java.nio.file.attribute.BasicFileAttributes
 import java.util.Collections
-import java.util.List as JList
 import org.jacoco.core.instr.Instrumenter
 import org.jacoco.core.runtime.OfflineInstrumentationAccessGenerator
 import scala.jdk.CollectionConverters.*
+import scopt.OParser
+
+final case class JacocoArgs(jars: Vector[(Path, Path)] = Vector.empty)
+
+object JacocoArgs:
+  private val builder = OParser.builder[JacocoArgs]
+  import builder.*
+
+  private val parser = OParser.sequence(
+    opt[String]("jar")
+      .unbounded()
+      .required()
+      .action((arg, c) => c.copy(jars = c.jars :+ parseJar(arg)))
+      .text("Jar to instrument in the format inpath=outpath")
+  )
+
+  def apply(args: collection.Seq[String]): Option[JacocoArgs] =
+    OParser.parse(parser, args, JacocoArgs())
+
+  private def parseJar(arg: String): (Path, Path) =
+    arg.split("=") match
+      case Array(in, out) => (Paths.get(in), Paths.get(out))
+      case _              => sys.error(s"Expected input=output for argument: $arg")
 
 object JacocoInstrumenter extends WorkerMain[Unit]:
-  private val argParser =
-    val parser = ArgumentParsers.newFor("jacoco-instrumenter").addHelp(true).fromFilePrefix("@").build
-    parser
-      .addArgument("--jar")
-      .action(Arguments.append)
-      .help("jar to instrument")
-      .metavar("inpath=outpath")
-      .nargs("+")
-    parser
-
   override def init(args: collection.Seq[String]): Unit = ()
 
   override def work(ctx: Unit, args: collection.Seq[String]): Unit =
-    val namespace = argParser.parseArgs(args)
-
-    val pathPairs: List[(Path, Path)] = namespace
-      .getList[JList[String]]("jar")
-      .asScala
-      .flatMap(_.asScala)
-      .map(other =>
-        other.split("=") match
-          case Array(in, out) => (Paths.get(in), Paths.get(out))
-          case _ =>
-            sys.error("expected input=output for argument: " + other)
-      )
-      .toList
+    val jacocoArgs = JacocoArgs(args).getOrElse(throw IllegalArgumentException(s"Invalid arguments: ${args.mkString(" ")}"))
 
     val jacoco = new Instrumenter(new OfflineInstrumentationAccessGenerator)
 
-    pathPairs.foreach { case (inPath, outPath) =>
+    jacocoArgs.jars.foreach { case (inPath, outPath) =>
       val inFS = FileSystems.newFileSystem(inPath, null)
-      val outFS =
-        FileSystems.newFileSystem(URI.create("jar:" + outPath.toUri), Collections.singletonMap("create", "true"))
+      val outFS = FileSystems.newFileSystem(URI.create("jar:" + outPath.toUri), Collections.singletonMap("create", "true"))
 
       val roots = inFS.getRootDirectories.asScala.toList
       val instrumentVisitor = new SimpleFileVisitor[Path]:

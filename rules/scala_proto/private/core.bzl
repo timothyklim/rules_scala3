@@ -1,10 +1,7 @@
 load(
     "//rules/common:private/utils.bzl",
-    _safe_name = "safe_name",
-)
-load(
-    "//rules/common:private/utils.bzl",
     _resolve_execution_reqs = "resolve_execution_reqs",
+    _safe_name = "safe_name",
 )
 
 scala_proto_library_private_attributes = {}
