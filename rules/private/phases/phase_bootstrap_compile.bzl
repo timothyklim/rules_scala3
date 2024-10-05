@@ -1,10 +1,7 @@
 load(
     "//rules/common:private/utils.bzl",
-    _strip_margin = "strip_margin",
-)
-load(
-    "//rules/common:private/utils.bzl",
     _resolve_execution_reqs = "resolve_execution_reqs",
+    _strip_margin = "strip_margin",
 )
 
 #

@@ -1,5 +1,5 @@
-load("//rules:scalafmt.bzl", "scala_format_test")
 load("//rules:scala.bzl", "scala_library")
+load("//rules:scalafmt.bzl", "scala_format_test")
 
 _subprocess_srcs = ["SubprocessRunner.scala"]
 

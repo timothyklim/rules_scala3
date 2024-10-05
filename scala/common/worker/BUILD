@@ -1,6 +1,6 @@
 load("@rules_proto//proto:defs.bzl", "proto_library")
-load("//scala3:defs.bzl", "worker_scala_library")
 load("//rules:scalafmt.bzl", "scala_format_test")
+load("//scala3:defs.bzl", "worker_scala_library")
 
 proto_library(
     name = "worker_protocol_proto",

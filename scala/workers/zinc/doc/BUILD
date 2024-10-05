@@ -5,6 +5,7 @@ scala_binary(
     name = "doc",
     srcs = glob(["**/*.scala"]),
     jvm_flags = ["-Djava.security.manager=allow"],
+    main_class = "rules_scala.workers.zinc.doc.DocRunner",
     visibility = ["//visibility:public"],
     deps = [
         "//scala/common/worker",

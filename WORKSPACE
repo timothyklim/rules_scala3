@@ -126,3 +126,7 @@ scala_proto_register_toolchains()
 load("@annex_proto//:defs.bzl", annex_proto_pinned_maven_install = "pinned_maven_install")
 
 annex_proto_pinned_maven_install()
+
+load("@bazel_features//:deps.bzl", "bazel_features_deps")
+
+bazel_features_deps()

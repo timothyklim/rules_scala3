@@ -1,9 +1,9 @@
+load("//rules/common:private/get_toolchain.bzl", "get_toolchain")
 load(
     "//rules/common:private/utils.bzl",
     _collect = "collect",
     _resolve_execution_reqs = "resolve_execution_reqs",
 )
-load("//rules/common:private/get_toolchain.bzl", "get_toolchain")
 
 scaladoc_private_attributes = {
     "_runner": attr.label(

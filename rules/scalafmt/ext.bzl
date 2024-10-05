@@ -4,13 +4,13 @@ load(
     _ScalaRulePhase = "ScalaRulePhase",
 )
 load(
+    "//rules/private:phases.bzl",
+    _phase_scalafmt_nondefault_outputs = "phase_scalafmt_nondefault_outputs",
+)
+load(
     "//rules/scalafmt:private/test.bzl",
     _scala_format_attributes = "scala_format_attributes",
     _scala_non_default_format_attributes = "scala_non_default_format_attributes",
-)
-load(
-    "//rules/private:phases.bzl",
-    _phase_scalafmt_nondefault_outputs = "phase_scalafmt_nondefault_outputs",
 )
 
 ext_with_non_default_format = {

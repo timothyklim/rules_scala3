@@ -1,5 +1,5 @@
-load("//rules/common:private/utils.bzl", "write_launcher", _collect = "collect")
 load("//rules/common:private/get_toolchain.bzl", "get_toolchain")
+load("//rules/common:private/utils.bzl", "write_launcher", _collect = "collect")
 
 def scala_repl_implementation(ctx):
     toolchain = get_toolchain(ctx)

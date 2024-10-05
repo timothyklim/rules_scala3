@@ -1,6 +1,5 @@
 load("@rules_scala3//rules:scala.bzl", "scala_library")
 
-
 config_setting(
     name = "a2",
     values = {"define": "a2=true"},
@@ -10,8 +9,8 @@ config_setting(
 scala_library(
     name = "a",
     srcs = select({
-      ":a2": ["A2.scala"],
-      "//conditions:default": ["A1.scala"],
+        ":a2": ["A2.scala"],
+        "//conditions:default": ["A1.scala"],
     }),
 )
 
