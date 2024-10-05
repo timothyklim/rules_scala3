@@ -1,6 +1,8 @@
 common --announce_rc
 common --color=yes
 
+build --host_platform=@rules_nixpkgs_core//platforms:host
+
 build --experimental_strict_action_env
 
 build --strategy=ScalaCompile=worker
