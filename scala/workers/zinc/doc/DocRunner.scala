@@ -1,118 +1,120 @@
 package rules_scala
 package workers.zinc.doc
 
-import common.worker.WorkerMain
-import workers.common.AnnexLogger
-import workers.common.AnnexScalaInstance
-import workers.common.CommonArguments.LogLevel
-import workers.common.FileUtil
-
 import java.io.File
 import java.net.URLClassLoader
 import java.nio.file.{Files, NoSuchFileException}
-import java.util.{Collections, Optional, Properties}
+
+import common.worker.WorkerMain
+import sbt.internal.inc.{LoggedReporter, PlainVirtualFile, PlainVirtualFileConverter, ZincUtil}
 import sbt.internal.inc.classpath.ClassLoaderCache
-import sbt.internal.inc.{LoggedReporter, ZincUtil}
-import scala.jdk.CollectionConverters.*
-import xsbti.Logger
+import scopt.OParser
+import workers.common.{AnnexLogger, AnnexScalaInstance, FileUtil, LogLevel}
+import xsbti.VirtualFile
+
+final case class DocArgs(
+                          cp: Seq[File] = Seq.empty,
+                          compilerBridge: File = new File(""),
+                          compilerCp: Seq[File] = Seq.empty,
+                          option: Seq[String] = Seq.empty,
+                          logLevel: LogLevel = LogLevel.Warn,
+                          sourceJars: Seq[File] = Seq.empty,
+                          tmp: File = new File(""),
+                          outputHtml: File = new File(""),
+                          sources: Seq[File] = Seq.empty
+                        )
+
+object DocArgs:
+  private val builder = OParser.builder[DocArgs]
+  import builder.*
+
+  private val parser = OParser.sequence(
+    programName("doc"),
+    head("doc", "1.0"),
+    opt[Seq[File]]("cp")
+      .valueName("<path1>,<path2>...")
+      .action((x, c) => c.copy(cp = x))
+      .text("Compilation classpath"),
+    opt[File]("compiler_bridge")
+      .required()
+      .valueName("<path>")
+      .action((x, c) => c.copy(compilerBridge = x))
+      .text("Compiler bridge"),
+    opt[Seq[File]]("compiler_cp")
+      .valueName("<path1>,<path2>...")
+      .action((x, c) => c.copy(compilerCp = x))
+      .text("Compiler classpath"),
+    opt[Seq[String]]("option")
+      .valueName("<option1>,<option2>...")
+      .action((x, c) => c.copy(option = x))
+      .text("Compiler options"),
+    opt[LogLevel]("log_level")
+      .valueName("<log_level>")
+      .action((x, c) => c.copy(logLevel = x))
+      .text("Log level")
+      .withFallback(() => LogLevel.Warn),
+    opt[Seq[File]]("source_jars")
+      .valueName("<path1>,<path2>...")
+      .action((x, c) => c.copy(sourceJars = x))
+      .text("Source jars"),
+    opt[File]("tmp")
+      .required()
+      .valueName("<path>")
+      .action((x, c) => c.copy(tmp = x))
+      .text("Temporary directory"),
+    opt[File]("output_html")
+      .required()
+      .valueName("<path>")
+      .action((x, c) => c.copy(outputHtml = x))
+      .text("Output directory"),
+    arg[Seq[File]]("<sources>...")
+      .unbounded()
+      .action((x, c) => c.copy(sources = x))
+      .text("Source files")
+  )
+
+  def parse(args: collection.Seq[String]): Option[DocArgs] =
+    OParser.parse(parser, args, DocArgs())
 
 object DocRunner extends WorkerMain[Unit]:
 
+  private val topLoader = new URLClassLoader(Array(), getClass().getClassLoader)
   private val classloaderCache = new ClassLoaderCache(new URLClassLoader(Array()))
-
-  private val parser =
-    ArgumentParsers.newFor("doc").addHelp(true).defaultFormatWidth(80).fromFilePrefix("@").build()
-  parser
-    .addArgument("--cp")
-    .help("Compilation classpath")
-    .metavar("path")
-    .nargs("*")
-    .`type`(Arguments.fileType.verifyCanRead.verifyIsFile)
-    .setDefault(Collections.emptyList)
-  parser
-    .addArgument("--compiler_bridge")
-    .help("Compiler bridge")
-    .metavar("path")
-    .required(true)
-    .`type`(Arguments.fileType.verifyCanRead().verifyIsFile())
-  parser
-    .addArgument("--compiler_cp")
-    .help("Compiler classpath")
-    .metavar("path")
-    .nargs("*")
-    .`type`(Arguments.fileType.verifyCanRead().verifyIsFile())
-    .setDefault(Collections.emptyList)
-  parser
-    .addArgument("--option")
-    .help("option")
-    .action(Arguments.append)
-    .metavar("option")
-  parser
-    .addArgument("--log_level")
-    .help("Log level")
-    .choices(LogLevel.Debug, LogLevel.Error, LogLevel.Info, LogLevel.None, LogLevel.Warn)
-    .setDefault(LogLevel.Warn)
-  parser
-    .addArgument("--source_jars")
-    .help("Source jars")
-    .metavar("path")
-    .nargs("*")
-    .`type`(Arguments.fileType.verifyCanRead().verifyIsFile())
-    .setDefault(Collections.emptyList)
-  parser
-    .addArgument("--tmp")
-    .help("Temporary directory")
-    .metavar("path")
-    .required(true)
-    .`type`(Arguments.fileType)
-  parser
-    .addArgument("--output_html")
-    .help("Output directory")
-    .metavar("path")
-    .required(true)
-    .`type`(Arguments.fileType)
-  parser
-    .addArgument("sources")
-    .help("Source files")
-    .metavar("source")
-    .nargs("*")
-    .`type`(Arguments.fileType.verifyCanRead.verifyIsFile)
-    .setDefault(Collections.emptyList)
 
   override def init(args: collection.Seq[String]): Unit = ()
 
   override def work(ctx: Unit, args: collection.Seq[String]): Unit =
-    val namespace = parser.parseArgsOrFail(args)
+    val docArgs = DocArgs.parse(args).getOrElse(throw IllegalArgumentException(s"Invalid arguments: ${args.mkString(" ")}"))
 
-    val tmpDir = namespace.get[File]("tmp").toPath
+    val tmpDir = docArgs.tmp.toPath
     try FileUtil.delete(tmpDir)
-    catch case _: NoSuchFileException =>
+    catch case _: NoSuchFileException => ()
 
-    val sources = namespace.getList[File]("sources").asScala ++
-      namespace
-        .getList[File]("source_jars")
-        .asScala
-        .zipWithIndex
-        .flatMap { case (jar, i) =>
-          FileUtil.extractZip(jar.toPath, tmpDir.resolve("src").resolve(i.toString))
-        }
-        .map(_.toFile)
+    val sources = docArgs.sources ++
+      docArgs.sourceJars.zipWithIndex.flatMap { case (jar, i) =>
+        FileUtil.extractZip(jar.toPath, tmpDir.resolve("src").resolve(i.toString))
+      }
 
-    val scalaInstance = new AnnexScalaInstance(namespace.getList[File]("compiler_classpath").asScala.toArray)
+    val scalaInstance = new AnnexScalaInstance(topLoader, classloaderCache, docArgs.compilerCp.toArray)
 
-    val logger = new AnnexLogger(namespace.getString("log_level"))
+    val logger = new AnnexLogger(docArgs.logLevel)
 
     val scalaCompiler = ZincUtil
-      .scalaCompiler(scalaInstance, namespace.get[File]("compiler_bridge"))
+      .scalaCompiler(scalaInstance, docArgs.compilerBridge)
       .withClassLoaderCache(classloaderCache)
 
-    val classpath = namespace.getList[File]("cp").asScala.toSeq
-    val output = namespace.get[File]("output_html")
+    val classpath = docArgs.cp
+    val output = docArgs.outputHtml
     output.mkdirs()
-    val options = Option(namespace.getList[String]("option")).fold[Seq[String]](Nil)(_.asScala).toSeq
+    val options = docArgs.option
     val reporter = new LoggedReporter(10, logger)
-    scalaCompiler.doc(sources, scalaInstance.libraryJar +: classpath, output, options, logger, reporter)
+
+    val virtualSources: Seq[VirtualFile] = sources.map(f => PlainVirtualFile(f.toPath))
+    val virtualClasspath: Seq[VirtualFile] = (scalaInstance.libraryJar +: classpath).map(f => PlainVirtualFile(f.toPath))
+
+    scalaCompiler.doc(virtualSources, virtualClasspath, PlainVirtualFileConverter.converter, output.toPath, options, logger, reporter)
 
     try FileUtil.delete(tmpDir)
-    catch case _: NoSuchFileException =>
-    Files.createDirectory(tmpDir)
+    catch
+      case _: NoSuchFileException =>
+        Files.createDirectory(tmpDir)
