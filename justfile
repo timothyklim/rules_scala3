@@ -1,5 +1,5 @@
 deps-update:
-	rg -l 'maven_install_json' --glob '*.bzl' --glob 'WORKSPACE' | xargs sed -i 's/maven_install_json/#maven_install_json/g'
+	rg -l 'maven_install_json' --glob '*.bzl' --glob 'WORKSPACE' | xargs sed -i -E 's/[^#]maven_install_json/#maven_install_json/g'
 	
 	bazel run @annex_deps//:pin
 	bazel run @annex//:pin
