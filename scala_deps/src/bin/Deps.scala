@@ -1,6 +1,6 @@
-package deps
+package bin
 
-import rules_scala.deps.Dependencies
+import lib.Dependencies
 import sbt.librarymanagement.syntax.*
 
 object Deps:

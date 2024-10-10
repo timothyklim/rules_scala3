@@ -44,7 +44,7 @@ object JacocoInstrumenter extends WorkerMain[Unit]:
     val jacoco = new Instrumenter(new OfflineInstrumentationAccessGenerator)
 
     jacocoArgs.jars.foreach { case (inPath, outPath) =>
-      val inFS = FileSystems.newFileSystem(inPath, null)
+      val inFS = FileSystems.newFileSystem(inPath, Collections.emptyMap())
       val outFS = FileSystems.newFileSystem(URI.create("jar:" + outPath.toUri), Collections.singletonMap("create", "true"))
 
       val roots = inFS.getRootDirectories.asScala.toList
