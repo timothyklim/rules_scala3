@@ -1,6 +1,6 @@
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
-scalapb_version = "0.11.17"
+scalapb_version = "1.0.0-alpha.1"
 munit_version = "1.0.0"
 
 def test_artifacts():
@@ -12,7 +12,7 @@ def test_artifacts():
         "io.grpc:grpc-netty:1.68.0",
         "org.scala-js:scalajs-dom_sjs1_3:2.8.0",
         "org.scala-lang.modules:scala-xml_3:2.3.0",
-        "org.scala-sbt:compiler-interface:2.0.0-M1",
+        "org.scala-sbt:compiler-interface:2.0.0-alpha14",
         "org.scalacheck:scalacheck_3:1.18.0",
         "org.scalameta:munit_3:" + munit_version,
         "org.scalameta:munit-scalacheck_3:" + munit_version,
@@ -28,5 +28,5 @@ def test_dependencies():
             "https://mirror.bazel.build/repo1.maven.org/maven2",
         ],
         fetch_sources = True,
-        maven_install_json = "@rules_scala3_test//:annex_test_install.json",
+      maven_install_json = "@rules_scala3_test//:annex_test_install.json",
     )

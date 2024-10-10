@@ -33,7 +33,7 @@ repositories = [
 ]
 
 sbt_version = "2.0.0-M2"
-zinc_version = "2.0.0-M1"
+zinc_version = "2.0.0-alpha14"
 
 def scala_artifacts():
     return [
@@ -54,7 +54,7 @@ def scala_repositories():
         artifacts = scala_artifacts(),
         repositories = repositories,
         fetch_sources = True,
-        maven_install_json = "@rules_scala3//:annex_install.json",
+      maven_install_json = "@rules_scala3//:annex_install.json",
     )
 
     http_archive(
@@ -65,7 +65,7 @@ def scala_repositories():
     )
 
     scala2 = "2.13.15"
-    scala3 = "3.5.2-RC1"
+    scala3 = "3.5.2-RC2"
     scalajs = "1.17.0"
 
     direct_deps = [

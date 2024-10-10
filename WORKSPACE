@@ -21,7 +21,7 @@ maven_install(
         "org.scala-sbt:librarymanagement-coursier_3:2.0.0-alpha8",
     ],
     fetch_sources = True,
-    maven_install_json = "@rules_scala3//:annex_deps_install.json",
+  maven_install_json = "@rules_scala3//:annex_deps_install.json",
     repositories = [
         "https://repo1.maven.org/maven2",
         "https://repo.maven.apache.org/maven2",

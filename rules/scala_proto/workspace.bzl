@@ -5,7 +5,7 @@ def scala_proto_register_toolchains():
 
 def scala_proto_artifacts():
     return [
-        "com.thesamet.scalapb:compilerplugin_3:0.11.17",
+        "com.thesamet.scalapb:compilerplugin_3:1.0.0-alpha.1",
         "com.thesamet.scalapb:protoc-bridge_2.13:0.9.7",
         "com.thesamet.scalapb:protoc-gen_2.13:0.9.7",
         "com.thesamet.scalapb.grpcweb:scalapb-grpcweb-code-gen_3:0.7.0",
@@ -21,5 +21,5 @@ def scala_proto_repositories():
             "https://mirror.bazel.build/repo1.maven.org/maven2",
         ],
         fetch_sources = True,
-        maven_install_json = "@rules_scala3//:annex_proto_install.json",
+      maven_install_json = "@rules_scala3//:annex_proto_install.json",
     )
