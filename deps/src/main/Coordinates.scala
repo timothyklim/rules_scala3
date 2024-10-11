@@ -1,4 +1,4 @@
-package rules_scala3.deps
+package deps.src.main
 
 import java.io.File
 import scala.util.matching.Regex.Groups

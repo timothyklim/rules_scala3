@@ -2,10 +2,13 @@ load("//rules:scala.bzl", "scala_binary")
 
 scala_binary(
     name = "deps",
-    srcs = glob(["*.scala"]),
-    main_class = "rules_scala3.deps.Deps",
-    resource_strip_prefix = package_name(),
-    resources = ["templates/jar_artifact_callback.bzl"],
+    srcs = ["//deps/src/main:deps"],
+    args = [
+        "--project-root=.",
+        "--scala-version=3.5.1",  #TODO
+    ],
+    main_class = "deps.src.main.Deps",
+    resources = ["//deps/src/main/templates:jar_artifact_callback"],
     scala = "//scala:bootstrap_3",
     visibility = ["//visibility:public"],
     deps = [
