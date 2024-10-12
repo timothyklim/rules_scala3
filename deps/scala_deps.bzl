@@ -3,17 +3,17 @@ load("@rules_scala3//rules:scala.bzl", "scala_binary")
 def scala_deps(
         name = "scala_deps",
         project_root = ".",
-        scala_version = "3.5.1", #TODO:
+        scala_version = "3.5.1",  #TODO:
         destination = "3rdparty",
         targets_dir_name = "jvm",
         targets_file_name = "BUILD"):
     scala_binary(
         name = name,
-        main_class = "deps.src.main.Deps",
-        resources = ["//deps/src/main/templates:jar_artifact_callback"],
+        main_class = "rules_scala3.deps.src.Deps",
+        resources = ["//deps/src/templates:jar_artifact_callback"],
         scala = "//scala:bootstrap_3",
         visibility = ["//visibility:public"],
-        srcs = ["//deps/src/main:deps"],
+        srcs = ["//deps/src:deps"],
         args = [
             "--project-root=" + project_root,
             "--scala-version=" + scala_version,

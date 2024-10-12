@@ -1,4 +1,4 @@
-package deps.src.main
+package rules_scala3.deps.src
 
 import sbt.librarymanagement.syntax.*
 

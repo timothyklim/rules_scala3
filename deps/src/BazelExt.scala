@@ -1,7 +1,7 @@
-package deps.src.main
+package rules_scala3.deps.src
 
 object BazelExt:
-  private lazy val jarArtifactCallback = String(getClass.getResourceAsStream("templates/jar_artifact_callback.bzl").readAllBytes())
+  private lazy val jarArtifactCallback = String(getClass.getResourceAsStream("/deps/src/templates/jar_artifact_callback.bzl").readAllBytes())
 
   def apply(targets: Vector[Target]): String =
     val dependencyLines: String = targets

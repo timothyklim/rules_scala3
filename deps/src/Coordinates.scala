@@ -1,9 +1,7 @@
-package deps.src.main
+package rules_scala3.deps.src
 
 import java.io.File
 import scala.util.matching.Regex.Groups
-
-import sbt.librarymanagement.ModuleID
 
 case class GroupId(grp: String):
   override def toString: String = grp
