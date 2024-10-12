@@ -1,4 +1,4 @@
-package rules_scala3.deps
+package rules_scala3.deps.src
 
 import sbt.librarymanagement.{DependencyBuilders, ModuleID, Resolver}, DependencyBuilders.OrganizationArtifactName
 import sbt.librarymanagement.syntax.*
@@ -9,9 +9,9 @@ case class DepsCfg private (
     dependencies: Vector[ModuleID],
     targetsHeader: String
 ):
-  def getResolvers = resolvers
+  def getResolvers: Vector[Resolver] = resolvers
   def getReplacements: Map[Coordinates, String] = replacements.map((k, v) => (k % "0.1.0").toUvCoordinates.withCleanName -> v)
-  def getDependencies = dependencies
+  def getDependencies: Vector[ModuleID] = dependencies
 
 object DepsCfg:
   def apply(

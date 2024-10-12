@@ -1,4 +1,4 @@
-package rules_scala3.deps
+package rules_scala3.deps.src
 
 import lmcoursier.{CoursierConfiguration, CoursierDependencyResolution}
 import sbt.internal.util.ConsoleLogger

@@ -1,11 +1,11 @@
-package rules_scala3.deps
+package rules_scala3.deps.src
 
 import sbt.librarymanagement.syntax.*
 
 object Deps:
   def main(args: Array[String]): Unit =
     given Vars = Vars(args.toIndexedSeq).getOrElse(sys.exit(2))
-
+    
     val jmhV = "1.37"
 
     given DepsCfg = DepsCfg(
@@ -33,5 +33,5 @@ object Deps:
         "com.github.scopt" %% "scopt"                    % "4.1.0"
       )
     )
-
+    
     MakeTree()

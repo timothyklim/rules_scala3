@@ -1,4 +1,4 @@
-package rules_scala3.deps
+package rules_scala3.deps.src
 
 import sbt.librarymanagement.{ModuleID, ModuleReport}
 import java.io.File

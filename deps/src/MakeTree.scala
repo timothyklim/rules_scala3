@@ -1,20 +1,18 @@
-package rules_scala3.deps
+package rules_scala3.deps.src
 
 import java.io.File
 import java.nio.file.{Files, Path, StandardOpenOption}
 import java.util.Comparator
 
-import sbt.librarymanagement.syntax.*
-
 object MakeTree:
   def apply()(using vars: Vars, cfg: DepsCfg): Unit =
     val targets = Resolve()
     val bazelExtContent = BazelExt(targets)
-    recreate(vars.targetsTreeFile.toPath())
+    recreate(vars.targetsTreeFile.toPath)
     writeTree(targets, bazelExtContent)
 
   private def recreate(path: Path): Unit =
-    if path.toFile().exists() then
+    if path.toFile.exists() then
       Files
         .walk(path)
         .map(_.toFile)
@@ -26,7 +24,7 @@ object MakeTree:
   private def writeToFile(path: File, content: String): Unit =
     val dirname = path.getParentFile
     if !dirname.exists then dirname.mkdirs
-    Files.writeString(path.toPath(), content, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)
+    Files.writeString(path.toPath, content, StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)
 
   private def writeTree(
       targets: Vector[Target],
