@@ -1,11 +1,6 @@
-load(
-    "//rules:scala.bzl",
-    "scala_binary",
-)
-load(
-    "//rules:scala_proto.bzl",
-    "scala_proto_toolchain",
-)
+load("//deps:scala_deps.bzl", "scala_deps")
+load("//rules:scala.bzl", "scala_binary")
+load("//rules:scala_proto.bzl", "scala_proto_toolchain")
 
 toolchain_type(
     name = "compiler_toolchain_type",
@@ -20,13 +15,13 @@ scala_binary(
     scala = "//scala:bootstrap_3",
     visibility = ["//visibility:public"],
     deps = [
+        "//3rdparty/jvm/com/github/scopt",
+        "//3rdparty/jvm/com/thesamet/scalapb:compilerplugin",
+        "//3rdparty/jvm/com/thesamet/scalapb:protoc_bridge",
+        "//3rdparty/jvm/com/thesamet/scalapb:protoc_gen",
+        "//3rdparty/jvm/com/thesamet/scalapb/grpcweb:scalapb_grpcweb_code_gen",
         "//scala/common/worker",
         "//scala/workers/common",
-        "@annex//:com_github_scopt_scopt_3",
-        "@annex_proto//:com_thesamet_scalapb_compilerplugin_3",
-        "@annex_proto//:com_thesamet_scalapb_grpcweb_scalapb_grpcweb_code_gen_3",
-        "@annex_proto//:com_thesamet_scalapb_protoc_bridge_2_13",
-        "@annex_proto//:com_thesamet_scalapb_protoc_gen_2_13",
     ],
 )
 

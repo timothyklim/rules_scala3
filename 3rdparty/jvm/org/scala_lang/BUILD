@@ -9,3 +9,13 @@ scala_import(
         "@scala3_library//jar",
     ],
 )
+
+scala_import(
+    name = "scala_library",
+    visibility = [
+        "//3rdparty/jvm:__subpackages__",
+    ],
+    exports = [
+        "@scala_library_2_13//jar",
+    ],
+)

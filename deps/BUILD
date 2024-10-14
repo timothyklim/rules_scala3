@@ -5,7 +5,7 @@ scala_binary(
     srcs = ["//deps/src:deps"],
     args = [
         "--project-root=.",
-        "--scala-version=3.5.1",  #TODO
+        "--scala-version=3.5.1-RC1",  #TODO
     ],
     main_class = "rules_scala3.deps.src.Deps",
     resources = ["//deps/src/templates:jar_artifact_callback"],
