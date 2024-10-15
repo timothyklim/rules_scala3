@@ -47,8 +47,8 @@ scala_library(
     scala = ":bootstrap_2_13",
     visibility = ["//visibility:public"],
     deps = compiler_classpath_2_13 + [
-        "@annex//:org_scala_sbt_compiler_interface",
-        "@annex//:org_scala_sbt_util_interface",
+        "//scala/3rdparty/jvm/org/scala_sbt:compiler_interface",
+        "//scala/3rdparty/jvm/org/scala_sbt:util_interface",
     ],
 )
 
