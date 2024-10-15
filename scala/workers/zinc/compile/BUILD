@@ -21,7 +21,7 @@ worker_scala_binary(
     visibility = ["//visibility:public"],
     deps = [
         ":diagnostics_java_proto",
-        "@annex//:com_github_scopt_scopt_3",
+        "//3rdparty/jvm/com/github/scopt",
         "@annex//:org_scala_sbt_compiler_interface",
         "@annex//:org_scala_sbt_util_interface",
         "@annex//:org_scala_sbt_zinc_3",
@@ -43,7 +43,7 @@ scala_library(
     visibility = ["//visibility:public"],
     deps = [
         ":diagnostics_java_proto",
-        "@annex//:com_github_scopt_scopt_3",
+        "//3rdparty/jvm/com/github/scopt",
         "@annex//:org_scala_sbt_compiler_interface",
         "@annex//:org_scala_sbt_util_interface",
         "@annex//:org_scala_sbt_zinc_3",

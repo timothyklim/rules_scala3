@@ -8,8 +8,8 @@ worker_scala_binary(
     main_class = "rules_scala.workers.jacoco.instrumenter.JacocoInstrumenter",
     visibility = ["//visibility:public"],
     deps = [
+        "//3rdparty/jvm/com/github/scopt",
         "//scala/common/worker",
-        "@annex//:com_github_scopt_scopt_3",
         "@annex//:org_jacoco_org_jacoco_core",
     ],
 )

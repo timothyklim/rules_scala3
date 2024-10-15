@@ -6,7 +6,7 @@ worker_scala_library(
     srcs = glob(["**/*.scala"]),
     visibility = ["//visibility:public"],
     deps = [
-        "@annex//:com_github_scopt_scopt_3",
+        "//3rdparty/jvm/com/github/scopt",
         "@annex//:org_scala_sbt_compiler_interface",
         "@annex//:org_scala_sbt_util_interface",
         "@annex//:org_scala_sbt_util_logging_3",

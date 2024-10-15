@@ -10,8 +10,8 @@ scala_binary(
         "@annex//:org_jline_jline_reader",
     ],
     deps = [
+        "//3rdparty/jvm/com/github/scopt",
         "//scala/workers/common",
-        "@annex//:com_github_scopt_scopt_3",
         "@annex//:org_scala_sbt_compiler_interface",
         "@annex//:org_scala_sbt_util_interface",
         "@annex//:org_scala_sbt_util_logging_3",

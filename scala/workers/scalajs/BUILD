@@ -8,9 +8,9 @@ scala_binary(
     scala = "//scala:bootstrap_3",
     visibility = ["//visibility:public"],
     deps = [
+        "//3rdparty/jvm/com/github/scopt",
         "//scala/common/worker",
         "//scala/workers/common",
-        "@annex//:com_github_scopt_scopt_3",
         "@scalajs_ir_2_13",
         "@scalajs_js_envs_2_13",
         "@scalajs_linker_2_13",

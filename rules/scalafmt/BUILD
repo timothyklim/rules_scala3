@@ -25,9 +25,9 @@ scala_binary(
     scala = "//scala:bootstrap_3",
     visibility = ["//visibility:public"],
     deps = [
+        "//3rdparty/jvm/com/github/scopt",
         "//scala/common/worker",
         "//scala/workers/common",
-        "@annex//:com_github_scopt_scopt_3",
         "@annex_scalafmt//:com_geirsson_metaconfig_core_2_13",
         "@annex_scalafmt//:org_scalameta_parsers_2_13",
         "@annex_scalafmt//:org_scalameta_scalafmt_core_2_13",
