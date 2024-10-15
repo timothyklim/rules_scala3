@@ -15,7 +15,7 @@ scala_library(
     visibility = ["//visibility:public"],
     deps = [
         ":common",
-        "@annex//:org_scala_sbt_test_interface",
+        "//scala/3rdparty/jvm/org/scala_sbt:test_interface",
     ],
 )
 
@@ -24,8 +24,8 @@ scala_library(
     srcs = _common_srcs,
     visibility = ["//visibility:public"],
     deps = [
-        "@annex//:org_scala_lang_modules_scala_xml_3",
-        "@annex//:org_scala_sbt_test_interface",
+        "//scala/3rdparty/jvm/org/scala_lang/modules:scala_xml",
+        "//scala/3rdparty/jvm/org/scala_sbt:test_interface",
     ],
 )
 
