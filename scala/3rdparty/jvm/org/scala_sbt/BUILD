@@ -275,6 +275,6 @@ java_import(
         "//external:jar/org/scala_sbt/zinc_persist_core_assembly",
     ],
     visibility = [
-        "//scala/3rdparty/jvm:__subpackages__",
+        "//visibility:public",
     ],
 )

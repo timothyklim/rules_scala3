@@ -7,7 +7,7 @@ scala_binary(
     main_class = "rules_scala.workers.zinc.repl.ReplRunner",
     visibility = ["//visibility:public"],
     runtime_deps = [
-        "@annex//:org_jline_jline_reader",
+        "//scala/3rdparty/jvm/org/jline:jline_reader",
     ],
     deps = [
         "//3rdparty/jvm/com/github/scopt",
