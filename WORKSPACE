@@ -21,7 +21,7 @@ maven_install(
         "org.scala-sbt:librarymanagement-coursier_3:2.0.0-alpha8",
     ],
     fetch_sources = True,
-  maven_install_json = "@rules_scala3//:annex_deps_install.json",
+    maven_install_json = "@rules_scala3//:annex_deps_install.json",
     repositories = [
         "https://repo1.maven.org/maven2",
         "https://repo.maven.apache.org/maven2",
@@ -34,7 +34,6 @@ maven_install(
 load("@annex_deps//:defs.bzl", "pinned_maven_install")
 
 pinned_maven_install()
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 rules_cc_version = "0.0.9"
 
@@ -58,7 +57,7 @@ load("@io_tweag_rules_nixpkgs//nixpkgs:repositories.bzl", "rules_nixpkgs_depende
 
 rules_nixpkgs_dependencies()
 
-load("@io_tweag_rules_nixpkgs//nixpkgs:nixpkgs.bzl", "nixpkgs_local_repository", "nixpkgs_cc_configure")
+load("@io_tweag_rules_nixpkgs//nixpkgs:nixpkgs.bzl", "nixpkgs_cc_configure", "nixpkgs_local_repository")
 
 nixpkgs_local_repository(
     name = "nixpkgs",
@@ -88,6 +87,10 @@ annex_pinned_maven_install()
 scala_register_toolchains(default_compiler = "bootstrap")
 
 load("//3rdparty:workspace.bzl", "maven_dependencies")
+
+maven_dependencies()
+
+load("//scala/3rdparty:workspace.bzl", "maven_dependencies")
 
 maven_dependencies()
 
