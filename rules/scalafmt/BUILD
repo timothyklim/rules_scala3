@@ -26,11 +26,11 @@ scala_binary(
     visibility = ["//visibility:public"],
     deps = [
         "//3rdparty/jvm/com/github/scopt",
+        "//rules/scalafmt/3rdparty/jvm/com/geirsson:metaconfig_core",
+        "//rules/scalafmt/3rdparty/jvm/org/scalameta:parsers",
+        "//rules/scalafmt/3rdparty/jvm/org/scalameta:scalafmt_core",
         "//scala/common/worker",
         "//scala/workers/common",
-        "@annex_scalafmt//:com_geirsson_metaconfig_core_2_13",
-        "@annex_scalafmt//:org_scalameta_parsers_2_13",
-        "@annex_scalafmt//:org_scalameta_scalafmt_core_2_13",
     ],
 )
 
