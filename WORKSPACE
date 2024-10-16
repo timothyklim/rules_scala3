@@ -114,13 +114,7 @@ load("@mezel//rules:load_mezel.bzl", "load_mezel")
 
 load_mezel()
 
-load("//rules/scalafmt:workspace.bzl", "scalafmt_default_config", "scalafmt_repositories")
-
-scalafmt_repositories()
-
-load("@annex_scalafmt//:defs.bzl", annex_scalafmt_pinned_maven_install = "pinned_maven_install")
-
-annex_scalafmt_pinned_maven_install()
+load("//rules/scalafmt:config.bzl", "scalafmt_default_config")
 
 scalafmt_default_config(".scalafmt.conf")
 

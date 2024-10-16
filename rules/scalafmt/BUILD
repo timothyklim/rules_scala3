@@ -29,6 +29,8 @@ scala_binary(
         "//rules/scalafmt/3rdparty/jvm/com/geirsson:metaconfig_core",
         "//rules/scalafmt/3rdparty/jvm/org/scalameta:parsers",
         "//rules/scalafmt/3rdparty/jvm/org/scalameta:scalafmt_core",
+        "//rules/scalafmt/3rdparty/jvm/org/scalameta:scalafmt_sysops",
+        "//rules/scalafmt/3rdparty/jvm/org/scalameta:trees",
         "//scala/common/worker",
         "//scala/workers/common",
     ],

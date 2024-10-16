@@ -6,7 +6,6 @@ scala_import(
     ],
     runtime_deps = [
         "//rules/scalafmt/3rdparty/jvm/com/lihaoyi:sourcecode",
-        "//rules/scalafmt/3rdparty/jvm/com/thesamet/scalapb:scalapb_runtime",
         "//rules/scalafmt/3rdparty/jvm/org/scala_lang:scala_library"
     ],
     visibility = [
@@ -15,13 +14,12 @@ scala_import(
 )
 
 scala_import(
-    name = "fastparse_v2",
+    name = "mdoc_parser",
     jars = [
-        "//external:jar/org/scalameta/fastparse_v2_2_13"
+        "//external:jar/org/scalameta/mdoc_parser_2_13"
     ],
     runtime_deps = [
-        "//rules/scalafmt/3rdparty/jvm/com/lihaoyi:geny",
-        "//rules/scalafmt/3rdparty/jvm/com/lihaoyi:sourcecode"
+        "//rules/scalafmt/3rdparty/jvm/org/scala_lang:scala_library"
     ],
     visibility = [
         "//rules/scalafmt/3rdparty/jvm:__subpackages__"
@@ -65,6 +63,7 @@ scala_import(
     runtime_deps = [
         "//rules/scalafmt/3rdparty/jvm/org/scala_lang:scala_library",
         "//rules/scalafmt/3rdparty/jvm/org/scala_lang:scala_reflect",
+        ":mdoc_parser",
         ":scalafmt_config",
         ":scalafmt_sysops",
         ":scalameta"
@@ -84,7 +83,7 @@ scala_import(
         "//rules/scalafmt/3rdparty/jvm/org/scala_lang:scala_library"
     ],
     visibility = [
-        "//rules/scalafmt/3rdparty/jvm:__subpackages__"
+        "//visibility:public"
     ]
 )
 
@@ -110,10 +109,9 @@ scala_import(
     ],
     runtime_deps = [
         "//rules/scalafmt/3rdparty/jvm/org/scala_lang:scala_library",
-        ":common",
-        ":fastparse_v2"
+        ":common"
     ],
     visibility = [
-        "//rules/scalafmt/3rdparty/jvm:__subpackages__"
+        "//visibility:public"
     ]
 )

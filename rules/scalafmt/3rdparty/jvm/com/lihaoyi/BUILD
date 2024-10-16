@@ -5,17 +5,8 @@ scala_import(
         "//external:jar/com/lihaoyi/fansi_2_13"
     ],
     runtime_deps = [
+        "//rules/scalafmt/3rdparty/jvm/org/scala_lang:scala_library",
         ":sourcecode"
-    ],
-    visibility = [
-        "//rules/scalafmt/3rdparty/jvm:__subpackages__"
-    ]
-)
-
-scala_import(
-    name = "geny",
-    jars = [
-        "//external:jar/com/lihaoyi/geny_2_13"
     ],
     visibility = [
         "//rules/scalafmt/3rdparty/jvm:__subpackages__"
