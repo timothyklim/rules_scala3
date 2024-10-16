@@ -4,7 +4,7 @@ scala_binary(
     name = "deps",
     srcs = ["//deps/src:deps"],
     args = [
-        "--project-root=/Users/annaskrodzka/Documents/Projects/rules_scala3/rules/scalafmt",
+        "--project-root=.",
         "--scala-version=3.5.1-RC1",  #TODO
     ],
     main_class = "rules_scala3.deps.src.Deps",
