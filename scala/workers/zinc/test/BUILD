@@ -8,13 +8,13 @@ scala_library(
     deps = [
         "//scala/common/sbt-testing:common",
         "//scala/workers/common",
-        "@annex//:com_github_scopt_scopt_3",
-        "@annex//:org_scala_sbt_compiler_interface",
-        "@annex//:org_scala_sbt_test_interface",
-        "@annex//:org_scala_sbt_zinc_apiinfo_3",
-        "@annex//:org_scala_sbt_zinc_core_3",
+        "//scala/3rdparty/jvm/org/scala_sbt:test_interface",
+        "//scala/3rdparty/jvm/org/scala_sbt:compiler_interface",
+        "//3rdparty/jvm/com/github/scopt",
+        "//scala/3rdparty/jvm/org/scala_sbt:zinc_apiinfo",
+        "//scala/3rdparty/jvm/org/scala_sbt:zinc_core",
         "@annex//:org_scala_sbt_zinc_persist_3",
-        # "@annex//:org_scala_sbt_zinc_persist_core_assembly",
+        # "//scala/3rdparty/jvm/org/scala_sbt:zinc_persist_core_assembly",
     ],
 )
 

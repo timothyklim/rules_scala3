@@ -8,9 +8,9 @@ worker_scala_binary(
     main_class = "rules_scala.workers.deps.DepsRunner",
     visibility = ["//visibility:public"],
     deps = [
+        "//3rdparty/jvm/com/github/scopt",
         "//scala/common/worker",
         "//scala/workers/common",
-        "@annex//:com_github_scopt_scopt_3",
     ],
 )
 

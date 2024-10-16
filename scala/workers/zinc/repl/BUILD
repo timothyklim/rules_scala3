@@ -7,17 +7,17 @@ scala_binary(
     main_class = "rules_scala.workers.zinc.repl.ReplRunner",
     visibility = ["//visibility:public"],
     runtime_deps = [
-        "@annex//:org_jline_jline_reader",
+        "//scala/3rdparty/jvm/org/jline:jline_reader",
     ],
     deps = [
+        "//3rdparty/jvm/com/github/scopt",
+        "//scala/3rdparty/jvm/org/scala_sbt:compiler_interface",
+        "//scala/3rdparty/jvm/org/scala_sbt:util_interface",
+        "//scala/3rdparty/jvm/org/scala_sbt:util_logging",
+        "//scala/3rdparty/jvm/org/scala_sbt:zinc",
+        "//scala/3rdparty/jvm/org/scala_sbt:zinc_classpath",
+        "//scala/3rdparty/jvm/org/scala_sbt:zinc_compile_core",
         "//scala/workers/common",
-        "@annex//:com_github_scopt_scopt_3",
-        "@annex//:org_scala_sbt_compiler_interface",
-        "@annex//:org_scala_sbt_util_interface",
-        "@annex//:org_scala_sbt_util_logging_3",
-        "@annex//:org_scala_sbt_zinc_3",
-        "@annex//:org_scala_sbt_zinc_classpath_3",
-        "@annex//:org_scala_sbt_zinc_compile_core_3",
     ],
 )
 
