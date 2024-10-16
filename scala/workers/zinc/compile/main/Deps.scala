@@ -48,7 +48,7 @@ object Deps:
           dep
         case dep: ExternalCachedDep => Future:
           FileUtil.extractZipIdempotently(dep.file, dep.cachedPath)
-          Files.createDirectories(dep.classpath.getParent())
+          Files.createDirectories(dep.classpath.getParent)
           Files.createSymbolicLink(dep.classpath, dep.cachedPath)
           dep
     Await.result(futures, Duration.Inf)
@@ -67,7 +67,7 @@ object Deps:
       case dep: LibraryDep => libraryDeps.contains(absoluteVirtualFile(dep))
   end used
 
-  private val root = Paths.get("").toAbsolutePath()
+  private val root = Paths.get("").toAbsolutePath
 
   private def absoluteVirtualFile(dep: Dep): PlainVirtualFile =
     PlainVirtualFile(if dep.file.startsWith(root) then dep.file else root.resolve(dep.file))
