@@ -5,6 +5,6 @@ java_import(
         "//external:jar/dev/dirs/directories"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//rules/scala_proto/3rdparty/jvm:__subpackages__"
     ]
 )

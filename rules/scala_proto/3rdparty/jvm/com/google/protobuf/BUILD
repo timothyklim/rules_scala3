@@ -5,6 +5,6 @@ java_import(
         "//external:jar/com/google/protobuf/protobuf_java"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//rules/scala_proto/3rdparty/jvm:__subpackages__"
     ]
 )
