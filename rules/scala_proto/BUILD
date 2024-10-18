@@ -7,6 +7,18 @@ toolchain_type(
     visibility = ["//visibility:public"],
 )
 
+filegroup(
+    name = "dependencies",
+    srcs = ["Dependencies.scala"],
+    visibility = ["//visibility:public"],
+)
+
+scala_deps(
+    name = "scala_deps",
+    src = "//rules/scala_proto:dependencies",
+    dependencies = "rules_scala3.rules.scala_proto.Dependencies",
+)
+
 scala_binary(
     name = "worker",
     srcs = ["private/ScalaProtoWorker.scala"],
