@@ -6,6 +6,7 @@ import scopt.OParser
 case class Vars(
     projectRoot: File = new File("."),
     scalaVersion: String = "",
+    dependencies: String = "",
     destination: String = "3rdparty",
     bazelExtName: String = "workspace.bzl",
     targetsDirName: String = "jvm",
@@ -32,6 +33,10 @@ object Vars:
       .required()
       .action((value, vars) => vars.copy(scalaVersion = value))
       .text("The version of Scala used in project"),
+    opt[String]("dependencies")
+      .required()
+      .action((value, vars) => vars.copy(dependencies = value))
+      .text("The full name of Dependencies.scala class"),
     opt[String]('d', "destination")
       .action((value, vars) => vars.copy(destination = value))
       .text("""The name of the directory that will be created inside your

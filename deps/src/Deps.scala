@@ -1,37 +1,32 @@
 package rules_scala3.deps.src
 
 import sbt.librarymanagement.syntax.*
+import sbt.librarymanagement.{DependencyBuilders, ModuleID, Resolver}, DependencyBuilders.OrganizationArtifactName
+import scala.util.Try
+import scala.reflect.runtime.universe._
 
 object Deps:
   def main(args: Array[String]): Unit =
     given Vars = Vars(args.toIndexedSeq).getOrElse(sys.exit(2))
-    
-    val jmhV = "1.37"
+
+    val dependenciesClassName = summon[Vars].dependencies
+    val dependenciesClass = getDependenciesClass(name = dependenciesClassName)
+
+    val resolversField = dependenciesClass.getMethod("resolvers").invoke(null).asInstanceOf[Vector[Resolver]]
+    val replacementsField = dependenciesClass.getMethod("replacements").invoke(null).asInstanceOf[Map[OrganizationArtifactName, String]]
+    val dependenciesField = dependenciesClass.getMethod("dependencies").invoke(null).asInstanceOf[Vector[ModuleID]]
 
     given DepsCfg = DepsCfg(
-      resolvers = Vector(
-        "mavencentral".at("https://repo1.maven.org/maven2/"),
-        "sonatype releases".at("https://oss.sonatype.org/service/local/repositories/releases/content"),
-        "apache staging".at("https://repository.apache.org/content/repositories/staging"),
-        "apache snapshots".at("https://repository.apache.org/snapshots"),
-        "google".at("https://maven.google.com/"),
-        "jitsi-maven-repository".at("https://github.com/jitsi/jitsi-maven-repository/raw/master/releases")
-      ),
-
-      // Replacements are not handled by `librarymanagement`. any Scala prefix in the name will be dropped.
-      // It also doesn't matter whether you use double `%` to get the Scala version or not.
-      replacements = Map(
-        "org.scala-lang" % "scala3-library" -> "@scala_library_3_3_1//jar",
-        "org.scala-lang" % "scala-library" -> "@scala_library_2_13_11//jar",
-        "org.scala-lang" % "scala-reflect" -> "@scala_reflect_2_13_11//jar"
-      ),
-      dependencies = Vector(
-        "org.openjdk.jmh"   % "jmh-core"                 % jmhV,
-        "org.openjdk.jmh"   % "jmh-generator-bytecode"   % jmhV,
-        "org.openjdk.jmh"   % "jmh-generator-reflection" % jmhV,
-        "org.openjdk.jmh"   % "jmh-generator-asm"        % jmhV,
-        "com.github.scopt" %% "scopt"                    % "4.1.0"
-      )
+      resolvers = resolversField,
+      replacements = replacementsField,
+      dependencies = dependenciesField
     )
-    
+
     MakeTree()
+
+  private def getDependenciesClass(name: String) =
+    val dependenciesClass = Try(Class.forName(name)) match
+      case scala.util.Success(clazz) => clazz
+      case scala.util.Failure(e) =>
+        throw new ClassNotFoundException(s"Failed to load Dependencies class: ${e.getMessage}", e)
+    dependenciesClass
