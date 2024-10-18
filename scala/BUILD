@@ -4,6 +4,19 @@ load(
     "configure_zinc_scala",
     "scala_library",
 )
+load("//deps:scala_deps.bzl", "scala_deps")
+
+filegroup(
+    name = "dependencies",
+    srcs = ["Dependencies.scala"],
+    visibility = ["//visibility:public"],
+)
+
+scala_deps(
+    name = "scala_deps",
+    src = "//scala:dependencies",
+    dependencies = "rules_scala3.scala.Dependencies",
+)
 
 config_setting(
     name = "deps_used_off",
