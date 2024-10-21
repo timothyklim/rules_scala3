@@ -94,6 +94,10 @@ load("//scala/3rdparty:workspace.bzl", "maven_dependencies")
 
 maven_dependencies()
 
+load("//rules/scalafmt/3rdparty:workspace.bzl", "maven_dependencies")
+
+maven_dependencies()
+
 load("//mezel_compatibility:repositories.bzl", "mezel_compatibility_repository")
 
 mezel_compatibility_repository(
