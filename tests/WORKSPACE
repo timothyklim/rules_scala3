@@ -33,7 +33,7 @@ load("@io_tweag_rules_nixpkgs//nixpkgs:repositories.bzl", "rules_nixpkgs_depende
 
 rules_nixpkgs_dependencies()
 
-load("@io_tweag_rules_nixpkgs//nixpkgs:nixpkgs.bzl", "nixpkgs_local_repository", "nixpkgs_cc_configure")
+load("@io_tweag_rules_nixpkgs//nixpkgs:nixpkgs.bzl", "nixpkgs_cc_configure", "nixpkgs_local_repository")
 
 nixpkgs_local_repository(
     name = "nixpkgs",
@@ -105,6 +105,14 @@ annex_scalafmt_pinned_maven_install()
 scalafmt_default_config()
 
 load("//3rdparty:workspace.bzl", "maven_dependencies")
+
+maven_dependencies()
+
+load("@rules_scala3//3rdparty:workspace.bzl", "maven_dependencies")
+
+maven_dependencies()
+
+load("@rules_scala3//scala/3rdparty:workspace.bzl", "maven_dependencies")
 
 maven_dependencies()
 
