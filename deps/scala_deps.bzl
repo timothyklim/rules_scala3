@@ -4,7 +4,7 @@ def scala_deps(
         name,
         dependencies,
         src,
-        project_root = "/Users/annaskrodzka/Documents/Projects/rules_scala3",
+        project_root = ".",
         scala_version = "3.5.1-RC1",
         targets_dir_name = "jvm",
         targets_file_name = "BUILD"):
