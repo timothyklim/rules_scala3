@@ -1,8 +1,21 @@
+load("//deps:scala_deps.bzl", "scala_deps")
 load("//rules:scala.bzl", "scala_binary")
 load("//rules:scalafmt.bzl", "scala_format_test")
 load(
     ":ext.bzl",
     _add_non_default_format_phase_singleton = "add_non_default_format_phase_singleton",
+)
+
+filegroup(
+    name = "dependencies",
+    srcs = ["Dependencies.scala"],
+    visibility = ["//visibility:public"],
+)
+
+scala_deps(
+    name = "scala_deps",
+    src = "//rules/scalafmt:dependencies",
+    dependencies = "rules_scala3.rules.scalafmt.Dependencies",
 )
 
 filegroup(
