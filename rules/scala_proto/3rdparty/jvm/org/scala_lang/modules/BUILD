@@ -5,9 +5,9 @@ scala_import(
         "//external:jar/org/scala_lang/modules/scala_collection_compat_3"
     ],
     runtime_deps = [
-        "//3rdparty/jvm/org/scala_lang:scala3_library"
+        "//rules/scala_proto/3rdparty/jvm/org/scala_lang:scala3_library"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//rules/scala_proto/3rdparty/jvm:__subpackages__"
     ]
 )
