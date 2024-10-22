@@ -84,12 +84,6 @@ load("@annex_scalafmt//:defs.bzl", annex_scalafmt_pinned_maven_install = "pinned
 annex_scalafmt_pinned_maven_install()
 scalafmt_default_config()
 
-load("@rules_scala3//rules/scala_proto:workspace.bzl", "scala_proto_register_toolchains", "scala_proto_repositories",)
-scala_proto_repositories()
-load("@annex_proto//:defs.bzl", annex_proto_pinned_maven_install = "pinned_maven_install")
-annex_proto_pinned_maven_install()
-scala_proto_register_toolchains()
-
 # Load bazel skylib and google protobuf
 bazel_skylib_tag = "1.0.2"
 bazel_skylib_sha256 = "97e70364e9249702246c0e9444bccdc4b847bed1eb03c5a3ece4f83dfe6abc44"

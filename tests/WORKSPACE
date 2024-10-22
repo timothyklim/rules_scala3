@@ -69,20 +69,6 @@ annex_pinned_maven_install()
 
 scala_register_toolchains()
 
-load(
-    "@rules_scala3//rules/scala_proto:workspace.bzl",
-    "scala_proto_register_toolchains",
-    "scala_proto_repositories",
-)
-
-scala_proto_repositories()
-
-scala_proto_register_toolchains()
-
-load("@annex_proto//:defs.bzl", annex_proto_pinned_maven_install = "pinned_maven_install")
-
-annex_proto_pinned_maven_install()
-
 # load("@rules_scala3//3rdparty:workspace.bzl", "maven_dependencies")
 load(":workspace.bzl", "test_dependencies")
 

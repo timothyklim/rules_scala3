@@ -124,20 +124,6 @@ annex_scalafmt_pinned_maven_install()
 
 scalafmt_default_config(".scalafmt.conf")
 
-load(
-    "//rules/scala_proto:workspace.bzl",
-    "scala_proto_register_toolchains",
-    "scala_proto_repositories",
-)
-
-scala_proto_repositories()
-
-scala_proto_register_toolchains()
-
-load("@annex_proto//:defs.bzl", annex_proto_pinned_maven_install = "pinned_maven_install")
-
-annex_proto_pinned_maven_install()
-
 load("@bazel_features//:deps.bzl", "bazel_features_deps")
 
 bazel_features_deps()
