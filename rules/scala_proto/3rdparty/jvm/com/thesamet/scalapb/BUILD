@@ -5,9 +5,9 @@ scala_import(
         "//external:jar/com/thesamet/scalapb/compilerplugin_3"
     ],
     runtime_deps = [
-        "//3rdparty/jvm/com/google/protobuf:protobuf_java",
-        "//3rdparty/jvm/org/scala_lang/modules:scala_collection_compat",
-        "//3rdparty/jvm/org/scala_lang:scala3_library",
+        "//rules/scala_proto/3rdparty/jvm/com/google/protobuf:protobuf_java",
+        "//rules/scala_proto/3rdparty/jvm/org/scala_lang/modules:scala_collection_compat",
+        "//rules/scala_proto/3rdparty/jvm/org/scala_lang:scala3_library",
         ":protoc_gen"
     ],
     visibility = [
@@ -21,8 +21,8 @@ scala_import(
         "//external:jar/com/thesamet/scalapb/protoc_bridge_2_13"
     ],
     runtime_deps = [
-        "//3rdparty/jvm/dev/dirs:directories",
-        "//3rdparty/jvm/org/scala_lang:scala_library"
+        "//rules/scala_proto/3rdparty/jvm/dev/dirs:directories",
+        "//rules/scala_proto/3rdparty/jvm/org/scala_lang:scala_library"
     ],
     visibility = [
         "//visibility:public"
@@ -35,7 +35,7 @@ scala_import(
         "//external:jar/com/thesamet/scalapb/protoc_gen_2_13"
     ],
     runtime_deps = [
-        "//3rdparty/jvm/org/scala_lang:scala_library",
+        "//rules/scala_proto/3rdparty/jvm/org/scala_lang:scala_library",
         ":protoc_bridge"
     ],
     visibility = [
