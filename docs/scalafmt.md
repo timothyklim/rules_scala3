@@ -3,8 +3,7 @@
 Create .scalafmt.conf at the repo root (may be empty). And add to the WORKSPACE
 
 ```python
-load("@rules_scala3//rules/scalafmt:workspace.bzl", "scalafmt_repositories", "scalafmt_default_config")
-scalafmt_repositories()
+load("@rules_scala3//rules/scalafmt:config.bzl", "scalafmt_repositories")
 scalafmt_default_config()
 ```
 
