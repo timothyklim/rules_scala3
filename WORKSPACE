@@ -80,10 +80,6 @@ load("//rules/scala:init.bzl", "rules_scala3_init")
 
 rules_scala3_init()
 
-load("@annex//:defs.bzl", annex_pinned_maven_install = "pinned_maven_install")
-
-annex_pinned_maven_install()
-
 scala_register_toolchains(default_compiler = "bootstrap")
 
 load("//3rdparty:workspace.bzl", "maven_dependencies")
