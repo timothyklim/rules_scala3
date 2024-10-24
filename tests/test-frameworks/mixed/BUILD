@@ -6,11 +6,11 @@ scala_test(
     shard_count = 2,
     tags = ["manual"],
     runtime_deps = [
-        "@hamcrest_core//jar",
-        "@junit_interface//jar",
+        "//3rdparty/jvm/org/hamcrest:hamcrest_core",
+        "//3rdparty/jvm/org/scalameta:junit_interface",
     ],
     deps = [
+        "//3rdparty/jvm/junit",
         "//3rdparty/jvm/org/scalacheck",
-        "@junit//jar",
     ],
 )
