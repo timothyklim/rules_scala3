@@ -8,6 +8,8 @@ import munit.FunSuite
 import workers.common.{AnnexLogger, LogLevel}
 
 final class AnxAnalysisStoreSpec extends FunSuite:
+  val utilRelation: Class[sbt.internal.util.Relation[?, ?]] = classOf[sbt.internal.util.Relation[?, ?]]
+  
   given AnnexLogger = AnnexLogger(LogLevel.Debug)
   given ZincContext = ZincContext(Paths.get("/tmp"), Paths.get("/tmp"), depsCache = null)
 
