@@ -133,7 +133,7 @@ scala_import(
         "//external:jar/org/scala_sbt/util_relation_3",
     ],
     visibility = [
-        "//scala/3rdparty/jvm:__subpackages__",
+        "//visibility:public",
     ],
     runtime_deps = [
         "//scala/3rdparty/jvm/org/scala_lang:scala3_library",
