@@ -82,22 +82,6 @@ rules_scala3_init()
 
 scala_register_toolchains(default_compiler = "bootstrap")
 
-load("//3rdparty:workspace.bzl", "maven_dependencies")
-
-maven_dependencies()
-
-load("//scala/3rdparty:workspace.bzl", "maven_dependencies")
-
-maven_dependencies()
-
-load("//rules/scalafmt/3rdparty:workspace.bzl", "maven_dependencies")
-
-maven_dependencies()
-
-load("//rules/scala_proto/3rdparty:workspace.bzl", "maven_dependencies")
-
-maven_dependencies()
-
 load("//mezel_compatibility:repositories.bzl", "mezel_compatibility_repository")
 
 mezel_compatibility_repository(
@@ -109,11 +93,3 @@ mezel_compatibility_repository(
 load("@mezel//rules:load_mezel.bzl", "load_mezel")
 
 load_mezel()
-
-load("//rules/scalafmt:config.bzl", "scalafmt_default_config")
-
-scalafmt_default_config(".scalafmt.conf")
-
-load("@bazel_features//:deps.bzl", "bazel_features_deps")
-
-bazel_features_deps()
