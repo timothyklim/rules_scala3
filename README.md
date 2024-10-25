@@ -74,8 +74,6 @@ http_archive(
 
 load("@rules_scala3//rules/scala:workspace.bzl", "scala_register_toolchains", "scala_repositories")
 scala_repositories()
-load("@annex//:defs.bzl", annex_pinned_maven_install = "pinned_maven_install")
-annex_pinned_maven_install()
 scala_register_toolchains()
 
 load("@rules_scala3//rules/scalafmt:config.bzl", "scalafmt_default_config")

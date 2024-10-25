@@ -35,28 +35,7 @@ repositories = [
 sbt_version = "2.0.0-M2"
 zinc_version = "2.0.0-alpha14"
 
-def scala_artifacts():
-    return [
-        "com.github.scopt:scopt_3:4.1.0",
-        "org.jacoco:org.jacoco.core:0.8.10",
-        "org.jline:jline-reader:3.24.1",
-        "org.scala-lang.modules:scala-xml_3:2.3.0",
-        "org.scala-sbt:test-interface:1.0",
-        "org.scala-sbt:util-interface:" + sbt_version,
-        "org.scala-sbt:util-logging_3:" + sbt_version,
-        "org.scala-sbt:zinc_3:" + zinc_version,
-        "org.scalameta:munit_3:1.0.2",
-    ]
-
 def scala_repositories():
-    maven_install(
-        name = "annex",
-        artifacts = scala_artifacts(),
-        repositories = repositories,
-        fetch_sources = True,
-      maven_install_json = "@rules_scala3//:annex_install.json",
-    )
-
     http_archive(
         name = "compiler_bridge_2_13",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
