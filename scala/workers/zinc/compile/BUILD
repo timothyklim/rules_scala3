@@ -68,6 +68,7 @@ scala_test(
         ":lib",
         "//scala/3rdparty/jvm/org/scala_sbt:util_relation",
         "//scala/3rdparty/jvm/org/scalameta:munit",
+        "//scala/3rdparty/jvm/org/scalameta:munit_diff",
         "@rules_scala3//scala/workers/common",
     ],
 )
