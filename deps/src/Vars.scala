@@ -27,7 +27,12 @@ object Vars:
     help('h', "help").text("Prints this usage text"),
     opt[File]('r', "project-root")
       .required()
-      .action((value, vars) => vars.copy(projectRoot = value))
+      .action((value, vars) => {
+        val resolvedPath = value.getPath match
+          case "." => new File(sys.env.getOrElse("BUILD_WORKSPACE_DIRECTORY", ".")).getAbsoluteFile
+          case _ => value.getAbsoluteFile
+        vars.copy(projectRoot = resolvedPath)
+      })
       .text("The ABSOLUTE path to the root of the bazel repo"),
     opt[String]('s', "scala-version")
       .required()
