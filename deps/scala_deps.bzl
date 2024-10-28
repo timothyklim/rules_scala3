@@ -13,7 +13,6 @@ def scala_deps(
     scala_binary(
         name = name,
         main_class = "rules_scala3.deps.src.Deps",
-        resources = ["@rules_scala3//deps/src/templates:jar_artifact_callback"],
         scala = "@rules_scala3//scala:bootstrap_3",
         visibility = ["//visibility:public"],
         srcs = ["@rules_scala3//deps/src:deps", src],

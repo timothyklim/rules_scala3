@@ -37,7 +37,6 @@ def jar_artifact_callback(hash):
     )
     native.bind(name = hash["bind"], actual = hash["actual"])
 
-
 def list_dependencies():
     return [
         {"artifact":"com.google.protobuf:protobuf-java:4.28.2","url":"https://oss.sonatype.org/service/local/repositories/releases/content/com/google/protobuf/protobuf-java/4.28.2/protobuf-java-4.28.2.jar","name":"com_google_protobuf_protobuf_java","actual":"@com_google_protobuf_protobuf_java//jar","bind": "jar/com/google/protobuf/protobuf_java"},
