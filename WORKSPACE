@@ -13,28 +13,6 @@ http_archive(
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
-maven_install(
-    name = "annex_deps",
-    artifacts = [
-        "com.github.scopt:scopt_3:4.1.0",
-        "org.scala-sbt:librarymanagement-core_3:2.0.0-M2",
-        "org.scala-sbt:librarymanagement-coursier_3:2.0.0-alpha8",
-    ],
-    fetch_sources = True,
-    maven_install_json = "@rules_scala3//:annex_deps_install.json",
-    repositories = [
-        "https://repo1.maven.org/maven2",
-        "https://repo.maven.apache.org/maven2",
-        "https://maven-central.storage-download.googleapis.com/maven2",
-        "https://mirror.bazel.build/repo1.maven.org/maven2",
-        "https://scala-ci.typesafe.com/artifactory/scala-integration/",
-    ],
-)
-
-load("@annex_deps//:defs.bzl", "pinned_maven_install")
-
-pinned_maven_install()
-
 rules_cc_version = "0.0.9"
 
 http_archive(
