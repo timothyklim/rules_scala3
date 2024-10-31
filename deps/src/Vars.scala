@@ -7,7 +7,7 @@ case class Vars(
     projectRoot: File = new File("."),
     scalaVersion: String = "",
     dependencies: String = "",
-    destination: String = "3rdparty",
+    destination: String = "/3rdparty",
     bazelExtName: String = "workspace.bzl",
     targetsDirName: String = "jvm",
     targetsFileName: String = "BUILD"
@@ -16,7 +16,9 @@ case class Vars(
   def bazelExtFile: File = new File(depsFile, bazelExtName)
   def depsBuildFile: File = new File(depsFile, targetsFileName)
   def targetsTreeFile: File = new File(depsFile, targetsDirName)
-  def targetsTreeBazelPath: String = s"//$destination/$targetsDirName"
+  def targetsTreeBazelPath: String = destination match
+    case d if d.startsWith("/") => s"/$d/$targetsDirName"
+    case d => s"//$d/$targetsDirName"
 
 object Vars:
   private val builder = OParser.builder[Vars]

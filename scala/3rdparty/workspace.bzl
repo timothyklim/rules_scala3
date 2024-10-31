@@ -37,7 +37,6 @@ def jar_artifact_callback(hash):
     )
     native.bind(name = hash["bind"], actual = hash["actual"])
 
-
 def list_dependencies():
     return [
         {"artifact":"com.eed3si9n:shaded-jawn-parser_3:1.3.2","url":"https://repo1.maven.org/maven2/com/eed3si9n/shaded-jawn-parser_3/1.3.2/shaded-jawn-parser_3-1.3.2.jar","name":"com_eed3si9n_shaded_jawn_parser_3","actual":"@com_eed3si9n_shaded_jawn_parser_3//jar","bind": "jar/com/eed3si9n/shaded_jawn_parser_3"},
