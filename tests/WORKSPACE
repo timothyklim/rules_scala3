@@ -74,21 +74,7 @@ load("@annex_test//:defs.bzl", annex_test_pinned_maven_install = "pinned_maven_i
 
 annex_test_pinned_maven_install()
 
-# maven_dependencies()
-
-load("@rules_scala3//rules/scalafmt:config.bzl", "scalafmt_default_config")
-
-scalafmt_default_config()
-
 load("//3rdparty:workspace.bzl", "maven_dependencies")
-
-maven_dependencies()
-
-load("@rules_scala3//3rdparty:workspace.bzl", "maven_dependencies")
-
-maven_dependencies()
-
-load("@rules_scala3//scala/3rdparty:workspace.bzl", "maven_dependencies")
 
 maven_dependencies()
 
