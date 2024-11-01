@@ -1,4 +1,17 @@
+load("@rules_scala3//deps:scala_deps.bzl", "scala_deps")
 load("@rules_scala3//rules:scala.bzl", "configure_zinc_scala")
+
+filegroup(
+    name = "dependencies",
+    srcs = ["Dependencies.scala"],
+    visibility = ["//visibility:public"],
+)
+
+scala_deps(
+    name = "scala_deps",
+    src = "//:dependencies",
+    dependencies = "rules_scala3.Dependencies",
+)
 
 runtime_classpath_3 = [
     "@scala3_library//jar",
