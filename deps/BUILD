@@ -1,11 +1,5 @@
 load("//rules:scala.bzl", "scala_binary")
 
-filegroup(
-    name = "dependencies",
-    srcs = ["Dependencies.scala"],
-    visibility = ["//visibility:public"],
-)
-
 scala_binary(
     name = "deps",
     srcs = [
