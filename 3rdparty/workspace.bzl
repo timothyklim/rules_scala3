@@ -37,7 +37,6 @@ def jar_artifact_callback(hash):
     )
     native.bind(name = hash["bind"], actual = hash["actual"])
 
-
 def list_dependencies():
     return [
         {"artifact":"com.github.scopt:scopt_3:4.1.0","url":"https://repo1.maven.org/maven2/com/github/scopt/scopt_3/4.1.0/scopt_3-4.1.0.jar","name":"com_github_scopt_scopt_3","actual":"@com_github_scopt_scopt_3//jar","bind": "jar/com/github/scopt/scopt_3"},

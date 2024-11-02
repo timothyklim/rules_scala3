@@ -68,4 +68,5 @@ object Resolve:
               module_deps = modules_deps.toMap.getOrElse(moduleReport.module.toCoordinates, Vector.empty).sortBy(_.toString)
             )
           }
+          .distinctBy(t => (t.coordinates, t.lang))
           .sortBy(_.name)
