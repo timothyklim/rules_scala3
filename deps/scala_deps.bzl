@@ -5,7 +5,7 @@ def scala_deps(
         dependencies,
         src,
         project_root = ".",
-        scala_version = "3.5.2",
+        scala_version = "3.6.1",
         targets_dir_name = "jvm",
         targets_file_name = "BUILD"):
     destination = native.package_name() + "/3rdparty"
