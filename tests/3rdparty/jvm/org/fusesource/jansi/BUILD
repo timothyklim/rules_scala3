@@ -1,10 +1,10 @@
 load("@rules_scala3//rules:scala.bzl", "scala_import")
 java_import(
-    name = "annotations",
+    name = "jansi",
     jars = [
-        "//external:jar/com/google/android/annotations"
+        "//external:jar/org/fusesource/jansi/jansi"
     ],
     visibility = [
-        "//visibility:public"
+        "//3rdparty/jvm:__subpackages__"
     ]
 )

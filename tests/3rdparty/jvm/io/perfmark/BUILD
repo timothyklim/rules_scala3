@@ -5,6 +5,6 @@ java_import(
         "//external:jar/io/perfmark/perfmark_api"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//visibility:public"
     ]
 )

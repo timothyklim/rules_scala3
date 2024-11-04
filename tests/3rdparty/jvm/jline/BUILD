@@ -1,10 +1,10 @@
 load("@rules_scala3//rules:scala.bzl", "scala_import")
 java_import(
-    name = "annotations",
+    name = "jline",
     jars = [
-        "//external:jar/com/google/android/annotations"
+        "//external:jar/jline/jline"
     ],
     visibility = [
-        "//visibility:public"
+        "//3rdparty/jvm:__subpackages__"
     ]
 )

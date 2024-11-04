@@ -58,7 +58,7 @@ java_import(
         ":netty_transport"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//visibility:public"
     ]
 )
 
@@ -120,7 +120,7 @@ java_import(
         ":netty_transport"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//visibility:public"
     ]
 )
 
@@ -163,6 +163,6 @@ java_import(
         ":netty_transport"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//visibility:public"
     ]
 )

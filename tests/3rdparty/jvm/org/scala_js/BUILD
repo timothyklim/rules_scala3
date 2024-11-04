@@ -30,6 +30,21 @@ scala_import(
     ],
     runtime_deps = [
         "//3rdparty/jvm/org/scala_lang:scala_library",
+        ":scalajs_javalib",
+        ":scalajs_scalalib"
+    ],
+    visibility = [
+        "//visibility:public"
+    ]
+)
+
+scala_import(
+    name = "scalajs_scalalib",
+    jars = [
+        "//external:jar/org/scala_js/scalajs_scalalib_2_13"
+    ],
+    runtime_deps = [
+        "//3rdparty/jvm/org/scala_lang:scala_library",
         ":scalajs_javalib"
     ],
     visibility = [

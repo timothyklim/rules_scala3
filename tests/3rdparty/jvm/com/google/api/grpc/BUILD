@@ -8,6 +8,6 @@ java_import(
         "//3rdparty/jvm/com/google/protobuf:protobuf_java"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//visibility:public"
     ]
 )

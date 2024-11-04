@@ -9,7 +9,7 @@ scala_import(
         "//3rdparty/jvm/org/scala_lang:scala3_library"
     ],
     visibility = [
-        "//visibility:public"
+        "//3rdparty/jvm:__subpackages__"
     ]
 )
 
@@ -38,7 +38,7 @@ scala_import(
         "//3rdparty/jvm/org/scala_lang:scala3_library_sjs1"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//visibility:public"
     ]
 )
 
@@ -88,6 +88,6 @@ scala_import(
         ":protobuf_runtime_scala_sjs1"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//visibility:public"
     ]
 )

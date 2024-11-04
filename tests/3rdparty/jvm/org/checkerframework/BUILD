@@ -5,6 +5,6 @@ java_import(
         "//external:jar/org/checkerframework/checker_qual"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//visibility:public"
     ]
 )
