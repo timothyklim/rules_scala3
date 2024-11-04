@@ -14,7 +14,13 @@ final case class Target(
     url: String,
     deps: Vector[Coordinates]
 ):
-  def toBzl()(using vars: Vars): String =
+  def toBzl(duplicateCoordinates: Set[Coordinates] = Set.empty)(using vars: Vars): String =
+
+    def getAdjustedName(coordinates: Coordinates): String =
+      if duplicateCoordinates.contains(coordinates)
+      then coordinates.artifactId.replaceAll("[-.]", "_")
+      else coordinates.cleanName
+
     replacement_label match
       case Some(replacement_label) =>
         s"""\n${lang.asString}_import(
@@ -27,12 +33,14 @@ final case class Target(
            |    ]
            |)\n""".stripMargin
       case None =>
+        val adjustedName = getAdjustedName(coordinates)
         val runtime_deps =
           val deps0 = deps
             .map { c =>
+              val depName = getAdjustedName(c)
               if coordinates.groupId == c.groupId
-              then s"\":${c.cleanName}\""
-              else s"\"${vars.targetsTreeBazelPath}/${c.groupId.toUnixPath}:${c.cleanName}\""
+              then s"\":$depName\""
+              else s"\"${vars.targetsTreeBazelPath}/${c.groupId.toUnixPath}:$depName\""
             }
             .sorted
             .mkString(",\n        ")
@@ -43,7 +51,7 @@ final case class Target(
                   |        $deps0
                   |    ],""".stripMargin
         s"""\n${lang.asString}_import(
-           |    name = "${coordinates.cleanName}",
+           |    name = "$adjustedName",
            |    jars = [
            |        "$jar"
            |    ],$runtime_deps
