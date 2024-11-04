@@ -5,7 +5,7 @@ def scala_deps(
         dependencies,
         src,
         project_root = ".",
-        scala_version = "3.5.1-RC1",
+        scala_version = "3.6.1",
         targets_dir_name = "jvm",
         targets_file_name = "BUILD"):
     destination = native.package_name() + "/3rdparty"
@@ -13,10 +13,9 @@ def scala_deps(
     scala_binary(
         name = name,
         main_class = "rules_scala3.deps.src.Deps",
-        resources = ["//deps/src/templates:jar_artifact_callback"],
-        scala = "//scala:bootstrap_3",
+        scala = "@rules_scala3//scala:bootstrap_3",
         visibility = ["//visibility:public"],
-        srcs = ["//deps/src:deps", src],
+        srcs = ["@rules_scala3//deps/src:deps", src],
         args = [
             "--project-root=" + project_root,
             "--scala-version=" + scala_version,

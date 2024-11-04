@@ -24,6 +24,12 @@ filegroup(
 )
 """
 
+_ANNEX_DEPS_ARTIFACTS = [
+    "com.github.scopt:scopt_3:4.1.0",
+    "org.scala-sbt:librarymanagement-core_3:2.0.0-M2",
+    "org.scala-sbt:librarymanagement-coursier_3:2.0.0-alpha8",
+]
+
 repositories = [
     "https://repo1.maven.org/maven2",
     "https://repo.maven.apache.org/maven2",
@@ -35,26 +41,13 @@ repositories = [
 sbt_version = "2.0.0-M2"
 zinc_version = "2.0.0-alpha14"
 
-def scala_artifacts():
-    return [
-        "com.github.scopt:scopt_3:4.1.0",
-        "org.jacoco:org.jacoco.core:0.8.10",
-        "org.jline:jline-reader:3.24.1",
-        "org.scala-lang.modules:scala-xml_3:2.3.0",
-        "org.scala-sbt:test-interface:1.0",
-        "org.scala-sbt:util-interface:" + sbt_version,
-        "org.scala-sbt:util-logging_3:" + sbt_version,
-        "org.scala-sbt:zinc_3:" + zinc_version,
-        "org.scalameta:munit_3:1.0.2",
-    ]
-
 def scala_repositories():
     maven_install(
-        name = "annex",
-        artifacts = scala_artifacts(),
-        repositories = repositories,
+        name = "annex_deps",
+        artifacts = _ANNEX_DEPS_ARTIFACTS,
         fetch_sources = True,
-      maven_install_json = "@rules_scala3//:annex_install.json",
+        maven_install_json = "@rules_scala3//:annex_deps_install.json",
+        repositories = repositories,
     )
 
     http_archive(
@@ -65,7 +58,7 @@ def scala_repositories():
     )
 
     scala2 = "2.13.15"
-    scala3 = "3.5.2"
+    scala3 = "3.6.1"
     scalajs = "1.17.0"
 
     direct_deps = [

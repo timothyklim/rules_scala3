@@ -63,25 +63,7 @@ load("@rules_scala3//rules/scala:init.bzl", "rules_scala3_init")
 
 rules_scala3_init()
 
-load("@annex//:defs.bzl", annex_pinned_maven_install = "pinned_maven_install")
-
-annex_pinned_maven_install()
-
 scala_register_toolchains()
-
-load(
-    "@rules_scala3//rules/scala_proto:workspace.bzl",
-    "scala_proto_register_toolchains",
-    "scala_proto_repositories",
-)
-
-scala_proto_repositories()
-
-scala_proto_register_toolchains()
-
-load("@annex_proto//:defs.bzl", annex_proto_pinned_maven_install = "pinned_maven_install")
-
-annex_proto_pinned_maven_install()
 
 # load("@rules_scala3//3rdparty:workspace.bzl", "maven_dependencies")
 load(":workspace.bzl", "test_dependencies")
@@ -92,27 +74,7 @@ load("@annex_test//:defs.bzl", annex_test_pinned_maven_install = "pinned_maven_i
 
 annex_test_pinned_maven_install()
 
-# maven_dependencies()
-
-load("@rules_scala3//rules/scalafmt:workspace.bzl", "scalafmt_default_config", "scalafmt_repositories")
-
-scalafmt_repositories()
-
-load("@annex_scalafmt//:defs.bzl", annex_scalafmt_pinned_maven_install = "pinned_maven_install")
-
-annex_scalafmt_pinned_maven_install()
-
-scalafmt_default_config()
-
 load("//3rdparty:workspace.bzl", "maven_dependencies")
-
-maven_dependencies()
-
-load("@rules_scala3//3rdparty:workspace.bzl", "maven_dependencies")
-
-maven_dependencies()
-
-load("@rules_scala3//scala/3rdparty:workspace.bzl", "maven_dependencies")
 
 maven_dependencies()
 

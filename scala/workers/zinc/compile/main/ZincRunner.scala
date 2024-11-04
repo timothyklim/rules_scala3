@@ -96,6 +96,9 @@ object AnalysisArgument:
   * Bazel worker management cycles out Scala compiler versions. Currently, this runner follows strategy A.
   */
 object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
+
+  private lazy val _: Class[sbt.internal.util.Relation[?, ?]] = classOf[sbt.internal.util.Relation[?, ?]]
+  
   override def init(args: collection.Seq[String]): Arguments =
     Arguments(args).getOrElse(throw IllegalArgumentException(s"init args is invalid: ${args.mkString(" ")}"))
 

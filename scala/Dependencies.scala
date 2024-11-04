@@ -8,6 +8,7 @@ object Dependencies:
   private val sbtVersion = "2.0.0-M2"
   private val zincVersion = "2.0.0-alpha14"
   val scalapbV = "1.0.0-alpha.1"
+  val munitV = "1.0.2"
 
   val resolvers: Seq[Resolver] = Vector(
     "mavencentral".at("https://repo1.maven.org/maven2/"),
@@ -29,12 +30,15 @@ object Dependencies:
     "org.scala-sbt"         % "test-interface"        % "1.0",
     "org.scala-sbt"         % "compiler-interface"    % zincVersion,
     "org.scala-sbt"         % "util-interface"        % sbtVersion,
-    "org.scala-sbt"         %% "util-logging_3"         % sbtVersion,
-    "org.scala-sbt"         %% "zinc_3"                 % zincVersion,
+    "org.scala-sbt"         %% "util-logging"         % sbtVersion,
+    "org.scala-sbt"         %% "util-relation"         % sbtVersion,
+    "org.scala-sbt"         %% "zinc"                 % zincVersion,
     "org.scala-sbt"         %% "zinc-core"            % zincVersion,
     "org.scala-sbt"         %% "zinc-classpath"       % zincVersion,
     "org.scala-sbt"         %% "zinc-compile-core"    % zincVersion,
     "org.scala-sbt"         %% "zinc-persist"         % zincVersion,
+    "org.scala-sbt"         % "zinc-persist-core-assembly" % zincVersion,
     "org.scala-sbt"         %% "zinc-apiinfo"         % zincVersion,
-    "org.scalameta"         %% "munit_3"                % "1.0.2",
+    "org.scalameta"         %% "munit"                % munitV,
+    "org.scalameta"         %% "munit-diff"           % munitV,
   )
