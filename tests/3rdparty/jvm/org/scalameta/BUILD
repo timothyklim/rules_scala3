@@ -21,10 +21,24 @@ scala_import(
     runtime_deps = [
         "//3rdparty/jvm/junit:junit",
         "//3rdparty/jvm/org/scala_lang:scala3_library",
-        ":junit_interface"
+        ":junit_interface",
+        ":munit_diff"
     ],
     visibility = [
         "//visibility:public"
+    ]
+)
+
+scala_import(
+    name = "munit_diff",
+    jars = [
+        "//external:jar/org/scalameta/munit_diff_3"
+    ],
+    runtime_deps = [
+        "//3rdparty/jvm/org/scala_lang:scala3_library"
+    ],
+    visibility = [
+        "//3rdparty/jvm:__subpackages__"
     ]
 )
 
@@ -36,7 +50,8 @@ scala_import(
     runtime_deps = [
         "//3rdparty/jvm/org/scala_lang:scala3_library",
         "//3rdparty/jvm/org/scalacheck:scalacheck",
-        ":munit"
+        ":munit",
+        ":munit_diff"
     ],
     visibility = [
         "//visibility:public"
