@@ -7,9 +7,6 @@
 cd "$(dirname "$0")/.."
 echo "$(dirname "$0")/.."
 
-echo "generating dependencies for main workspace"
-bazel run @unpinned_annex//:pin
-
 echo "generating dependencies for tests workspace"
 cd "tests"
 bazel run @unpinned_annex_test//:pin

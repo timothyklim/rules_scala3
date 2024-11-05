@@ -1,16 +1,13 @@
 deps-update:
 	rg -l 'maven_install_json' --glob '*.bzl' --glob 'WORKSPACE' | xargs sed -i -E 's/[^#]maven_install_json/#maven_install_json/g'
-	
-	bazel run @annex_deps//:pin
+
 	cd tests && bazel run @annex_test//:pin
 
 	rg -l '#maven_install_json' --glob '*.bzl' --glob 'WORKSPACE' | xargs sed -i 's/#maven_install_json/maven_install_json/g'
 
-	REPIN=1 bazel run @unpinned_annex_deps//:pin
 	cd tests && REPIN=1 bazel run @unpinned_annex_test//:pin
 
 deps-outdated:
-	bazel run @annex_deps//:outdated
 	cd tests && bazel run @annex_test//:outdated
 
 bzl-lint:

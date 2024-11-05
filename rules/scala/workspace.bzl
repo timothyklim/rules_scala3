@@ -24,12 +24,6 @@ filegroup(
 )
 """
 
-_ANNEX_DEPS_ARTIFACTS = [
-    "com.github.scopt:scopt_3:4.1.0",
-    "org.scala-sbt:librarymanagement-core_3:2.0.0-M2",
-    "org.scala-sbt:librarymanagement-coursier_3:2.0.0-alpha8",
-]
-
 repositories = [
     "https://repo1.maven.org/maven2",
     "https://repo.maven.apache.org/maven2",
@@ -42,14 +36,6 @@ sbt_version = "2.0.0-M2"
 zinc_version = "2.0.0-alpha14"
 
 def scala_repositories():
-    maven_install(
-        name = "annex_deps",
-        artifacts = _ANNEX_DEPS_ARTIFACTS,
-        fetch_sources = True,
-        maven_install_json = "@rules_scala3//:annex_deps_install.json",
-        repositories = repositories,
-    )
-
     http_archive(
         name = "compiler_bridge_2_13",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
