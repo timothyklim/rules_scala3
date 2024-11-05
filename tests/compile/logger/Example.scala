@@ -1,6 +1,6 @@
 import rules_scala.workers.common.AnnexLogger
 import rules_scala.workers.common.Color
-import rules_scala.workers.common.CommonArguments.LogLevel
+import rules_scala.workers.common.LogLevel
 import rules_scala.workers.common.LoggedReporter
 
 import sbt.internal.inc.javac.JavaPosition
