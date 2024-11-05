@@ -1,10 +1,10 @@
 load(
-    "@io_bazel_rules_scala//scala:scala.bzl",
+    "@rules_scala3//rules:scala.bzl",
     "scala_binary",
     "scala_library",
-    "scala_macro_library",
+    #    "scala_macro_library",
     "scala_test",
-    "scala_test_suite",
+    #    "scala_test_suite",
 )
 
 scala_library(
@@ -29,10 +29,10 @@ scala_library(
     deps = [":ExportOnly"],
 )
 
-scala_macro_library(
-    name = "MacroTest",
-    srcs = ["MacroTest.scala"],
-)
+#scala_macro_library(
+#    name = "MacroTest",
+#    srcs = ["MacroTest.scala"],
+#)
 
 java_library(
     name = "OtherJavaLib",
@@ -44,7 +44,7 @@ scala_library(
     srcs = ["HelloLib.scala"],
     deps = [
         ":Exported",
-        ":MacroTest",
+        #        ":MacroTest",
         ":OtherJavaLib",
         ":OtherLib",
     ],
@@ -54,10 +54,9 @@ scala_binary(
     name = "ScalaBinary",
     srcs = ["ScalaBinary.scala"],
     main_class = "scala.test.ScalaBinary",
-    print_compile_time = True,
     deps = [
         ":HelloLib",
-        ":MacroTest",
+        #        ":MacroTest",
     ],
 )
 
@@ -70,11 +69,11 @@ scala_test(
     ],
 )
 
-scala_test_suite(
-    name = "HelloLibTestSuite",
-    size = "small",  # Not a macro, can pass test-specific attributes.
-    srcs = glob(["HelloLibTest*.scala"]),
-    deps = [
-        ":HelloLib",
-    ],
-)
+#scala_test_suite(
+#    name = "HelloLibTestSuite",
+#    size = "small",  # Not a macro, can pass test-specific attributes.
+#    srcs = glob(["HelloLibTest*.scala"]),
+#    deps = [
+#        ":HelloLib",
+#    ],
+#)

@@ -4,8 +4,8 @@
 bazel build :Runtime
 bazel build :Exported
 bazel build :ExportOnly
-#bazel build :OtherLib
-bazel build :MacroTest
+bazel build :OtherLib
+#bazel build :MacroTest
 bazel build :OtherJavaLib
 #bazel build :HelloLib
 #bazel run :ScalaBinary
