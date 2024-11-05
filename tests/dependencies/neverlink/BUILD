@@ -4,12 +4,12 @@ scala_library(
     name = "library",
     srcs = ["Library.scala"],
     neverlink = True,
-    scala = "//scala:2_13",
+    scala = "@rules_scala3//scala:3_4",
 )
 
 scala_binary(
     name = "binary",
     srcs = ["Binary.scala"],
-    scala = "//scala:2_13",
+    scala = "@rules_scala3//scala:3_4",
     deps = [":library"],
 )
