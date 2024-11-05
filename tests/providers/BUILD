@@ -6,7 +6,7 @@ load(
 )
 load(
     "@rules_scala3//rules:scala.bzl",
-    "bootstrap_scala_library",
+    "configure_bootstrap_scala",
 )
 load(
     ":build.bzl",
@@ -15,30 +15,34 @@ load(
     "consume_zinc_configuration",
 )
 
+runtime_classpath_3 = [
+    "@scala3_library//jar",
+    "@scala_library_2_13//jar",
+]
+
+compiler_classpath_3 = [
+    "@scala3_compiler//jar",
+    "@scala3_interfaces//jar",
+    "@scala_tasty_core_3//jar",
+    "@scala_asm//jar",
+    "@org_scala_sbt_compiler_interface//jar",
+] + runtime_classpath_3
+
+scala3 = "3.6.1"
+
 declare_scala_configuration(
     name = "provided_scala_configuration",
-    compiler_classpath = [
-        "@scala_compiler_2_13//jar",
-        "@scala_reflect_2_13//jar",
-        "@scala_library_2_13//jar",
-    ],
-    runtime_classpath = [
-        "@scala_library_2_13//jar",
-    ],
-    version = "2.13.5",
+    compiler_classpath = compiler_classpath_3,
+    runtime_classpath = runtime_classpath_3,
+    version = scala3,
 )
 
-bootstrap_scala_library(
-    name = "compiler_bridge",
-    srcs = ["@compiler_bridge_2_13//:src"],
-    scala = ":provided_scala_configuration",
-    deps = [
-        "@annex//:org_scala_sbt_util_interface",
-        "@scala_annex_org_scala_sbt_compiler_interface",
-        "@scala_compiler_2_13//jar",
-        "@scala_library_2_13//jar",
-        "@scala_reflect_2_13//jar",
-    ],
+configure_bootstrap_scala(
+    name = "bootstrap",
+    compiler_classpath = compiler_classpath_3,
+    runtime_classpath = runtime_classpath_3,
+    version = scala3,
+    visibility = ["//visibility:public"],
 )
 
 declare_zinc_configuration(
