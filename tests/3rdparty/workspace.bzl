@@ -39,6 +39,7 @@ def jar_artifact_callback(hash):
 
 def list_dependencies():
     return [
+        {"artifact":"com.chuusai:shapeless_2.13:2.4.0-M1","url":"https://repo1.maven.org/maven2/com/chuusai/shapeless_2.13/2.4.0-M1/shapeless_2.13-2.4.0-M1.jar","name":"com_chuusai_shapeless_2_13","actual":"@com_chuusai_shapeless_2_13//jar","bind": "jar/com/chuusai/shapeless_2_13"},
         {"artifact":"com.eed3si9n:shaded-jawn-parser_3:1.3.2","url":"https://repo1.maven.org/maven2/com/eed3si9n/shaded-jawn-parser_3/1.3.2/shaded-jawn-parser_3-1.3.2.jar","name":"com_eed3si9n_shaded_jawn_parser_3","actual":"@com_eed3si9n_shaded_jawn_parser_3//jar","bind": "jar/com/eed3si9n/shaded_jawn_parser_3"},
         {"artifact":"com.eed3si9n:shaded-scalajson_3:1.0.0-M4","url":"https://repo1.maven.org/maven2/com/eed3si9n/shaded-scalajson_3/1.0.0-M4/shaded-scalajson_3-1.0.0-M4.jar","name":"com_eed3si9n_shaded_scalajson_3","actual":"@com_eed3si9n_shaded_scalajson_3//jar","bind": "jar/com/eed3si9n/shaded_scalajson_3"},
         {"artifact":"com.eed3si9n:sjson-new-core_3:0.14.0-M1","url":"https://repo1.maven.org/maven2/com/eed3si9n/sjson-new-core_3/0.14.0-M1/sjson-new-core_3-0.14.0-M1.jar","name":"com_eed3si9n_sjson_new_core_3","actual":"@com_eed3si9n_sjson_new_core_3//jar","bind": "jar/com/eed3si9n/sjson_new_core_3"},

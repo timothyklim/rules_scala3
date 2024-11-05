@@ -19,11 +19,12 @@ object Dependencies:
     "org.scala-lang" % "scala-reflect" -> "@scala_reflect_2_13//jar"
   )
   val dependencies: Seq[ModuleID] = Vector(
+    "com.chuusai"            % "shapeless_2.13"             % "2.4.0-M1",
     "com.google.android"     % "annotations"                % "4.1.1.4",
     "com.google.api.grpc"    % "proto-google-common-protos" % "2.41.0",
     "com.google.code.findbugs" % "jsr305"                   % "3.0.2",
     "com.google.code.gson"   % "gson"                       % "2.10.1",
-    "com.google.errorprone"  % "error_prone_annotations"    % "2.28.0", 
+    "com.google.errorprone"  % "error_prone_annotations"    % "2.28.0",
     "com.google.guava"       % "guava"                      % "32.0.1-android",
     "com.google.protobuf"    % "protobuf-java"              % "4.28.3",
     "com.thesamet.scalapb"   %% "protobuf-runtime-scala_sjs1" % "0.8.16",
@@ -60,4 +61,3 @@ object Dependencies:
     "org.scalameta"          %% "munit-scalacheck"          % "1.0.0-M8",
     "org.typelevel"          % "kind-projector_2.13.1"     % "0.13.3",
   )
-  
