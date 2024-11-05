@@ -5,7 +5,7 @@ import sbt.internal.util.ConsoleLogger
 import sbt.librarymanagement.syntax.*
 import sbt.librarymanagement.{Configurations, ScalaModuleInfo, UnresolvedWarningConfiguration, UpdateConfiguration}
 import sbt.internal.librarymanagement.cross.CrossVersionUtil
-import scala.collection.mutable.HashMap
+import scala.collection.mutable
 
 object Resolve:
   def apply()(using vars: Vars, cfg: DepsCfg): Vector[Target] =
@@ -44,7 +44,7 @@ object Resolve:
               .contains(moduleReport.module.toUvCoordinates.withCleanName)
           }
         val uvCoordinates_modules = modules.map { m => m.module.toUvCoordinates -> m.module }.toMap
-        val modules_deps: HashMap[Coordinates, Vector[Coordinates]] = HashMap.empty
+        val modules_deps: mutable.HashMap[Coordinates, Vector[Coordinates]] = mutable.HashMap.empty
         modules.foreach { moduleReport =>
           moduleReport.callers.foreach { caller =>
             // dependency can be resolved with a different version,

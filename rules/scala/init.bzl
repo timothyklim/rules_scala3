@@ -1,4 +1,3 @@
-load("@annex_deps//:defs.bzl", "pinned_maven_install")
 load("@bazel_features//:deps.bzl", "bazel_features_deps")
 load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies")
@@ -21,6 +20,5 @@ def rules_scala3_init():
     rules_proto_toolchains()
     bazel_features_deps()
 
-    pinned_maven_install()
     load_maven_dependencies()
     scalafmt_default_config(".scalafmt.conf")

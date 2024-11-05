@@ -25,8 +25,8 @@ def scala_deps(
             "--targets-file-name=" + targets_file_name,
         ],
         deps = [
-            "@annex_deps//:com_github_scopt_scopt_3",
-            "@annex_deps//:org_scala_sbt_librarymanagement_core_3",
-            "@annex_deps//:org_scala_sbt_librarymanagement_coursier_3",
+            "//3rdparty/jvm/com/github/scopt",
+            "@maven//:org_scala_sbt_librarymanagement_core_3",
+            "@maven//:org_scala_sbt_librarymanagement_coursier_3",
         ],
     )

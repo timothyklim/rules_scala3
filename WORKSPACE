@@ -13,6 +13,16 @@ http_archive(
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
+maven_install(
+    artifacts = [
+        "org.scala-sbt:librarymanagement-core_3:2.0.0-M2",
+        "org.scala-sbt:librarymanagement-coursier_3:2.0.0-alpha8",
+    ],
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+)
+
 rules_cc_version = "0.0.9"
 
 http_archive(
