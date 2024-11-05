@@ -15,8 +15,8 @@ scala_binary(
     scala = "//scala:bootstrap_3",
     visibility = ["//visibility:public"],
     deps = [
-        "//3rdparty/jvm/com/github/scopt",
         "@maven//:org_scala_sbt_librarymanagement_core_3",
         "@maven//:org_scala_sbt_librarymanagement_coursier_3",
+        "@rules_scala3//3rdparty/jvm/com/github/scopt",
     ],
 )
