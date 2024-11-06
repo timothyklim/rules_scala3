@@ -11,18 +11,6 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_jvm_external/archive/{}.tar.gz".format(rules_jvm_external_tag),
 )
 
-load("@rules_jvm_external//:defs.bzl", "maven_install")
-
-maven_install(
-    artifacts = [
-        "org.scala-sbt:librarymanagement-core_3:2.0.0-M2",
-        "org.scala-sbt:librarymanagement-coursier_3:2.0.0-alpha8",
-    ],
-    repositories = [
-        "https://repo1.maven.org/maven2",
-    ],
-)
-
 protobuf_tag = "28.2"
 
 http_archive(
