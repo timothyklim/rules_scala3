@@ -57,7 +57,8 @@ object Dependencies:
     "org.scala-sbt"          %% "zinc-compile-core"         % "2.0.0-M1",
     "org.scalacheck"         %% "scalacheck"                % "1.18.1",
     "org.scalameta"          % "junit-interface"            % "1.0.0",
-    "org.scalameta"          %% "munit"                     % "1.0.0",
+    "org.scalameta"          %% "munit"                     % "1.0.2",
+    "org.scalameta"          %% "munit-diff"                % "1.0.2",
     "org.scalameta"          %% "munit-scalacheck"          % "1.0.0",
     "org.typelevel"          % "kind-projector_2.13.1"     % "0.13.3",
   )
