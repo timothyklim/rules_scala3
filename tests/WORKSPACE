@@ -65,15 +65,6 @@ rules_scala3_init()
 
 scala_register_toolchains()
 
-# load("@rules_scala3//3rdparty:workspace.bzl", "maven_dependencies")
-load(":workspace.bzl", "test_dependencies")
-
-test_dependencies()
-
-load("@annex_test//:defs.bzl", annex_test_pinned_maven_install = "pinned_maven_install")
-
-annex_test_pinned_maven_install()
-
 load("//3rdparty:workspace.bzl", "maven_dependencies")
 
 maven_dependencies()
