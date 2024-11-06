@@ -1,5 +1,5 @@
 object HelloWorld:
-  def main(args: Array[String]) {
+  def main(args: Array[String]): Unit =
     println("Be careful with this test")
     println("小心這個測試")
     println("このテストに注意してください")
@@ -8,4 +8,3 @@ object HelloWorld:
     println("Hãy cẩn thận với bài kiểm tra này")
     println("Будьте осторожны с этим тестом")
     println("😁✊🚀🍟💯")
-  }
