@@ -3,7 +3,7 @@ load("@rules_scala3//rules:scala.bzl", "scala_library")
 scala_library(
     name = "plugin-lib",
     srcs = ["plugin-lib.scala"],
-    scala = "//scala:2_13",
+    scala = "@rules_scala3//scala:3_4",
     tags = ["manual"],
 )
 
@@ -35,7 +35,7 @@ scala_library(
     resource_jars = [
         ":resources",
     ],
-    scala = "//scala:2_13",
+    scala = "@rules_scala3//scala:3_4",
     tags = ["manual"],
     deps = [
         ":plugin-lib",
@@ -50,6 +50,6 @@ scala_library(
     plugins = [
         ":plugin",
     ],
-    scala = "//scala:2_13",
+    scala = "@rules_scala3//scala:3_4",
     tags = ["manual"],
 )

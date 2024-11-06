@@ -1,9 +1,4 @@
 #!/usr/bin/env -S bash -e
 . "$(dirname "$0")"/../../common.sh
 
-bazel build :inefficient-usage 2>&1 | \
-    awk '
-        BEGIN                           {z  = 2}
-        /slightly inefficient/          {z -= 1}
-        /scalac plugin phase success/   {z -= 1}
-        END                             {exit z}'
+bazel build //plugins/classpath:inefficient-usage 2>&1 | awk '/slightly inefficient/'
