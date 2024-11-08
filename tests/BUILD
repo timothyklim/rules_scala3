@@ -1,4 +1,3 @@
-#load("@bazel_tools//tools/jdk:default_java_toolchain.bzl", "default_java_toolchain")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@rules_scala3//deps:scala_deps.bzl", "scala_deps")
 
@@ -38,15 +37,17 @@ proto_library(
     ],
 )
 
-#default_java_toolchain(
-#    name = "toolchain_hostjdk16",
-#    configuration = dict(
-#        java_runtime = "@bazel_tools//tools/jdk:jdk",
-#        jvm_opts = ["-Xbootclasspath/p:$(location @remote_java_tools//:javac_jar)"],
-#        tools = ["@remote_java_tools//:javac_jar"],
-#    ),
-#    java_runtime = "@bazel_tools//tools/jdk:current_host_java_runtime",
-#    source_version = "16",
-#    target_version = "16",
-#    toolchain_definition = False,
-#)
+java_runtime(
+    name = "jdk",
+    srcs = select({
+        "@bazel_tools//src/conditions:linux_x86_64": ["@jdk21-linux//:jdk"],
+        "@bazel_tools//src/conditions:darwin_x86_64": ["@jdk21-osx//:jdk"],
+        "@bazel_tools//src/conditions:darwin": ["@jdk21-osx//:jdk"],
+    }),
+    java = select({
+        "@bazel_tools//src/conditions:linux_x86_64": "@jdk21-linux//:java",
+        "@bazel_tools//src/conditions:darwin_x86_64": "@jdk21-osx//:java",
+        "@bazel_tools//src/conditions:darwin": "@jdk21-osx//:java",
+    }),
+    visibility = ["//visibility:public"],
+)
