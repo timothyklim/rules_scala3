@@ -120,6 +120,8 @@ load("//3rdparty:workspace.bzl", "maven_dependencies")
 
 maven_dependencies()
 
+register_toolchains("@rules_scala3//rules/scala_proto:scalapb_scala_proto_toolchain")
+
 bind(
     name = "default_scala",
     actual = "@rules_scala3//scala:zinc_3_3",
