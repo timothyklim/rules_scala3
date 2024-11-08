@@ -82,35 +82,6 @@ load("@io_tweag_rules_nixpkgs//nixpkgs:repositories.bzl", "rules_nixpkgs_depende
 
 rules_nixpkgs_dependencies()
 
-jdk_build_file_content = """
-filegroup(
-    name = "jdk",
-    srcs = glob(["**/*"]),
-    visibility = ["//visibility:public"],
-)
-filegroup(
-    name = "java",
-    srcs = ["bin/java"],
-    visibility = ["//visibility:public"],
-)
-"""
-
-http_archive(
-    name = "jdk21-linux",
-    build_file_content = jdk_build_file_content,
-    sha256 = "82f64c53acaa045370d6762ebd7441b74e6fda14b464d54d1ff8ca941ec069e6",
-    strip_prefix = "jdk-21+35",
-    url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21+35/OpenJDK21U-jdk_x64_linux_hotspot_21_35.tar.gz",
-)
-
-http_archive(
-    name = "jdk21-osx",
-    build_file_content = jdk_build_file_content,
-    sha256 = "25f3d8c875255362a3e31a0783f9f0422de01f8e4b515c45bd68e43ef3812a9d",
-    strip_prefix = "jdk-21+35/Contents/Home",
-    url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21+35/OpenJDK21U-jdk_x64_mac_hotspot_21_35.tar.gz",
-)
-
 # --
 
 load("@io_tweag_rules_nixpkgs//nixpkgs:nixpkgs.bzl", "nixpkgs_cc_configure", "nixpkgs_local_repository")
