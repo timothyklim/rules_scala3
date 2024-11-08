@@ -1,12 +1,12 @@
-import scala.reflect.runtime.universe
+import scala.reflect.ClassTag
 
-class Item(name: String)
+class Item(name: String):
+  override def toString: String = s"Item($name)"
 
 object Reflect:
 
   def main(args: Array[String]): Unit =
-    val `type` = universe.typeOf[Item]
-    val mirror = universe.runtimeMirror(getClass.getClassLoader)
-    val classMirror = mirror.reflectClass(`type`.typeSymbol.asClass)
-    val methodMirror = classMirror.reflectConstructor(`type`.decl(universe.termNames.CONSTRUCTOR).asMethod)
-    methodMirror("example").asInstanceOf[Item]
+    val clazz = summon[ClassTag[Item]].runtimeClass
+    val constructor = clazz.getConstructor(classOf[String])
+    val itemInstance = constructor.newInstance("example").asInstanceOf[Item]
+    println(itemInstance)

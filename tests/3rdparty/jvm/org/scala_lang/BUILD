@@ -5,7 +5,7 @@ scala_import(
         "@scala3_library//jar"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//visibility:public"
     ]
 )
 
@@ -19,6 +19,22 @@ scala_import(
         ":scala_library"
     ],
     visibility = [
+        "//visibility:public"
+    ]
+)
+
+scala_import(
+    name = "scala_compiler",
+    jars = [
+        "//external:jar/org/scala_lang/scala_compiler"
+    ],
+    runtime_deps = [
+        "//3rdparty/jvm/jline:jline",
+        "//3rdparty/jvm/org/fusesource/jansi:jansi",
+        ":scala_library",
+        ":scala_reflect"
+    ],
+    visibility = [
         "//3rdparty/jvm:__subpackages__"
     ]
 )
@@ -29,6 +45,16 @@ scala_import(
         "@scala_library_2_13//jar"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//visibility:public"
+    ]
+)
+
+scala_import(
+    name = "scala_reflect",
+    exports = [
+        "@scala_reflect_2_13//jar"
+    ],
+    visibility = [
+        "//visibility:public"
     ]
 )

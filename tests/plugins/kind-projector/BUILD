@@ -4,26 +4,36 @@ scala_library(
     name = "kind-projector",
     srcs = ["KindProjector.scala"],
     plugins = [
-        "@kind_projector_2_13//jar",
+        "//3rdparty/jvm/org/typelevel:kind_projector",
     ],
     tags = ["manual"],
 )
 
+runtime_classpath_3 = [
+    "@scala3_library//jar",
+    "@scala_library_2_13//jar",
+]
+
+compiler_classpath_3 = [
+    "@scala3_compiler//jar",
+    "@scala3_interfaces//jar",
+    "@scala_tasty_core_3//jar",
+    "@scala_asm//jar",
+    "@org_scala_sbt_compiler_interface//jar",
+] + runtime_classpath_3
+
+scala3 = "3.6.1"
+
 configure_zinc_scala(
     name = "scala_2_13_11_with_kind_projector",
-    compiler_bridge = "//scala:compiler_bridge_2_13",
-    compiler_classpath = [
-        "@scala_compiler_2_13//jar",
-        "@scala_reflect_2_13//jar",
-        "@scala_library_2_13//jar",
-    ],
+    compiler_bridge = "@scala3_sbt_bridge//jar",
+    compiler_classpath = compiler_classpath_3,
     global_plugins = [
-        "@kind_projector_2_13//jar",
+        "//3rdparty/jvm/org/typelevel:kind_projector",
     ],
-    runtime_classpath = [
-        "@scala_library_2_13//jar",
-    ],
-    version = "2.13.5",
+    runtime_classpath = runtime_classpath_3,
+    version = scala3,
+    visibility = ["//visibility:public"],
 )
 
 scala_library(

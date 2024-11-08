@@ -1,2 +1,2 @@
 object Binary:
-  def main(args: Array[String]): Unit = Library
+  def main(args: Array[String]): Unit = println(Library.toString)

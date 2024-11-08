@@ -5,6 +5,6 @@ java_import(
         "//external:jar/com/google/errorprone/error_prone_annotations"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//visibility:public"
     ]
 )

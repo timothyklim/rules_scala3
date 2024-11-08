@@ -4,7 +4,7 @@ load("@rules_scala3//rules:scala.bzl", "scala_library")
 # used_deps off
 reconfigure_deps_configuration(
     name = "scala_used_deps_off",
-    provider = "//scala:2_13",
+    provider = "@rules_scala3//scala:3_4",
     used = "off",
 )
 
@@ -32,7 +32,7 @@ scala_library(
 reconfigure_deps_configuration(
     name = "scala_direct_deps_off",
     direct = "off",
-    provider = "//scala:2_13",
+    provider = "@rules_scala3//scala:3_4",
 )
 
 scala_library(
@@ -59,19 +59,19 @@ scala_library(
 scala_library(
     name = "define_a",
     srcs = ["A.scala"],
-    scala = "@rules_scala3//scala:2_13",
+    scala = "@rules_scala3//scala:3_4",
 )
 
 scala_library(
     name = "define_b",
     srcs = ["B.scala"],
-    scala = "@rules_scala3//scala:2_13",
+    scala = "@rules_scala3//scala:3_4",
     deps = [":define_a"],
 )
 
 scala_library(
     name = "define_c",
     srcs = ["C.scala"],
-    scala = "@rules_scala3//scala:2_13",
+    scala = "@rules_scala3//scala:3_4",
     deps = [":define_b"],
 )

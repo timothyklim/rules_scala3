@@ -23,7 +23,7 @@ java_import(
         ":listenablefuture"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//visibility:public"
     ]
 )
 

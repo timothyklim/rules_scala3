@@ -8,7 +8,7 @@ scala_import(
         "//3rdparty/jvm/org/scala_lang:scala3_library"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//visibility:public"
     ]
 )
 
@@ -20,6 +20,19 @@ scala_import(
     runtime_deps = [
         "//3rdparty/jvm/org/scala_js:scalajs_library",
         "//3rdparty/jvm/org/scala_lang:scala3_library_sjs1"
+    ],
+    visibility = [
+        "//visibility:public"
+    ]
+)
+
+scala_import(
+    name = "scala_parser_combinators",
+    jars = [
+        "//external:jar/org/scala_lang/modules/scala_parser_combinators_3"
+    ],
+    runtime_deps = [
+        "//3rdparty/jvm/org/scala_lang:scala3_library"
     ],
     visibility = [
         "//3rdparty/jvm:__subpackages__"

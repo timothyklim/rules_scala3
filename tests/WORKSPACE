@@ -11,6 +11,31 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_jvm_external/archive/{}.tar.gz".format(rules_jvm_external_tag),
 )
 
+protobuf_tag = "28.2"
+
+http_archive(
+    name = "com_google_protobuf",
+    sha256 = "b2340aa47faf7ef10a0328190319d3f3bee1b24f426d4ce8f4253b6f27ce16db",
+    strip_prefix = "protobuf-" + protobuf_tag,
+    url = "https://github.com/protocolbuffers/protobuf/archive/v{}.tar.gz".format(protobuf_tag),
+)
+
+load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+
+protobuf_deps()
+
+rules_proto_tag = "6.0.2"
+
+http_archive(
+    name = "rules_proto",
+    sha256 = "6fb6767d1bef535310547e03247f7518b03487740c11b6c6adb7952033fe1295",
+    strip_prefix = "rules_proto-" + rules_proto_tag,
+    urls = [
+        "https://github.com/bazelbuild/rules_proto/archive/{}.tar.gz".format(rules_proto_tag),
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_proto/archive/{}.tar.gz".format(rules_proto_tag),
+    ],
+)
+
 rules_cc_version = "0.0.9"
 
 http_archive(
@@ -32,6 +57,8 @@ http_archive(
 load("@io_tweag_rules_nixpkgs//nixpkgs:repositories.bzl", "rules_nixpkgs_dependencies")
 
 rules_nixpkgs_dependencies()
+
+# --
 
 load("@io_tweag_rules_nixpkgs//nixpkgs:nixpkgs.bzl", "nixpkgs_cc_configure", "nixpkgs_local_repository")
 
@@ -64,15 +91,6 @@ load("@rules_scala3//rules/scala:init.bzl", "rules_scala3_init")
 rules_scala3_init()
 
 scala_register_toolchains()
-
-# load("@rules_scala3//3rdparty:workspace.bzl", "maven_dependencies")
-load(":workspace.bzl", "test_dependencies")
-
-test_dependencies()
-
-load("@annex_test//:defs.bzl", annex_test_pinned_maven_install = "pinned_maven_install")
-
-annex_test_pinned_maven_install()
 
 load("//3rdparty:workspace.bzl", "maven_dependencies")
 

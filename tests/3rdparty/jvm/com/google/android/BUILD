@@ -5,6 +5,6 @@ java_import(
         "//external:jar/com/google/android/annotations"
     ],
     visibility = [
-        "//3rdparty/jvm:__subpackages__"
+        "//visibility:public"
     ]
 )

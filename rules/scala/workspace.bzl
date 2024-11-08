@@ -36,6 +36,16 @@ sbt_version = "2.0.0-M2"
 zinc_version = "2.0.0-alpha14"
 
 def scala_repositories():
+    maven_install(
+        artifacts = [
+            "org.scala-sbt:librarymanagement-core_3:2.0.0-M2",
+            "org.scala-sbt:librarymanagement-coursier_3:2.0.0-alpha8",
+        ],
+        repositories = [
+            "https://repo1.maven.org/maven2",
+        ],
+    )
+
     http_archive(
         name = "compiler_bridge_2_13",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
