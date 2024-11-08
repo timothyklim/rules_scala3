@@ -1,6 +1,8 @@
 common --announce_rc
 common --color=yes
 
+build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17
+
 build --host_platform=@rules_nixpkgs_core//platforms:host
 
 build --experimental_strict_action_env
