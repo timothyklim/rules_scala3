@@ -1,4 +1,7 @@
 #!/usr/bin/env -S bash -e
 . "$(dirname "$0")"/../common.sh
 
-bazel run :jmh
+bazel run :jmh -- \
+  -wi 2 -i 2 -f 2 \
+  -bm thrpt \
+  -tu ms
