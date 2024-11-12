@@ -1,7 +1,6 @@
 package annex.scalacheck
 
 import org.junit.Test
-import org.junit.Assert.*
 
 class JUnitTests:
 

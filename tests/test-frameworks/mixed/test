@@ -2,5 +2,5 @@
 . "$(dirname "$0")"/../../common.sh
 
 out=$(bazel test :mixed)
-echo "$out" | grep 'should pop values in last-in-first-out order'
-echo "$out" | grep 'JUnit many success'
+echo "$out" | grep 'Dummy.foo: OK, proved property.'
+echo "$out" | grep 'Dummy.bar: OK, proved property.'
