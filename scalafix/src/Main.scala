@@ -2,4 +2,13 @@ package rules_scala3.scalafix.src
 
 object Main:
   def main(args: Array[String]): Unit =
-    given Vars = ArgsConfig(args.toIndexedSeq).getOrElse(sys.exit(2))
+    ArgsConfig.parse(args.toIndexedSeq) match
+      case Some(config) =>
+        println("Parsed Arguments:")
+        println(s"Toolchain: ${config.toolchain.getOrElse("None")}")
+        println(s"Scalafix Options: ${config.scalafixOpts.getOrElse("None")}")
+        println(s"Targets: ${config.targets.mkString(", ")}")
+        println(s"Excluded Targets: ${config.excludedTargets.mkString(", ")}")
+      case None =>
+        println("Failed to parse arguments.")
+        sys.exit(2)

@@ -1,9 +1,10 @@
 load("//rules:scala.bzl", "scala_binary")
 
 scala_binary(
-    name = "scalafmt",
+    name = "scalaix",
+    srcs = ["//scalafix/src:scalafix"],
     args = [
-        "--toolchain=",
+        "--toolchain=//my/toolchain",
         "--opts=:--verbose:--config",
     ],
     main_class = "rules_scala3.scalafix.src.Main",
