@@ -1,4 +1,4 @@
-package rules_scala3.scalafix.src
+package rules_scala3.rules.scalafix.src
 
 import scopt.OParser
 
