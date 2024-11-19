@@ -47,7 +47,7 @@ configure_bootstrap_scala(
 
 declare_zinc_configuration(
     name = "provided_zinc_configuration",
-    compiler_bridge = ":compiler_bridge",
+    compiler_bridge = "@scala3_sbt_bridge//jar",
 )
 
 join_configurations(
