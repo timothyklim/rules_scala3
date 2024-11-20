@@ -36,12 +36,16 @@ final case class Target(
         val adjustedName = getAdjustedName(coordinates)
         val runtime_deps =
           val deps0 = deps
+            .groupBy(getAdjustedName)
+            .valuesIterator
+            .map(_.head)
             .map { c =>
               val depName = getAdjustedName(c)
               if coordinates.groupId == c.groupId
               then s"\":$depName\""
               else s"\"${vars.targetsTreeBazelPath}/${c.groupId.toUnixPath}:$depName\""
             }
+            .toSeq
             .sorted
             .mkString(",\n        ")
           if deps0 == ""
