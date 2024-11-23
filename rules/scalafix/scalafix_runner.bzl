@@ -104,5 +104,5 @@ scalafix_runner = rule(
         "targets": attr.label_list(mandatory=True, allow_files=False),
         "excluded_targets": attr.label_list(default=[], allow_files=False),
     },
-    executable=True,  # Mark this rule as producing an executable
+    executable=True,
 )
