@@ -1,0 +1,164 @@
+#!/usr/bin/env bash
+
+name="$(basename "$0")"
+
+red='\033[31m'
+green='\033[32m'
+bold='\033[1m'
+nc='\033[0m'
+
+trap 'exit 130' INT
+
+usage() {
+    printf "This script will build the specified targets with the toolchain, and then run
+scalafix with the necessary options for each target. Make sure the toolchain
+generates semanticdbs and contains the necessary scalac options.
+
+For targets containing 'scala' attribute, 'global_scalacopts' will be
+overridden by the toolchain specified in this attribute. Ensure that the
+toolchain specified in 'scala' attribute contains the necessary 'scalacopts'.
+
+It also filters targets by their kind. Only 'scala_binary', 'scala_library',
+'scala_test' and 'scalajs_library' will be build.
+
+${bold}Usage:${nc}
+  %s [options] [bazel targets]
+
+${bold}Example:${nc}
+  %s -t //:scala_toolchain -o ':--verbose:--config ../.scalafix.conf' //... -- -//exclude:target
+
+${bold}Options:${nc}
+  ${bold}-t, --toolchain	required.${nc} toolchain with which targets will be built
+  ${bold}-o, --opts${nc}		options passed to scalafix. must be a string starting
+  			with a colon and containing colon-separated options
+  ${bold}-h, --help${nc}		display this help message
+" "$name" "$name"
+    exit
+}
+
+# Parse args
+declare -a targets excluded_targets
+opts=true
+
+while [[ $# -gt 0 ]]; do
+    if $opts; then
+        case $1 in
+            -h | --help)
+                usage
+                ;;
+            -t | --toolchain)
+                toolchain="$2"
+                shift
+                shift
+                ;;
+            -o | --opts)
+                scalafix_opts="$2"
+                shift
+                shift
+                ;;
+            --)
+                opts=false
+                shift
+                ;;
+            -*)
+                printf "${red}%s${nc} %s\n%s\n" "Unknown option:" "$1" "Did you forget '--'?"
+                exit 1
+                ;;
+            *)
+                targets+=("$1")
+                shift
+                ;;
+        esac
+    else
+        case $1 in
+            -*)
+                excluded_targets+=("${1#-}")
+                shift
+                ;;
+            *)
+                targets+=("$1")
+                shift
+                ;;
+        esac
+    fi
+done
+
+# check required args
+if [[ ${#targets[@]} -eq 0 ]]; then
+    printf "${red}%s${nc}\n" "At least one target is required"
+    exit 1
+fi
+if [[ ! -v toolchain ]]; then
+    printf "${red}%s${nc}\n" "The '--toolchain' option is required"
+    exit 1
+fi
+
+# Filter targets
+printf "${green}${bold}%s${nc}\n" "Filtering targets..."
+readarray -t filtered_targets < <(bazel query \
+    "kind('scala(_binary|_library|_test|js_library)', set(${targets[*]}) except set(${excluded_targets[*]}))" 2>/dev/null)
+
+# Build targets
+build_cmd="bazel build --extra_toolchains='$toolchain' -- ${filtered_targets[*]}"
+printf "${green}${bold}%s${nc}\n${green}%s${nc} %s\n" "Building targets..." "Command:" "$build_cmd"
+
+if ! eval "$build_cmd"; then
+    printf "${red}%s${nc}\n" "BUILD FAILED, FIX AND TRY AGAIN"
+    kill -INT $$
+fi
+
+# Run scalafix
+exec_root="$(bazel info execution_root 2>/dev/null)"
+toolchain_impl="$(
+    bazel query "$toolchain" --output=streamed_jsonproto 2>/dev/null |
+        jq -r '.rule.attribute[] | select(.name=="toolchain" and .explicitlySpecified==true) | .stringValue'
+)"
+for target in "${filtered_targets[@]}"; do
+    target_json="$(bazel query "$target" --output=streamed_jsonproto 2>/dev/null)"
+
+    readarray -t files < <(
+        echo "$target_json" |
+            jq -r '.rule.attribute[]? | select(.name=="srcs" and .stringListValue!=null) | .stringListValue[]' |
+            while read -r source; do
+                printf -- "--files %s\n" "$(bazel query "$source" --output location 2>/dev/null)"
+            done
+    )
+
+    if [[ ${#files[@]} -eq 0 ]]; then
+        continue
+    fi
+
+    if echo "$target_json" |
+        jq -e '.rule.attribute[] | select(.name=="scala" and .explicitlySpecified==true)' >/dev/null; then
+        actual_toolchain="$(echo "$target_json" | jq -r '.rule.attribute[] | select(.name=="scala") | .stringValue')"
+    else
+        actual_toolchain=$toolchain_impl
+    fi
+
+    readarray -t scalac_opts < <(
+        # if 'enable_semanticdb = True' toolchain adds this under the hood
+        if bazel query "$toolchain_impl" --output streamed_jsonproto 2>/dev/null |
+            jq -e '.rule.attribute[] | select(.name=="enable_semanticdb" and .stringValue=="true")' >/dev/null; then
+            echo "-Xsemanticdb"
+        fi
+        # scalacopts from toolchain
+        bazel query "$actual_toolchain" --output streamed_jsonproto 2>/dev/null |
+            jq -r '.rule.attribute[] | select(.name=="global_scalacopts" and .stringListValue!=null) | .stringListValue[]'
+        # scalacopts passed when defining the target
+        echo "$target_json" |
+            jq -r '.rule.attribute[] | select(.name=="scalacopts" and .stringListValue!=null) | .stringListValue[]'
+    )
+
+    scala_version="$(
+        bazel cquery "$target" --output starlark --starlark:expr \
+            'providers(target).get("java").scala_info.toolchain.scala_version' 2>/dev/null
+    )"
+
+    cs="--classpath $exec_root/$(bazel cquery "$target.jar" --output files 2>/dev/null)"
+
+    sr="--sourceroot $(bazel info workspace 2>/dev/null)"
+
+    scalafix_cmd="scalafix ${scalafix_opts//:/ } --scala-version $scala_version $sr $cs ${scalac_opts[*]/#/--scalac-options } ${files[*]%%:*}"
+    printf "\n${green}${bold}%s${nc}\n${green}%s${nc} %s\n" "Trying to fix $target" "Command:" "$scalafix_cmd"
+    eval "$scalafix_cmd"
+done
