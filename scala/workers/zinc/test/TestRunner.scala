@@ -121,7 +121,7 @@ object TestRunner:
     val classpath = workArgs.classpath.map(runPath.resolve(_))
     val sharedClasspath = workArgs.sharedClasspath.map(runPath.resolve(_))
 
-    val sharedUrls = classpath.filter(sharedClasspath.toSet).map(_.toUri.toURL)
+    classpath.filter(sharedClasspath.toSet).map(_.toUri.toURL)
 
     val classLoader = ClassLoaders.sbtTestClassLoader(classpath.map(_.toUri.toURL))
     val sharedClassLoader = ClassLoaders.sbtTestClassLoader(classpath.filter(sharedClasspath.toSet).map(_.toUri.toURL))
