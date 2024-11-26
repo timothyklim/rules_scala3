@@ -1,6 +1,7 @@
 load("@rules_scala3//deps:scala_deps.bzl", "scala_deps")
 load("@rules_scala3//rules:scala.bzl", "configure_zinc_scala")
 load("@rules_scala3//scala3:toolchain.bzl", "scala_toolchain")
+load("@rules_scala3//rules/scalafix:scalafix_runner.bzl", "scalafix_runner")
 load('//scala3:repositories.bzl', _default_scalacopts = 'GLOBAL_SCALACOPTS')
 
 filegroup(
@@ -13,6 +14,12 @@ scala_deps(
     name = "scala_deps",
     src = "//:dependencies",
     dependencies = "rules_scala3.Dependencies",
+)
+
+scalafix_runner(
+    name = "run_scalafix",
+    toolchain = "//:scalafix_toolchain",
+    targets = ["//..."],
 )
 
 runtime_classpath_3 = [

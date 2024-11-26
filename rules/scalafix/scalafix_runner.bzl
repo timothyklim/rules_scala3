@@ -1,5 +1,4 @@
 def _scalafix_runner_impl(ctx):
-    # Dynamically generate the script content
     script_content = """#!/usr/bin/env bash
 
 # Navigate to the Bazel workspace
@@ -21,9 +20,6 @@ if [[ ${#filtered_targets[@]} -eq 0 ]]; then
     echo "No valid targets found to build."
     exit 1
 fi
-
-# Debug filtered targets
-echo "Filtered targets: ${filtered_targets[@]}"
 
 # Build targets
 build_cmd="bazel build --extra_toolchains='$toolchain' -- ${filtered_targets[@]}"
