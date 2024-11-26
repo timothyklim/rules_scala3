@@ -5,6 +5,11 @@ def _scalafix_runner_impl(ctx):
 workspace="$BUILD_WORKSPACE_DIRECTORY"
 cd "$workspace"
 
+red='\033[31m'
+green='\033[32m'
+bold='\033[1m'
+nc='\033[0m'
+
 # Variables
 toolchain="{toolchain}"
 opts="{opts}"
@@ -12,7 +17,7 @@ targets=({targets})
 excluded_targets=({excluded_targets})
 
 # Filter targets
-echo "Filtering targets..."
+echo -e "${green}${bold}Filtering targets...${nc}"
 readarray -t filtered_targets < <(bazel query \
     "kind('scala(_binary|_library|_test|js_library)', set(${targets[*]}) except set(${excluded_targets[*]}))" --output=label 2>/dev/null)
 
@@ -23,10 +28,10 @@ fi
 
 # Build targets
 build_cmd="bazel build --extra_toolchains='$toolchain' -- ${filtered_targets[@]}"
-echo "Building targets..."
+echo -e "${green}${bold}Building targets...${nc}"
 echo "Command: $build_cmd"
 if ! eval "$build_cmd"; then
-    echo "BUILD FAILED, FIX AND TRY AGAIN"
+    echo -e "${red}BUILD FAILED, FIX AND TRY AGAIN${nc}"
     kill -INT $$
 fi
 
@@ -82,7 +87,7 @@ for target in "${filtered_targets[@]}"; do
     sr="--sourceroot $(bazel info workspace 2>/dev/null)"
 
     scalafix_cmd="scalafix ${scalafix_opts//:/ } --scala-version $scala_version $sr $cs ${scalac_opts[*]/#/--scalac-options } ${files[*]%%:*}"
-    echo "\nTrying to fix $target"
+    echo -e "${green}${bold}\nTrying to fix $target${nc}"
     echo "Command: $scalafix_cmd"
     eval "$scalafix_cmd"
 done
