@@ -27,5 +27,7 @@ object Dependencies:
     "org.openjdk.jmh"   % "jmh-generator-bytecode"   % jmhV,
     "org.openjdk.jmh"   % "jmh-generator-reflection" % jmhV,
     "org.openjdk.jmh"   % "jmh-generator-asm"        % jmhV,
-    "com.github.scopt" %% "scopt"                    % "4.1.0"
+    "com.github.scopt" %% "scopt"                    % "4.1.0",
+    "ch.epfl.scala"     % "scalafix-cli_3.5.1"        % "0.13.0",
+    "org.scalameta"     % "semanticdb-scalac_2.13.15" % "4.12.0"
   )
