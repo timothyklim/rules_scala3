@@ -8,7 +8,7 @@ object Dependencies:
   private val sbtVersion = "2.0.0-M2"
   private val zincVersion = "2.0.0-alpha14"
   val scalapbV = "1.0.0-alpha.1"
-  val munitV = "1.0.2"
+  val munitV = "1.0.3"
 
   val resolvers: Seq[Resolver] = Vector(
     "mavencentral".at("https://repo1.maven.org/maven2/"),
