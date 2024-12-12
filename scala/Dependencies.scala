@@ -24,8 +24,8 @@ object Dependencies:
     "org.scala-lang" % "scala-reflect" -> "@scala_reflect_2_13//jar"
   )
   val dependencies: Seq[ModuleID] = Vector(
-    "org.jacoco"            % "org.jacoco.core"       % "0.8.10",
-    "org.jline"             % "jline-reader"          % "3.24.1",
+    "org.jacoco"            % "org.jacoco.core"       % "0.8.12",
+    "org.jline"             % "jline-reader"          % "3.28.0",
     "org.scala-lang.modules" %% "scala-xml"           % "2.3.0",
     "org.scala-sbt"         % "test-interface"        % "1.0",
     "org.scala-sbt"         % "compiler-interface"    % zincVersion,
