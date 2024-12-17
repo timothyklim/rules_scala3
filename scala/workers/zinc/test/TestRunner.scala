@@ -148,7 +148,6 @@ object TestRunner:
 
     val loader = TestFrameworkLoader(classLoader)
     val frameworks = workArgs.frameworks.flatMap(loader.load)
-    sys.exit(if (passed) 0 else 1)
 
     val testClass = sys.env
       .get("TESTBRIDGE_TEST_ONLY")
@@ -192,5 +191,5 @@ object TestRunner:
             false
       }
     }
-    
-    sys.exit(if (passed) 0 else 1)
+
+    sys.exit(if passed then 0 else 1)
