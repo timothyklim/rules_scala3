@@ -156,7 +156,7 @@ object TestRunner:
       case text if text.contains("#") => text.replaceAll(".*#", "").replaceAll("\\$", "").replace("\\Q", "").replace("\\E", "")
       case _                          => ""
     }
-    
+
     var count = 0
     val passed = frameworks.forall { framework =>
       val tests = TestDiscovery(framework)(apis.internal.values.toSet).sortBy(_.name)
@@ -164,7 +164,6 @@ object TestRunner:
         index <- sys.env.get("TEST_SHARD_INDEX").map(_.toInt)
         total <- sys.env.get("TEST_TOTAL_SHARDS").map(_.toInt)
       yield (test: TestDefinition, i: Int) => i % total == index
-
       val filteredTests = tests.filter { test =>
         testClass.forall(_.matcher(test.name).matches) && {
           count += 1
