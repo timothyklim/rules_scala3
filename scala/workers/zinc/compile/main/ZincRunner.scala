@@ -202,8 +202,8 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
         .map: files =>
           Analysis.Empty.copy(
             stamps = Stamps.empty,
-            apis = analysesFormat.apis.read(files.apis),
-            relations = analysesFormat.relations.read(files.relations),
+            apis = analysesFormat.apis(files.apis).read(files.apis),
+            relations = analysesFormat.relations(files.relations).read(files.relations),
             infos = SourceInfos.empty,
             compilations = sbt.internal.inc.Compilations.empty
           )
