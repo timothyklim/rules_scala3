@@ -119,7 +119,7 @@ final class AnxAnalyses(format: AnxAnalysisStore.Format)(using ctx: ZincContext,
     new Store[Relations](
       _ => binaryStore(path).get
         .map(_.getAnalysis.asInstanceOf[Analysis].relations)
-        .orElse(Analysis.Empty.relations), // Fallback to empty Relations
+        .orElse(Analysis.Empty.relations),
       (_, value) => {
         val contents = binaryStore(path).get
         val miniSetup = contents.map(_.getMiniSetup).orElseThrow()
