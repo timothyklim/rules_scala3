@@ -59,7 +59,7 @@ def scala_repositories():
 
     direct_deps = [
         ["org_scala_sbt_compiler_interface", "org.scala-sbt:compiler-interface:" + zinc_version],
-        ["scala_asm", "org.scala-lang.modules:scala-asm:9.7.0-scala-2"],
+        ["scala_asm", "org.scala-lang.modules:scala-asm:9.7.1-scala-1"],
         ["scala_compiler_2_13", "org.scala-lang:scala-compiler:" + scala2],
         ["scala_library_2_13", "org.scala-lang:scala-library:" + scala2],
         ["scala_reflect_2_13", "org.scala-lang:scala-reflect:" + scala2],
