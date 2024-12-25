@@ -68,7 +68,9 @@ load("//rules/scala:init.bzl", "rules_scala3_init")
 
 rules_scala3_init()
 
-scala_register_toolchains(default_compiler = "bootstrap")
+scala_register_toolchains()
+
+register_toolchains("@rules_scala3//rules/scalafix:scalafix_toolchain")
 
 load("//mezel_compatibility:repositories.bzl", "mezel_compatibility_repository")
 
