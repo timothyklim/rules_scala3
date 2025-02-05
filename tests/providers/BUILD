@@ -28,7 +28,7 @@ compiler_classpath_3 = [
     "@org_scala_sbt_compiler_interface//jar",
 ] + runtime_classpath_3
 
-scala3 = "3.6.1"
+scala3 = "3.6.4-RC1"
 
 declare_scala_configuration(
     name = "provided_scala_configuration",
