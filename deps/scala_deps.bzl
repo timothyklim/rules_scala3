@@ -26,6 +26,7 @@ def scala_deps(
         ],
         deps = [
             "@rules_scala3//3rdparty/jvm/com/github/scopt",
+            "@maven//:io_get_coursier_coursier_2_13",
             "@maven//:org_scala_sbt_librarymanagement_core_3",
             "@maven//:org_scala_sbt_librarymanagement_coursier_3",
         ],
