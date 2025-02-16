@@ -22,11 +22,11 @@ class CopyFileVisitor(source: Path, target: Path) extends SimpleFileVisitor[Path
 
 final class DeleteFileVisitor extends SimpleFileVisitor[Path]:
   override def postVisitDirectory(directory: Path, error: IOException) =
-    Files.delete(directory)
+    Files.deleteIfExists(directory)
     FileVisitResult.CONTINUE
 
   override def visitFile(file: Path, attributes: BasicFileAttributes) =
-    Files.delete(file)
+    Files.deleteIfExists(file)
     FileVisitResult.CONTINUE
 
 final class ZipFileVisitor(root: Path, zip: ZipOutputStream) extends SimpleFileVisitor[Path]:
