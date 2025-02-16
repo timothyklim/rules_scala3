@@ -42,7 +42,7 @@ final class FilePersistence(cacheDir: Path, analysisFiles: AnalysisFiles, jar: P
     Files.copy(analysisFiles.sourceInfos, cacheAnalysisFiles.sourceInfos)
     Files.copy(analysisFiles.stamps, cacheAnalysisFiles.stamps)
     Files.copy(jar, cacheJar)
-    Files.delete(tmpMarker)
+    Files.deleteIfExists(tmpMarker)
 
 object NullPersistence extends ZincPersistence:
   def load() = ()

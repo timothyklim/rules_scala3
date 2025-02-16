@@ -153,15 +153,15 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
       persistence.load()
       if Files.exists(workArgs.outputJar) then
         FileUtil.extractZip(workArgs.outputJar, classesOutputDir)
-        Files.delete(workArgs.outputJar)
+        Files.deleteIfExists(workArgs.outputJar)
     catch
       case NonFatal(e) =>
         logger.warn(() => s"Failed to load cached analysis: $e")
-        Files.delete(analysisFiles.apis)
-        Files.delete(analysisFiles.miniSetup)
-        Files.delete(analysisFiles.relations)
-        Files.delete(analysisFiles.sourceInfos)
-        Files.delete(analysisFiles.stamps)
+        Files.deleteIfExists(analysisFiles.apis)
+        Files.deleteIfExists(analysisFiles.miniSetup)
+        Files.deleteIfExists(analysisFiles.relations)
+        Files.deleteIfExists(analysisFiles.sourceInfos)
+        Files.deleteIfExists(analysisFiles.stamps)
         FileUtil.delete(classesOutputDir)
 
     val previousResult = Try(analysisStore.get())
