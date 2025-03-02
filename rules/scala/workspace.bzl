@@ -32,8 +32,7 @@ repositories = [
     "https://scala-ci.typesafe.com/artifactory/scala-integration/",
 ]
 
-sbt_version = "2.0.0-M2"
-zinc_version = "2.0.0-alpha14"
+sbt_version = "2.0.0-M3"
 
 def scala_repositories():
     maven_install(
@@ -49,7 +48,7 @@ def scala_repositories():
         name = "compiler_bridge_2_13",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
         integrity = "sha256-IxsWuIbybsISVqMAoBdrIPUQdIEKE9BPymZSrcxVb70=",
-        url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{v}/compiler-bridge_2.13-{v}-sources.jar".format(v = zinc_version),
+        url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{v}/compiler-bridge_2.13-{v}-sources.jar".format(v = sbt_version),
     )
 
     scala2 = "2.13.16"
@@ -57,7 +56,7 @@ def scala_repositories():
     scalajs = "1.18.2"
 
     direct_deps = [
-        ["org_scala_sbt_compiler_interface", "org.scala-sbt:compiler-interface:" + zinc_version],
+        ["org_scala_sbt_compiler_interface", "org.scala-sbt:compiler-interface:" + sbt_version],
         ["scala_asm", "org.scala-lang.modules:scala-asm:9.7.1-scala-1"],
         ["scala_compiler_2_13", "org.scala-lang:scala-compiler:" + scala2],
         ["scala_library_2_13", "org.scala-lang:scala-library:" + scala2],

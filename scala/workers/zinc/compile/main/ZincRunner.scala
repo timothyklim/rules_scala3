@@ -74,11 +74,11 @@ extension (problem: Problem)
       }
       .build
 
-final case class AnalysisArgument(label: String, apis: Path, relations: Path, jars: Vector[Path])
+final case class AnalysisArgument(label: String, analysisStore: Path, jars: Vector[Path])
 object AnalysisArgument:
   def from(value: String): AnalysisArgument = value.split(',') match
-    case Array(prefixedLabel, apis, relations, jars*) =>
-      AnalysisArgument(prefixedLabel.stripPrefix("_"), Paths.get(apis), Paths.get(relations), jars.map(Paths.get(_)).toVector)
+    case Array(prefixedLabel, analysisStore, jars*) =>
+      AnalysisArgument(prefixedLabel.stripPrefix("_"), Paths.get(analysisStore), jars.map(Paths.get(_)).toVector)
 
 /** <strong>Caching</strong>
   *
@@ -127,25 +127,19 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
         workArgs.analysis
           .flatMap: arg =>
             arg.jars.distinct.map :jar =>
-              jar -> (classesDir.resolve(labelToPath(arg.label)), DepAnalysisFiles(arg.apis, arg.relations))
+              jar -> (classesDir.resolve(labelToPath(arg.label)), DepAnalysisFiles(arg.analysisStore))
           .toMap
       case false => Map.empty
     val deps = Deps.create(workerArgs.depsCache, workArgs.classpath, analyses)
 
     // load persisted files
-    val analysisFiles = AnalysisFiles(
-      apis = workArgs.outputApis,
-      miniSetup = workArgs.outputSetup,
-      relations = workArgs.outputRelations,
-      sourceInfos = workArgs.outputInfos,
-      stamps = workArgs.outputStamps
-    )
-    val analysesFormat = AnxAnalyses(if workArgs.debug then AnxAnalysisStore.TextFormat else AnxAnalysisStore.BinaryFormat)
-    val analysisStore = AnxAnalysisStore(analysisFiles, analysesFormat)
+    val analysisStoreFile = workArgs.outputAnalysisStore
+    val analysesFormat = if workArgs.debug then AnxAnalysisStore.TextFormat else AnxAnalysisStore.BinaryFormat
+    val analysisStore = AnxAnalysisStore(analysisStoreFile.toFile(), analysesFormat)
 
     val persistence = workerArgs.persistenceDir.fold[ZincPersistence](NullPersistence): rootDir =>
       val path = labelToPath(workArgs.label)
-      FilePersistence(rootDir.resolve(path), analysisFiles, workArgs.outputJar)
+      FilePersistence(rootDir.resolve(path), analysisStoreFile, workArgs.outputJar)
 
     val classesOutputDir = classesDir.resolve(labelToPath(workArgs.label))
     Files.createDirectories(classesOutputDir)
@@ -157,11 +151,7 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
     catch
       case NonFatal(e) =>
         logger.warn(() => s"Failed to load cached analysis: $e")
-        Files.deleteIfExists(analysisFiles.apis)
-        Files.deleteIfExists(analysisFiles.miniSetup)
-        Files.deleteIfExists(analysisFiles.relations)
-        Files.deleteIfExists(analysisFiles.sourceInfos)
-        Files.deleteIfExists(analysisFiles.stamps)
+        Files.deleteIfExists(analysisStoreFile)
         FileUtil.delete(classesOutputDir)
 
     val previousResult = Try(analysisStore.get())
@@ -198,11 +188,8 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
     val lookup = AnxPerClasspathEntryLookup: file =>
       depMap
         .get(file)
-        .map: files =>
-          Analysis.Empty.copy(
-            apis = analysesFormat.apis.read(files.apis),
-            relations = analysesFormat.relations.read(files.relations)
-          )
+        .map: depAnalysisFiles =>
+          analysesFormat.read(depAnalysisFiles.analysisStore.toFile())
 
     val setup =
       val incOptions = IncOptions.create()
@@ -257,12 +244,11 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
                       identity
                     )
                 )
-                .map { case (path, problems) =>
+                .map: (path, problems) =>
                   Diagnostics.FileDiagnostics.newBuilder
                     .setPath("workspace-root://" + path)
                     .addAllDiagnostics(problems.map(_.toDiagnostic).toList.asJava)
                     .build
-                }
                 .asJava
             }.build
           Files.write(workArgs.diagnosticsFile, targetDiagnostics.toByteArray)
@@ -273,8 +259,9 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
     // create used deps
     val analysis = compileResult.analysis.asInstanceOf[Analysis]
 
-    val usedDeps =
-      deps.filter(Deps.used(deps, analysis.relations, lookup)).filter(_.file != scalaInstance.libraryJar.toPath)
+    val depsUsed = Deps.used(deps, analysis, lookup)
+    val usedDeps = deps.filter: dep =>
+      depsUsed(dep) && dep.file != scalaInstance.libraryJar.toPath
     Files.write(workArgs.outputUsed, usedDeps.map(_.file.toString).sorted.asJava)
 
     // create jar
@@ -288,7 +275,7 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
     finally pw.close()
 
     val jarCreator = JarCreator(workArgs.outputJar)
-    jarCreator.addDirectory(classesOutputDir)
+    if Files.exists(classesOutputDir) then jarCreator.addDirectory(classesOutputDir)
     jarCreator.setCompression(false)
     jarCreator.setNormalize(true)
     jarCreator.setVerbose(false)
@@ -340,12 +327,8 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
       enableDiagnostics: Boolean = false,
       diagnosticsFile: Path = Paths.get("."),
       mainManifest: File = new File("."),
-      outputApis: Path = Paths.get("."),
-      outputInfos: Path = Paths.get("."),
+      outputAnalysisStore: Path = Paths.get("."),
       outputJar: Path = Paths.get("."),
-      outputRelations: Path = Paths.get("."),
-      outputSetup: Path = Paths.get("."),
-      outputStamps: Path = Paths.get("."),
       outputUsed: Path = Paths.get("."),
       plugins: Vector[File] = Vector.empty,
       sourceJars: Vector[Path] = Vector.empty,
@@ -374,12 +357,12 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
         .required()
         .action((jar, c) => c.copy(outputJar = jar.toPath))
         .text("Output jar"),
-      opt[String]("analysis")
+      opt[String]("analysis_store")
         .unbounded()
         .optional()
         .valueName("args")
         .action((arg, c) => c.copy(analysis = c.analysis :+ AnalysisArgument.from(arg)))
-        .text("Analysis, given as: label apis relations [jar ...]"),
+        .text("Analysis, given as: label analysis relations [jar ...]"),
       opt[File]("cp")
         .unbounded()
         .optional()
@@ -390,26 +373,10 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
         .optional()
         .action((cp, c) => c.copy(compilerClasspath = c.compilerClasspath :+ cp))
         .text("Compiler classpath"),
-      opt[File]("output_apis")
+      opt[File]("output_analysis_store")
         .required()
-        .action((out, c) => c.copy(outputApis = out.toPath))
-        .text("Output APIs"),
-      opt[File]("output_setup")
-        .required()
-        .action((out, c) => c.copy(outputSetup = out.toPath))
-        .text("Output Zinc setup"),
-      opt[File]("output_relations")
-        .required()
-        .action((out, c) => c.copy(outputRelations = out.toPath))
-        .text("Output Zinc relations"),
-      opt[File]("output_infos")
-        .required()
-        .action((out, c) => c.copy(outputInfos = out.toPath))
-        .text("Output Zinc source infos"),
-      opt[File]("output_stamps")
-        .required()
-        .action((out, c) => c.copy(outputStamps = out.toPath))
-        .text("Output Zinc source stamps"),
+        .action((out, c) => c.copy(outputAnalysisStore = out.toPath))
+        .text("Output analysis store"),
       opt[Boolean]("debug").action((debug, c) => c.copy(debug = debug)),
       opt[String]("label")
         .required()
@@ -479,9 +446,8 @@ private def labelToPath(label: String): Path =
 final class AnxPerClasspathEntryLookup(analyses: Path => Option[CompileAnalysis]) extends PerClasspathEntryLookup:
   private val Empty = Optional.empty[CompileAnalysis]
 
-  override def analysis(classpathEntry: VirtualFile): Optional[CompileAnalysis] =
-    classpathEntry match
-      case file: PathBasedFile => analyses(file.toPath()).fold(Empty)(Optional.of(_))
-      case _                   => Empty
-  override def definesClass(classpathEntry: VirtualFile): DefinesClass =
-    Locate.definesClass(classpathEntry)
+  override def analysis(classpathEntry: VirtualFile): Optional[CompileAnalysis] = classpathEntry match
+    case file: PathBasedFile => analyses(file.toPath()).fold(Empty)(Optional.of(_))
+    case _                   => Empty
+
+  override def definesClass(classpathEntry: VirtualFile): DefinesClass = Locate.definesClass(classpathEntry)

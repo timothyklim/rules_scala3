@@ -48,12 +48,8 @@ def phase_zinc_compile(ctx, g):
         )
         g.out.providers.append(semanticdb_info)
 
-    apis = ctx.actions.declare_file("{}/apis.gz".format(ctx.label.name))
-    infos = ctx.actions.declare_file("{}/infos.gz".format(ctx.label.name))
+    analysis_store = ctx.actions.declare_file("{}/analysis_store.gz".format(ctx.label.name))
     mains_file = ctx.actions.declare_file("{}.jar.mains.txt".format(ctx.label.name))
-    relations = ctx.actions.declare_file("{}/relations.gz".format(ctx.label.name))
-    setup = ctx.actions.declare_file("{}/setup.gz".format(ctx.label.name))
-    stamps = ctx.actions.declare_file("{}/stamps.gz".format(ctx.label.name))
     used = ctx.actions.declare_file("{}/deps_used.txt".format(ctx.label.name))
 
     tmp = ctx.actions.declare_directory("{}/tmp".format(ctx.label.name))
@@ -78,12 +74,8 @@ def phase_zinc_compile(ctx, g):
     args.add_all(javacopts, format_each = "--java_compiler_option=%s")
     args.add(ctx.label, format = "--label=%s")
     args.add("--main_manifest", mains_file)
-    args.add("--output_apis", apis)
-    args.add("--output_infos", infos)
+    args.add("--output_analysis_store", analysis_store)
     args.add("--output_jar", g.classpaths.jar)
-    args.add("--output_relations", relations)
-    args.add("--output_setup", setup)
-    args.add("--output_stamps", stamps)
     args.add("--output_used", used)
     args.add_all(g.classpaths.plugin, format_each = "--plugin=%s")
     args.add_all(g.classpaths.src_jars, format_each = "--source_jar=%s")
@@ -110,7 +102,7 @@ def phase_zinc_compile(ctx, g):
         ] + [zinc.deps_files for zinc in zincs],
     )
 
-    outputs = [g.classpaths.jar, mains_file, apis, infos, relations, setup, stamps, used, tmp] + semanticdb_files + ([diagnostics_file] if toolchain.enable_diagnostics else [])
+    outputs = [g.classpaths.jar, mains_file, analysis_store, used, tmp] + semanticdb_files + ([diagnostics_file] if toolchain.enable_diagnostics else [])
 
     # todo: different execution path for nosrc jar?
     ctx.actions.run(
@@ -129,16 +121,14 @@ def phase_zinc_compile(ctx, g):
         jars.append(jar.class_jar)
         jars.append(jar.ijar)
     zinc_info = _ZincInfo(
-        apis = apis,
-        deps_files = depset([apis, relations], transitive = [zinc.deps_files for zinc in zincs]),
+        analysis_store = analysis_store,
+        deps_files = depset([analysis_store], transitive = [zinc.deps_files for zinc in zincs]),
         label = ctx.label,
-        relations = relations,
         deps = depset(
             [struct(
-                apis = apis,
+                analysis_store = analysis_store,
                 jars = tuple(jars),
                 label = ctx.label,
-                relations = relations,
             )],
             transitive = [zinc.deps for zinc in zincs],
         ),
@@ -154,10 +144,9 @@ def phase_zinc_compile(ctx, g):
 
 def _compile_analysis(analysis):
     return [
-        "--analysis",
+        "--analysis_store",
         ",".join([
             str(analysis.label),
-            analysis.apis.path,
-            analysis.relations.path,
+            analysis.analysis_store.path,
         ] + [jar.path for jar in analysis.jars]),
     ]

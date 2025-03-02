@@ -1,5 +1,5 @@
 load("@rules_scala3//rules:scala.bzl", "scala_import")
-java_import(
+scala_import(
     name = "jmh_core",
     jars = [
         "//external:jar/org/openjdk/jmh/jmh_core"
@@ -13,7 +13,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "jmh_generator_asm",
     jars = [
         "//external:jar/org/openjdk/jmh/jmh_generator_asm"
@@ -28,7 +28,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "jmh_generator_bytecode",
     jars = [
         "//external:jar/org/openjdk/jmh/jmh_generator_bytecode"
@@ -43,7 +43,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "jmh_generator_reflection",
     jars = [
         "//external:jar/org/openjdk/jmh/jmh_generator_reflection"

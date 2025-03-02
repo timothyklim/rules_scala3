@@ -11,6 +11,7 @@ import scala.jdk.CollectionConverters.*
 import scopt.OParser
 
 import workers.common.Bazel
+import common.Pretty
 import common.worker.WorkerMain
 
 final case class GroupArgument(label: String, jars: Vector[String])
@@ -28,7 +29,7 @@ final case class DepsWorkArguments(
     unusedWhitelist: Vector[String] = Vector.empty,
     used: Path = Paths.get("."),
     success: Path = Paths.get(".")
-)
+) extends Pretty
 object DepsWorkArguments:
   private val builder = OParser.builder[DepsWorkArguments]
   import builder.*

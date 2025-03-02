@@ -8,15 +8,15 @@
       "locked": {
         "lastModified": 1740541010,
         "narHash": "sha256-Fp/SxQ8xq8ZLCPjM/qEgcw8HhGZEO2JvuIODkiL7LCg=",
-        "ref": "refs/heads/master",
+        "owner": "timothyklim",
+        "repo": "bazel-flake",
         "rev": "e4863962a8deb8ed6b4aca4f8a99c61c5b2c0535",
-        "revCount": 292,
-        "type": "git",
-        "url": "ssh://git@github.com/timothyklim/bazel-flake.git"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/timothyklim/bazel-flake.git"
+        "owner": "timothyklim",
+        "repo": "bazel-flake",
+        "type": "github"
       }
     },
     "flake-utils": {

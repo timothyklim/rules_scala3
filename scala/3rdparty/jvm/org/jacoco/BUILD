@@ -1,5 +1,5 @@
 load("@rules_scala3//rules:scala.bzl", "scala_import")
-java_import(
+scala_import(
     name = "org_jacoco_core",
     jars = [
         "//external:jar/org/jacoco/org_jacoco_core"

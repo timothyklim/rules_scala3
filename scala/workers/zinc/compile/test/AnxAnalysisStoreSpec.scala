@@ -15,8 +15,5 @@ final class AnxAnalysisStoreSpec extends FunSuite:
   given AnnexLogger = AnnexLogger(LogLevel.Debug)
   given ZincContext = ZincContext(Paths.get("/tmp"), Paths.get("/tmp"), depsCache = null)
 
-  test("serialize & deserialize") {
-    val files =
-      AnalysisFiles(apis = Paths.get(""), miniSetup = Paths.get(""), relations = Paths.get(""), sourceInfos = Paths.get(""), stamps = Paths.get(""))
-    val store = AnxAnalysisStore(files, AnxAnalyses(AnxAnalysisStore.BinaryFormat))
-  }
+  test("serialize & deserialize"):
+    val store = AnxAnalysisStore(Paths.get(""), AnxAnalyses(AnxAnalysisStore.BinaryFormat))

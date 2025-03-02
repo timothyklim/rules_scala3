@@ -23,7 +23,7 @@ final case class Target(
 
     replacement_label match
       case Some(replacement_label) =>
-        s"""\n${lang.asString}_import(
+        s"""\nscala_import(
            |    name = "${coordinates.cleanName}",
            |    exports = [
            |        "$replacement_label"
@@ -54,7 +54,7 @@ final case class Target(
                   |    runtime_deps = [
                   |        $deps0
                   |    ],""".stripMargin
-        s"""\n${lang.asString}_import(
+        s"""\nscala_import(
            |    name = "$adjustedName",
            |    jars = [
            |        "$jar"
