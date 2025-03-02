@@ -122,7 +122,7 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
     // extract upstream classes
     val classesDir = workArgs.tmpDir.resolve("classes")
 
-    val analyses = workerArgs.usePersistence match
+    val analysis = workerArgs.usePersistence match
       case true =>
         workArgs.analysis
           .flatMap: arg =>
@@ -130,12 +130,12 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
               jar -> (classesDir.resolve(labelToPath(arg.label)), DepAnalysisFiles(arg.analysisStore))
           .toMap
       case false => Map.empty
-    val deps = Deps.create(workerArgs.depsCache, workArgs.classpath, analyses)
+    val deps = Deps.create(workerArgs.depsCache, workArgs.classpath, analysis)
 
     // load persisted files
     val analysisStoreFile = workArgs.outputAnalysisStore
-    val analysesFormat = if workArgs.debug then AnxAnalysisStore.TextFormat else AnxAnalysisStore.BinaryFormat
-    val analysisStore = AnxAnalysisStore(analysisStoreFile.toFile(), analysesFormat)
+    val analysisFormat = if workArgs.debug then AnxAnalysisStore.TextFormat else AnxAnalysisStore.BinaryFormat
+    val analysisStore = AnxAnalysisStore(analysisStoreFile.toFile(), analysisFormat)
 
     val persistence = workerArgs.persistenceDir.fold[ZincPersistence](NullPersistence): rootDir =>
       val path = labelToPath(workArgs.label)
@@ -189,7 +189,7 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
       depMap
         .get(file)
         .map: depAnalysisFiles =>
-          analysesFormat.read(depAnalysisFiles.analysisStore.toFile())
+          analysisFormat.read(depAnalysisFiles.analysisStore.toFile())
 
     val setup =
       val incOptions = IncOptions.create()
@@ -253,7 +253,7 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
             }.build
           Files.write(workArgs.diagnosticsFile, targetDiagnostics.toByteArray)
 
-    // create analyses
+    // create analysis
     analysisStore.set(AnalysisContents.create(compileResult.analysis, compileResult.setup))
 
     // create used deps
@@ -443,11 +443,11 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
 private def labelToPath(label: String): Path =
   Paths.get(label.replaceAll("^/+", "").replaceAll(raw"[^\w/]", "_").dropWhile(ch => ch == '/' || ch == '_'))
 
-final class AnxPerClasspathEntryLookup(analyses: Path => Option[CompileAnalysis]) extends PerClasspathEntryLookup:
+final class AnxPerClasspathEntryLookup(analysis: Path => Option[CompileAnalysis]) extends PerClasspathEntryLookup:
   private val Empty = Optional.empty[CompileAnalysis]
 
   override def analysis(classpathEntry: VirtualFile): Optional[CompileAnalysis] = classpathEntry match
-    case file: PathBasedFile => analyses(file.toPath()).fold(Empty)(Optional.of(_))
+    case file: PathBasedFile => analysis(file.toPath()).fold(Empty)(Optional.of(_))
     case _                   => Empty
 
   override def definesClass(classpathEntry: VirtualFile): DefinesClass = Locate.definesClass(classpathEntry)

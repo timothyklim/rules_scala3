@@ -16,4 +16,4 @@ final class AnxAnalysisStoreSpec extends FunSuite:
   given ZincContext = ZincContext(Paths.get("/tmp"), Paths.get("/tmp"), depsCache = null)
 
   test("serialize & deserialize"):
-    val store = AnxAnalysisStore(Paths.get(""), AnxAnalyses(AnxAnalysisStore.BinaryFormat))
+    val store = AnxAnalysisStore(Paths.get(""), Anxanalysis(AnxAnalysisStore.BinaryFormat))

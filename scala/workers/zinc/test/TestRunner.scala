@@ -127,9 +127,9 @@ object TestRunner:
     val classLoader = ClassLoaders.sbtTestClassLoader(classpath.map(_.toUri.toURL))
     val sharedClassLoader = ClassLoaders.sbtTestClassLoader(classpath.filter(sharedClasspath.toSet).map(_.toUri.toURL))
 
-    val analysesFormat = if workArgs.debug then AnxAnalysisStore.TextFormat else AnxAnalysisStore.BinaryFormat
+    val analysisFormat = if workArgs.debug then AnxAnalysisStore.TextFormat else AnxAnalysisStore.BinaryFormat
     val analysis =
-      try analysesFormat.read(workArgs.analysis.toFile(), ReadWriteMappers.getEmptyMappers())
+      try analysisFormat.read(workArgs.analysis.toFile(), ReadWriteMappers.getEmptyMappers())
       catch case NonFatal(e) => throw Exception(s"Failed to load analysis store file from ${workArgs.analysis}", e)
 
     val loader = TestFrameworkLoader(classLoader)

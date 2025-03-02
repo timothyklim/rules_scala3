@@ -29,10 +29,10 @@ object Deps:
     val digest = MessageDigest.getInstance("SHA1")
     BigInteger(1, digest.digest(Files.readAllBytes(file))).toString(16)
 
-  def create(depsCache: Option[Path], classpath: collection.Seq[Path], analyses: collection.Map[Path, (Path, DepAnalysisFiles)]): collection.Seq[Dep] =
+  def create(depsCache: Option[Path], classpath: collection.Seq[Path], analysis: collection.Map[Path, (Path, DepAnalysisFiles)]): collection.Seq[Dep] =
     val roots = mutable.Set.empty[Path]
     val xs = classpath.flatMap: original =>
-      analyses.get(original).fold[Option[Dep]](Some(LibraryDep(original))): (root, analysis) =>
+      analysis.get(original).fold[Option[Dep]](Some(LibraryDep(original))): (root, analysis) =>
         if roots.add(root) then
           depsCache match
             case Some(cacheRoot) =>
