@@ -122,15 +122,15 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
     // extract upstream classes
     val classesDir = workArgs.tmpDir.resolve("classes")
 
-    val analysis = workerArgs.usePersistence match
+    val depAnalysisFiles = workerArgs.usePersistence match
       case true =>
-        workArgs.analysis
+        workArgs.analysisStore
           .flatMap: arg =>
             arg.jars.distinct.map :jar =>
               jar -> (classesDir.resolve(labelToPath(arg.label)), DepAnalysisFiles(arg.analysisStore))
           .toMap
       case false => Map.empty
-    val deps = Deps.create(workerArgs.depsCache, workArgs.classpath, analysis)
+    val deps = Deps.create(workerArgs.depsCache, workArgs.classpath, depAnalysisFiles)
 
     // load persisted files
     val analysisStoreFile = workArgs.outputAnalysisStore
@@ -315,7 +315,7 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
   end Arguments
 
   final case class WorkArguments(
-      analysis: Vector[AnalysisArgument] = Vector.empty,
+      analysisStore: Vector[AnalysisArgument] = Vector.empty,
       classpath: Vector[Path] = Vector.empty,
       compilerBridge: File = new File("."),
       compilerClasspath: Vector[File] = Vector.empty,
@@ -361,7 +361,7 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
         .unbounded()
         .optional()
         .valueName("args")
-        .action((arg, c) => c.copy(analysis = c.analysis :+ AnalysisArgument.from(arg)))
+        .action((arg, c) => c.copy(analysisStore = c.analysisStore :+ AnalysisArgument.from(arg)))
         .text("Analysis, given as: label analysis relations [jar ...]"),
       opt[File]("cp")
         .unbounded()
@@ -443,11 +443,11 @@ object ZincRunner extends WorkerMain[ZincRunner.Arguments]:
 private def labelToPath(label: String): Path =
   Paths.get(label.replaceAll("^/+", "").replaceAll(raw"[^\w/]", "_").dropWhile(ch => ch == '/' || ch == '_'))
 
-final class AnxPerClasspathEntryLookup(analysis: Path => Option[CompileAnalysis]) extends PerClasspathEntryLookup:
+final class AnxPerClasspathEntryLookup(analysisStore: Path => Option[CompileAnalysis]) extends PerClasspathEntryLookup:
   private val Empty = Optional.empty[CompileAnalysis]
 
   override def analysis(classpathEntry: VirtualFile): Optional[CompileAnalysis] = classpathEntry match
-    case file: PathBasedFile => analysis(file.toPath()).fold(Empty)(Optional.of(_))
+    case file: PathBasedFile => analysisStore(file.toPath()).fold(Empty)(Optional.of(_))
     case _                   => Empty
 
   override def definesClass(classpathEntry: VirtualFile): DefinesClass = Locate.definesClass(classpathEntry)

@@ -59,7 +59,7 @@ object TestRunnerArguments:
 final case class TestWorkArguments(
     parallel: Boolean = false,
     parallelN: Option[Int] = None,
-    analysis: Path = Paths.get("."),
+    analysisStore: Path = Paths.get("."),
     subprocessExec: Path = Paths.get("."),
     isolation: Isolation = Isolation.None,
     sharedClasspath: Vector[Path] = Vector.empty,
@@ -74,7 +74,7 @@ object TestWorkArguments:
   private val parser = OParser.sequence(
     opt[Boolean]("parallel").optional().action((v, c) => c.copy(parallel = v)),
     opt[Int]("parallel-n").optional().action((v, c) => c.copy(parallelN = Some(Math.max(1, v)))),
-    opt[File]("analysis_store").required().action((f, c) => c.copy(analysis = f.toPath)).text("Analysis store file"),
+    opt[File]("analysis_store").required().action((f, c) => c.copy(analysisStore = f.toPath)).text("Analysis store file"),
     opt[File]("subprocess_exec").optional().action((f, c) => c.copy(subprocessExec = f.toPath)).text("Executable for SubprocessTestRunner"),
     opt[Isolation]("isolation").optional().action((iso, c) => c.copy(isolation = iso)).text("Test isolation"),
     opt[File]("shared_classpath")
@@ -129,8 +129,8 @@ object TestRunner:
 
     val analysisFormat = if workArgs.debug then AnxAnalysisStore.TextFormat else AnxAnalysisStore.BinaryFormat
     val analysis =
-      try analysisFormat.read(workArgs.analysis.toFile(), ReadWriteMappers.getEmptyMappers())
-      catch case NonFatal(e) => throw Exception(s"Failed to load analysis store file from ${workArgs.analysis}", e)
+      try analysisFormat.read(workArgs.analysisStore.toFile(), ReadWriteMappers.getEmptyMappers())
+      catch case NonFatal(e) => throw Exception(s"Failed to load analysis store file from ${workArgs.analysisStore}", e)
 
     val loader = TestFrameworkLoader(classLoader)
     val frameworks = workArgs.frameworks.flatMap(loader.load)
