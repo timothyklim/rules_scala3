@@ -9,6 +9,7 @@ worker_scala_binary(
     visibility = ["//visibility:public"],
     deps = [
         "//3rdparty/jvm/com/github/scopt",
+        "//scala/common/pretty",
         "//scala/common/worker",
         "//scala/workers/common",
     ],

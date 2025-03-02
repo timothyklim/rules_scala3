@@ -26,7 +26,7 @@ scala_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "launcher_interface",
     jars = [
         "//external:jar/org/scala_sbt/launcher_interface"
@@ -50,7 +50,7 @@ scala_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "test_interface",
     jars = [
         "//external:jar/org/scala_sbt/test_interface"
@@ -86,7 +86,7 @@ scala_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "util_interface",
     jars = [
         "//external:jar/org/scala_sbt/util_interface"

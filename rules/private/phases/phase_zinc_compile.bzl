@@ -144,7 +144,7 @@ def phase_zinc_compile(ctx, g):
 
 def _compile_analysis(analysis):
     return [
-        "--analysis",
+        "--analysis_store",
         ",".join([
             str(analysis.label),
             analysis.analysis_store.path,

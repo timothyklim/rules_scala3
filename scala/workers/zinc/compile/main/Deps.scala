@@ -53,7 +53,7 @@ object Deps:
           dep
     Await.result(futures, Duration.Inf)
 
-  def used(deps: Iterable[Dep], analysis: Analysis, lookup: PerClasspathEntryLookup): Dep => Boolean =
+  def used(deps: Iterable[Dep], analysis: Analysis, lookup: PerClasspathEntryLookup)(dep: Dep): Boolean =
     val externalDeps = analysis.relations.allExternalDeps
     val libraryDeps = analysis.relations.allLibraryDeps
 
@@ -61,7 +61,7 @@ object Deps:
       val definesClass = lookup.definesClass(absoluteVirtualFile(dep))
       externalDeps.exists(definesClass(_))
 
-    _ match
+    dep match
       case dep: ExternalDep => lookupExists(dep)
       case dep: ExternalCachedDep => lookupExists(dep)
       case dep: LibraryDep => libraryDeps.contains(absoluteVirtualFile(dep))

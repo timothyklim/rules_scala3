@@ -1,5 +1,5 @@
 load("@rules_scala3//rules:scala.bzl", "scala_import")
-java_import(
+scala_import(
     name = "asm",
     jars = [
         "//external:jar/org/ow2/asm/asm"
@@ -9,7 +9,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "asm_commons",
     jars = [
         "//external:jar/org/ow2/asm/asm_commons"
@@ -23,7 +23,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "asm_tree",
     jars = [
         "//external:jar/org/ow2/asm/asm_tree"

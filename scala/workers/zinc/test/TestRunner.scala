@@ -13,13 +13,12 @@ import scala.language.unsafeNulls
 import scala.jdk.CollectionConverters.*
 import scala.util.control.NonFatal
 
-import sbt.internal.inc.binary.converters.ProtobufReaders
-import sbt.internal.inc.Schema
 import scopt.OParser
-import xsbti.compile.analysis.ReadMapper
+import xsbti.compile.analysis.{ReadMapper, ReadWriteMappers}
 
 import common.sbt_testing.*
 import workers.common.Bazel
+import workers.zinc.compile.AnxAnalysisStore
 
 enum Isolation:
   case ClassLoader, Process, None
@@ -60,12 +59,13 @@ object TestRunnerArguments:
 final case class TestWorkArguments(
     parallel: Boolean = false,
     parallelN: Option[Int] = None,
-    apis: Path = Paths.get("."),
+    analysis: Path = Paths.get("."),
     subprocessExec: Path = Paths.get("."),
     isolation: Isolation = Isolation.None,
     sharedClasspath: Vector[Path] = Vector.empty,
     frameworks: Vector[String] = Vector.empty,
-    classpath: Vector[Path] = Vector.empty
+    classpath: Vector[Path] = Vector.empty,
+    debug: Boolean = false
 )
 object TestWorkArguments:
   private val builder = OParser.builder[TestWorkArguments]
@@ -74,7 +74,7 @@ object TestWorkArguments:
   private val parser = OParser.sequence(
     opt[Boolean]("parallel").optional().action((v, c) => c.copy(parallel = v)),
     opt[Int]("parallel-n").optional().action((v, c) => c.copy(parallelN = Some(Math.max(1, v)))),
-    opt[File]("apis").required().action((f, c) => c.copy(apis = f.toPath)).text("APIs file"),
+    opt[File]("analysis_store").required().action((f, c) => c.copy(analysis = f.toPath)).text("Analysis store file"),
     opt[File]("subprocess_exec").optional().action((f, c) => c.copy(subprocessExec = f.toPath)).text("Executable for SubprocessTestRunner"),
     opt[Isolation]("isolation").optional().action((iso, c) => c.copy(isolation = iso)).text("Test isolation"),
     opt[File]("shared_classpath")
@@ -92,7 +92,8 @@ object TestWorkArguments:
       .unbounded()
       .optional()
       .action((f, c) => c.copy(classpath = c.classpath :+ f.toPath()))
-      .text("Testing classpath")
+      .text("Testing classpath"),
+    opt[Boolean]("debug").action((debug, c) => c.copy(debug = debug)),
   )
 
   def apply(args: collection.Seq[String]): Option[TestWorkArguments] =
@@ -126,15 +127,10 @@ object TestRunner:
     val classLoader = ClassLoaders.sbtTestClassLoader(classpath.map(_.toUri.toURL))
     val sharedClassLoader = ClassLoaders.sbtTestClassLoader(classpath.filter(sharedClasspath.toSet).map(_.toUri.toURL))
 
-    val apisFile = runPath.resolve(workArgs.apis)
-    val apisStream = Files.newInputStream(apisFile)
-    val apis =
-      try
-        val raw =
-          try Schema.APIs.parseFrom(GZIPInputStream(apisStream))
-          finally apisStream.close()
-        ProtobufReaders(ReadMapper.getEmptyMapper, Schema.Version.V1_1).fromApis(shouldStoreApis = true)(raw)
-      catch case NonFatal(e) => throw Exception(s"Failed to load APIs from $apisFile", e)
+    val analysesFormat = if workArgs.debug then AnxAnalysisStore.TextFormat else AnxAnalysisStore.BinaryFormat
+    val analysis =
+      try analysesFormat.read(workArgs.analysis.toFile(), ReadWriteMappers.getEmptyMappers())
+      catch case NonFatal(e) => throw Exception(s"Failed to load analysis store file from ${workArgs.analysis}", e)
 
     val loader = TestFrameworkLoader(classLoader)
     val frameworks = workArgs.frameworks.flatMap(loader.load)
@@ -149,7 +145,7 @@ object TestRunner:
 
     var count = 0
     val passed = frameworks.forall { framework =>
-      val tests = TestDiscovery(framework)(apis.internal.values.toSet).sortBy(_.name)
+      val tests = TestDiscovery(framework)(analysis.apis.internal.values.toSet).sortBy(_.name)
       val filter = for
         index <- sys.env.get("TEST_SHARD_INDEX").map(_.toInt)
         total <- sys.env.get("TEST_TOTAL_SHARDS").map(_.toInt)
