@@ -2,7 +2,7 @@
   description = "Bazel rules_scala3 flake";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/release-24.05";
+    nixpkgs.url = "nixpkgs/nixos-24.11";
     flake-utils.url = "github:numtide/flake-utils";
     bazel.url = "git+ssh://git@github.com/timothyklim/bazel-flake.git";
   };

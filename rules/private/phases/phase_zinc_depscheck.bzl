@@ -15,6 +15,9 @@ load("//rules/common:private/get_toolchain.bzl", "get_toolchain")
 # according to the configuration/options.
 #
 
+def _full_label(label):
+  return "@@" + label.workspace_name + "//" + label.package + ":" + label.name
+
 def phase_zinc_depscheck(ctx, g):
     toolchain = get_toolchain(ctx)
 
@@ -28,11 +31,11 @@ def phase_zinc_depscheck(ctx, g):
         deps_check = ctx.actions.declare_file("{}/depscheck_{}.success".format(ctx.label.name, name))
         deps_args = ctx.actions.args()
         deps_args.add(name, format = "--check_%s=true")
-        deps_args.add_all([dep.label for dep in ctx.attr.deps], format_each = "--direct=_%s")
+        deps_args.add_all([_full_label(dep.label) for dep in ctx.attr.deps], format_each = "--direct=_%s")
         deps_args.add_all(labeled_jars, map_each = _depscheck_labeled_group)
         deps_args.add("--label", ctx.label, format = "_%s")
-        deps_args.add_all([dep.label for dep in ctx.attr.deps_used_whitelist], format_each = "--used_whitelist=_%s")
-        deps_args.add_all([dep.label for dep in ctx.attr.deps_unused_whitelist], format_each = "--unused_whitelist=_%s")
+        deps_args.add_all([_full_label(dep.label) for dep in ctx.attr.deps_used_whitelist], format_each = "--used_whitelist=_%s")
+        deps_args.add_all([_full_label(dep.label) for dep in ctx.attr.deps_unused_whitelist], format_each = "--unused_whitelist=_%s")
         deps_args.add(g.compile.used)
         deps_args.add(deps_check)
         deps_args.set_param_file_format("multiline")
