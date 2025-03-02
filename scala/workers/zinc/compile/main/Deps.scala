@@ -10,7 +10,7 @@ import scala.concurrent.{Future, Await, ExecutionContext}
 import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 
-import sbt.internal.inc.{PlainVirtualFile, Relations}
+import sbt.internal.inc.{PlainVirtualFile, Analysis}
 import xsbti.compile.PerClasspathEntryLookup
 
 import workers.common.FileUtil
@@ -20,7 +20,7 @@ sealed trait Dep:
   def classpath: Path
 final case class LibraryDep(file: Path) extends Dep:
   override def classpath = file
-final case class DepAnalysisFiles(apis: Path, relations: Path)
+final case class DepAnalysisFiles(analysisStore: Path)
 final case class ExternalDep(file: Path, classpath: Path, analysis: DepAnalysisFiles) extends Dep
 final case class ExternalCachedDep(cachedPath: Path, file: Path, classpath: Path, analysis: DepAnalysisFiles) extends Dep
 
@@ -53,9 +53,9 @@ object Deps:
           dep
     Await.result(futures, Duration.Inf)
 
-  def used(deps: Iterable[Dep], relations: Relations, lookup: PerClasspathEntryLookup): Dep => Boolean =
-    val externalDeps = relations.allExternalDeps
-    val libraryDeps = relations.allLibraryDeps
+  def used(deps: Iterable[Dep], analysis: Analysis, lookup: PerClasspathEntryLookup): Dep => Boolean =
+    val externalDeps = analysis.relations.allExternalDeps
+    val libraryDeps = analysis.relations.allLibraryDeps
 
     inline def lookupExists(dep: Dep): Boolean =
       val definesClass = lookup.definesClass(absoluteVirtualFile(dep))

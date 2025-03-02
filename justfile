@@ -1,11 +1,17 @@
 deps-update:
-	rg -l 'maven_install_json' --glob '*.bzl' --glob 'WORKSPACE' | xargs sed -i -E 's/[^#]maven_install_json/#maven_install_json/g'
+  #!/usr/bin/env bash
+  set -euxo pipefail
 
-	cd tests && bazel run @annex_test//:pin
+  bazel run //:scala_deps
+  bazel run //scala:scala_deps
 
-	rg -l '#maven_install_json' --glob '*.bzl' --glob 'WORKSPACE' | xargs sed -i 's/#maven_install_json/maven_install_json/g'
+  rg -l 'maven_install_json' --glob '*.bzl' --glob 'WORKSPACE' | xargs sed -i -E 's/[^#]maven_install_json/#maven_install_json/g'
 
-	cd tests && REPIN=1 bazel run @unpinned_annex_test//:pin
+  cd tests && bazel run @annex_test//:pin
+
+  rg -l '#maven_install_json' --glob '*.bzl' --glob 'WORKSPACE' | xargs sed -i 's/#maven_install_json/maven_install_json/g'
+
+  cd tests && REPIN=1 bazel run @unpinned_annex_test//:pin
 
 deps-outdated:
 	cd tests && bazel run @annex_test//:outdated

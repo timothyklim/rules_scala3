@@ -5,10 +5,9 @@ import sbt.librarymanagement.{DependencyBuilders, ModuleID, Resolver}, Dependenc
 
 object Dependencies:
 
-  private val sbtVersion = "2.0.0-M2"
-  private val zincVersion = "2.0.0-alpha14"
+  private val sbtVersion = "2.0.0-M3"
   val scalapbV = "1.0.0-alpha.1"
-  val munitV = "1.0.2"
+  val munitV = "1.1.0"
 
   val resolvers: Seq[Resolver] = Vector(
     "mavencentral".at("https://repo1.maven.org/maven2/"),
@@ -24,21 +23,20 @@ object Dependencies:
     "org.scala-lang" % "scala-reflect" -> "@scala_reflect_2_13//jar"
   )
   val dependencies: Seq[ModuleID] = Vector(
-    "org.jacoco"            % "org.jacoco.core"       % "0.8.10",
-    "org.jline"             % "jline-reader"          % "3.24.1",
+    "org.jacoco"            % "org.jacoco.core"       % "0.8.12",
+    "org.jline"             % "jline-reader"          % "3.27.1",
     "org.scala-lang.modules" %% "scala-xml"           % "2.3.0",
     "org.scala-sbt"         % "test-interface"        % "1.0",
-    "org.scala-sbt"         % "compiler-interface"    % zincVersion,
+    "org.scala-sbt"         % "compiler-interface"    % sbtVersion,
     "org.scala-sbt"         % "util-interface"        % sbtVersion,
     "org.scala-sbt"         %% "util-logging"         % sbtVersion,
     "org.scala-sbt"         %% "util-relation"         % sbtVersion,
-    "org.scala-sbt"         %% "zinc"                 % zincVersion,
-    "org.scala-sbt"         %% "zinc-core"            % zincVersion,
-    "org.scala-sbt"         %% "zinc-classpath"       % zincVersion,
-    "org.scala-sbt"         %% "zinc-compile-core"    % zincVersion,
-    "org.scala-sbt"         %% "zinc-persist"         % zincVersion,
-    "org.scala-sbt"         % "zinc-persist-core-assembly" % zincVersion,
-    "org.scala-sbt"         %% "zinc-apiinfo"         % zincVersion,
+    "org.scala-sbt"         %% "zinc"                 % sbtVersion,
+    "org.scala-sbt"         %% "zinc-core"            % sbtVersion,
+    "org.scala-sbt"         %% "zinc-classpath"       % sbtVersion,
+    "org.scala-sbt"         %% "zinc-compile-core"    % sbtVersion,
+    "org.scala-sbt"         %% "zinc-persist"         % sbtVersion,
+    "org.scala-sbt"         %% "zinc-apiinfo"         % sbtVersion,
     "org.scalameta"         %% "munit"                % munitV,
     "org.scalameta"         %% "munit-diff"           % munitV,
   )

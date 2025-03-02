@@ -22,7 +22,7 @@ GLOBAL_SCALACOPTS = [
     "-source:future",
     # "-language:strictEquality",
     # "-language:existentials",
-    "-Ysafe-init",
+    "-Wsafe-init",
     # "-Yexplicit-nulls",
     # "-Xfatal-warnings",
     "-Wconf:any:warning",

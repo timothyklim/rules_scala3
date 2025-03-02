@@ -36,26 +36,12 @@ java_import(
 )
 
 java_import(
-    name = "jline_terminal_jansi",
+    name = "jline_terminal_jni",
     jars = [
-        "//external:jar/org/jline/jline_terminal_jansi"
+        "//external:jar/org/jline/jline_terminal_jni"
     ],
     runtime_deps = [
-        "//scala/3rdparty/jvm/org/fusesource/jansi:jansi",
-        ":jline_terminal"
-    ],
-    visibility = [
-        "//scala/3rdparty/jvm:__subpackages__"
-    ]
-)
-
-java_import(
-    name = "jline_terminal_jna",
-    jars = [
-        "//external:jar/org/jline/jline_terminal_jna"
-    ],
-    runtime_deps = [
-        "//scala/3rdparty/jvm/net/java/dev/jna:jna",
+        ":jline_native",
         ":jline_terminal"
     ],
     visibility = [

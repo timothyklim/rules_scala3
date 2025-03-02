@@ -16,7 +16,7 @@ load(
 #
 
 def phase_test_launcher(ctx, g):
-    files = ctx.attr._target_jdk[java_common.JavaRuntimeInfo].files.to_list() + [g.compile.zinc_info.apis]
+    files = ctx.attr._target_jdk[java_common.JavaRuntimeInfo].files.to_list() + [g.compile.zinc_info.analysis_store]
 
     coverage_replacements = {}
     coverage_runner_jars = depset(direct = [])
@@ -38,7 +38,7 @@ def phase_test_launcher(ctx, g):
     args.add("--parallel", ctx.attr.parallel)
     if ctx.attr.parallel_n:
         args.add(ctx.attr.parallel_n, format = "--parallel-n=%s")
-    args.add("--apis", g.compile.zinc_info.apis.short_path)
+    args.add("--analysis_store", g.compile.zinc_info.analysis_store.short_path)
     args.add_all(ctx.attr.frameworks, format_each = "--framework=%s")
     if ctx.attr.isolation == "classloader":
         shared_deps = java_common.merge(_collect(JavaInfo, ctx.attr.shared_deps))

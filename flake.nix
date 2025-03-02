@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-24.11";
     flake-utils.url = "github:numtide/flake-utils";
-    bazel.url = "git+ssh://git@github.com/timothyklim/bazel-flake.git";
+    bazel.url = "github:timothyklim/bazel-flake";
   };
 
   outputs = { self, nixpkgs, flake-utils, bazel }:
@@ -21,7 +21,10 @@
         };
       in
       rec {
-        devShell = pkgs.callPackage ./shell.nix { bazel = bazel.packages.${system}.default; };
+        devShell = pkgs.callPackage ./shell.nix {
+          bazel = pkgs.bazel_7;
+          # bazel = bazel.packages.${system}.default;
+        };
         formatter = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
       });
 }

@@ -93,7 +93,7 @@ scala3_global_scalacopts = [
     "-source:future",
     # "-language:strictEquality",
     # "-language:existentials",
-    "-Ysafe-init",
+    "-Wsafe-init",
     # "-Yexplicit-nulls",
     # "-Xfatal-warnings",
     "-Wconf:any:warning",
