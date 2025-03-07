@@ -12,6 +12,7 @@ scala_library(
         "//scala/3rdparty/jvm/org/scala_sbt:zinc_apiinfo",
         "//scala/3rdparty/jvm/org/scala_sbt:zinc_core",
         "//scala/3rdparty/jvm/org/scala_sbt:zinc_persist",
+        "//scala/common/pretty",
         "//scala/common/sbt-testing:common",
         "//scala/workers/common",
         "//scala/workers/zinc/compile",

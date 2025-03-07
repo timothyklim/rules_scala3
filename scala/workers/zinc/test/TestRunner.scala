@@ -16,6 +16,7 @@ import scala.util.control.NonFatal
 import scopt.OParser
 import xsbti.compile.analysis.{ReadMapper, ReadWriteMappers}
 
+import common.Pretty
 import common.sbt_testing.*
 import workers.common.Bazel
 import workers.zinc.compile.AnxAnalysisStore
@@ -37,7 +38,7 @@ final case class TestRunnerArguments(
     verbosity: Verbosity = Verbosity.MEDIUM,
     frameworkArgs: Seq[String] = Seq.empty,
     subprocessArg: Vector[String] = Vector.empty
-)
+) extends Pretty
 object TestRunnerArguments:
   private val builder = OParser.builder[TestRunnerArguments]
   import builder.*
@@ -66,7 +67,7 @@ final case class TestWorkArguments(
     frameworks: Vector[String] = Vector.empty,
     classpath: Vector[Path] = Vector.empty,
     debug: Boolean = false
-)
+) extends Pretty
 object TestWorkArguments:
   private val builder = OParser.builder[TestWorkArguments]
   import builder.*
@@ -103,13 +104,12 @@ object TestRunner:
   def main(args: Array[String]): Unit =
     val runArgs = TestRunnerArguments(Bazel.parseParams(args)).getOrElse(throw IllegalArgumentException(s"args is invalid: ${args.mkString(" ")}"))
 
-    sys.env.get("TEST_SHARD_STATUS_FILE").map { path =>
+    sys.env.get("TEST_SHARD_STATUS_FILE").map: path =>
       val file = Paths.get(path)
       try Files.createFile(file)
       catch
         case _: FileAlreadyExistsException =>
           Files.setLastModifiedTime(file, FileTime.from(Instant.now))
-    }
 
     val runPath = Paths.get(sys.props("bazel.runPath"))
 
@@ -138,24 +138,22 @@ object TestRunner:
     val testClass = sys.env
       .get("TESTBRIDGE_TEST_ONLY")
       .map(text => Pattern.compile(if text.contains("#") then raw"${text.replaceAll("#.*", "")}" else text))
-    val testScopeAndName = sys.env.get("TESTBRIDGE_TEST_ONLY").map {
+    val testScopeAndName = sys.env.get("TESTBRIDGE_TEST_ONLY").map:
       case text if text.contains("#") => text.replaceAll(".*#", "").replaceAll("\\$", "").replace("\\Q", "").replace("\\E", "")
       case _                          => ""
-    }
 
     var count = 0
-    val passed = frameworks.forall { framework =>
+    val passed = frameworks.forall: framework =>
       val tests = TestDiscovery(framework)(analysis.apis.internal.values.toSet).sortBy(_.name)
       val filter = for
         index <- sys.env.get("TEST_SHARD_INDEX").map(_.toInt)
         total <- sys.env.get("TEST_TOTAL_SHARDS").map(_.toInt)
       yield (test: TestDefinition, i: Int) => i % total == index
-      val filteredTests = tests.filter { test =>
+      val filteredTests = tests.filter: test =>
         testClass.forall(_.matcher(test.name).matches) && {
           count += 1
           filter.fold(true)(_(test, count))
         }
-      }
 
       filteredTests.isEmpty || {
         val runner = workArgs.isolation match
@@ -173,6 +171,5 @@ object TestRunner:
             e.printStackTrace()
             false
       }
-    }
 
     sys.exit(if passed then 0 else 1)

@@ -13,7 +13,7 @@ compiler_classpath_3 = [
     "@org_scala_sbt_compiler_interface//jar",
 ] + runtime_classpath_3
 
-scala3 = "3.6.4-RC1"
+scala3 = "3.6.4"
 
 configure_zinc_scala(
     name = "zinc_3_fatal_deprecation_opt",
