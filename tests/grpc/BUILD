@@ -42,7 +42,7 @@ scala_library(
         "//3rdparty/jvm/com/google/protobuf:protobuf_java",
     ],
     deps_used_whitelist = [
-        "@com_google_protobuf//java/core",
+        "@protobuf//java/core",
     ],
     scala = "@rules_scala3//scala:zinc_3_migration",
     deps = [
@@ -50,7 +50,7 @@ scala_library(
         "//3rdparty/jvm/com/thesamet/scalapb:scalapb_runtime_grpc",
         "//3rdparty/jvm/io/grpc:grpc_api",
         "//3rdparty/jvm/io/grpc:grpc_stub",
-        "@com_google_protobuf//java/core",
+        "@protobuf//java/core",
     ],
 )
 
@@ -64,7 +64,7 @@ scala_library(
         "//3rdparty/jvm/com/google/protobuf:protobuf_java",
     ],
     deps_used_whitelist = [
-        "@com_google_protobuf//java/core",
+        "@protobuf//java/core",
     ],
     scala = "@rules_scala3//scala:zinc_3_migration",
     scalacopts = [
@@ -76,6 +76,6 @@ scala_library(
         "//3rdparty/jvm/com/thesamet/scalapb:scalapb_runtime_grpc",
         "//3rdparty/jvm/io/grpc:grpc_api",
         "//3rdparty/jvm/io/grpc:grpc_stub",
-        "@com_google_protobuf//java/core",
+        "@protobuf//java/core",
     ],
 )

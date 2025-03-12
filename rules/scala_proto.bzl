@@ -14,7 +14,7 @@ scala_proto_library = rule(
             ),
             "protoc": attr.label(
                 doc = "protoc compiler",
-                default = "@com_google_protobuf//:protoc",
+                default = "@protobuf//:protoc",
                 cfg = "exec",
                 allow_single_file = True,
                 executable = True,

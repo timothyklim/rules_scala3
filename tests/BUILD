@@ -33,6 +33,6 @@ proto_library(
     strip_import_prefix = "/" + package_name(),
     visibility = ["//visibility:public"],
     deps = [
-        "@com_google_protobuf//:descriptor_proto",
+        "@protobuf//:descriptor_proto",
     ],
 )

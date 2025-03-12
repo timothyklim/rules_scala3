@@ -101,7 +101,7 @@ http_archive(
     url = "https://github.com/protocolbuffers/protobuf/archive/v{}.zip".format(protobuf_tag),
 )
 
-load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+load("@protobuf//:protobuf_deps.bzl", "protobuf_deps")
 protobuf_deps()
 
 # Specify the scala compiler we wish to use; in this case, we'll use the default one specified in rules_scala

@@ -1,5 +1,5 @@
 load("@bazel_features//:deps.bzl", "bazel_features_deps")
-load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+load("@protobuf//:protobuf_deps.bzl", "protobuf_deps")
 load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies")
 load("@rules_proto//proto:toolchains.bzl", "rules_proto_toolchains")
 load("//3rdparty:workspace.bzl", "maven_dependencies")
