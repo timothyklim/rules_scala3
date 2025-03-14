@@ -47,7 +47,6 @@ def scala_repositories():
     http_archive(
         name = "compiler_bridge_2_13",
         build_file_content = _SRC_FILEGROUP_BUILD_FILE_CONTENT,
-        integrity = "sha256-IxsWuIbybsISVqMAoBdrIPUQdIEKE9BPymZSrcxVb70=",
         url = "https://repo.maven.apache.org/maven2/org/scala-sbt/compiler-bridge_2.13/{v}/compiler-bridge_2.13-{v}-sources.jar".format(v = sbt_version),
     )
 
