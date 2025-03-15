@@ -1,5 +1,0 @@
-#!/usr/bin/env -S bash -e
-. "$(dirname "$0")"/../../common.sh
-
-bazel build :kind-projector
-bazel build :kind-projector-via-global-plugins
