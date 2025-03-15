@@ -342,6 +342,10 @@ def make_scala_test(*extras):
                 "parallel": attr.bool(default = True),
                 "parallel_n": attr.int(),
                 "subprocess_runner": attr.label(default = "@rules_scala3//scala/common/sbt-testing:subprocess"),
+                "_agent": attr.label(
+                    default = "@rules_scala3//scala/common/worker:BlockSystemExitAgent.jar",
+                    allow_files = True,
+                ),
             },
             _extras_attributes(extras),
             *[extra["attrs"] for extra in extras]

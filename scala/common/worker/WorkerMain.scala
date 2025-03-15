@@ -43,9 +43,11 @@ trait WorkerMain[S]:
               work(ctx, args)
               0
             catch
-              case ex: RuntimeException if ex.getMessage() == "System.exit not allowed" => 1
-              case NonFatal(e) =>
-                e.printStackTrace()
+              case ex: RuntimeException if ex.getMessage() == "System.exit not allowed" =>
+                ex.printStackTrace()
+                1
+              case NonFatal(ex) =>
+                ex.printStackTrace()
                 1
 
           WorkerProtocol.WorkResponse.newBuilder

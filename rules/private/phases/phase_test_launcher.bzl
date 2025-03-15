@@ -16,7 +16,7 @@ load(
 #
 
 def phase_test_launcher(ctx, g):
-    files = ctx.attr._target_jdk[java_common.JavaRuntimeInfo].files.to_list() + [g.compile.zinc_info.analysis_store]
+    files = ctx.attr._target_jdk[java_common.JavaRuntimeInfo].files.to_list() + ctx.files._agent + [g.compile.zinc_info.analysis_store]
 
     coverage_replacements = {}
     coverage_runner_jars = depset(direct = [])
@@ -33,6 +33,11 @@ def phase_test_launcher(ctx, g):
     ])
     runner_jars = depset(transitive = [ctx.attr.runner[JavaInfo].transitive_runtime_jars, coverage_runner_jars])
     all_jars = [test_jars, runner_jars]
+
+    jvm_flags = ctx.attr.jvm_flags + [
+        "--enable-preview",
+        "-javaagent:" + ctx.files._agent[0].short_path,
+    ]
 
     args = ctx.actions.args()
     args.add("--parallel", ctx.attr.parallel)
@@ -54,7 +59,7 @@ def phase_test_launcher(ctx, g):
             subprocess_executable,
             subprocess_runner_jars,
             "rules_scala3.common.sbt_testing.SubprocessTestRunner",
-            [ctx.expand_location(f, ctx.attr.data) for f in ctx.attr.jvm_flags],
+            [ctx.expand_location(f, ctx.attr.data) for f in jvm_flags],
         )
         files.append(subprocess_executable)
         args.add("--isolation", "process")
@@ -75,7 +80,7 @@ def phase_test_launcher(ctx, g):
         output = ctx.outputs.bin,
         runtime_classpath = runner_jars,  # + ctx.files._jacocorunner,
         main_class = "rules_scala3.workers.zinc.test.TestRunner",
-        jvm_flags = [ctx.expand_location(f, ctx.attr.data) for f in ctx.attr.jvm_flags] + [
+        jvm_flags = [ctx.expand_location(f, ctx.attr.data) for f in jvm_flags] + [
             "-Dbazel.runPath=$RUNPATH",
             "-DscalaAnnex.test.args=${{RUNPATH}}{}".format(args_file.short_path),
         ],
