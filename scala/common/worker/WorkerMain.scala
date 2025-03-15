@@ -43,9 +43,8 @@ trait WorkerMain[S]:
               work(ctx, args)
               0
             catch
-              case ex: RuntimeException if ex.getMessage() == "System.exit not allowed" =>
-                ex.printStackTrace()
-                1
+              case ex: RuntimeException if (ex.getMessage != null) && ex.getMessage.startsWith(ExitCodePrefix) =>
+                ex.getMessage.drop(ExitCodePrefix.length).toInt
               case NonFatal(ex) =>
                 ex.printStackTrace()
                 1
@@ -70,3 +69,5 @@ trait WorkerMain[S]:
       case args => work(init(Array.empty[String]), Bazel.parseParams(args))
 
   private val Exit = raw"exitVM\.(-?\d+)".r
+
+  private val ExitCodePrefix = "System.exit not allowed: "

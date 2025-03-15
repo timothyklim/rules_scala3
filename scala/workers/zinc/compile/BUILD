@@ -32,13 +32,13 @@ worker_scala_binary(
         "//scala/3rdparty/jvm/org/scala_sbt:zinc_core",
         "//scala/3rdparty/jvm/org/scala_sbt:zinc_persist",
         "//scala/3rdparty/jvm/org/scala_sbt:zinc",
-        "//scala/common/worker:agent",
+        "//scala/common/worker/agent",
     ],
     jvm_flags = [
         "--enable-preview",
-        "-javaagent:$(location //scala/common/worker:agent)",
+        "-javaagent:$(location //scala/common/worker/agent)",
     ],
-    runtime_deps = ["//scala/common/worker:agent"],
+    runtime_deps = ["//scala/common/worker/agent"],
 )
 
 scala_library(

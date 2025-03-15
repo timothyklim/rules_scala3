@@ -46,13 +46,28 @@ public class BlockSystemExitAgent {
             (codeBuilder, codeElement) -> {
                 if (isInvocationOfSystemExit(codeElement)) {
                     var runtimeException = ClassDesc.of("java.lang.RuntimeException");
-                    codeBuilder.new_(runtimeException)                    
-                               .dup()
-                               .ldc("System.exit not allowed")
-                               .invokespecial(runtimeException,
+                    codeBuilder.dup() // Duplicate the exit code
+                               .invokestatic(
+                                   ClassDesc.of("java.lang.String"),
+                                   "valueOf",
+                                   MethodTypeDesc.ofDescriptor("(I)Ljava/lang/String;")
+                               )
+                               .ldc("System.exit not allowed: ") // Load constant string
+                               .swap() // Swap so the code is first, text is second
+                               .invokevirtual(
+                                   ClassDesc.of("java.lang.String"),
+                                   "concat",
+                                   MethodTypeDesc.ofDescriptor("(Ljava/lang/String;)Ljava/lang/String;")
+                               )
+                               .new_(runtimeException)
+                               .dup_x1()
+                               .swap()
+                               .invokespecial(
+                                   runtimeException,
                                    "<init>",
                                    MethodTypeDesc.ofDescriptor("(Ljava/lang/String;)V"),
-                                   false)
+                                   false
+                               )
                                .athrow();
                     modified.set(true);
                 } else {

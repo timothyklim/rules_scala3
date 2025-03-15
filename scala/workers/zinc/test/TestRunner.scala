@@ -172,4 +172,4 @@ object TestRunner:
             false
       }
 
-    sys.exit(if passed then 0 else 1)
+    if !passed then sys.exit(1)
