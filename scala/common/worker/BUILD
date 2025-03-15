@@ -26,16 +26,19 @@ EOF
     """,
     toolchains = ["@bazel_tools//tools/jdk:current_java_runtime"],
     tools = ["@bazel_tools//tools/jdk:current_java_runtime"],
+    visibility = ["//visibility:public"],
+)
+
+java_import(
+    name = "agent",
+    jars = ["BlockSystemExitAgent.jar"],
+    visibility = ["//visibility:public"],
 )
 
 worker_scala_library(
     name = "worker",
     srcs = ["WorkerMain.scala"],
     visibility = ["//visibility:public"],
-    jvm_flags = [
-        "--enable-preview",
-        "-javaagent:$(location BlockSystemExitAgent.jar)",
-    ],
     deps = [
         ":worker_protocol_java_proto",
         "//scala/workers/common",

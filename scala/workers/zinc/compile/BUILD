@@ -20,19 +20,25 @@ worker_scala_binary(
     visibility = ["//visibility:public"],
     deps = [
         ":diagnostics_java_proto",
+        "@rules_scala3//rules/third_party/jarhelper",
+        "@rules_scala3//scala/common/worker",
+        "@rules_scala3//scala/workers/common",
         "//3rdparty/jvm/com/github/scopt",
         "//scala/3rdparty/jvm/org/scala_sbt:compiler_interface",
         "//scala/3rdparty/jvm/org/scala_sbt:util_interface",
         "//scala/3rdparty/jvm/org/scala_sbt:util_relation",
-        "//scala/3rdparty/jvm/org/scala_sbt:zinc",
         "//scala/3rdparty/jvm/org/scala_sbt:zinc_classpath",
         "//scala/3rdparty/jvm/org/scala_sbt:zinc_compile_core",
         "//scala/3rdparty/jvm/org/scala_sbt:zinc_core",
         "//scala/3rdparty/jvm/org/scala_sbt:zinc_persist",
-        "@rules_scala3//rules/third_party/jarhelper",
-        "@rules_scala3//scala/common/worker",
-        "@rules_scala3//scala/workers/common",
+        "//scala/3rdparty/jvm/org/scala_sbt:zinc",
+        "//scala/common/worker:agent",
     ],
+    jvm_flags = [
+        "--enable-preview",
+        "-javaagent:$(location //scala/common/worker:agent)",
+    ],
+    runtime_deps = ["//scala/common/worker:agent"],
 )
 
 scala_library(
