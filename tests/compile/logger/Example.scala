@@ -1,7 +1,7 @@
-import rules_scala.workers.common.AnnexLogger
-import rules_scala.workers.common.Color
-import rules_scala.workers.common.LogLevel
-import rules_scala.workers.common.LoggedReporter
+import rules_scala3.workers.common.AnnexLogger
+import rules_scala3.workers.common.Color
+import rules_scala3.workers.common.LogLevel
+import rules_scala3.workers.common.LoggedReporter
 
 import sbt.internal.inc.javac.JavaPosition
 import sbt.util.InterfaceUtil.problem

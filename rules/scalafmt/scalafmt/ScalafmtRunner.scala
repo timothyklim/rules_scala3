@@ -11,8 +11,8 @@ import org.scalafmt.Scalafmt
 import org.scalafmt.sysops.FileOps
 import scopt.{DefaultOParserSetup, OParser, OParserSetup}
 
-import rules_scala.common.worker.WorkerMain
-import rules_scala.workers.common.*
+import rules_scala3.common.worker.WorkerMain
+import rules_scala3.workers.common.*
 
 object ScalafmtRunner extends WorkerMain[Unit]:
   override def init(args: collection.Seq[String]): Unit = ()

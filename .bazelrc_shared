@@ -1,14 +1,16 @@
 common --announce_rc
 common --color=yes
+common --enable_workspace
 
 build --cxxopt=-std=c++17 --host_cxxopt=-std=c++17
 
-build --experimental_strict_action_env
+build --incompatible_strict_action_env
 
 build --strategy=ScalaCompile=worker
 build --worker_max_instances=4
 build --worker_sandboxing
 build --verbose_failures
+build --incompatible_disallow_struct_provider_syntax=false
 
 build:rules --disk_cache=.bazel_cache
 build:tests --disk_cache=../.bazel_cache

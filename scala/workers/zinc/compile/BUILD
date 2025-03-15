@@ -16,8 +16,7 @@ java_proto_library(
 worker_scala_binary(
     name = "compile",
     srcs = glob(["main/*.scala"]),
-    jvm_flags = ["-Djava.security.manager=allow"],
-    main_class = "rules_scala.workers.zinc.compile.ZincRunner",
+    main_class = "rules_scala3.workers.zinc.compile.ZincRunner",
     visibility = ["//visibility:public"],
     deps = [
         ":diagnostics_java_proto",

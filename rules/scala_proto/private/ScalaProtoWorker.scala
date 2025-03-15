@@ -15,8 +15,8 @@ import scalapb.GeneratorOption.*
 import scalapb.grpcweb.GrpcWebCodeGenerator
 import scopt.OParser
 
-import rules_scala.workers.common.Bazel
-import rules_scala.common.worker.WorkerMain
+import rules_scala3.workers.common.Bazel
+import rules_scala3.common.worker.WorkerMain
 
 final case class ProtoWorkArguments(
     outputDir: Path = Paths.get("."),

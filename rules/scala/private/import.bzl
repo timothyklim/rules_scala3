@@ -76,10 +76,4 @@ def scala_import_implementation(ctx):
     else:
         java_info = java_common.merge([dep[JavaInfo] for dep in ctx.attr.deps])
 
-    return struct(
-        java = java_info,
-        providers = [
-            java_info,
-            default_info,
-        ],
-    )
+    return [java_info, default_info]

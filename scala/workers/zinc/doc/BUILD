@@ -4,8 +4,7 @@ load("//rules:scalafmt.bzl", "scala_format_test")
 scala_binary(
     name = "doc",
     srcs = glob(["**/*.scala"]),
-    jvm_flags = ["-Djava.security.manager=allow"],
-    main_class = "rules_scala.workers.zinc.doc.DocRunner",
+    main_class = "rules_scala3.workers.zinc.doc.DocRunner",
     visibility = ["//visibility:public"],
     deps = [
         "//3rdparty/jvm/com/github/scopt",

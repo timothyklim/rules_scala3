@@ -1,4 +1,4 @@
-package rules_scala.common
+package rules_scala3.common
 
 import java.util.HexFormat
 

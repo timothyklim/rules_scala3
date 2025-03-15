@@ -1,4 +1,4 @@
-package rules_scala.workers.scalajs
+package rules_scala3.workers.scalajs
 
 import java.io.File
 import java.nio.file.{Files, Path, Paths}
@@ -6,8 +6,8 @@ import java.nio.file.{Files, Path, Paths}
 import org.scalajs.linker.interface.ModuleKind
 import scopt.OParser
 
-import rules_scala.workers.common.Bazel
-import rules_scala.common.worker.WorkerMain
+import rules_scala3.workers.common.Bazel
+import rules_scala3.common.worker.WorkerMain
 
 object ScalaJsWorker: // extends WorkerMain[ScalaJsWorker.Arguments]:
 //  override def init(args: collection.Seq[String]): Arguments =

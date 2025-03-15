@@ -1,4 +1,4 @@
-package rules_scala
+package rules_scala3
 package common.sbt_testing
 
 import java.io.ObjectInputStream

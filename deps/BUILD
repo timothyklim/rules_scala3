@@ -8,7 +8,7 @@ scala_binary(
     ],
     args = [
         "--project-root=.",
-        "--scala-version=3.6.3",
+        "--scala-version=3.6.4",
         "--dependencies=rules_scala3.Dependencies",
     ],
     main_class = "rules_scala3.deps.src.Deps",

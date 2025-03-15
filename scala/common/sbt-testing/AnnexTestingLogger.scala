@@ -1,4 +1,4 @@
-package rules_scala.common.sbt_testing
+package rules_scala3.common.sbt_testing
 
 import sbt.testing.Logger
 

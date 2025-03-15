@@ -4,8 +4,7 @@ load("//scala3:defs.bzl", "worker_scala_binary")
 worker_scala_binary(
     name = "instrumenter",
     srcs = glob(["**/*.scala"]),
-    jvm_flags = ["-Djava.security.manager=allow"],
-    main_class = "rules_scala.workers.jacoco.instrumenter.JacocoInstrumenter",
+    main_class = "rules_scala3.workers.jacoco.instrumenter.JacocoInstrumenter",
     visibility = ["//visibility:public"],
     deps = [
         "//3rdparty/jvm/com/github/scopt",

@@ -33,7 +33,6 @@ filegroup(
 scala_binary(
     name = "scalafmt",
     srcs = glob(["scalafmt/**/*.scala"]),
-    jvm_flags = ["-Djava.security.manager=allow"],
     main_class = "annex.scalafmt.ScalafmtRunner",
     scala = "//scala:bootstrap_3",
     visibility = ["//visibility:public"],

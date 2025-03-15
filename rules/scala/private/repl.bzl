@@ -30,7 +30,7 @@ def scala_repl_implementation(ctx):
         "{}/".format(ctx.label.name),
         ctx.outputs.bin,
         runner_classpath,
-        "rules_scala.workers.zinc.repl.ReplRunner",
+        "rules_scala3.workers.zinc.repl.ReplRunner",
         [ctx.expand_location(f, ctx.attr.data) for f in ctx.attr.jvm_flags] + [
             "-Dbazel.runPath=$RUNPATH",
             "-DscalaAnnex.test.args=${{RUNPATH}}{}".format(args_file.short_path),

@@ -1,4 +1,4 @@
-package rules_scala
+package rules_scala3
 package workers.zinc.compile
 
 import java.io.{File, InputStream, OutputStream, OutputStreamWriter}

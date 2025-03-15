@@ -1,4 +1,4 @@
-package rules_scala.workers.common
+package rules_scala3.workers.common
 
 trait PrettyProduct extends Product:
   final override def toString: String =

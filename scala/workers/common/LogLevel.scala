@@ -1,4 +1,4 @@
-package rules_scala.workers.common
+package rules_scala3.workers.common
 
 import scopt.OParser
 

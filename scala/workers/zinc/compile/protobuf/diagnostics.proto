@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_package = "rules_scala.workers.zinc.diagnostics";
+option java_package = "rules_scala3.workers.zinc.diagnostics";
 option java_outer_classname = "Diagnostics";
 
 enum Severity {

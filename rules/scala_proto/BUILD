@@ -22,7 +22,6 @@ scala_deps(
 scala_binary(
     name = "worker",
     srcs = ["private/ScalaProtoWorker.scala"],
-    jvm_flags = ["-Djava.security.manager=allow"],
     main_class = "annex.scala.proto.ScalaProtoWorker",
     scala = "//scala:bootstrap_3",
     visibility = ["//visibility:public"],

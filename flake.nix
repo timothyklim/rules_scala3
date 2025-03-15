@@ -15,15 +15,14 @@
 
           overlays = [
             (self: super: with super; rec {
-              jdk = super.openjdk21_headless;
+              jdk = super.openjdk23_headless;
             })
           ];
         };
       in
       rec {
         devShell = pkgs.callPackage ./shell.nix {
-          bazel = pkgs.bazel_7;
-          # bazel = bazel.packages.${system}.default;
+          bazel = bazel.packages.${system}.default;
         };
         formatter = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
       });

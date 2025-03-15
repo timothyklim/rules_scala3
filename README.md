@@ -1,6 +1,6 @@
 # higherkindness/rules_scala
 
-[![Build Status](https://api.travis-ci.org/higherkindness/rules_scala.svg?branch=master)](https://travis-ci.org/higherkindness/rules_scala)
+[![Build Status](https://api.travis-ci.org/higherkindness/rules_scala3.svg?branch=master)](https://travis-ci.org/higherkindness/rules_scala)
 
 `higherkindness/rules_scala` evolved, in part, from the need for Bazel adoption support for large, monorepo Scala projects.
 Bazel is wonderful because it makes use of parallelism and caching to vastly improve build times. However, to see these benefits, a project must first be broken down into

@@ -1,4 +1,4 @@
-package rules_scala
+package rules_scala3
 package workers.common
 
 import java.nio.file.{Files, Paths}

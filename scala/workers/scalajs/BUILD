@@ -3,8 +3,7 @@ load("//rules:scala.bzl", "scala_binary")
 scala_binary(
     name = "scalajs_linker",
     srcs = glob(["*.scala"]),
-    jvm_flags = ["-Djava.security.manager=allow"],
-    main_class = "rules_scala.workers.scalajs.ScalaJsWorker",
+    main_class = "rules_scala3.workers.scalajs.ScalaJsWorker",
     scala = "//scala:bootstrap_3",
     visibility = ["//visibility:public"],
     deps = [

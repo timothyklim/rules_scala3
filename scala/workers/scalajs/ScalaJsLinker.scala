@@ -1,4 +1,4 @@
-package rules_scala.workers.scalajs
+package rules_scala3.workers.scalajs
 
 import java.nio.file.Path
 import scala.concurrent.Await

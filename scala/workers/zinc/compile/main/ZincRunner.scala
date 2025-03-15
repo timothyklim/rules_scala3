@@ -1,4 +1,4 @@
-package rules_scala
+package rules_scala3
 package workers.zinc.compile
 
 import java.io.{File, PrintWriter}
@@ -36,9 +36,9 @@ import xsbti.compile.{
   TastyFiles
 }
 
-import rules_scala.common.worker.WorkerMain
-import rules_scala.workers.common.*
-import rules_scala.workers.zinc.diagnostics.Diagnostics;
+import rules_scala3.common.worker.WorkerMain
+import rules_scala3.workers.common.*
+import rules_scala3.workers.zinc.diagnostics.Diagnostics;
 
 extension (problem: Problem)
   def toDiagnostic: Diagnostics.Diagnostic =
