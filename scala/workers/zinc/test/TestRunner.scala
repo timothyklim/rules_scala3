@@ -172,4 +172,4 @@ object TestRunner:
             false
       }
 
-    if !passed then sys.exit(1)
+    Runtime.getRuntime().halt(if passed then 0 else 1)
