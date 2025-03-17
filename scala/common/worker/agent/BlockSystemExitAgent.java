@@ -1,9 +1,13 @@
-// https://openjdk.org/jeps/486#Appendix
-
 package rules_scala3.common.worker;
 
-import module java.base;
-import module java.instrument;
+import java.lang.instrument.*;
+import java.security.ProtectionDomain;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Predicate;
+
+import java.lang.classfile.*;
+import java.lang.classfile.instruction.*;
+import java.lang.constant.*;
 
 public class BlockSystemExitAgent {
     /*
@@ -37,8 +41,8 @@ public class BlockSystemExitAgent {
 
         Predicate<MethodModel> invokesSystemExit =
             methodModel -> methodModel.code()
-                                      .map(codeModel ->
-                                             codeModel.elementStream()
+                                      .map(codeAttribute ->
+                                             codeAttribute.elementStream()
                                                       .anyMatch(BlockSystemExitAgent::isInvocationOfSystemExit))
                                       .orElse(false);
 
@@ -65,8 +69,7 @@ public class BlockSystemExitAgent {
                                .invokespecial(
                                    runtimeException,
                                    "<init>",
-                                   MethodTypeDesc.ofDescriptor("(Ljava/lang/String;)V"),
-                                   false
+                                   MethodTypeDesc.ofDescriptor("(Ljava/lang/String;)V")
                                )
                                .athrow();
                     modified.set(true);
@@ -76,7 +79,7 @@ public class BlockSystemExitAgent {
             };
 
         ClassTransform ct = ClassTransform.transformingMethodBodies(invokesSystemExit, rewriteSystemExit);
-        byte[] newClassBytes = cf.transform(classModel, ct);
+        byte[] newClassBytes = cf.transformClass(classModel, ct);
         if (modified.get()) {
             return newClassBytes;
         } else {

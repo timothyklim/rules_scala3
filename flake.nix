@@ -5,17 +5,19 @@
     nixpkgs.url = "nixpkgs/nixos-24.11";
     flake-utils.url = "github:numtide/flake-utils";
     bazel.url = "github:timothyklim/bazel-flake";
+    jdk.url = "github:timothyklim/jdk-flake";
   };
 
-  outputs = { self, nixpkgs, flake-utils, bazel }:
+  outputs = { self, nixpkgs, flake-utils, bazel, jdk }:
     with flake-utils.lib; with system; eachSystem [ aarch64-darwin aarch64-linux x86_64-linux ] (system:
       let
+        jdk_24 = jdk.packages.${system}.jdk_24;
         pkgs = import nixpkgs {
           inherit system;
 
           overlays = [
             (self: super: with super; rec {
-              jdk = super.openjdk23_headless;
+              jdk = jdk_24;
             })
           ];
         };
