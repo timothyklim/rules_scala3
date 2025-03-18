@@ -3,7 +3,7 @@ genrule(
     srcs = ["BlockSystemExitAgent.java"],
     outs = ["BlockSystemExitAgent.jar"],
     cmd = """
-        $(JAVABASE)/bin/javac --enable-preview --release 23 -d agentclasses $(location BlockSystemExitAgent.java)
+        $(JAVABASE)/bin/javac --enable-preview --release 24 -d agentclasses $(location BlockSystemExitAgent.java)
         cat > agent.mf << EOF
 Premain-Class: rules_scala3.common.worker.BlockSystemExitAgent
 Can-Retransform-Classes: true
