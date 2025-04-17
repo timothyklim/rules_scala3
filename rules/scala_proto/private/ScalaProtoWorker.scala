@@ -1,4 +1,4 @@
-package annex.scala.proto
+package rules_scala3.proto
 
 import java.io.{File, FileOutputStream}
 import java.nio.file.{Files, Path, Paths}

@@ -22,8 +22,8 @@ object Dependencies:
     "org.scala-lang" % "scala-reflect" -> "@scala_reflect_2_13//jar"
   )
   val dependencies: Seq[ModuleID] = Vector(
-    "com.thesamet.scalapb"  %% "compilerplugin"        % scalapbV,
-    "com.thesamet.scalapb"  % "protoc-bridge_2.13"    % protocBridgeV,
-    "com.thesamet.scalapb"  % "protoc-gen_2.13"       % protocBridgeV,
+    "com.thesamet.scalapb"         %% "compilerplugin"           % scalapbV,
+    "com.thesamet.scalapb"          % "protoc-bridge_2.13"       % protocBridgeV,
+    "com.thesamet.scalapb"          % "protoc-gen_2.13"          % protocBridgeV,
     "com.thesamet.scalapb.grpcweb" %% "scalapb-grpcweb-code-gen" % grpcwebV
   )

@@ -1,5 +1,5 @@
 load("@rules_scala3//rules:scala.bzl", "scala_import")
-java_import(
+scala_import(
     name = "netty_buffer",
     jars = [
         "//external:jar/io/netty/netty_buffer"
@@ -12,7 +12,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "netty_codec",
     jars = [
         "//external:jar/io/netty/netty_codec"
@@ -27,7 +27,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "netty_codec_http",
     jars = [
         "//external:jar/io/netty/netty_codec_http"
@@ -44,7 +44,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "netty_codec_http2",
     jars = [
         "//external:jar/io/netty/netty_codec_http2"
@@ -62,7 +62,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "netty_codec_socks",
     jars = [
         "//external:jar/io/netty/netty_codec_socks"
@@ -78,7 +78,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "netty_common",
     jars = [
         "//external:jar/io/netty/netty_common"
@@ -88,7 +88,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "netty_handler",
     jars = [
         "//external:jar/io/netty/netty_handler"
@@ -106,7 +106,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "netty_handler_proxy",
     jars = [
         "//external:jar/io/netty/netty_handler_proxy"
@@ -124,7 +124,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "netty_resolver",
     jars = [
         "//external:jar/io/netty/netty_resolver"
@@ -137,7 +137,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "netty_transport",
     jars = [
         "//external:jar/io/netty/netty_transport"
@@ -152,7 +152,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "netty_transport_native_unix_common",
     jars = [
         "//external:jar/io/netty/netty_transport_native_unix_common"

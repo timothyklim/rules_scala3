@@ -1,5 +1,5 @@
 load("@rules_scala3//rules:scala.bzl", "scala_import")
-java_import(
+scala_import(
     name = "grpc_api",
     jars = [
         "//external:jar/io/grpc/grpc_api"
@@ -14,7 +14,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "grpc_protobuf",
     jars = [
         "//external:jar/io/grpc/grpc_protobuf"
@@ -32,7 +32,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "grpc_protobuf_lite",
     jars = [
         "//external:jar/io/grpc/grpc_protobuf_lite"
@@ -47,7 +47,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "grpc_stub",
     jars = [
         "//external:jar/io/grpc/grpc_stub"

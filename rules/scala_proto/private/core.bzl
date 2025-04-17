@@ -26,8 +26,6 @@ def scala_proto_library_implementation(ctx):
 
     compiler_inputs, _, _ = ctx.resolve_command(tools = [compiler.compiler])
 
-    compiler_classpath = compiler.compiler[JavaInfo].transitive_runtime_jars
-
     srcjar = ctx.outputs.srcjar
 
     proto_path = ctx.actions.declare_directory("{}/proto_path".format(_safe_name(ctx.attr.name)))
@@ -56,7 +54,7 @@ def scala_proto_library_implementation(ctx):
 
     ctx.actions.run(
         mnemonic = "ScalaProtoCompile",
-        inputs = depset(direct = [], transitive = [transitive_sources, transitive_jars, compiler_classpath]),
+        inputs = depset(direct = [], transitive = [transitive_sources, transitive_jars]),
         outputs = [gendir, proto_path],
         executable = compiler.compiler.files_to_run.executable,
         tools = compiler_inputs,

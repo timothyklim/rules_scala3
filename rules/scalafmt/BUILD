@@ -33,7 +33,7 @@ filegroup(
 scala_binary(
     name = "scalafmt",
     srcs = glob(["scalafmt/**/*.scala"]),
-    main_class = "annex.scalafmt.ScalafmtRunner",
+    main_class = "rules_scala3fmt.ScalafmtRunner",
     scala = "//scala:bootstrap_3",
     visibility = ["//visibility:public"],
     deps = [

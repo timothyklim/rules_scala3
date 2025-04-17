@@ -38,9 +38,6 @@ scala_library(
         "AuthService.scala",
         ":grpc_scala_proto",
     ],
-    deps_unused_whitelist = [
-        "//3rdparty/jvm/com/google/protobuf:protobuf_java",
-    ],
     deps_used_whitelist = [
         "@protobuf//java/core",
     ],
@@ -59,9 +56,6 @@ scala_library(
     srcs = [
         "AuthServiceGrpcWeb.scala",
         ":grpc_scala_proto_web",
-    ],
-    deps_unused_whitelist = [
-        "//3rdparty/jvm/com/google/protobuf:protobuf_java",
     ],
     deps_used_whitelist = [
         "@protobuf//java/core",

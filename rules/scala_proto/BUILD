@@ -22,7 +22,7 @@ scala_deps(
 scala_binary(
     name = "worker",
     srcs = ["private/ScalaProtoWorker.scala"],
-    main_class = "annex.scala.proto.ScalaProtoWorker",
+    main_class = "rules_scala3.proto.ScalaProtoWorker",
     scala = "//scala:bootstrap_3",
     visibility = ["//visibility:public"],
     deps = [
@@ -38,7 +38,7 @@ scala_binary(
 
 scala_proto_toolchain(
     name = "scalapb_scala_proto_toolchain_implementation",
-    compiler = ":worker",
+    compiler = "@rules_scala3//rules/scala_proto:worker",
     compiler_supports_workers = True,
     visibility = ["//visibility:public"],
 )

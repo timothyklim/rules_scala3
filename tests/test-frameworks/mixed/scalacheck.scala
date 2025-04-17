@@ -1,4 +1,4 @@
-package annex.scalacheck
+package rules_scala3check
 
 import org.scalacheck.*
 

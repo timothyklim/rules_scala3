@@ -1,4 +1,4 @@
-package annex.scalafmt
+package rules_scala3fmt
 
 import java.io.File
 import java.nio.file.{Files, Path, Paths}

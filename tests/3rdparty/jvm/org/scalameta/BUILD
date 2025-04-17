@@ -1,5 +1,5 @@
 load("@rules_scala3//rules:scala.bzl", "scala_import")
-java_import(
+scala_import(
     name = "junit_interface",
     jars = [
         "//external:jar/org/scalameta/junit_interface"

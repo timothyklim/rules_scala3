@@ -1,5 +1,5 @@
 load("@rules_scala3//rules:scala.bzl", "scala_import")
-java_import(
+scala_import(
     name = "log4j_api",
     jars = [
         "//external:jar/org/apache/logging/log4j/log4j_api"
@@ -9,7 +9,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "log4j_core",
     jars = [
         "//external:jar/org/apache/logging/log4j/log4j_core"

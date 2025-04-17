@@ -26,7 +26,6 @@ object Dependencies:
     "com.google.code.gson"   % "gson"                       % "2.10.1",
     "com.google.errorprone"  % "error_prone_annotations"    % "2.28.0",
     "com.google.guava"       % "guava"                      % "32.0.1-android",
-    "com.google.protobuf"    % "protobuf-java"              % "4.28.3",
     "com.thesamet.scalapb"   %% "protobuf-runtime-scala_sjs1" % "0.8.16",
     "com.thesamet.scalapb"   %% "scalapb-runtime"           % "0.11.13",
     "com.thesamet.scalapb"   %% "scalapb-runtime-grpc"      % "0.11.13",

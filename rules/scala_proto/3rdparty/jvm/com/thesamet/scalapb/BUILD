@@ -5,7 +5,6 @@ scala_import(
         "//external:jar/com/thesamet/scalapb/compilerplugin_3"
     ],
     runtime_deps = [
-        "//rules/scala_proto/3rdparty/jvm/com/google/protobuf:protobuf_java",
         "//rules/scala_proto/3rdparty/jvm/org/scala_lang/modules:scala_collection_compat",
         "//rules/scala_proto/3rdparty/jvm/org/scala_lang:scala3_library",
         ":protoc_gen"
@@ -14,6 +13,7 @@ scala_import(
         "//visibility:public"
     ]
 )
+
 
 scala_import(
     name = "protoc_bridge",

@@ -13,7 +13,7 @@ scala_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "scalajs_javalib",
     jars = [
         "//external:jar/org/scala_js/scalajs_javalib"

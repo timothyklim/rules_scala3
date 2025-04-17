@@ -1,5 +1,5 @@
 load("@rules_scala3//rules:scala.bzl", "scala_import")
-java_import(
+scala_import(
     name = "failureaccess",
     jars = [
         "//external:jar/com/google/guava/failureaccess"
@@ -9,7 +9,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "guava",
     jars = [
         "//external:jar/com/google/guava/guava"
@@ -27,7 +27,7 @@ java_import(
     ]
 )
 
-java_import(
+scala_import(
     name = "listenablefuture",
     jars = [
         "//external:jar/com/google/guava/listenablefuture"
