@@ -157,5 +157,7 @@ object ScalaProtoWorker extends WorkerMain[Unit]:
     Grpc,
     SingleLineToProtoString,
     AsciiFormatToString,
-    NoLenses
+    NoLenses,
+    RetainSourceCodeInfo,
+    Scala3Sources
   ).map(_.toString)
