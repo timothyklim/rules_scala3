@@ -1,4 +1,4 @@
-load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@protobuf//bazel:proto_library.bzl", "proto_library")
 load("@rules_scala3//rules:scala.bzl", "scala_library")
 load("@rules_scala3//rules:scala_proto.bzl", "scala_proto_library")
 
