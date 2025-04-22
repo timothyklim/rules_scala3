@@ -53,7 +53,7 @@ def scala_repositories():
 
     scala2 = "2.13.16"
     scala3 = "3.6.4"
-    scalajs = "1.18.2"
+    scalajs = "1.19.0"
 
     direct_deps = [
         ["org_scala_sbt_compiler_interface", "org.scala-sbt:compiler-interface:" + sbt_version],
